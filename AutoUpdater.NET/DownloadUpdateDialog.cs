@@ -9,25 +9,25 @@ namespace AutoUpdaterDotNET
 {
     public partial class DownloadUpdateDialog : Form
     {
-        private readonly string _downloadUrl;
+        private readonly string _downloadURL;
 
         private string _tempPath;
 
-        public DownloadUpdateDialog(string downloadUrl)
+        public DownloadUpdateDialog(string downloadURL)
         {
             InitializeComponent();
 
-            _downloadUrl = downloadUrl;
+            _downloadURL = downloadURL;
         }
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
             var webClient = new WebClient();
 
-            var uri = new Uri(_downloadUrl);
+            var uri = new Uri(_downloadURL);
             string filename = Path.GetFileName(uri.LocalPath);
 
-            _tempPath = Path.GetTempPath() + "\\" + filename;
+            _tempPath = string.Format(@"{0}\{1}", Path.GetTempPath(), filename);
 
             webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 

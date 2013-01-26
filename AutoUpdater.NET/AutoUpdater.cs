@@ -11,28 +11,29 @@ namespace AutoUpdaterDotNET
 {
     public class AutoUpdater
     {
+        internal static String DialogTitle;
 
-        private static String _title;
+        internal static String ChangeLogURL;
 
-        private static String _changeLogUrl;
+        internal static String DownloadURL;
 
-        private static String _downloadUrl;
+        internal static String AppTitle;
 
-        private static String _appCastUrl;
+        internal static String AppCompany;
 
-        private static String _appTitle;
+        internal static String RegistryLocation;
 
-        private static Version _currentVersion;
+        internal static Version CurrentVersion;
 
-        private static Version _installedVersion;
+        internal static Version InstalledVersion;
 
-        private static int _remindLaterAt;
+        public static String AppCastURL;
 
-        private static String _appCompany;
+        public static int RemindLaterAt = 2;
 
-        private static String _registryLocation;
+        public static Boolean LetUserSelectRemindLater = true;
 
-        private static Boolean _letUserSelectRemindLater;
+        public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         public enum RemindLaterFormat
         {
@@ -41,14 +42,14 @@ namespace AutoUpdaterDotNET
             Days
         }
 
-        private static RemindLaterFormat _remindLaterFormat;
-
-        public static void Start(String appCast, bool letUserSelectRemindLater = true, int remindLaterAt = 1, RemindLaterFormat remindLaterFormat = RemindLaterFormat.Days)
+        public static void Start()
         {
-            _appCastUrl = appCast;
-            _remindLaterAt = remindLaterAt;
-            _remindLaterFormat = remindLaterFormat;
-            _letUserSelectRemindLater = letUserSelectRemindLater;
+            Start(AppCastURL);
+        }
+
+        public static void Start(String appCast)
+        {
+            AppCastURL = appCast;
             
             var backgroundWorker = new BackgroundWorker();
 
@@ -59,19 +60,19 @@ namespace AutoUpdaterDotNET
 
         public static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            _appTitle = Assembly.GetEntryAssembly().GetName().Name;
+            AppTitle = Assembly.GetEntryAssembly().GetName().Name;
 
             Assembly currentAssembly = typeof(AutoUpdater).Assembly;
             object[] attribs = currentAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), true);
             if(attribs.Length > 0)
             {
-                _appCompany = ((AssemblyCompanyAttribute)attribs[0]).Company;
+                AppCompany = ((AssemblyCompanyAttribute)attribs[0]).Company;
             }
 
-            if (!string.IsNullOrEmpty(_appCompany))
-                _registryLocation = "Software\\" + _appCompany + "\\" + _appTitle + "\\AutoUpdater";
+            if (!string.IsNullOrEmpty(AppCompany))
+                RegistryLocation = string.Format(@"Software\{0}\{1}\AutoUpdater", AppCompany, AppTitle);
 
-            RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(_registryLocation);
+            RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
 
             if (updateKey != null)
             {
@@ -85,16 +86,16 @@ namespace AutoUpdaterDotNET
 
                     if (compareResult < 0)
                     {
-                        new UpdateForm(remindLater, _appCastUrl, _registryLocation, _remindLaterAt, _remindLaterFormat, _letUserSelectRemindLater);
-
+                        var updateForm = new UpdateForm(true);
+                        updateForm.SetTimer(remindLater);
                         return;
                     }
                 }
             }
 
-            _installedVersion = Assembly.GetEntryAssembly().GetName().Version;
+            InstalledVersion = Assembly.GetEntryAssembly().GetName().Version;
 
-            WebRequest webRequest = WebRequest.Create(_appCastUrl);
+            WebRequest webRequest = WebRequest.Create(AppCastURL);
 
             WebResponse webResponse;
 
@@ -124,24 +125,24 @@ namespace AutoUpdaterDotNET
                     {
                         String appVersion = appCastVersion.InnerText;
                         var version = new Version(appVersion);
-                        if (version <= _installedVersion)
+                        if (version <= InstalledVersion)
                             continue;
-                        _currentVersion = version;
+                        CurrentVersion = version;
                     }
                     else
                         continue;
 
                     XmlNode appCastTitle = item.SelectSingleNode("title");
 
-                    _title = appCastTitle != null ? appCastTitle.InnerText : "";
+                    DialogTitle = appCastTitle != null ? appCastTitle.InnerText : "";
 
                     XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
 
-                    _changeLogUrl = appCastChangeLog != null ? appCastChangeLog.InnerText : "";
+                    ChangeLogURL = appCastChangeLog != null ? appCastChangeLog.InnerText : "";
 
                     XmlNode appCastUrl = item.SelectSingleNode("url");
 
-                    _downloadUrl = appCastUrl != null ? appCastUrl.InnerText : "";
+                    DownloadURL = appCastUrl != null ? appCastUrl.InnerText : "";
                 }
 
             if (updateKey != null)
@@ -152,32 +153,35 @@ namespace AutoUpdaterDotNET
                 {
                     string skipValue = skip.ToString();
                     var skipVersion = new Version(applicationVersion.ToString());
-                    if (skipValue.Equals("1") && _currentVersion <= skipVersion)
+                    if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
                         return;
-                    if (_currentVersion > skipVersion)
+                    if (CurrentVersion > skipVersion)
                     {
-                        RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(_registryLocation);
-                        updateKeyWrite.SetValue("version", _currentVersion.ToString());
-                        updateKeyWrite.SetValue("skip", 0);
+                        RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
+                        if (updateKeyWrite != null)
+                        {
+                            updateKeyWrite.SetValue("version", CurrentVersion.ToString());
+                            updateKeyWrite.SetValue("skip", 0);
+                        }
                     }
                 }
                 updateKey.Close();
             }
 
-            if (_currentVersion == null)
+            if (CurrentVersion == null)
                 return;
 
-            if (_currentVersion > _installedVersion)
+            if (CurrentVersion > InstalledVersion)
             {
-                var thread = new Thread(ShowUi);
+                var thread = new Thread(ShowUI);
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
             }
         }
 
-        private static void ShowUi()
+        private static void ShowUI()
         {
-            var updateForm = new UpdateForm(_title, _appCastUrl, _appTitle, _currentVersion, _installedVersion, _changeLogUrl, _downloadUrl, _registryLocation, _remindLaterAt, _remindLaterFormat, _letUserSelectRemindLater);
+            var updateForm = new UpdateForm();
 
             updateForm.ShowDialog();
         }

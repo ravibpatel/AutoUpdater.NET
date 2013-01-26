@@ -6,41 +6,20 @@ namespace AutoUpdaterDotNET
 {
     public partial class UpdateForm : Form
     {
-        private readonly string _url;
-
-        private readonly string _downloadUrl;
-
-        private readonly Version _currentVersion;
-
-        private int _remindLaterAt;
-
         private System.Timers.Timer _timer;
 
-        private readonly String _appCast;
-
-        private readonly String _registryLocation;
-
-        private AutoUpdater.RemindLaterFormat _remindLaterFormat;
-
-        private readonly bool _letUserSelectRemindLater;
-
-        private readonly string _appTitle;
-
-        public UpdateForm(String title, String appCast, String appTitle, Version currentVersion, Version installedVersion, String url, String downloadUrl, String registryLocation, int remindLaterAt, AutoUpdater.RemindLaterFormat remindLaterFormat, bool letUserSelectRemindLater)
+        public UpdateForm(bool remindLater = false)
         {
-            InitializeComponent();
-            Text = title;
-            _url = url;
-            _appTitle = appTitle;
-            _downloadUrl = downloadUrl;
-            _currentVersion = currentVersion;
-            _remindLaterAt = remindLaterAt;
-            _remindLaterFormat = remindLaterFormat;
-            _appCast = appCast;
-            _registryLocation = registryLocation;
-            _letUserSelectRemindLater = letUserSelectRemindLater;
-            labelUpdate.Text = string.Format("A new version of {0} is available!", appTitle);
-            labelDescription.Text = string.Format("{0} {1} is now available. You have version {2} installed. Would you like to download it now?", appTitle, currentVersion, installedVersion);
+            if (!remindLater)
+            {
+                InitializeComponent();
+                Text = AutoUpdater.DialogTitle;
+                labelUpdate.Text = string.Format("A new version of {0} is available!", AutoUpdater.AppTitle);
+                labelDescription.Text =
+                    string.Format(
+                        "{0} {1} is now available. You have version {2} installed. Would you like to download it now?",
+                        AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
+            }
         }
 
         public override sealed string Text
@@ -49,24 +28,14 @@ namespace AutoUpdaterDotNET
             set { base.Text = value; }
         }
 
-        public UpdateForm(DateTime remindLater, String appCast, String registryLocation, int remindLaterAt, AutoUpdater.RemindLaterFormat remindLaterFormat, bool letUserSelectRemindLater)
-        {
-            SetTimer(remindLater);
-            _appCast = appCast;
-            _remindLaterAt = remindLaterAt;
-            _remindLaterFormat = remindLaterFormat;
-            _registryLocation = registryLocation;
-            _letUserSelectRemindLater = letUserSelectRemindLater;
-        }
-
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            webBrowser.Navigate(_url);
+            webBrowser.Navigate(AutoUpdater.ChangeLogURL);
         }
 
         private void ButtonUpdateClick(object sender, EventArgs e)
         {
-            var downloadDialog = new DownloadUpdateDialog(_downloadUrl);
+            var downloadDialog = new DownloadUpdateDialog(AutoUpdater.DownloadURL);
 
             try
             {
@@ -79,28 +48,31 @@ namespace AutoUpdaterDotNET
 
         private void ButtonSkipClick(object sender, EventArgs e)
         {
-            RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(_registryLocation);
-            updateKey.SetValue("version", _currentVersion.ToString());
-            updateKey.SetValue("skip", 1);
-            updateKey.Close();
+            RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation);
+            if (updateKey != null)
+            {
+                updateKey.SetValue("version", AutoUpdater.CurrentVersion.ToString());
+                updateKey.SetValue("skip", 1);
+                updateKey.Close();
+            }
         }
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
         {
-            if(_letUserSelectRemindLater)
+            if(AutoUpdater.LetUserSelectRemindLater)
             {
-                var remindLaterForm = new RemindLaterForm(_appTitle);
+                var remindLaterForm = new RemindLaterForm(AutoUpdater.AppTitle);
 
                 var dialogResult = remindLaterForm.ShowDialog();
 
                 if(dialogResult.Equals(DialogResult.OK))
                 {
-                    _remindLaterFormat = remindLaterForm.RemindLaterFormat;
-                    _remindLaterAt = remindLaterForm.RemindLaterAt;
+                    AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
+                    AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
                 }
                 else if(dialogResult.Equals(DialogResult.Abort))
                 {
-                    var downloadDialog = new DownloadUpdateDialog(_downloadUrl);
+                    var downloadDialog = new DownloadUpdateDialog(AutoUpdater.DownloadURL);
 
                     try
                     {
@@ -119,32 +91,38 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(_registryLocation);
-            updateKey.SetValue("version", _currentVersion);
-            updateKey.SetValue("skip", 0);
-            switch (_remindLaterFormat)
+            RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation);
+            if (updateKey != null)
             {
-                case AutoUpdater.RemindLaterFormat.Days :
-                    updateKey.SetValue("remindlater", DateTime.Now + TimeSpan.FromDays(_remindLaterAt));
-                    SetTimer(DateTime.Now + TimeSpan.FromDays(_remindLaterAt));
-                    break;
-                case AutoUpdater.RemindLaterFormat.Hours:
-                    updateKey.SetValue("remindlater", DateTime.Now + TimeSpan.FromHours(_remindLaterAt));
-                    SetTimer(DateTime.Now + TimeSpan.FromHours(_remindLaterAt));
-                    break;
-                case AutoUpdater.RemindLaterFormat.Minutes:
-                    updateKey.SetValue("remindlater", DateTime.Now + TimeSpan.FromMinutes(_remindLaterAt));
-                    SetTimer(DateTime.Now + TimeSpan.FromMinutes(_remindLaterAt));
-                    break;
+                updateKey.SetValue("version", AutoUpdater.CurrentVersion);
+                updateKey.SetValue("skip", 0);
+                DateTime remindLaterDateTime = DateTime.Now;
+                switch (AutoUpdater.RemindLaterTimeSpan)
+                {
+                    case AutoUpdater.RemindLaterFormat.Days:
+                        remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
+                        break;
+                    case AutoUpdater.RemindLaterFormat.Hours:
+                        remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
+                        break;
+                    case AutoUpdater.RemindLaterFormat.Minutes:
+                        remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
+                        break;
+
+                }
+                updateKey.SetValue("remindlater", remindLaterDateTime);
+                SetTimer(remindLaterDateTime);
+                updateKey.Close();
             }
-            updateKey.Close();
         }
 
-        private void SetTimer(DateTime remindLater)
+        public void SetTimer(DateTime remindLater)
         {
-            _timer = new System.Timers.Timer();
             TimeSpan timeSpan = remindLater - DateTime.Now;
-            _timer.Interval = (int) timeSpan.TotalMilliseconds;
+            _timer = new System.Timers.Timer
+                {
+                    Interval = (int) timeSpan.TotalMilliseconds
+                };
             _timer.Elapsed += TimerElapsed;
             _timer.Start();
         }
@@ -152,7 +130,7 @@ namespace AutoUpdaterDotNET
         private void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _timer.Stop();
-            AutoUpdater.Start(_appCast, _letUserSelectRemindLater,_remindLaterAt, _remindLaterFormat);
+            AutoUpdater.Start();
         }
     }
 }

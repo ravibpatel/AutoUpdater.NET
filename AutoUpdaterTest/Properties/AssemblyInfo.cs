@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AutoUpdater.NET")]
+[assembly: AssemblyTitle("AutoUpdaterTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RBSoft")]
-[assembly: AssemblyProduct("AutoUpdater.NET")]
+[assembly: AssemblyProduct("AutoUpdaterTest")]
 [assembly: AssemblyCopyright("Copyright © RBSoft 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a4037a6f-fdf7-46c8-a303-c3c4fcddb015")]
+[assembly: Guid("43d20579-713a-4a8d-9bb8-2d4dc87d10ee")]
 
 // Version information for an assembly consists of the following four values:
 //
