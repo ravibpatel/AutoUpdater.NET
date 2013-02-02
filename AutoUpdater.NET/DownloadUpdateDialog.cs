@@ -25,9 +25,8 @@ namespace AutoUpdaterDotNET
             var webClient = new WebClient();
 
             var uri = new Uri(_downloadURL);
-            string filename = Path.GetFileName(uri.LocalPath);
 
-            _tempPath = string.Format(@"{0}\{1}", Path.GetTempPath(), filename);
+            _tempPath = string.Format(@"{0}{1}", Path.GetTempPath(), GetFileName(_downloadURL));
 
             webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
@@ -46,6 +45,53 @@ namespace AutoUpdaterDotNET
             var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
             Process.Start(processStartInfo);
             Application.Exit();
+        }
+
+        private string GetFileName(string url)
+        {
+            var fileName = string.Empty;
+
+            var httpWebRequest = (HttpWebRequest) WebRequest.Create(url);
+            httpWebRequest.AllowAutoRedirect = false;
+            var httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse();
+            if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Redirect) || httpWebResponse.StatusCode.Equals(HttpStatusCode.Moved) || httpWebResponse.StatusCode.Equals(HttpStatusCode.MovedPermanently))
+            {
+                if (httpWebResponse.Headers["Location"] != null)
+                {
+                    var location = httpWebResponse.Headers["Location"];
+                    fileName = GetFileName(location);
+                    return fileName;
+                }
+            }
+            using (var webClient = new WebClient())
+            {
+                using (var stream = webClient.OpenRead(url))
+                {
+                    if (stream != null)
+                    {
+                        var contentDisposition = webClient.ResponseHeaders["content-disposition"];
+                        if (!string.IsNullOrEmpty(contentDisposition))
+                        {
+                            const string lookForFileName = "filename=";
+                            var index = contentDisposition.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
+                            if (index >= 0)
+                                fileName = contentDisposition.Substring(index + lookForFileName.Length);
+                            if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
+                            {
+                                fileName = fileName.Substring(1, fileName.Length - 2);
+                            }
+                        }
+                        stream.Close();
+                    }
+                }
+            }
+            if (string.IsNullOrEmpty(fileName))
+            {
+                var uri = new Uri(url);
+
+                fileName = Path.GetFileName(uri.LocalPath);
+            }
+            return fileName;
         }
     }
 }

@@ -16,6 +16,7 @@ namespace AutoUpdaterTest
             AutoUpdater.LetUserSelectRemindLater = false;
             AutoUpdater.RemindLaterTimeSpan = AutoUpdater.RemindLaterFormat.Minutes;
             AutoUpdater.RemindLaterAt = 2;
+            AutoUpdater.OpenDownloadPage = true;
             AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }
     }

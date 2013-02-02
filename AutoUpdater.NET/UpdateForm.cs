@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -35,14 +36,23 @@ namespace AutoUpdaterDotNET
 
         private void ButtonUpdateClick(object sender, EventArgs e)
         {
-            var downloadDialog = new DownloadUpdateDialog(AutoUpdater.DownloadURL);
+            if (AutoUpdater.OpenDownloadPage)
+            {
+                var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
 
-            try
-            {
-                downloadDialog.ShowDialog();
+                Process.Start(processStartInfo);
             }
-            catch (System.Reflection.TargetInvocationException)
+            else
             {
+                var downloadDialog = new DownloadUpdateDialog(AutoUpdater.DownloadURL);
+
+                try
+                {
+                    downloadDialog.ShowDialog();
+                }
+                catch (System.Reflection.TargetInvocationException)
+                {
+                }
             }
         }
 

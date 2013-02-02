@@ -29,6 +29,8 @@ namespace AutoUpdaterDotNET
 
         public static String AppCastURL;
 
+        public static bool OpenDownloadPage = false;
+
         public static int RemindLaterAt = 2;
 
         public static Boolean LetUserSelectRemindLater = true;
