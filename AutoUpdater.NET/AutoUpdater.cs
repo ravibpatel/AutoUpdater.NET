@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.IO;
+using System.Net.Cache;
 using System.Xml;
 using System.Reflection;
 using Microsoft.Win32;
@@ -98,6 +99,7 @@ namespace AutoUpdaterDotNET
             InstalledVersion = Assembly.GetEntryAssembly().GetName().Version;
 
             WebRequest webRequest = WebRequest.Create(AppCastURL);
+            webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
 
             WebResponse webResponse;
 
