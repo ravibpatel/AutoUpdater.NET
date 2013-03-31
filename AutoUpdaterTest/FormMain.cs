@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
 
@@ -13,9 +14,8 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            AutoUpdater.LetUserSelectRemindLater = false;
-            AutoUpdater.RemindLaterTimeSpan = AutoUpdater.RemindLaterFormat.Minutes;
-            AutoUpdater.RemindLaterAt = 2;
+            Application.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+            AutoUpdater.CurrentCulture = Application.CurrentCulture;
             AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }
     }

@@ -117,26 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="clock_go" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clock_go.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Обновление программы</value>
   </data>
-  <data name="download" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\download.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Напомнить позже</value>
   </data>
-  <data name="hand_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\hand_point.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Не устанавливать</value>
   </data>
-  <data name="update" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\update.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Установить</value>
   </data>
-  <data name="clock_play" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clock_play.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Доступна версия {1} программы {0}. Вы используете версию {2}. Загрузить обновление?</value>
   </data>
-  <data name="clock_go_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\clock_go_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Информация о выпуске:</value>
   </data>
-  <data name="download_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\download_32.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>Доступна новая версия {0}!</value>
   </data>
 </root>

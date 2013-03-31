@@ -5,14 +5,13 @@ namespace AutoUpdaterDotNET
 {
     public partial class RemindLaterForm : Form
     {
-        public AutoUpdater.RemindLaterFormat RemindLaterFormat { get; set; }
+        public AutoUpdater.RemindLaterFormat RemindLaterFormat { get; private set; }
 
-        public int RemindLaterAt { get; set; }
+        public int RemindLaterAt { get; private set; }
 
-        public RemindLaterForm(string appTitle)
+        public RemindLaterForm()
         {
             InitializeComponent();
-            labelDescription.Text = string.Format("You should download updates now. This only takes few minutes depending on your internet connection and ensures you have latest version of {0}.", appTitle);
         }
 
         private void RemindLaterFormLoad(object sender, EventArgs e)

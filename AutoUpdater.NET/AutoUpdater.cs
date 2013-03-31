@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Net;
 using System.IO;
 using System.Net.Cache;
@@ -10,7 +11,10 @@ using System.Threading;
 
 namespace AutoUpdaterDotNET
 {
-    public class AutoUpdater
+    /// <summary>
+    /// Main class that lets you auto update applications by setting some static fields and executing its Start method.
+    /// </summary>
+    public static class AutoUpdater
     {
         internal static String DialogTitle;
 
@@ -18,24 +22,43 @@ namespace AutoUpdaterDotNET
 
         internal static String DownloadURL;
 
-        internal static String AppTitle;
-
-        internal static String AppCompany;
-
         internal static String RegistryLocation;
+
+        internal static String AppTitle;
 
         internal static Version CurrentVersion;
 
         internal static Version InstalledVersion;
 
+        /// <summary>
+        /// URL of the xml file that contains information about latest version of the application.
+        /// </summary>
+        /// 
         public static String AppCastURL;
 
+        /// <summary>
+        /// Opens the download url in default browser if true. Very usefull if you have portable application.
+        /// </summary>
         public static bool OpenDownloadPage = false;
 
-        public static int RemindLaterAt = 2;
+        /// <summary>
+        /// Sets the current culture of the auto update notification window. Set this value if your application supports functionalty to change the languge of the application.
+        /// </summary>
+        public static CultureInfo CurrentCulture;
 
+        /// <summary>
+        /// If this is true users see dialog where they can set remind later interval otherwise it will take the interval from RemindLaterAt and RemindLaterTimeSpan fields.
+        /// </summary>
         public static Boolean LetUserSelectRemindLater = true;
 
+        /// <summary>
+        /// Remind Later interval after user should be reminded of update.
+        /// </summary>
+        public static int RemindLaterAt = 2;
+
+        /// <summary>
+        /// Set if RemindLaterAt interval should be in Minutes, Hours or Days.
+        /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         public enum RemindLaterFormat
@@ -45,11 +68,18 @@ namespace AutoUpdaterDotNET
             Days
         }
 
+        /// <summary>
+        /// Start checking for new version of application and display dialog to the user if update is available.
+        /// </summary>
         public static void Start()
         {
             Start(AppCastURL);
         }
 
+        /// <summary>
+        /// Start checking for new version of application and display dialog to the user if update is available.
+        /// </summary>
+        /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         public static void Start(String appCast)
         {
             AppCastURL = appCast;
@@ -61,19 +91,18 @@ namespace AutoUpdaterDotNET
             backgroundWorker.RunWorkerAsync();
         }
 
-        public static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
+        private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
+            var mainAssembly = Assembly.GetEntryAssembly();
             AppTitle = Assembly.GetEntryAssembly().GetName().Name;
-
-            Assembly currentAssembly = typeof(AutoUpdater).Assembly;
-            object[] attribs = currentAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), true);
+            string appCompany = null;
+            var attribs = mainAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), true);
             if(attribs.Length > 0)
             {
-                AppCompany = ((AssemblyCompanyAttribute)attribs[0]).Company;
+                appCompany = ((AssemblyCompanyAttribute)attribs[0]).Company;
             }
 
-            if (!string.IsNullOrEmpty(AppCompany))
-                RegistryLocation = string.Format(@"Software\{0}\{1}\AutoUpdater", AppCompany, AppTitle);
+            RegistryLocation = !string.IsNullOrEmpty(appCompany) ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle) : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
 
             RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
 
@@ -83,7 +112,7 @@ namespace AutoUpdaterDotNET
 
                 if (remindLaterTime != null)
                 {
-                    DateTime remindLater = DateTime.Parse(remindLaterTime.ToString());
+                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(), CultureInfo.InvariantCulture);
 
                     int compareResult = DateTime.Compare(DateTime.Now, remindLater);
 
@@ -178,6 +207,7 @@ namespace AutoUpdaterDotNET
             if (CurrentVersion > InstalledVersion)
             {
                 var thread = new Thread(ShowUI);
+                thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? System.Windows.Forms.Application.CurrentCulture;
                 thread.SetApartmentState(ApartmentState.STA);
                 thread.Start();
             }

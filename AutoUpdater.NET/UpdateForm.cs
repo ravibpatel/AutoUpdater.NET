@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -14,11 +15,11 @@ namespace AutoUpdaterDotNET
             if (!remindLater)
             {
                 InitializeComponent();
+                var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
                 Text = AutoUpdater.DialogTitle;
-                labelUpdate.Text = string.Format("A new version of {0} is available!", AutoUpdater.AppTitle);
+                labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture), AutoUpdater.AppTitle);
                 labelDescription.Text =
-                    string.Format(
-                        "{0} {1} is now available. You have version {2} installed. Would you like to download it now?",
+                    string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
                         AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
             }
         }
@@ -71,7 +72,7 @@ namespace AutoUpdaterDotNET
         {
             if(AutoUpdater.LetUserSelectRemindLater)
             {
-                var remindLaterForm = new RemindLaterForm(AutoUpdater.AppTitle);
+                var remindLaterForm = new RemindLaterForm();
 
                 var dialogResult = remindLaterForm.ShowDialog();
 

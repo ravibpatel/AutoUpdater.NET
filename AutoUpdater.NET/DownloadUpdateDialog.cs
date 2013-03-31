@@ -45,7 +45,14 @@ namespace AutoUpdaterDotNET
         {
             var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
             Process.Start(processStartInfo);
-            Application.Exit();
+            if (Application.MessageLoop)
+            {
+                Application.Exit();
+            }
+            else
+            {
+                Environment.Exit(1);
+            }
         }
 
         private static string GetFileName(string url)
