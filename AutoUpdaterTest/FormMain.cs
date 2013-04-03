@@ -14,7 +14,7 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            Application.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+            Application.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
             AutoUpdater.CurrentCulture = Application.CurrentCulture;
             AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }

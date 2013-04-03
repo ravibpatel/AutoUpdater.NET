@@ -94,13 +94,10 @@ namespace AutoUpdaterDotNET
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             var mainAssembly = Assembly.GetEntryAssembly();
-            AppTitle = Assembly.GetEntryAssembly().GetName().Name;
-            string appCompany = null;
-            var attribs = mainAssembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), true);
-            if(attribs.Length > 0)
-            {
-                appCompany = ((AssemblyCompanyAttribute)attribs[0]).Company;
-            }
+            var companyAttribute = (AssemblyCompanyAttribute) mainAssembly.GetAttribute(typeof (AssemblyCompanyAttribute));
+            var titleAttribute = (AssemblyTitleAttribute) mainAssembly.GetAttribute(typeof (AssemblyTitleAttribute));
+            AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
+            var appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
             RegistryLocation = !string.IsNullOrEmpty(appCompany) ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle) : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
 
@@ -109,10 +106,10 @@ namespace AutoUpdaterDotNET
             if (updateKey != null)
             {
                 object remindLaterTime = updateKey.GetValue("remindlater");
-
+ 
                 if (remindLaterTime != null)
                 {
-                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(), CultureInfo.InvariantCulture);
+                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(), CultureInfo.CreateSpecificCulture("en-US"));
 
                     int compareResult = DateTime.Compare(DateTime.Now, remindLater);
 
@@ -125,7 +122,7 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            InstalledVersion = Assembly.GetEntryAssembly().GetName().Version;
+            InstalledVersion = mainAssembly.GetName().Version;
 
             WebRequest webRequest = WebRequest.Create(AppCastURL);
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -219,5 +216,22 @@ namespace AutoUpdaterDotNET
 
             updateForm.ShowDialog();
         }
+
+        public static Attribute GetAttribute (this Assembly assembly,Type attributeType)
+        {
+            var attributes = assembly.GetCustomAttributes ( attributeType, false );
+            if ( attributes.Length == 0 )
+            {
+                return null;
+            }
+            return (Attribute) attributes[0];
+        }
     }
+}
+
+namespace System.Runtime.CompilerServices
+{
+    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class
+         | AttributeTargets.Method)]
+    public sealed class ExtensionAttribute : Attribute { }
 }
