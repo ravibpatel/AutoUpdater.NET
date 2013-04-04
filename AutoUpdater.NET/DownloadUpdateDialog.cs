@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace AutoUpdaterDotNET
 {
-    public partial class DownloadUpdateDialog : Form
+    internal partial class DownloadUpdateDialog : Form
     {
         private readonly string _downloadURL;
 

@@ -6,7 +6,7 @@ using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
-    public partial class UpdateForm : Form
+    internal partial class UpdateForm : Form
     {
         private System.Timers.Timer _timer;
 

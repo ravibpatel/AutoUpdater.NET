@@ -217,7 +217,7 @@ namespace AutoUpdaterDotNET
             updateForm.ShowDialog();
         }
 
-        public static Attribute GetAttribute (this Assembly assembly,Type attributeType)
+        private static Attribute GetAttribute (this Assembly assembly,Type attributeType)
         {
             var attributes = assembly.GetCustomAttributes ( attributeType, false );
             if ( attributes.Length == 0 )

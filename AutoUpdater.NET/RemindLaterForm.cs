@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace AutoUpdaterDotNET
 {
-    public partial class RemindLaterForm : Form
+    internal partial class RemindLaterForm : Form
     {
         public AutoUpdater.RemindLaterFormat RemindLaterFormat { get; private set; }
 
