@@ -94,8 +94,8 @@ namespace AutoUpdaterDotNET
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             var mainAssembly = Assembly.GetEntryAssembly();
-            var companyAttribute = (AssemblyCompanyAttribute) mainAssembly.GetAttribute(typeof (AssemblyCompanyAttribute));
-            var titleAttribute = (AssemblyTitleAttribute) mainAssembly.GetAttribute(typeof (AssemblyTitleAttribute));
+            var companyAttribute = (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
+            var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof (AssemblyTitleAttribute));
             AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             var appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
@@ -217,7 +217,7 @@ namespace AutoUpdaterDotNET
             updateForm.ShowDialog();
         }
 
-        private static Attribute GetAttribute (this Assembly assembly,Type attributeType)
+        private static Attribute GetAttribute (Assembly assembly,Type attributeType)
         {
             var attributes = assembly.GetCustomAttributes ( attributeType, false );
             if ( attributes.Length == 0 )
@@ -227,11 +227,4 @@ namespace AutoUpdaterDotNET
             return (Attribute) attributes[0];
         }
     }
-}
-
-namespace System.Runtime.CompilerServices
-{
-    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class
-         | AttributeTargets.Method)]
-    public sealed class ExtensionAttribute : Attribute { }
 }
