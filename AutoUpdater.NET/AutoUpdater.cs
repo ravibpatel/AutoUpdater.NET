@@ -11,6 +11,14 @@ using System.Threading;
 
 namespace AutoUpdaterDotNET
 {
+
+    public enum RemindLaterFormat
+    {
+        Minutes,
+        Hours,
+        Days
+    }
+
     /// <summary>
     /// Main class that lets you auto update applications by setting some static fields and executing its Start method.
     /// </summary>
@@ -39,7 +47,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         /// Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
-        public static bool OpenDownloadPage = false;
+        public static bool OpenDownloadPage;
 
         /// <summary>
         /// Sets the current culture of the auto update notification window. Set this value if your application supports functionalty to change the languge of the application.
@@ -60,13 +68,6 @@ namespace AutoUpdaterDotNET
         /// Set if RemindLaterAt interval should be in Minutes, Hours or Days.
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
-
-        public enum RemindLaterFormat
-        {
-            Minutes,
-            Hours,
-            Days
-        }
 
         /// <summary>
         /// Start checking for new version of application and display dialog to the user if update is available.

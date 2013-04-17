@@ -5,7 +5,7 @@ namespace AutoUpdaterDotNET
 {
     internal partial class RemindLaterForm : Form
     {
-        public AutoUpdater.RemindLaterFormat RemindLaterFormat { get; private set; }
+        public RemindLaterFormat RemindLaterFormat { get; private set; }
 
         public int RemindLaterAt { get; private set; }
 
@@ -27,31 +27,31 @@ namespace AutoUpdaterDotNET
                 switch (comboBoxRemindLater.SelectedIndex)
                 {
                     case 0:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Minutes;
+                        RemindLaterFormat = RemindLaterFormat.Minutes;
                         RemindLaterAt = 30;
                         break;
                     case 1:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Hours;
+                        RemindLaterFormat = RemindLaterFormat.Hours;
                         RemindLaterAt = 12;
                         break;
                     case 2:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Days;
+                        RemindLaterFormat = RemindLaterFormat.Days;
                         RemindLaterAt = 1;
                         break;
                     case 3:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Days;
+                        RemindLaterFormat = RemindLaterFormat.Days;
                         RemindLaterAt = 2;
                         break;
                     case 4:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Days;
+                        RemindLaterFormat = RemindLaterFormat.Days;
                         RemindLaterAt = 4;
                         break;
                     case 5:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Days;
+                        RemindLaterFormat = RemindLaterFormat.Days;
                         RemindLaterAt = 8;
                         break;
                     case 6:
-                        RemindLaterFormat = AutoUpdater.RemindLaterFormat.Days;
+                        RemindLaterFormat = RemindLaterFormat.Days;
                         RemindLaterAt = 10;
                         break;
                 }

@@ -110,13 +110,13 @@ namespace AutoUpdaterDotNET
                 DateTime remindLaterDateTime = DateTime.Now;
                 switch (AutoUpdater.RemindLaterTimeSpan)
                 {
-                    case AutoUpdater.RemindLaterFormat.Days:
+                    case RemindLaterFormat.Days:
                         remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
                         break;
-                    case AutoUpdater.RemindLaterFormat.Hours:
+                    case RemindLaterFormat.Hours:
                         remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
                         break;
-                    case AutoUpdater.RemindLaterFormat.Minutes:
+                    case RemindLaterFormat.Minutes:
                         remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
                         break;
 
