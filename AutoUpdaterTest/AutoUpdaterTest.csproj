@@ -73,7 +73,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj">
+    <ProjectReference Include="..\AutoUpdater.NET\AutoUpdater.NET.csproj">
       <Project>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</Project>
       <Name>AutoUpdater.NET</Name>
     </ProjectReference>

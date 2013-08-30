@@ -190,7 +190,7 @@
     <value>2</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>You should download updates now. This only takes few minutes depending on your internet connection and ensures you have latest version of AutoUpdaterTest.
+    <value>You should download updates now. This only takes few minutes depending on your internet connection and ensures you have latest version of the application.
 </value>
   </data>
   <data name="&gt;&gt;labelDescription.Name" xml:space="preserve">
@@ -334,9 +334,9 @@
   <data name="&gt;&gt;buttonOK.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>7, 15</value>
   </data>
