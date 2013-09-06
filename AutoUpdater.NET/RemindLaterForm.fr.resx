@@ -135,7 +135,7 @@
     <value>0</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
-    <value>Do you want to download updates later?</value>
+    <value>Voulez-vous télécharger les mises à jour plus tard?</value>
   </data>
   <data name="pictureBoxIcon.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 13</value>
@@ -166,8 +166,7 @@
     <value>2</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>You should download updates now. This only takes few minutes depending on your internet connection and ensures you have latest version of the application.
-</value>
+    <value>Vous devez télécharger les mises à jour maintenant. Cela ne prend que quelques minutes selon votre connexion internet et vous assure d'avoir toute dernière version de l'application.</value>
   </data>
   <data name="radioButtonYes.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -182,7 +181,7 @@
     <value>3</value>
   </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Yes, please remind me later : </value>
+    <value>Oui, s'il vous plaît rappelez -moi plus tard :</value>
   </data>
   <data name="radioButtonNo.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -200,28 +199,28 @@
     <value>4</value>
   </data>
   <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>No, download updates now (recommended)</value>
+    <value>Non, télécharger les mises à jour maintenant (recommandé)</value>
   </data>
   <data name="comboBoxRemindLater.Items" xml:space="preserve">
-    <value>After 30 minutes</value>
+    <value>Après 30 minutes</value>
   </data>
   <data name="comboBoxRemindLater.Items1" xml:space="preserve">
-    <value>After 12 hours</value>
+    <value>Après 12 heures</value>
   </data>
   <data name="comboBoxRemindLater.Items2" xml:space="preserve">
-    <value>After 1 day</value>
+    <value>Après 1 jour</value>
   </data>
   <data name="comboBoxRemindLater.Items3" xml:space="preserve">
-    <value>After 2 days</value>
+    <value>Après 2 jours</value>
   </data>
   <data name="comboBoxRemindLater.Items4" xml:space="preserve">
-    <value>After 4 days</value>
+    <value>Après 4 jours</value>
   </data>
   <data name="comboBoxRemindLater.Items5" xml:space="preserve">
-    <value>After 8 days</value>
+    <value>Après 8 jours</value>
   </data>
   <data name="comboBoxRemindLater.Items6" xml:space="preserve">
-    <value>After 10 days</value>
+    <value>Après 10 jours</value>
   </data>
   <data name="comboBoxRemindLater.Location" type="System.Drawing.Point, System.Drawing">
     <value>292, 118</value>
@@ -269,6 +268,6 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Remind me later for update</value>
+    <value>Rappelez-moi plus tard la mise à jour</value>
   </data>
 </root>

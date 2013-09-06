@@ -154,7 +154,7 @@
     <value>5</value>
   </data>
   <data name="labelUpdate.Text" xml:space="preserve">
-    <value>A new version of {0} is available!</value>
+    <value>Une nouvelle version de {0} est disponible!</value>
   </data>
   <data name="labelDescription.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -175,7 +175,7 @@
     <value>6</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} is now available. You have version {2} installed. Would you like to download it now?</value>
+    <value>{0} {1} est maintenant disponible. Vous disposez de la version {2} installé. Voulez-vous la télécharger maintenant?</value>
   </data>
   <data name="labelReleaseNotes.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -193,7 +193,7 @@
     <value>7</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Release Notes :</value>
+    <value>Notes de version :</value>
   </data>
   <data name="buttonUpdate.Location" type="System.Drawing.Point, System.Drawing">
     <value>478, 570</value>
@@ -208,7 +208,7 @@
     <value>2</value>
   </data>
   <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>Update</value>
+    <value>mettre à jour</value>
   </data>
   <data name="buttonUpdate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -229,7 +229,7 @@
     <value>3</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Remind me later</value>
+    <value>Rappelez-moi plus tard</value>
   </data>
   <data name="buttonRemindLater.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -262,7 +262,7 @@
     <value>1</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
-    <value>Skip this version</value>
+    <value>Passer cette version</value>
   </data>
   <data name="buttonSkip.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleRight</value>
@@ -827,6 +827,6 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Software Update</value>
+    <value>Mise à jour logicielle</value>
   </data>
 </root>

@@ -16,7 +16,7 @@ namespace AutoUpdaterTest
         {
             //uncomment below line to see russian version
             
-            //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru-RU");
+            //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("fr");
 
             //If you want to open download page when user click on download button uncomment below line.
  
