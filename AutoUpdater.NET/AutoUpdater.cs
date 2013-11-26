@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Globalization;
-using System.Net;
-using System.IO;
-using System.Net.Cache;
-using System.Xml;
-using System.Reflection;
-using Microsoft.Win32;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
+using System.Net;
+using System.Net.Cache;
+using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
+using System.Xml;
+using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
-
     public enum RemindLaterFormat
     {
         Minutes,
@@ -20,7 +20,7 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
-    /// Main class that lets you auto update applications by setting some static fields and executing its Start method.
+    ///     Main class that lets you auto update applications by setting some static fields and executing its Start method.
     /// </summary>
     public static class AutoUpdater
     {
@@ -39,38 +39,50 @@ namespace AutoUpdaterDotNET
         internal static Version InstalledVersion;
 
         /// <summary>
-        /// URL of the xml file that contains information about latest version of the application.
+        ///     URL of the xml file that contains information about latest version of the application.
         /// </summary>
-        /// 
         public static String AppCastURL;
 
         /// <summary>
-        /// Opens the download url in default browser if true. Very usefull if you have portable application.
+        ///     Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
 
         /// <summary>
-        /// Sets the current culture of the auto update notification window. Set this value if your application supports functionalty to change the languge of the application.
+        ///     Sets the current culture of the auto update notification window. Set this value if your application supports
+        ///     functionalty to change the languge of the application.
         /// </summary>
         public static CultureInfo CurrentCulture;
 
         /// <summary>
-        /// If this is true users see dialog where they can set remind later interval otherwise it will take the interval from RemindLaterAt and RemindLaterTimeSpan fields.
+        ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
+        ///     RemindLaterAt and RemindLaterTimeSpan fields.
         /// </summary>
         public static Boolean LetUserSelectRemindLater = true;
 
         /// <summary>
-        /// Remind Later interval after user should be reminded of update.
+        ///     Remind Later interval after user should be reminded of update.
         /// </summary>
         public static int RemindLaterAt = 2;
 
         /// <summary>
-        /// Set if RemindLaterAt interval should be in Minutes, Hours or Days.
+        ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         /// <summary>
-        /// Start checking for new version of application and display dialog to the user if update is available.
+        ///     A delegate type for hooking up update notifications.
+        /// </summary>
+        /// <param name="args">An object containing all the parameters recieved from AppCast XML file.</param>
+        public delegate void CheckForUpdateEventHandler(UpdateInfoEventArgs args);
+
+        /// <summary>
+        ///     An event that clients can use to be notified whenever the update is checked.
+        /// </summary>
+        public static event CheckForUpdateEventHandler CheckForUpdateEvent;
+
+        /// <summary>
+        ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         public static void Start()
         {
@@ -78,13 +90,13 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        /// Start checking for new version of application and display dialog to the user if update is available.
+        ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         public static void Start(String appCast)
         {
             AppCastURL = appCast;
-            
+
             var backgroundWorker = new BackgroundWorker();
 
             backgroundWorker.DoWork += BackgroundWorkerDoWork;
@@ -94,23 +106,27 @@ namespace AutoUpdaterDotNET
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            var mainAssembly = Assembly.GetEntryAssembly();
-            var companyAttribute = (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
+            Assembly mainAssembly = Assembly.GetEntryAssembly();
+            var companyAttribute =
+                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
             var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof (AssemblyTitleAttribute));
             AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
-            var appCompany = companyAttribute != null ? companyAttribute.Company : "";
+            string appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
-            RegistryLocation = !string.IsNullOrEmpty(appCompany) ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle) : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
+            RegistryLocation = !string.IsNullOrEmpty(appCompany)
+                ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
+                : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
 
             RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
 
             if (updateKey != null)
             {
                 object remindLaterTime = updateKey.GetValue("remindlater");
- 
+
                 if (remindLaterTime != null)
                 {
-                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(), CultureInfo.CreateSpecificCulture("en-US"));
+                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
+                        CultureInfo.CreateSpecificCulture("en-US"));
 
                     int compareResult = DateTime.Compare(DateTime.Now, remindLater);
 
@@ -204,10 +220,25 @@ namespace AutoUpdaterDotNET
 
             if (CurrentVersion > InstalledVersion)
             {
-                var thread = new Thread(ShowUI);
-                thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? System.Windows.Forms.Application.CurrentCulture;
-                thread.SetApartmentState(ApartmentState.STA);
-                thread.Start();
+                if (CheckForUpdateEvent == null)
+                {
+                    var thread = new Thread(ShowUI);
+                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? Application.CurrentCulture;
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
+                }
+                else
+                {
+                    var args = new UpdateInfoEventArgs
+                    {
+                        DownloadURL = DownloadURL,
+                        ChangelogURL = ChangeLogURL,
+                        CurrentVersion = CurrentVersion,
+                        InstalledVersion = InstalledVersion,
+                        IsUpdateAvailable = true
+                    };
+                    CheckForUpdateEvent(args);
+                }
             }
         }
 
@@ -218,14 +249,27 @@ namespace AutoUpdaterDotNET
             updateForm.ShowDialog();
         }
 
-        private static Attribute GetAttribute (Assembly assembly,Type attributeType)
+        private static Attribute GetAttribute(Assembly assembly, Type attributeType)
         {
-            var attributes = assembly.GetCustomAttributes ( attributeType, false );
-            if ( attributes.Length == 0 )
+            object[] attributes = assembly.GetCustomAttributes(attributeType, false);
+            if (attributes.Length == 0)
             {
                 return null;
             }
             return (Attribute) attributes[0];
         }
+    }
+
+    public class UpdateInfoEventArgs : EventArgs
+    {
+        public bool IsUpdateAvailable { get; set; }
+
+        public string DownloadURL { get; set; }
+
+        public string ChangelogURL { get; set; }
+
+        public Version CurrentVersion { get; set; }
+
+        public Version InstalledVersion { get; set; }
     }
 }
