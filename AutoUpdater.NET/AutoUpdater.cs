@@ -171,10 +171,7 @@ namespace AutoUpdaterDotNET
                     if (appCastVersion != null)
                     {
                         String appVersion = appCastVersion.InnerText;
-                        var version = new Version(appVersion);
-                        if (version <= InstalledVersion)
-                            continue;
-                        CurrentVersion = version;
+                        CurrentVersion = new Version(appVersion);
                     }
                     else
                         continue;
@@ -218,8 +215,18 @@ namespace AutoUpdaterDotNET
             if (CurrentVersion == null)
                 return;
 
+            var args = new UpdateInfoEventArgs
+            {
+                DownloadURL = DownloadURL,
+                ChangelogURL = ChangeLogURL,
+                CurrentVersion = CurrentVersion,
+                InstalledVersion = InstalledVersion,
+                IsUpdateAvailable = false,
+            };
+
             if (CurrentVersion > InstalledVersion)
             {
+                args.IsUpdateAvailable = true;
                 if (CheckForUpdateEvent == null)
                 {
                     var thread = new Thread(ShowUI);
@@ -227,18 +234,11 @@ namespace AutoUpdaterDotNET
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
                 }
-                else
-                {
-                    var args = new UpdateInfoEventArgs
-                    {
-                        DownloadURL = DownloadURL,
-                        ChangelogURL = ChangeLogURL,
-                        CurrentVersion = CurrentVersion,
-                        InstalledVersion = InstalledVersion,
-                        IsUpdateAvailable = true
-                    };
-                    CheckForUpdateEvent(args);
-                }
+            }
+
+            if (CheckForUpdateEvent != null)
+            {
+                CheckForUpdateEvent(args);
             }
         }
 

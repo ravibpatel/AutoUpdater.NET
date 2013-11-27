@@ -28,20 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.buttonCheckForUpdate = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // buttonCheckForUpdate
+            // 
+            this.buttonCheckForUpdate.Location = new System.Drawing.Point(12, 12);
+            this.buttonCheckForUpdate.Name = "buttonCheckForUpdate";
+            this.buttonCheckForUpdate.Size = new System.Drawing.Size(160, 36);
+            this.buttonCheckForUpdate.TabIndex = 0;
+            this.buttonCheckForUpdate.Text = "Check for update";
+            this.buttonCheckForUpdate.UseVisualStyleBackColor = true;
+            this.buttonCheckForUpdate.Click += new System.EventHandler(this.buttonCheckForUpdate_Click);
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(184, 60);
+            this.Controls.Add(this.buttonCheckForUpdate);
             this.Name = "FormMain";
-            this.Text = "FormMain";
+            this.Text = "AutoUpdaterTest";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.Button buttonCheckForUpdate;
     }
 }

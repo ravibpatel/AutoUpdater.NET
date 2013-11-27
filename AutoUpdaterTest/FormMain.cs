@@ -44,7 +44,8 @@ namespace AutoUpdaterTest
                     MessageBox.Show(
                         string.Format(
                             "There is new version {0} avilable. You are using version {1}. Do you want to update the application now?",
-                            args.CurrentVersion, args.InstalledVersion), @"Update Available", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                            args.CurrentVersion, args.InstalledVersion), @"Update Available", MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information);
 
                 if (dialogResult.Equals(DialogResult.Yes))
                 {
@@ -59,6 +60,17 @@ namespace AutoUpdaterTest
                     }
                 }
             }
+            else
+            {
+                MessageBox.Show(@"There is no update avilable please try again later.", @"No update available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void buttonCheckForUpdate_Click(object sender, EventArgs e)
+        {
+            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+
+            AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }
     }
 }
