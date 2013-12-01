@@ -31,45 +31,54 @@ namespace AutoUpdaterTest
 
             //Want to handle update logic yourself then uncomment below line.
 
-            //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
-            AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
+            //AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         {
-            if (args.IsUpdateAvailable)
+            if (args != null)
             {
-                var dialogResult =
-                    MessageBox.Show(
-                        string.Format(
-                            "There is new version {0} avilable. You are using version {1}. Do you want to update the application now?",
-                            args.CurrentVersion, args.InstalledVersion), @"Update Available", MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information);
-
-                if (dialogResult.Equals(DialogResult.Yes))
+                if (args.IsUpdateAvailable)
                 {
-                    try
+                    var dialogResult =
+                        MessageBox.Show(
+                            string.Format(
+                                "There is new version {0} avilable. You are using version {1}. Do you want to update the application now?",
+                                args.CurrentVersion, args.InstalledVersion), @"Update Available",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Information);
+
+                    if (dialogResult.Equals(DialogResult.Yes))
                     {
-                        Process.Start("explorer.exe", args.DownloadURL);
+                        try
+                        {
+                            Process.Start("explorer.exe", args.DownloadURL);
+                        }
+                        catch (Exception exception)
+                        {
+                            MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                        }
                     }
-                    catch (Exception exception)
-                    {
-                        MessageBox.Show(exception.Message, exception.GetType().ToString(), MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-                    }
+                }
+                else
+                {
+                    MessageBox.Show(@"There is no update avilable please try again later.", @"No update available",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
-                MessageBox.Show(@"There is no update avilable please try again later.", @"No update available", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(
+                       @"There is a problem reaching update server please check your internet connection and try again later.",
+                       @"Update check failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void buttonCheckForUpdate_Click(object sender, EventArgs e)
         {
-            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
-
             AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }
     }

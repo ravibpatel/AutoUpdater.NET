@@ -73,7 +73,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     A delegate type for hooking up update notifications.
         /// </summary>
-        /// <param name="args">An object containing all the parameters recieved from AppCast XML file.</param>
+        /// <param name="args">An object containing all the parameters recieved from AppCast XML file. If there will be an error while looking for the XML file then this object will be null.</param>
         public delegate void CheckForUpdateEventHandler(UpdateInfoEventArgs args);
 
         /// <summary>
@@ -152,6 +152,10 @@ namespace AutoUpdaterDotNET
             }
             catch (Exception)
             {
+                if (CheckForUpdateEvent != null)
+                {
+                    CheckForUpdateEvent(null);
+                }
                 return;
             }
 
@@ -159,8 +163,18 @@ namespace AutoUpdaterDotNET
 
             var receivedAppCastDocument = new XmlDocument();
 
-            if (appCastStream != null) receivedAppCastDocument.Load(appCastStream);
-            else return;
+            if (appCastStream != null)
+            {
+                receivedAppCastDocument.Load(appCastStream);
+            }
+            else
+            {
+                if (CheckForUpdateEvent != null)
+                {
+                    CheckForUpdateEvent(null);
+                }
+                return;
+            }
 
             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
 
