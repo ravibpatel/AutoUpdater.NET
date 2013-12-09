@@ -54,7 +54,7 @@ namespace AutoUpdaterTest
                     {
                         try
                         {
-                            Process.Start("explorer.exe", args.DownloadURL);
+                            AutoUpdater.DownloadUpdate(args.DownloadURL);
                         }
                         catch (Exception exception)
                         {

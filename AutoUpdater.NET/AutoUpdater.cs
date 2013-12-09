@@ -38,6 +38,8 @@ namespace AutoUpdaterDotNET
 
         internal static Version InstalledVersion;
 
+        internal static bool IsWinFormsApplication;
+
         /// <summary>
         ///     URL of the xml file that contains information about latest version of the application.
         /// </summary>
@@ -96,6 +98,8 @@ namespace AutoUpdaterDotNET
         public static void Start(String appCast)
         {
             AppCastURL = appCast;
+
+            IsWinFormsApplication = Application.MessageLoop;
 
             var backgroundWorker = new BackgroundWorker();
 
@@ -271,6 +275,19 @@ namespace AutoUpdaterDotNET
                 return null;
             }
             return (Attribute) attributes[0];
+        }
+
+        public static void DownloadUpdate(string downloadURL)
+        {
+            var downloadDialog = new DownloadUpdateDialog(DownloadURL);
+
+            try
+            {
+                downloadDialog.ShowDialog();
+            }
+            catch (TargetInvocationException)
+            {
+            }
         }
     }
 
