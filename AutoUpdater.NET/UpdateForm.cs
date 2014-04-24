@@ -45,15 +45,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                var downloadDialog = new DownloadUpdateDialog(AutoUpdater.DownloadURL);
-
-                try
-                {
-                    downloadDialog.ShowDialog();
-                }
-                catch (System.Reflection.TargetInvocationException)
-                {
-                }
+                AutoUpdater.DownloadUpdate();
             }
         }
 
@@ -83,16 +75,7 @@ namespace AutoUpdaterDotNET
                 }
                 else if(dialogResult.Equals(DialogResult.Abort))
                 {
-                    var downloadDialog = new DownloadUpdateDialog(AutoUpdater.DownloadURL);
-
-                    try
-                    {
-                        downloadDialog.ShowDialog();
-                    }
-                    catch (System.Reflection.TargetInvocationException)
-                    {
-                        return;
-                    }
+                    AutoUpdater.DownloadUpdate();
                     return;
                 }
                 else

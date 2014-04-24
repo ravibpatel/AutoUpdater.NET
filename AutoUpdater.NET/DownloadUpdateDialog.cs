@@ -14,6 +14,8 @@ namespace AutoUpdaterDotNET
 
         private string _tempPath;
 
+        private WebClient _webClient;
+
         public DownloadUpdateDialog(string downloadURL)
         {
             InitializeComponent();
@@ -23,17 +25,17 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
-            var webClient = new WebClient();
+            _webClient = new WebClient();
 
             var uri = new Uri(_downloadURL);
 
             _tempPath = string.Format(@"{0}{1}", Path.GetTempPath(), GetFileName(_downloadURL));
 
-            webClient.DownloadProgressChanged += OnDownloadProgressChanged;
+            _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
-            webClient.DownloadFileCompleted += OnDownloadComplete;
+            _webClient.DownloadFileCompleted += OnDownloadComplete;
 
-            webClient.DownloadFileAsync(uri, _tempPath);
+            _webClient.DownloadFileAsync(uri, _tempPath);
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
@@ -43,15 +45,18 @@ namespace AutoUpdaterDotNET
 
         private void OnDownloadComplete(object sender, AsyncCompletedEventArgs e)
         {
-            var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
-            Process.Start(processStartInfo);
-            if (AutoUpdater.IsWinFormsApplication)
+            if (!e.Cancelled)
             {
-                Application.Exit();
-            }
-            else
-            {
-                Environment.Exit(0);
+                var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
+                Process.Start(processStartInfo);
+                if (AutoUpdater.IsWinFormsApplication)
+                {
+                    Application.Exit();
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
             }
         }
 
@@ -95,6 +100,11 @@ namespace AutoUpdaterDotNET
                 fileName = Path.GetFileName(uri.LocalPath);
             }
             return fileName;
+        }
+
+        private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _webClient.CancelAsync();
         }
     }
 }

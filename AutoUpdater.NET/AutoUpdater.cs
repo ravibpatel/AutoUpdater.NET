@@ -205,6 +205,18 @@ namespace AutoUpdaterDotNET
                     XmlNode appCastUrl = item.SelectSingleNode("url");
 
                     DownloadURL = appCastUrl != null ? appCastUrl.InnerText : "";
+
+                    if (IntPtr.Size.Equals(8))
+                    {
+                        XmlNode appCastUrl64 = item.SelectSingleNode("url64");
+
+                        var downloadURL64 = appCastUrl64 != null ? appCastUrl64.InnerText : "";
+                        
+                        if(!string.IsNullOrEmpty(downloadURL64))
+                        {
+                            DownloadURL = downloadURL64;
+                        }
+                    }
                 }
 
             if (updateKey != null)
@@ -277,7 +289,7 @@ namespace AutoUpdaterDotNET
             return (Attribute) attributes[0];
         }
 
-        public static void DownloadUpdate(string downloadURL)
+        public static void DownloadUpdate()
         {
             var downloadDialog = new DownloadUpdateDialog(DownloadURL);
 

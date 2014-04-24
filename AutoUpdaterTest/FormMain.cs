@@ -17,7 +17,7 @@ namespace AutoUpdaterTest
         {
             //uncomment below line to see russian version
             
-            //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("fr");
+            //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 
             //If you want to open download page when user click on download button uncomment below line.
  
@@ -31,7 +31,7 @@ namespace AutoUpdaterTest
 
             //Want to handle update logic yourself then uncomment below line.
 
-            AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
+            //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
             //AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
         }
@@ -54,7 +54,9 @@ namespace AutoUpdaterTest
                     {
                         try
                         {
-                            AutoUpdater.DownloadUpdate(args.DownloadURL);
+                            //You can use Download Update dialog used by AutoUpdater.NET to download the update.
+
+                            AutoUpdater.DownloadUpdate();
                         }
                         catch (Exception exception)
                         {
