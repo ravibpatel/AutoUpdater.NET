@@ -12,10 +12,24 @@ using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
+    /// <summary>
+    ///     Enum representing the remind later time span.
+    /// </summary>
     public enum RemindLaterFormat
     {
+        /// <summary>
+        ///     Represents the time span in minutes.
+        /// </summary>
         Minutes,
+
+        /// <summary>
+        ///     Represents the time span in hours.
+        /// </summary>
         Hours,
+
+        /// <summary>
+        ///     Represents the time span in days.
+        /// </summary>
         Days
     }
 
@@ -289,6 +303,9 @@ namespace AutoUpdaterDotNET
             return (Attribute) attributes[0];
         }
 
+        /// <summary>
+        ///     Opens the Download window that download the update and execute the installer when download completes.
+        /// </summary>
         public static void DownloadUpdate()
         {
             var downloadDialog = new DownloadUpdateDialog(DownloadURL);
@@ -303,16 +320,34 @@ namespace AutoUpdaterDotNET
         }
     }
 
+    /// <summary>
+    ///     Object of this class gives you all the details about the update useful in handling the update logic yourself.
+    /// </summary>
     public class UpdateInfoEventArgs : EventArgs
     {
+        /// <summary>
+        ///     If new update is available then returns true otherwise false.
+        /// </summary>
         public bool IsUpdateAvailable { get; set; }
 
+        /// <summary>
+        ///     Download URL of the update file.
+        /// </summary>
         public string DownloadURL { get; set; }
 
+        /// <summary>
+        ///     URL of the webpage specifying changes in the new update.
+        /// </summary>
         public string ChangelogURL { get; set; }
 
+        /// <summary>
+        ///     Returns newest version of the application available to download.
+        /// </summary>
         public Version CurrentVersion { get; set; }
 
+        /// <summary>
+        ///     Returns version of the application currently installed on the user's PC.
+        /// </summary>
         public Version InstalledVersion { get; set; }
     }
 }
