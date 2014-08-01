@@ -33,7 +33,10 @@
     <DocumentationFile>bin\Release\AutoUpdater.NET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AutoUpdater.NET.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -87,8 +90,12 @@
     <EmbeddedResource Include="RemindLaterForm.de.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RemindLaterForm.es.resx" />
-    <EmbeddedResource Include="RemindLaterForm.fr.resx" />
+    <EmbeddedResource Include="RemindLaterForm.es.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.fr.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.it-IT.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,6 +126,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AutoUpdater.NET.pfx" />
     <None Include="Resources\download.png" />
   </ItemGroup>
   <ItemGroup>
