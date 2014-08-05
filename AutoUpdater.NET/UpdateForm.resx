@@ -826,4 +826,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Software Update</value>
   </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Releae Notes:</value>
+  </data>
 </root>

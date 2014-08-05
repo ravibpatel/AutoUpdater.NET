@@ -117,25 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Software opdatering</value>
+  <data name="radioButtonNo.Text" xml:space="preserve">
+    <value>Nee, download updates nu (aanbevolen)</value>
   </data>
-  <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Påmind mig senere</value>
+  <data name="comboBoxRemindLater.Items" xml:space="preserve">
+    <value>Na 30 minuten</value>
   </data>
-  <data name="buttonSkip.Text" xml:space="preserve">
-    <value>Skip denne version</value>
+  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
+    <value>Na 12 uur</value>
   </data>
-  <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>Opdater</value>
+  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
+    <value>Na 1 dag</value>
+  </data>
+  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
+    <value>Na 2 dagen</value>
+  </data>
+  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
+    <value>Na 4 dagen</value>
+  </data>
+  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
+    <value>Na 8 dagen</value>
+  </data>
+  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
+    <value>Na 10 dagen</value>
+  </data>
+  <data name="radioButtonYes.Text" xml:space="preserve">
+    <value>Ja, probeer het later herinneren me:</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} er nu klar. Du har version {2} installeret. Ønsker du at installere nu?</value>
+    <value>Je zou updates nu te downloaden. Dit duurt slechts enkele minuten, afhankelijk van uw internet verbinding en zorgt ervoor dat je laatste versie van de applicatie.</value>
   </data>
-  <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Releae Bemærkninger:</value>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>Wilt u updates later te downloaden?</value>
   </data>
-  <data name="labelUpdate.Text" xml:space="preserve">
-    <value>En ny version af {0} er klar til download!</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Herinner me later naar update</value>
   </data>
 </root>
