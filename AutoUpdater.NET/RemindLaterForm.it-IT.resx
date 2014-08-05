@@ -120,9 +120,6 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Ricordamelo dopo</value>
   </data>
-  <data name="buttonOK.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
   <data name="comboBoxRemindLater.Items" xml:space="preserve">
     <value>Dopo 30 minuti</value>
   </data>

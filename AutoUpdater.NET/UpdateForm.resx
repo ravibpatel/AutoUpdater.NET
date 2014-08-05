@@ -192,9 +192,6 @@
   <data name="labelReleaseNotes.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Release Notes :</value>
-  </data>
   <data name="buttonUpdate.Location" type="System.Drawing.Point, System.Drawing">
     <value>478, 570</value>
   </data>

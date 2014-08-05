@@ -118,39 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>Напомнить об обновлении позднее</value>
+    <value>Software opdatering</value>
   </data>
-  <data name="comboBoxRemindLater.Items" xml:space="preserve">
-    <value>Через 30 минут</value>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Påmind mig senere</value>
   </data>
-  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
-    <value>Через 12 часов</value>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Skip denne version</value>
   </data>
-  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
-    <value>Через 1 день</value>
-  </data>
-  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
-    <value>Через 2 дня</value>
-  </data>
-  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
-    <value>Через 4 дня</value>
-  </data>
-  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
-    <value>Через 8 дней</value>
-  </data>
-  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
-    <value>Через 10 дней</value>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Opdater</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Рекомендуем загрузить обновление сейчас. Это займет всего несколько минут, в зависимости от скорости локальной сети и Вашего компьютера.</value>
+    <value>{0} {1} er nu klar. Du har version {2} installeret. Ønsker du at installere nu?</value>
   </data>
-  <data name="labelTitle.Text" xml:space="preserve">
-    <value>Отложить загрузку новой версии?</value>
-  </data>
-  <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>Нет, загрузить обновление сейчас (рекоммендуется)</value>
-  </data>
-  <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Да, напомнить позднее:</value>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>En ny version af {0} er klar til download!</value>
   </data>
 </root>

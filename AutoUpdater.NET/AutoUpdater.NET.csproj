@@ -73,6 +73,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DownloadUpdateDialog.da.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DownloadUpdateDialog.de.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +89,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DownloadUpdateDialog.ru.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.da.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.de.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
@@ -104,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.ru.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.da.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.de.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
