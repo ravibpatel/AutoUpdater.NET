@@ -148,7 +148,7 @@
     <value>560, 0</value>
   </data>
   <data name="labelUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>325, 19</value>
+    <value>227, 19</value>
   </data>
   <data name="labelUpdate.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -169,7 +169,7 @@
     <value>550, 0</value>
   </data>
   <data name="labelDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>500, 30</value>
+    <value>480, 15</value>
   </data>
   <data name="labelDescription.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -187,10 +187,13 @@
     <value>91, 90</value>
   </data>
   <data name="labelReleaseNotes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
+    <value>98, 17</value>
   </data>
   <data name="labelReleaseNotes.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
+  </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Release Notes:</value>
   </data>
   <data name="buttonUpdate.Location" type="System.Drawing.Point, System.Drawing">
     <value>478, 570</value>
@@ -825,8 +828,5 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Software Update</value>
-  </data>
-  <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Releae Notes:</value>
   </data>
 </root>

@@ -214,17 +214,17 @@ namespace AutoUpdaterDotNET
 
                     XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
 
-                    ChangeLogURL = appCastChangeLog != null ? appCastChangeLog.InnerText : "";
+                    ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog);
 
                     XmlNode appCastUrl = item.SelectSingleNode("url");
 
-                    DownloadURL = appCastUrl != null ? appCastUrl.InnerText : "";
+                    DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
 
                     if (IntPtr.Size.Equals(8))
                     {
                         XmlNode appCastUrl64 = item.SelectSingleNode("url64");
 
-                        var downloadURL64 = appCastUrl64 != null ? appCastUrl64.InnerText : "";
+                        var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
                         
                         if(!string.IsNullOrEmpty(downloadURL64))
                         {
@@ -284,6 +284,23 @@ namespace AutoUpdaterDotNET
             {
                 CheckForUpdateEvent(args);
             }
+        }
+
+        private static string GetURL(Uri baseUri, XmlNode xmlNode)
+        {
+            var temp = xmlNode != null ? xmlNode.InnerText : "";
+
+            if (!string.IsNullOrEmpty(temp) && Uri.IsWellFormedUriString(temp, UriKind.Relative))
+            {
+                Uri uri = new Uri(baseUri, temp);
+
+                if (uri.IsAbsoluteUri)
+                {
+                    temp = uri.AbsoluteUri;
+                }
+            }
+            
+            return temp;
         }
 
         private static void ShowUI()

@@ -29,7 +29,7 @@ namespace AutoUpdaterDotNET
 
             var uri = new Uri(_downloadURL);
 
-            _tempPath = string.Format(@"{0}{1}", Path.GetTempPath(), GetFileName(_downloadURL));
+            _tempPath = Path.Combine(Path.GetTempPath(), GetFileName(_downloadURL));
 
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
@@ -63,23 +63,25 @@ namespace AutoUpdaterDotNET
         private static string GetFileName(string url)
         {
             var fileName = string.Empty;
-
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            httpWebRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-            httpWebRequest.Method = "HEAD";
-            httpWebRequest.AllowAutoRedirect = false;
-            var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Redirect) || httpWebResponse.StatusCode.Equals(HttpStatusCode.Moved) || httpWebResponse.StatusCode.Equals(HttpStatusCode.MovedPermanently))
+            var uri = new Uri(url);
+            if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
             {
-                if (httpWebResponse.Headers["Location"] != null)
+                var httpWebRequest = (HttpWebRequest) WebRequest.Create(uri);
+                httpWebRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                httpWebRequest.Method = "HEAD";
+                httpWebRequest.AllowAutoRedirect = false;
+                var httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse();
+                if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Redirect) ||
+                    httpWebResponse.StatusCode.Equals(HttpStatusCode.Moved) ||
+                    httpWebResponse.StatusCode.Equals(HttpStatusCode.MovedPermanently))
                 {
-                    var location = httpWebResponse.Headers["Location"];
-                    fileName = GetFileName(location);
-                    return fileName;
+                    if (httpWebResponse.Headers["Location"] != null)
+                    {
+                        var location = httpWebResponse.Headers["Location"];
+                        fileName = GetFileName(location);
+                        return fileName;
+                    }
                 }
-            }
-            if (httpWebResponse.Headers["content-disposition"] != null)
-            {
                 var contentDisposition = httpWebResponse.Headers["content-disposition"];
                 if (!string.IsNullOrEmpty(contentDisposition))
                 {
@@ -95,8 +97,6 @@ namespace AutoUpdaterDotNET
             }
             if (string.IsNullOrEmpty(fileName))
             {
-                var uri = new Uri(url);
-
                 fileName = Path.GetFileName(uri.LocalPath);
             }
             return fileName;
