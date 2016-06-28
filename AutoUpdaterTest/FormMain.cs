@@ -80,7 +80,7 @@ namespace AutoUpdaterTest
 
         private void buttonCheckForUpdate_Click(object sender, EventArgs e)
         {
-            AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
+            AutoUpdater.Start("http://widmexam.koenvh.nl/update.xml");
         }
     }
 }
