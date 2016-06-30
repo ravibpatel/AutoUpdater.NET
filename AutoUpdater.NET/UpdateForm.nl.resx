@@ -133,7 +133,7 @@
     <value>Sla deze versie</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Software-update</value>
+    <value>{0} {1} is beschikbaar!</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Releae Opmerkingen:</value>

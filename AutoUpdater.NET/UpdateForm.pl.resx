@@ -133,7 +133,7 @@
     <value>Pominąć tę wersję</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Aktualizacja oprogramowania</value>
+    <value>{0} {1} jest dostępna!</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Releae Uwagi:</value>

@@ -133,7 +133,7 @@
     <value>Hoppa över den här versionen</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Programuppdatering</value>
+    <value>{0} {1} är tillgänglig!</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Releae Anmärkningar:</value>

@@ -38,8 +38,6 @@ namespace AutoUpdaterDotNET
     /// </summary>
     public static class AutoUpdater
     {
-        internal static String DialogTitle;
-
         internal static String ChangeLogURL;
 
         internal static String DownloadURL;
@@ -204,13 +202,12 @@ namespace AutoUpdaterDotNET
                     {
                         String appVersion = appCastVersion.InnerText;
                         CurrentVersion = new Version(appVersion);
+
+                        if (CurrentVersion == null)
+                            return;
                     }
                     else
                         continue;
-
-                    XmlNode appCastTitle = item.SelectSingleNode("title");
-
-                    DialogTitle = appCastTitle != null ? appCastTitle.InnerText : "";
 
                     XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
 
@@ -255,9 +252,6 @@ namespace AutoUpdaterDotNET
                 }
                 updateKey.Close();
             }
-
-            if (CurrentVersion == null)
-                return;
 
             var args = new UpdateInfoEventArgs
             {

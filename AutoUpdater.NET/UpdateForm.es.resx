@@ -136,6 +136,6 @@
     <value>Saltar esta versión</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>actualización de software</value>
+    <value>{0} {1} está disponible!</value>
   </data>
 </root>

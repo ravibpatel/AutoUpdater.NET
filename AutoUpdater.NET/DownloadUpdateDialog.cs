@@ -49,6 +49,16 @@ namespace AutoUpdaterDotNET
             {
                 var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
                 Process.Start(processStartInfo);
+
+                var currentProcess = Process.GetCurrentProcess();
+                foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
+                {
+                    if (process.Id != currentProcess.Id)
+                    {
+                        process.Kill();
+                    }
+                }
+
                 if (AutoUpdater.IsWinFormsApplication)
                 {
                     Application.Exit();

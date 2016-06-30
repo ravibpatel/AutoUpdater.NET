@@ -136,6 +136,6 @@
     <value>Passer cette version</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Mise à jour logicielle</value>
+    <value>{0} {1} est disponible!</value>
   </data>
 </root>

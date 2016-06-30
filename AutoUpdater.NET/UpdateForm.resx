@@ -827,6 +827,6 @@
     <value>CenterParent</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Software Update</value>
+    <value>{0} {1} is available!</value>
   </data>
 </root>

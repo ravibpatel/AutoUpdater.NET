@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>Software opdatering</value>
+    <value>{0} {1} er tilgængelig!</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
     <value>Påmind mig senere</value>

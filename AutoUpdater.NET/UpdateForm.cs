@@ -16,7 +16,7 @@ namespace AutoUpdaterDotNET
             {
                 InitializeComponent();
                 var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
-                Text = AutoUpdater.DialogTitle;
+                Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture), AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
                 labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture), AutoUpdater.AppTitle);
                 labelDescription.Text =
                     string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
