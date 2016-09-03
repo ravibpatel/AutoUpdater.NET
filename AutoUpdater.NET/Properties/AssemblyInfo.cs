@@ -6,11 +6,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutoUpdater.NET")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their C# or VB.NET projects.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RBSoft")]
 [assembly: AssemblyProduct("AutoUpdater.NET")]
-[assembly: AssemblyCopyright("Copyright © 2012-2015 RBSoft")]
+[assembly: AssemblyCopyright("Copyright © 2012-2016 RBSoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
