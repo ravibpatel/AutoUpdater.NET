@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -9,6 +10,8 @@ namespace AutoUpdaterDotNET
     internal partial class UpdateForm : Form
     {
         private System.Timers.Timer _timer;
+        
+        private bool HideReleaseNotes { get; set; }
 
         public UpdateForm(bool remindLater = false)
         {
@@ -21,6 +24,19 @@ namespace AutoUpdaterDotNET
                 labelDescription.Text =
                     string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
                         AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
+                if (string.IsNullOrEmpty(AutoUpdater.ChangeLogURL))
+                {
+                    HideReleaseNotes = true;
+                    var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                    labelReleaseNotes.Hide();
+                    webBrowser.Hide();
+
+                    Height -= reduceHeight;
+
+                    buttonSkip.Location = new Point(buttonSkip.Location.X, buttonSkip.Location.Y - reduceHeight);
+                    buttonRemindLater.Location = new Point(buttonRemindLater.Location.X, buttonRemindLater.Location.Y - reduceHeight);
+                    buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
+                }
             }
         }
 
@@ -32,7 +48,10 @@ namespace AutoUpdaterDotNET
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            webBrowser.Navigate(AutoUpdater.ChangeLogURL);
+            if (HideReleaseNotes == false)
+            {
+                webBrowser.Navigate(AutoUpdater.ChangeLogURL);
+            }
         }
 
         private void ButtonUpdateClick(object sender, EventArgs e)
