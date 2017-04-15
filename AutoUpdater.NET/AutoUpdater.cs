@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -103,11 +103,13 @@ namespace AutoUpdaterDotNET
             Start(AppCastURL);
         }
 
+
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
-        public static void Start(String appCast)
+        /// <param name="assy">Assembyl to use for versino checking</param>
+        public static void Start(String appCast, Assembly assy=null)
         {
             AppCastURL = appCast;
 
@@ -117,12 +119,12 @@ namespace AutoUpdaterDotNET
 
             backgroundWorker.DoWork += BackgroundWorkerDoWork;
 
-            backgroundWorker.RunWorkerAsync();
+            backgroundWorker.RunWorkerAsync(assy==null? System.Reflection.Assembly.GetEntryAssembly(): assy);
         }
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            Assembly mainAssembly = Assembly.GetEntryAssembly();
+            Assembly mainAssembly = e.Argument as Assembly;
             var companyAttribute =
                 (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
             var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof (AssemblyTitleAttribute));
