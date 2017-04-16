@@ -119,7 +119,7 @@ namespace AutoUpdaterDotNET
 
             backgroundWorker.DoWork += BackgroundWorkerDoWork;
 
-            backgroundWorker.RunWorkerAsync(assy==null? System.Reflection.Assembly.GetEntryAssembly(): assy);
+            backgroundWorker.RunWorkerAsync(assy ?? Assembly.GetEntryAssembly());
         }
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
