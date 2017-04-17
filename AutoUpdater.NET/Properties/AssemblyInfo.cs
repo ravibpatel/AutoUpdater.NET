@@ -6,11 +6,11 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutoUpdater.NET")]
-[assembly: AssemblyDescription("AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their C# or VB.NET projects.")]
+[assembly: AssemblyDescription("AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RBSoft")]
 [assembly: AssemblyProduct("AutoUpdater.NET")]
-[assembly: AssemblyCopyright("Copyright © 2012-2016 RBSoft")]
+[assembly: AssemblyCopyright("Copyright © 2012-2017 RBSoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.3.2.0")]
-[assembly: AssemblyFileVersion("1.3.2.0")]
+[assembly: AssemblyVersion("1.4.0.0")]
+[assembly: AssemblyFileVersion("1.4.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en")]

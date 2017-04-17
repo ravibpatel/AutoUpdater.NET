@@ -8,21 +8,18 @@ https://www.nuget.org/packages/Autoupdater.NET.Official/
 
 ## How it works
 
-AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update.
+AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory. 
 
 ## Using the code
 ### XML file
 AutoUpdater.NET uses XML file located on a server to get the release information about the latest version of the software. You need to create XML file like below and then you need to upload it to your server.
 
 ````xml
+<?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>4.5.0.0</version>
-    <url>
-    http://rbsoft.org/phocadownload/Right%20Click%20Enhancer%20Setup.exe
-    </url>
-    <changelog>
-    http://rbsoft.org/downloads/file/1-right-click-enhancer?tmpl=component
-    </changelog>
+    <version>2.0.0.0</version>
+    <url>http://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
+    <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
 </item>
 ````
 
@@ -43,7 +40,7 @@ using AutoUpdaterDotNET;
 Now you just need to add following line to your main form constructor or in Form_Load event. You can add this line anywhere you like. If you don't like to check for update when application starts then you can create a Check for update button and add this line to Button_Click event.
 
 ````csharp
-AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
+AutoUpdater.Start("http://localhost/download/AutoUpdaterTest.xml");
 ````
 
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.

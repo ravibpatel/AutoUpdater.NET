@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace AutoUpdaterDotNET
 {
@@ -48,7 +49,27 @@ namespace AutoUpdaterDotNET
             if (!e.Cancelled)
             {
                 var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
-                Process.Start(processStartInfo);
+                var extension = Path.GetExtension(_tempPath);
+                if (extension != null && extension.ToLower().Equals(".zip"))
+                {
+                    string installerPath = Path.Combine(Path.GetTempPath(), "ZipExtractor.exe");
+                    File.WriteAllBytes(installerPath, Properties.Resources.ZipExtractor);
+                    processStartInfo = new ProcessStartInfo
+                    {
+                        UseShellExecute = true,
+                        FileName = installerPath,
+                        Arguments = $"\"{_tempPath}\" \"{Assembly.GetEntryAssembly().Location}\""
+                    };
+                }
+                try
+                {
+                    Process.Start(processStartInfo);
+                }
+                catch (Win32Exception exception)
+                {
+                    if (exception.NativeErrorCode != 1223)
+                        throw;
+                }
 
                 var currentProcess = Process.GetCurrentProcess();
                 foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))

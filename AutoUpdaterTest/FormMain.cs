@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
+using System.Reflection;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
+using AutoUpdaterTest.Properties;
 
 namespace AutoUpdaterTest
 {
@@ -10,11 +12,12 @@ namespace AutoUpdaterTest
         public FormMain()
         {
             InitializeComponent();
+            labelVersion.Text = string.Format(Resources.CurrentVersion, Assembly.GetEntryAssembly().GetName().Version);
         }
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //uncomment below line to see russian version
+            //Uncomment below line to see russian version
             
             //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 
@@ -32,7 +35,7 @@ namespace AutoUpdaterTest
 
             //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
-            //AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
+            //AutoUpdater.Start("http://localhost/download/AutoUpdaterTest.xml");
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
@@ -44,7 +47,7 @@ namespace AutoUpdaterTest
                     var dialogResult =
                         MessageBox.Show(
                             string.Format(
-                                "There is new version {0} avilable. You are using version {1}. Do you want to update the application now?",
+                                "There is new version {0} available. You are using version {1}. Do you want to update the application now?",
                                 args.CurrentVersion, args.InstalledVersion), @"Update Available",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Information);
@@ -66,7 +69,7 @@ namespace AutoUpdaterTest
                 }
                 else
                 {
-                    MessageBox.Show(@"There is no update avilable please try again later.", @"No update available",
+                    MessageBox.Show(@"There is no update available please try again later.", @"No update available",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -80,7 +83,7 @@ namespace AutoUpdaterTest
 
         private void buttonCheckForUpdate_Click(object sender, EventArgs e)
         {
-            AutoUpdater.Start("http://rbsoft.org/updates/right-click-enhancer.xml");
+            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
     }
 }
