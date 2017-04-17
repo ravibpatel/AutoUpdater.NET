@@ -103,13 +103,12 @@ namespace AutoUpdaterDotNET
             Start(AppCastURL);
         }
 
-
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
-        /// <param name="assy">Assembyl to use for version checking</param>
-        public static void Start(String appCast, Assembly assy=null)
+        /// <param name="myAssembly">Assembly to use for version checking.</param>
+        public static void Start(String appCast, Assembly myAssembly = null)
         {
             AppCastURL = appCast;
 
@@ -119,7 +118,7 @@ namespace AutoUpdaterDotNET
 
             backgroundWorker.DoWork += BackgroundWorkerDoWork;
 
-            backgroundWorker.RunWorkerAsync(assy ?? Assembly.GetEntryAssembly());
+            backgroundWorker.RunWorkerAsync(myAssembly ?? Assembly.GetEntryAssembly());
         }
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
