@@ -69,6 +69,11 @@ namespace AutoUpdaterDotNET
         public static CultureInfo CurrentCulture;
 
         /// <summary>
+        ///     If this is true users can see the skip button.
+        /// </summary>
+        public static Boolean ShowSkipButton = true;
+
+        /// <summary>
         ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
         ///     RemindLaterAt and RemindLaterTimeSpan fields.
         /// </summary>

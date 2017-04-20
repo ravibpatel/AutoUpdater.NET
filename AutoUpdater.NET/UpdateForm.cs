@@ -48,6 +48,8 @@ namespace AutoUpdaterDotNET
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
+            buttonSkip.Visible = AutoUpdater.ShowSkipButton;
+
             if (HideReleaseNotes == false)
             {
                 webBrowser.Navigate(AutoUpdater.ChangeLogURL);
