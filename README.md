@@ -40,7 +40,7 @@ using AutoUpdaterDotNET;
 Now you just need to add following line to your main form constructor or in Form_Load event. You can add this line anywhere you like. If you don't like to check for update when application starts then you can create a Check for update button and add this line to Button_Click event.
 
 ````csharp
-AutoUpdater.Start("http://localhost/download/AutoUpdaterTest.xml");
+AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
 ````
 
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.
@@ -55,6 +55,14 @@ AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 ````
 
 In above example AutoUpdater.NET will show update dialog in russian language.
+
+### Disable Skip Button
+
+If you don't want to show Skip button on Update form then just add following line with above code.
+
+````csharp
+AutoUpdater.ShowSkipButton = false;
+````
 
 ### Open Download Page
 
