@@ -18,11 +18,11 @@ namespace AutoUpdaterTest
         private void FormMain_Load(object sender, EventArgs e)
         {
             //Uncomment below line to see russian version
-            
+
             //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 
             //If you want to open download page when user click on download button uncomment below line.
- 
+
             //AutoUpdater.OpenDownloadPage = true;
 
             //Don't want user to select remind later time in AutoUpdater notification window then uncomment 3 lines below so default remind later time will be set to 2 days.
@@ -31,11 +31,15 @@ namespace AutoUpdaterTest
             //AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
             //AutoUpdater.RemindLaterAt = 2;
 
+            //Don't want to show Skip button then uncomment below line.
+
+            //AutoUpdater.ShowSkipButton = false;
+
             //Want to handle update logic yourself then uncomment below line.
 
             //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
-            //AutoUpdater.Start("http://localhost/download/AutoUpdaterTest.xml");
+            //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
