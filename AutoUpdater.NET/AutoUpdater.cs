@@ -174,10 +174,7 @@ namespace AutoUpdaterDotNET
             }
             catch (Exception)
             {
-                if (CheckForUpdateEvent != null)
-                {
-                    CheckForUpdateEvent(null);
-                }
+                CheckForUpdateEvent?.Invoke(null);
                 return;
             }
 
@@ -191,10 +188,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (CheckForUpdateEvent != null)
-                {
-                    CheckForUpdateEvent(null);
-                }
+                CheckForUpdateEvent?.Invoke(null);
                 return;
             }
 
@@ -280,10 +274,7 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            if (CheckForUpdateEvent != null)
-            {
-                CheckForUpdateEvent(args);
-            }
+            CheckForUpdateEvent?.Invoke(args);
         }
 
         private static string GetURL(Uri baseUri, XmlNode xmlNode)
