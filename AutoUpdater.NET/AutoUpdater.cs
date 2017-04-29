@@ -132,18 +132,18 @@ namespace AutoUpdaterDotNET
             var companyAttribute =
                 (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
             var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof (AssemblyTitleAttribute));
-            AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
-            string appCompany = companyAttribute != null ? companyAttribute.Company : "";
-
-            RegistryLocation = !string.IsNullOrEmpty(appCompany)
-                ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
-                : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
-
-            RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
-
-            if (updateKey != null)
+            if (mainAssembly != null)
             {
-                object remindLaterTime = updateKey.GetValue("remindlater");
+                AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
+                string appCompany = companyAttribute != null ? companyAttribute.Company : string.Empty;
+
+                RegistryLocation = !string.IsNullOrEmpty(appCompany)
+                    ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
+                    : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
+
+                RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
+
+                object remindLaterTime = updateKey?.GetValue("remindlater");
 
                 if (remindLaterTime != null)
                 {
@@ -159,98 +159,98 @@ namespace AutoUpdaterDotNET
                         return;
                     }
                 }
-            }
 
-            InstalledVersion = mainAssembly.GetName().Version;
+                InstalledVersion = mainAssembly.GetName().Version;
 
-            WebRequest webRequest = WebRequest.Create(AppCastURL);
-            webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                WebRequest webRequest = WebRequest.Create(AppCastURL);
+                webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
 
-            WebResponse webResponse;
+                WebResponse webResponse;
 
-            try
-            {
-                webResponse = webRequest.GetResponse();
-            }
-            catch (Exception)
-            {
-                CheckForUpdateEvent?.Invoke(null);
-                return;
-            }
-
-            Stream appCastStream = webResponse.GetResponseStream();
-
-            var receivedAppCastDocument = new XmlDocument();
-
-            if (appCastStream != null)
-            {
-                receivedAppCastDocument.Load(appCastStream);
-            }
-            else
-            {
-                CheckForUpdateEvent?.Invoke(null);
-                return;
-            }
-
-            XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
-
-            if (appCastItems != null)
-                foreach (XmlNode item in appCastItems)
+                try
                 {
-                    XmlNode appCastVersion = item.SelectSingleNode("version");
-                    if (appCastVersion != null)
+                    webResponse = webRequest.GetResponse();
+                }
+                catch (Exception)
+                {
+                    CheckForUpdateEvent?.Invoke(null);
+                    return;
+                }
+
+                Stream appCastStream = webResponse.GetResponseStream();
+
+                var receivedAppCastDocument = new XmlDocument();
+
+                if (appCastStream != null)
+                {
+                    receivedAppCastDocument.Load(appCastStream);
+                }
+                else
+                {
+                    CheckForUpdateEvent?.Invoke(null);
+                    return;
+                }
+
+                XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
+
+                if (appCastItems != null)
+                    foreach (XmlNode item in appCastItems)
                     {
-                        String appVersion = appCastVersion.InnerText;
-                        CurrentVersion = new Version(appVersion);
+                        XmlNode appCastVersion = item.SelectSingleNode("version");
+                        if (appCastVersion != null)
+                        {
+                            String appVersion = appCastVersion.InnerText;
+                            CurrentVersion = new Version(appVersion);
 
-                        if (CurrentVersion == null)
-                            return;
-                    }
-                    else
-                        continue;
+                            if (CurrentVersion == null)
+                                return;
+                        }
+                        else
+                            continue;
 
-                    XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
+                        XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
 
-                    ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog);
+                        ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog);
 
-                    XmlNode appCastUrl = item.SelectSingleNode("url");
+                        XmlNode appCastUrl = item.SelectSingleNode("url");
 
-                    DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
+                        DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
 
-                    if (IntPtr.Size.Equals(8))
-                    {
-                        XmlNode appCastUrl64 = item.SelectSingleNode("url64");
+                        if (IntPtr.Size.Equals(8))
+                        {
+                            XmlNode appCastUrl64 = item.SelectSingleNode("url64");
 
-                        var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
+                            var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
                         
-                        if(!string.IsNullOrEmpty(downloadURL64))
-                        {
-                            DownloadURL = downloadURL64;
+                            if(!string.IsNullOrEmpty(downloadURL64))
+                            {
+                                DownloadURL = downloadURL64;
+                            }
                         }
                     }
-                }
 
-            if (updateKey != null)
-            {
-                object skip = updateKey.GetValue("skip");
-                object applicationVersion = updateKey.GetValue("version");
-                if (skip != null && applicationVersion != null)
+                if (updateKey != null)
                 {
-                    string skipValue = skip.ToString();
-                    var skipVersion = new Version(applicationVersion.ToString());
-                    if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
-                        return;
-                    if (CurrentVersion > skipVersion)
+                    object skip = updateKey.GetValue("skip");
+                    object applicationVersion = updateKey.GetValue("version");
+                    if (skip != null && applicationVersion != null)
                     {
-                        RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
-                        if (updateKeyWrite != null)
+                        string skipValue = skip.ToString();
+                        var skipVersion = new Version(applicationVersion.ToString());
+                        if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
+                            return;
+                        if (CurrentVersion > skipVersion)
                         {
-                            updateKeyWrite.SetValue("version", CurrentVersion.ToString());
-                            updateKeyWrite.SetValue("skip", 0);
+                            RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
+                            if (updateKeyWrite != null)
+                            {
+                                updateKeyWrite.SetValue("version", CurrentVersion.ToString());
+                                updateKeyWrite.SetValue("skip", 0);
+                            }
                         }
                     }
+                    updateKey.Close();
                 }
-                updateKey.Close();
             }
 
             var args = new UpdateInfoEventArgs
@@ -279,7 +279,7 @@ namespace AutoUpdaterDotNET
 
         private static string GetURL(Uri baseUri, XmlNode xmlNode)
         {
-            var temp = xmlNode != null ? xmlNode.InnerText : "";
+            var temp = xmlNode != null ? xmlNode.InnerText : string.Empty;
 
             if (!string.IsNullOrEmpty(temp) && Uri.IsWellFormedUriString(temp, UriKind.Relative))
             {
