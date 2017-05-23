@@ -44,13 +44,16 @@ namespace AutoUpdaterDotNET
 
         internal static String RegistryLocation;
 
-        internal static String AppTitle;
-
         internal static Version CurrentVersion;
 
         internal static Version InstalledVersion;
 
         internal static bool IsWinFormsApplication;
+
+        /// <summary>
+        ///     When set from the caller it will ignore assembly name.
+        /// </summary>
+        public static String AppTitle;
 
         /// <summary>
         ///     URL of the xml file that contains information about latest version of the application.
@@ -61,6 +64,11 @@ namespace AutoUpdaterDotNET
         ///     Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
+
+        /// <summary>
+        ///     When set to true, a MessageBox is shown when no new version is found.
+        /// </summary>
+        public static bool ShowNoNewVersion = false;
 
         /// <summary>
         ///     Sets the current culture of the auto update notification window. Set this value if your application supports
@@ -78,6 +86,16 @@ namespace AutoUpdaterDotNET
         ///     RemindLaterAt and RemindLaterTimeSpan fields.
         /// </summary>
         public static Boolean LetUserSelectRemindLater = true;
+
+        /// <summary>
+        ///     If this is true, remind me later time set earlier will be ignored.
+        /// </summary>
+        public static Boolean IgnoreRemindMeLater = false;
+
+        /// <summary>
+        ///     If this is true, skip version value will be reset.
+        /// </summary>
+        public static Boolean ResetSkipVersion = false;
 
         /// <summary>
         ///     Remind Later interval after user should be reminded of update.
@@ -129,33 +147,41 @@ namespace AutoUpdaterDotNET
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             Assembly mainAssembly = e.Argument as Assembly;
-            var companyAttribute =
-                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
-            var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof (AssemblyTitleAttribute));
-            AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
+            var companyAttribute = (AssemblyCompanyAttribute)GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+            var titleAttribute = (AssemblyTitleAttribute)GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
+
+            if (String.IsNullOrEmpty(AppTitle))
+            {
+                AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
+            }
+
             string appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
-            RegistryLocation = !string.IsNullOrEmpty(appCompany)
-                ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
-                : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
+            RegistryLocation = !String.IsNullOrEmpty(appCompany)
+                ? String.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
+                : String.Format(@"Software\{0}\AutoUpdater", AppTitle);
 
             RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
 
             if (updateKey != null)
             {
-                object remindLaterTime = updateKey.GetValue("remindlater");
-
-                if (remindLaterTime != null)
+                if (IgnoreRemindMeLater)
                 {
-                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
-                        CultureInfo.CreateSpecificCulture("en-US"));
+                    var updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
+                    updateKeyWrite.SetValue("remindlater", DateTime.Now.AddMinutes(-30).ToString(CultureInfo.CreateSpecificCulture("en-US")));
+                    updateKeyWrite.Close();
+                }
 
-                    int compareResult = DateTime.Compare(DateTime.Now, remindLater);
+                object remindLaterTimeKeyValue = updateKey.GetValue("remindlater");
 
-                    if (compareResult < 0)
+                if (remindLaterTimeKeyValue != null)
+                {
+                    DateTime remindLaterTime = Convert.ToDateTime(remindLaterTimeKeyValue.ToString(), CultureInfo.CreateSpecificCulture("en-US"));
+
+                    if (DateTime.Compare(DateTime.Now, remindLaterTime) < 0 && !IgnoreRemindMeLater)
                     {
                         var updateForm = new UpdateForm(true);
-                        updateForm.SetTimer(remindLater);
+                        updateForm.SetTimer(remindLaterTime);
                         return;
                     }
                 }
@@ -195,6 +221,7 @@ namespace AutoUpdaterDotNET
             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
 
             if (appCastItems != null)
+            {
                 foreach (XmlNode item in appCastItems)
                 {
                     XmlNode appCastVersion = item.SelectSingleNode("version");
@@ -222,59 +249,65 @@ namespace AutoUpdaterDotNET
                         XmlNode appCastUrl64 = item.SelectSingleNode("url64");
 
                         var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
-                        
-                        if(!string.IsNullOrEmpty(downloadURL64))
+
+                        if (!string.IsNullOrEmpty(downloadURL64))
                         {
                             DownloadURL = downloadURL64;
                         }
                     }
                 }
 
-            if (updateKey != null)
-            {
-                object skip = updateKey.GetValue("skip");
-                object applicationVersion = updateKey.GetValue("version");
-                if (skip != null && applicationVersion != null)
+                if (updateKey != null)
                 {
-                    string skipValue = skip.ToString();
-                    var skipVersion = new Version(applicationVersion.ToString());
-                    if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
-                        return;
-                    if (CurrentVersion > skipVersion)
+                    object skip = updateKey.GetValue("skip");
+                    object applicationVersion = updateKey.GetValue("version");
+                    if (skip != null && applicationVersion != null)
                     {
-                        RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
-                        if (updateKeyWrite != null)
+                        string skipValue = skip.ToString();
+                        var skipVersion = new Version(applicationVersion.ToString());
+                        if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
+                            return;
+                        if (CurrentVersion > skipVersion)
                         {
-                            updateKeyWrite.SetValue("version", CurrentVersion.ToString());
-                            updateKeyWrite.SetValue("skip", 0);
+                            RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
+                            if (updateKeyWrite != null)
+                            {
+                                updateKeyWrite.SetValue("version", CurrentVersion.ToString());
+                                updateKeyWrite.SetValue("skip", 0);
+                            }
                         }
                     }
+                    updateKey.Close();
                 }
-                updateKey.Close();
-            }
 
-            var args = new UpdateInfoEventArgs
-            {
-                DownloadURL = DownloadURL,
-                ChangelogURL = ChangeLogURL,
-                CurrentVersion = CurrentVersion,
-                InstalledVersion = InstalledVersion,
-                IsUpdateAvailable = false,
-            };
-
-            if (CurrentVersion > InstalledVersion)
-            {
-                args.IsUpdateAvailable = true;
-                if (CheckForUpdateEvent == null)
+                var args = new UpdateInfoEventArgs
                 {
-                    var thread = new Thread(ShowUI);
-                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? Application.CurrentCulture;
-                    thread.SetApartmentState(ApartmentState.STA);
-                    thread.Start();
-                }
-            }
+                    DownloadURL = DownloadURL,
+                    ChangelogURL = ChangeLogURL,
+                    CurrentVersion = CurrentVersion,
+                    InstalledVersion = InstalledVersion,
+                    IsUpdateAvailable = false,
+                };
 
-            CheckForUpdateEvent?.Invoke(args);
+                if (CurrentVersion > InstalledVersion)
+                {
+                    args.IsUpdateAvailable = true;
+                    if (CheckForUpdateEvent == null)
+                    {
+                        var thread = new Thread(ShowUI);
+                        thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? Application.CurrentCulture;
+                        thread.SetApartmentState(ApartmentState.STA);
+                        thread.Start();
+                    }
+                }
+                else if (ShowNoNewVersion)
+                {
+                    var noNewVersionDialog = new NoNewVersionDialog();
+                    noNewVersionDialog.ShowDialog();
+                }
+
+                CheckForUpdateEvent?.Invoke(args);
+            }
         }
 
         private static string GetURL(Uri baseUri, XmlNode xmlNode)
@@ -290,7 +323,7 @@ namespace AutoUpdaterDotNET
                     temp = uri.AbsoluteUri;
                 }
             }
-            
+
             return temp;
         }
 
@@ -308,7 +341,7 @@ namespace AutoUpdaterDotNET
             {
                 return null;
             }
-            return (Attribute) attributes[0];
+            return (Attribute)attributes[0];
         }
 
         /// <summary>
@@ -359,3 +392,4 @@ namespace AutoUpdaterDotNET
         public Version InstalledVersion { get; set; }
     }
 }
+
