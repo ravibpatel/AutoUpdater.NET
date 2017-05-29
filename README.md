@@ -20,6 +20,7 @@ AutoUpdater.NET uses XML file located on a server to get the release information
     <version>2.0.0.0</version>
     <url>http://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
     <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
+	<mandatory>false</mandatory>
 </item>
 ````
 
@@ -28,6 +29,7 @@ There are three things you need to provide in XML file as you can see above.
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
+* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
 
 ### Adding one line to make it work
 
@@ -62,6 +64,14 @@ If you don't want to show Skip button on Update form then just add following lin
 
 ````csharp
 AutoUpdater.ShowSkipButton = false;
+````
+
+### Disable Remind Later Button
+
+If you don't want to show Remind Later button on Update form then just add following line with above code.
+
+````csharp
+AutoUpdater.ShowRemindLaterButton = false;
 ````
 
 ### Open Download Page

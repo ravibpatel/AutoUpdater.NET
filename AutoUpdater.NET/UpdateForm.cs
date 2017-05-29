@@ -9,48 +9,46 @@ namespace AutoUpdaterDotNET
 {
     internal partial class UpdateForm : Form
     {
-        private System.Timers.Timer _timer;
-        
         private bool HideReleaseNotes { get; set; }
 
-        public UpdateForm(bool remindLater = false)
+        public UpdateForm()
         {
-            if (!remindLater)
+            InitializeComponent();
+            buttonSkip.Visible = AutoUpdater.ShowSkipButton;
+            buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
+            var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
+            Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
+                AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
+            labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
+                AutoUpdater.AppTitle);
+            labelDescription.Text =
+                string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
+                    AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
+            if (string.IsNullOrEmpty(AutoUpdater.ChangeLogURL))
             {
-                InitializeComponent();
-                var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
-                Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture), AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
-                labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture), AutoUpdater.AppTitle);
-                labelDescription.Text =
-                    string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
-                        AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
-                if (string.IsNullOrEmpty(AutoUpdater.ChangeLogURL))
-                {
-                    HideReleaseNotes = true;
-                    var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
-                    labelReleaseNotes.Hide();
-                    webBrowser.Hide();
+                HideReleaseNotes = true;
+                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                labelReleaseNotes.Hide();
+                webBrowser.Hide();
 
-                    Height -= reduceHeight;
+                Height -= reduceHeight;
 
-                    buttonSkip.Location = new Point(buttonSkip.Location.X, buttonSkip.Location.Y - reduceHeight);
-                    buttonRemindLater.Location = new Point(buttonRemindLater.Location.X, buttonRemindLater.Location.Y - reduceHeight);
-                    buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
-                }
+                buttonSkip.Location = new Point(buttonSkip.Location.X, buttonSkip.Location.Y - reduceHeight);
+                buttonRemindLater.Location = new Point(buttonRemindLater.Location.X,
+                    buttonRemindLater.Location.Y - reduceHeight);
+                buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
             }
         }
 
         public sealed override string Text
         {
-            get { return base.Text; }
-            set { base.Text = value; }
+            get => base.Text;
+            set => base.Text = value;
         }
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            buttonSkip.Visible = AutoUpdater.ShowSkipButton;
-
-            if (HideReleaseNotes == false)
+            if (!HideReleaseNotes)
             {
                 webBrowser.Navigate(AutoUpdater.ChangeLogURL);
             }
@@ -83,18 +81,18 @@ namespace AutoUpdaterDotNET
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
         {
-            if(AutoUpdater.LetUserSelectRemindLater)
+            if (AutoUpdater.LetUserSelectRemindLater)
             {
                 var remindLaterForm = new RemindLaterForm();
 
                 var dialogResult = remindLaterForm.ShowDialog();
 
-                if(dialogResult.Equals(DialogResult.OK))
+                if (dialogResult.Equals(DialogResult.OK))
                 {
                     AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
                     AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
                 }
-                else if(dialogResult.Equals(DialogResult.Abort))
+                else if (dialogResult.Equals(DialogResult.Abort))
                 {
                     AutoUpdater.DownloadUpdate();
                     return;
@@ -125,27 +123,11 @@ namespace AutoUpdaterDotNET
                         break;
 
                 }
-                updateKey.SetValue("remindlater", remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
-                SetTimer(remindLaterDateTime);
+                updateKey.SetValue("remindlater",
+                    remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
+                AutoUpdater.SetTimer(remindLaterDateTime);
                 updateKey.Close();
             }
-        }
-
-        public void SetTimer(DateTime remindLater)
-        {
-            TimeSpan timeSpan = remindLater - DateTime.Now;
-            _timer = new System.Timers.Timer
-                {
-                    Interval = (int) timeSpan.TotalMilliseconds
-                };
-            _timer.Elapsed += TimerElapsed;
-            _timer.Start();
-        }
-
-        private void TimerElapsed(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            _timer.Stop();
-            AutoUpdater.Start();
         }
     }
 }

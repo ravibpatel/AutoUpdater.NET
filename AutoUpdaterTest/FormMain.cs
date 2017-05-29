@@ -28,12 +28,20 @@ namespace AutoUpdaterTest
             //Don't want user to select remind later time in AutoUpdater notification window then uncomment 3 lines below so default remind later time will be set to 2 days.
 
             //AutoUpdater.LetUserSelectRemindLater = false;
-            //AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
-            //AutoUpdater.RemindLaterAt = 2;
+            //AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Minutes;
+            //AutoUpdater.RemindLaterAt = 1;
 
             //Don't want to show Skip button then uncomment below line.
 
             //AutoUpdater.ShowSkipButton = false;
+
+            //Don't want to show Remind Later button then uncomment below line.
+
+            //AutoUpdater.ShowRemindLaterButton = false;
+
+            //Want to show custom application title then uncomment below line.
+
+            //AutoUpdater.AppTitle = "My Custom Application Title";
 
             //Want to handle update logic yourself then uncomment below line.
 
@@ -50,9 +58,7 @@ namespace AutoUpdaterTest
                 {
                     var dialogResult =
                         MessageBox.Show(
-                            string.Format(
-                                "There is new version {0} available. You are using version {1}. Do you want to update the application now?",
-                                args.CurrentVersion, args.InstalledVersion), @"Update Available",
+                            $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. Do you want to update the application now?", @"Update Available",
                             MessageBoxButtons.YesNo,
                             MessageBoxIcon.Information);
 

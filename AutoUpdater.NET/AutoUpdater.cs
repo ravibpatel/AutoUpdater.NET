@@ -42,15 +42,20 @@ namespace AutoUpdaterDotNET
 
         internal static String DownloadURL;
 
-        internal static String RegistryLocation;
+        internal static bool Mandatory;
 
-        internal static String AppTitle;
+        internal static String RegistryLocation;
 
         internal static Version CurrentVersion;
 
         internal static Version InstalledVersion;
 
         internal static bool IsWinFormsApplication;
+
+        /// <summary>
+        ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
+        /// </summary>
+        public static String AppTitle;
 
         /// <summary>
         ///     URL of the xml file that contains information about latest version of the application.
@@ -72,6 +77,11 @@ namespace AutoUpdaterDotNET
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
+
+        /// <summary>
+        ///     If this is true users can see the Remind Later button.
+        /// </summary>
+        public static Boolean ShowRemindLaterButton = true;
 
         /// <summary>
         ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
@@ -129,37 +139,21 @@ namespace AutoUpdaterDotNET
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             Assembly mainAssembly = e.Argument as Assembly;
+
             var companyAttribute =
-                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof (AssemblyCompanyAttribute));
-            var titleAttribute = (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof (AssemblyTitleAttribute));
-            AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
+                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+            if (string.IsNullOrEmpty(AppTitle))
+            {
+                var titleAttribute =
+                    (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
+                AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
+            }
+
             string appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
             RegistryLocation = !string.IsNullOrEmpty(appCompany)
-                ? string.Format(@"Software\{0}\{1}\AutoUpdater", appCompany, AppTitle)
-                : string.Format(@"Software\{0}\AutoUpdater", AppTitle);
-
-            RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation);
-
-            if (updateKey != null)
-            {
-                object remindLaterTime = updateKey.GetValue("remindlater");
-
-                if (remindLaterTime != null)
-                {
-                    DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
-                        CultureInfo.CreateSpecificCulture("en-US"));
-
-                    int compareResult = DateTime.Compare(DateTime.Now, remindLater);
-
-                    if (compareResult < 0)
-                    {
-                        var updateForm = new UpdateForm(true);
-                        updateForm.SetTimer(remindLater);
-                        return;
-                    }
-                }
-            }
+                ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
+                : $@"Software\{AppTitle}\AutoUpdater";
 
             InstalledVersion = mainAssembly.GetName().Version;
 
@@ -195,6 +189,7 @@ namespace AutoUpdaterDotNET
             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
 
             if (appCastItems != null)
+            {
                 foreach (XmlNode item in appCastItems)
                 {
                     XmlNode appCastVersion = item.SelectSingleNode("version");
@@ -217,40 +212,76 @@ namespace AutoUpdaterDotNET
 
                     DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
 
+                    XmlNode mandatory = item.SelectSingleNode("mandatory");
+
+                    if (mandatory != null)
+                    {
+                        Mandatory = Boolean.Parse(mandatory.InnerText);
+                        if (Mandatory)
+                        {
+                            ShowRemindLaterButton = false;
+                            ShowSkipButton = false;
+                        }
+                    }
+
                     if (IntPtr.Size.Equals(8))
                     {
                         XmlNode appCastUrl64 = item.SelectSingleNode("url64");
 
                         var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
-                        
-                        if(!string.IsNullOrEmpty(downloadURL64))
+
+                        if (!string.IsNullOrEmpty(downloadURL64))
                         {
                             DownloadURL = downloadURL64;
                         }
                     }
                 }
+            }
 
-            if (updateKey != null)
+            if (!Mandatory)
             {
-                object skip = updateKey.GetValue("skip");
-                object applicationVersion = updateKey.GetValue("version");
-                if (skip != null && applicationVersion != null)
+                using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
                 {
-                    string skipValue = skip.ToString();
-                    var skipVersion = new Version(applicationVersion.ToString());
-                    if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
-                        return;
-                    if (CurrentVersion > skipVersion)
+                    if (updateKey != null)
                     {
-                        RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation);
-                        if (updateKeyWrite != null)
+                        object skip = updateKey.GetValue("skip");
+                        object applicationVersion = updateKey.GetValue("version");
+                        if (skip != null && applicationVersion != null)
                         {
-                            updateKeyWrite.SetValue("version", CurrentVersion.ToString());
-                            updateKeyWrite.SetValue("skip", 0);
+                            string skipValue = skip.ToString();
+                            var skipVersion = new Version(applicationVersion.ToString());
+                            if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
+                                return;
+                            if (CurrentVersion > skipVersion)
+                            {
+                                using (RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation))
+                                {
+                                    if (updateKeyWrite != null)
+                                    {
+                                        updateKeyWrite.SetValue("version", CurrentVersion.ToString());
+                                        updateKeyWrite.SetValue("skip", 0);
+                                    }
+                                }
+                            }
+                        }
+
+                        object remindLaterTime = updateKey.GetValue("remindlater");
+
+                        if (remindLaterTime != null)
+                        {
+                            DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
+                                CultureInfo.CreateSpecificCulture("en-US"));
+
+                            int compareResult = DateTime.Compare(DateTime.Now, remindLater);
+
+                            if (compareResult < 0)
+                            {
+                                SetTimer(remindLater);
+                                return;
+                            }
                         }
                     }
                 }
-                updateKey.Close();
             }
 
             var args = new UpdateInfoEventArgs
@@ -259,7 +290,7 @@ namespace AutoUpdaterDotNET
                 ChangelogURL = ChangeLogURL,
                 CurrentVersion = CurrentVersion,
                 InstalledVersion = InstalledVersion,
-                IsUpdateAvailable = false,
+                IsUpdateAvailable = false
             };
 
             if (CurrentVersion > InstalledVersion)
@@ -279,7 +310,7 @@ namespace AutoUpdaterDotNET
 
         private static string GetURL(Uri baseUri, XmlNode xmlNode)
         {
-            var temp = xmlNode != null ? xmlNode.InnerText : "";
+            var temp = xmlNode?.InnerText ?? "";
 
             if (!string.IsNullOrEmpty(temp) && Uri.IsWellFormedUriString(temp, UriKind.Relative))
             {
@@ -290,7 +321,7 @@ namespace AutoUpdaterDotNET
                     temp = uri.AbsoluteUri;
                 }
             }
-            
+
             return temp;
         }
 
@@ -309,6 +340,21 @@ namespace AutoUpdaterDotNET
                 return null;
             }
             return (Attribute) attributes[0];
+        }
+
+        internal static void SetTimer(DateTime remindLater)
+        {
+            TimeSpan timeSpan = remindLater - DateTime.Now;
+            var timer = new System.Timers.Timer
+            {
+                Interval = (int) timeSpan.TotalMilliseconds
+            };
+            timer.Elapsed += delegate
+            {
+                timer.Stop();
+                Start();
+            };
+            timer.Start();
         }
 
         /// <summary>
