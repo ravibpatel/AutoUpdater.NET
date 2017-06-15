@@ -64,7 +64,10 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                AutoUpdater.DownloadUpdate();
+                if (AutoUpdater.DownloadUpdate())
+                {
+                    Close();
+                }
             }
         }
 

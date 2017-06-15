@@ -1,7 +1,7 @@
 # AutoUpdater.NET
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
-## The nuget package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
+## The nuget package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
 https://www.nuget.org/packages/Autoupdater.NET.Official/
 
     PM> Install-Package Autoupdater.NET.Official
@@ -53,7 +53,7 @@ Start method of AutoUpdater class takes URL of the XML file you uploaded to serv
 You can change of language of the update dialog by adding following line with the above code.
 
 ````csharp
-AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
+Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("ru");
 ````
 
 In above example AutoUpdater.NET will show update dialog in russian language.
@@ -95,6 +95,21 @@ AutoUpdater.RemindLaterAt = 2;
 ````
 
 In above example when user press Remind Later button of update dialog, It will remind user for update after 2 days.
+
+## Handling Application exit logic manually
+
+If you like to handle Application exit logic yourself then you can use ApplicationExiEvent like below. This is very useful if you like to do something before closing the application.
+
+````csharp
+AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
+
+private void AutoUpdater_ApplicationExitEvent()
+{
+    Text = @"Closing application...";
+    Thread.Sleep(5000);
+    Application.Exit();
+}
+````
 
 ## Handling updates manually
 

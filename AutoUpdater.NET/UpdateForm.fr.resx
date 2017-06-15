@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="labelUpdate.Text" xml:space="preserve">
     <value>Une nouvelle version de {0} est disponible!</value>
@@ -127,10 +127,10 @@
     <value>Notes de version :</value>
   </data>
   <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>mettre à jour</value>
+    <value>Mettre à jour</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Rappelez-moi plus tard</value>
+    <value>Rappelle plus tard</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>Passer cette version</value>

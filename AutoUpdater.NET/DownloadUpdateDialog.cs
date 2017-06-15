@@ -26,7 +26,7 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
-            _webClient = new WebClient();
+            _webClient = new WebClient {CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)};
 
             var uri = new Uri(_downloadURL);
 
@@ -46,49 +46,42 @@ namespace AutoUpdaterDotNET
 
         private void OnDownloadComplete(object sender, AsyncCompletedEventArgs e)
         {
-            if (!e.Cancelled)
+            if (e.Cancelled)
             {
-                var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
-                var extension = Path.GetExtension(_tempPath);
-                if (extension != null && extension.ToLower().Equals(".zip"))
-                {
-                    string installerPath = Path.Combine(Path.GetTempPath(), "ZipExtractor.exe");
-                    File.WriteAllBytes(installerPath, Properties.Resources.ZipExtractor);
-                    processStartInfo = new ProcessStartInfo
-                    {
-                        UseShellExecute = true,
-                        FileName = installerPath,
-                        Arguments = $"\"{_tempPath}\" \"{Assembly.GetEntryAssembly().Location}\""
-                    };
-                }
-                try
-                {
-                    Process.Start(processStartInfo);
-                }
-                catch (Win32Exception exception)
-                {
-                    if (exception.NativeErrorCode != 1223)
-                        throw;
-                }
-
-                var currentProcess = Process.GetCurrentProcess();
-                foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
-                {
-                    if (process.Id != currentProcess.Id)
-                    {
-                        process.Kill();
-                    }
-                }
-
-                if (AutoUpdater.IsWinFormsApplication)
-                {
-                    Application.Exit();
-                }
-                else
-                {
-                    Environment.Exit(0);
-                }
+                return;
             }
+
+            if (e.Error != null)
+            {
+                MessageBox.Show(e.Error.Message, e.Error.GetType().ToString(), MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
+            var extension = Path.GetExtension(_tempPath);
+            if (extension != null && extension.ToLower().Equals(".zip"))
+            {
+                string installerPath = Path.Combine(Path.GetTempPath(), "ZipExtractor.exe");
+                File.WriteAllBytes(installerPath, Properties.Resources.ZipExtractor);
+                processStartInfo = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = installerPath,
+                    Arguments = $"\"{_tempPath}\" \"{Assembly.GetEntryAssembly().Location}\""
+                };
+            }
+            try
+            {
+                Process.Start(processStartInfo);
+            }
+            catch (Win32Exception exception)
+            {
+                if (exception.NativeErrorCode != 1223)
+                    throw;
+            }
+
+            AutoUpdater.Exit(this);
         }
 
         private static string GetFileName(string url, string httpWebRequestMethod = "HEAD")
@@ -142,7 +135,11 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _webClient.CancelAsync();
+            if (_webClient.IsBusy)
+            {
+                _webClient.CancelAsync();
+            }
+            DialogResult = DialogResult.OK;
         }
     }
 }

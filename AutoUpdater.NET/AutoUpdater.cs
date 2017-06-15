@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -68,12 +69,6 @@ namespace AutoUpdaterDotNET
         public static bool OpenDownloadPage;
 
         /// <summary>
-        ///     Sets the current culture of the auto update notification window. Set this value if your application supports
-        ///     functionalty to change the languge of the application.
-        /// </summary>
-        public static CultureInfo CurrentCulture;
-
-        /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
@@ -119,6 +114,16 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
+        ///     A delegate type to handle how to exit the application after update is downloaded.
+        /// </summary>
+        public delegate void ApplicationExitEventHandler();
+
+        /// <summary>
+        ///     An event that developers can use to exit the application gracefully.
+        /// </summary>
+        public static event ApplicationExitEventHandler ApplicationExitEvent;
+
+        /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
@@ -133,11 +138,49 @@ namespace AutoUpdaterDotNET
 
             backgroundWorker.DoWork += BackgroundWorkerDoWork;
 
+            backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
+
             backgroundWorker.RunWorkerAsync(myAssembly ?? Assembly.GetEntryAssembly());
+        }
+
+        private static void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        {
+            if (!runWorkerCompletedEventArgs.Cancelled)
+            {
+                if (runWorkerCompletedEventArgs.Result is DateTime)
+                {
+                    var remindLaterTime = (DateTime) runWorkerCompletedEventArgs.Result;
+                    SetTimer(remindLaterTime);
+                }
+                else
+                {
+                    var args = runWorkerCompletedEventArgs.Result as UpdateInfoEventArgs;
+                    if (CheckForUpdateEvent != null)
+                    {
+                        CheckForUpdateEvent(args);
+                    }
+                    else
+                    {
+                        if (args != null)
+                        {
+                            if (args.IsUpdateAvailable)
+                            {
+                                if (!IsWinFormsApplication)
+                                {
+                                    Application.EnableVisualStyles();
+                                }
+                                var updateForm = new UpdateForm();
+                                updateForm.Show();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
+            e.Cancel = true;
             Assembly mainAssembly = e.Argument as Assembly;
 
             var companyAttribute =
@@ -157,7 +200,7 @@ namespace AutoUpdaterDotNET
 
             InstalledVersion = mainAssembly.GetName().Version;
 
-            WebRequest webRequest = WebRequest.Create(AppCastURL);
+            var webRequest = WebRequest.Create(AppCastURL);
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
 
             WebResponse webResponse;
@@ -168,7 +211,7 @@ namespace AutoUpdaterDotNET
             }
             catch (Exception)
             {
-                CheckForUpdateEvent?.Invoke(null);
+                e.Cancel = false;
                 return;
             }
 
@@ -182,7 +225,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                CheckForUpdateEvent?.Invoke(null);
+                e.Cancel = false;
                 return;
             }
 
@@ -276,7 +319,8 @@ namespace AutoUpdaterDotNET
 
                             if (compareResult < 0)
                             {
-                                SetTimer(remindLater);
+                                e.Cancel = false;
+                                e.Result = remindLater;
                                 return;
                             }
                         }
@@ -290,22 +334,11 @@ namespace AutoUpdaterDotNET
                 ChangelogURL = ChangeLogURL,
                 CurrentVersion = CurrentVersion,
                 InstalledVersion = InstalledVersion,
-                IsUpdateAvailable = false
+                IsUpdateAvailable = CurrentVersion > InstalledVersion
             };
 
-            if (CurrentVersion > InstalledVersion)
-            {
-                args.IsUpdateAvailable = true;
-                if (CheckForUpdateEvent == null)
-                {
-                    var thread = new Thread(ShowUI);
-                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture ?? Application.CurrentCulture;
-                    thread.SetApartmentState(ApartmentState.STA);
-                    thread.Start();
-                }
-            }
-
-            CheckForUpdateEvent?.Invoke(args);
+            e.Cancel = false;
+            e.Result = args;
         }
 
         private static string GetURL(Uri baseUri, XmlNode xmlNode)
@@ -325,11 +358,40 @@ namespace AutoUpdaterDotNET
             return temp;
         }
 
-        private static void ShowUI()
+        internal static void Exit(Form ownerForm)
         {
-            var updateForm = new UpdateForm();
+            if (ApplicationExitEvent != null)
+            {
+                ApplicationExitEvent();
+            }
+            else
+            {
+                var currentProcess = Process.GetCurrentProcess();
+                foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
+                {
+                    if (process.Id != currentProcess.Id)
+                    {
+                        process.Kill();
+                    }
+                }
 
-            updateForm.ShowDialog();
+                ownerForm.Close();
+
+                if (IsWinFormsApplication)
+                {
+                    Application.Exit();
+                }
+            #if NETWPF
+                else if (System.Windows.Application.Current != null)
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
+            #endif
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
         }
 
         private static Attribute GetAttribute(Assembly assembly, Type attributeType)
@@ -360,17 +422,18 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Opens the Download window that download the update and execute the installer when download completes.
         /// </summary>
-        public static void DownloadUpdate()
+        public static bool DownloadUpdate()
         {
             var downloadDialog = new DownloadUpdateDialog(DownloadURL);
 
             try
             {
-                downloadDialog.ShowDialog();
+                return downloadDialog.ShowDialog().Equals(DialogResult.OK);
             }
             catch (TargetInvocationException)
             {
             }
+            return false;
         }
     }
 

@@ -25,9 +25,17 @@ namespace ZipExtractor
             {
                 foreach (var process in Process.GetProcesses())
                 {
-                    if (process.StartInfo.FileName.Equals(args[2]))
+                    try
                     {
-                        process.WaitForExit();
+                        if (process.MainModule.FileName.Equals(args[2]))
+                        {
+                            labelInformation.Text = @"Waiting for application to Exit...";
+                            process.WaitForExit();
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.WriteLine(exception.Message);
                     }
                 }
 
