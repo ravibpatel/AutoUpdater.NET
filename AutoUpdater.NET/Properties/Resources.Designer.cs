@@ -131,6 +131,42 @@ namespace AutoUpdaterDotNET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Check Failed.
+        /// </summary>
+        internal static string UpdateCheckFailedCaption {
+            get {
+                return ResourceManager.GetString("UpdateCheckFailedCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is a problem reaching update server. Please check your internet connection and try again later..
+        /// </summary>
+        internal static string UpdateCheckFailedMessage {
+            get {
+                return ResourceManager.GetString("UpdateCheckFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Unavailable.
+        /// </summary>
+        internal static string UpdateUnavailableCaption {
+            get {
+                return ResourceManager.GetString("UpdateUnavailableCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There is no update available. Please try again later..
+        /// </summary>
+        internal static string UpdateUnavailableMessage {
+            get {
+                return ResourceManager.GetString("UpdateUnavailableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] ZipExtractor {

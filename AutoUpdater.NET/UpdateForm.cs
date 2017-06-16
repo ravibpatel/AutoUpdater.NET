@@ -73,12 +73,14 @@ namespace AutoUpdaterDotNET
 
         private void ButtonSkipClick(object sender, EventArgs e)
         {
-            RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation);
-            if (updateKey != null)
+            using (RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation))
             {
-                updateKey.SetValue("version", AutoUpdater.CurrentVersion.ToString());
-                updateKey.SetValue("skip", 1);
-                updateKey.Close();
+                if (updateKey != null)
+                {
+                    updateKey.SetValue("version", AutoUpdater.CurrentVersion.ToString());
+                    updateKey.SetValue("skip", 1);
+                    Close();
+                }
             }
         }
 
@@ -95,42 +97,42 @@ namespace AutoUpdaterDotNET
                     AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
                     AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
                 }
-                else if (dialogResult.Equals(DialogResult.Abort))
+                if (dialogResult.Equals(DialogResult.Abort))
                 {
-                    AutoUpdater.DownloadUpdate();
-                    return;
-                }
-                else
-                {
-                    DialogResult = DialogResult.None;
+                    if (AutoUpdater.DownloadUpdate())
+                    {
+                        Close();
+                    }
                     return;
                 }
             }
 
-            RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation);
-            if (updateKey != null)
+            using (RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation))
             {
-                updateKey.SetValue("version", AutoUpdater.CurrentVersion);
-                updateKey.SetValue("skip", 0);
-                DateTime remindLaterDateTime = DateTime.Now;
-                switch (AutoUpdater.RemindLaterTimeSpan)
+                if (updateKey != null)
                 {
-                    case RemindLaterFormat.Days:
-                        remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
-                        break;
-                    case RemindLaterFormat.Hours:
-                        remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
-                        break;
-                    case RemindLaterFormat.Minutes:
-                        remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
-                        break;
+                    updateKey.SetValue("version", AutoUpdater.CurrentVersion);
+                    updateKey.SetValue("skip", 0);
+                    DateTime remindLaterDateTime = DateTime.Now;
+                    switch (AutoUpdater.RemindLaterTimeSpan)
+                    {
+                        case RemindLaterFormat.Days:
+                            remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
+                            break;
+                        case RemindLaterFormat.Hours:
+                            remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
+                            break;
+                        case RemindLaterFormat.Minutes:
+                            remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
+                            break;
 
+                    }
+                    updateKey.SetValue("remindlater",
+                        remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
+                    AutoUpdater.SetTimer(remindLaterDateTime);
                 }
-                updateKey.SetValue("remindlater",
-                    remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
-                AutoUpdater.SetTimer(remindLaterDateTime);
-                updateKey.Close();
             }
+            Close();
         }
     }
 }

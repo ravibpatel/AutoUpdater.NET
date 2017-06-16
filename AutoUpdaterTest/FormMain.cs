@@ -45,6 +45,10 @@ namespace AutoUpdaterTest
 
             //AutoUpdater.AppTitle = "My Custom Application Title";
 
+            //Want to show errors then uncomment below line.
+            
+            //AutoUpdater.ReportErrors = true;
+
             //Want to handle how your application will exit when application finished downloading then uncomment below line.
 
             //AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
@@ -92,15 +96,15 @@ namespace AutoUpdaterTest
                 }
                 else
                 {
-                    MessageBox.Show(@"There is no update available please try again later.", @"No update available",
+                    MessageBox.Show(@"There is no update available. Please try again later.", @"Update Unavailable",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
                 MessageBox.Show(
-                       @"There is a problem reaching update server please check your internet connection and try again later.",
-                       @"Update check failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                       @"There is a problem reaching update server. Please check your internet connection and try again later.",
+                       @"Update Check Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

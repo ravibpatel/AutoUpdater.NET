@@ -96,19 +96,22 @@ namespace AutoUpdaterDotNET
                     httpWebRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
                     httpWebRequest.Method = httpWebRequestMethod;
                     httpWebRequest.AllowAutoRedirect = false;
-                    var httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Redirect) ||
-                        httpWebResponse.StatusCode.Equals(HttpStatusCode.Moved) ||
-                        httpWebResponse.StatusCode.Equals(HttpStatusCode.MovedPermanently))
+                    string contentDisposition;
+                    using (var httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse())
                     {
-                        if (httpWebResponse.Headers["Location"] != null)
+                        if (httpWebResponse.StatusCode.Equals(HttpStatusCode.Redirect) ||
+                            httpWebResponse.StatusCode.Equals(HttpStatusCode.Moved) ||
+                            httpWebResponse.StatusCode.Equals(HttpStatusCode.MovedPermanently))
                         {
-                            var location = httpWebResponse.Headers["Location"];
-                            fileName = GetFileName(location);
-                            return fileName;
+                            if (httpWebResponse.Headers["Location"] != null)
+                            {
+                                var location = httpWebResponse.Headers["Location"];
+                                fileName = GetFileName(location);
+                                return fileName;
+                            }
                         }
+                        contentDisposition = httpWebResponse.Headers["content-disposition"];
                     }
-                    var contentDisposition = httpWebResponse.Headers["content-disposition"];
                     if (!string.IsNullOrEmpty(contentDisposition))
                     {
                         const string lookForFileName = "filename=";
@@ -138,8 +141,12 @@ namespace AutoUpdaterDotNET
             if (_webClient.IsBusy)
             {
                 _webClient.CancelAsync();
+                DialogResult = DialogResult.Cancel;
             }
-            DialogResult = DialogResult.OK;
+            else
+            {
+                DialogResult = DialogResult.OK;
+            }
         }
     }
 }

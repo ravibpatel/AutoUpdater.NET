@@ -74,6 +74,14 @@ If you don't want to show Remind Later button on Update form then just add follo
 AutoUpdater.ShowRemindLaterButton = false;
 ````
 
+### Enable Error Reporting
+
+You can turn on error reporting by adding below code. If you do this AutoUpdater.NET will show error message, if there is no update available or if it can't get to the XML file from web server.
+
+````csharp
+AutoUpdater.ReportErrors = true;
+````
+
 ### Open Download Page
 
 If you don't want to download the latest version of the application and just want to open the URL between url tags of your XML file then you need to add following line with above code.

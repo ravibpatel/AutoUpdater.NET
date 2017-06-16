@@ -6,9 +6,9 @@ using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+using AutoUpdaterDotNET.Properties;
 using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
@@ -88,6 +88,11 @@ namespace AutoUpdaterDotNET
         ///     Remind Later interval after user should be reminded of update.
         /// </summary>
         public static int RemindLaterAt = 2;
+
+        ///<summary>
+        ///     AutoUpdater.NET will report errors if this is true.
+        /// </summary>
+        public static bool ReportErrors = false;
 
         /// <summary>
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
@@ -172,6 +177,23 @@ namespace AutoUpdaterDotNET
                                 var updateForm = new UpdateForm();
                                 updateForm.Show();
                             }
+                            else
+                            {
+                                if (ReportErrors)
+                                {
+                                    MessageBox.Show(Resources.UpdateUnavailableMessage, Resources.UpdateUnavailableCaption,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ReportErrors)
+                            {
+                                MessageBox.Show(
+                                    Resources.UpdateCheckFailedMessage,
+                                    Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
                 }
@@ -215,19 +237,24 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
-            Stream appCastStream = webResponse.GetResponseStream();
+            XmlDocument receivedAppCastDocument;
 
-            var receivedAppCastDocument = new XmlDocument();
+            using (Stream appCastStream = webResponse.GetResponseStream())
+            {
+                receivedAppCastDocument = new XmlDocument();
 
-            if (appCastStream != null)
-            {
-                receivedAppCastDocument.Load(appCastStream);
+                if (appCastStream != null)
+                {
+                    receivedAppCastDocument.Load(appCastStream);
+                }
+                else
+                {
+                    e.Cancel = false;
+                    return;
+                }
             }
-            else
-            {
-                e.Cancel = false;
-                return;
-            }
+
+            webResponse.Close();
 
             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
 

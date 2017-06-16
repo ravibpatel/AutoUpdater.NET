@@ -17,6 +17,7 @@ namespace AutoUpdaterTestWPF
             Assembly assembly = Assembly.GetEntryAssembly();
             LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = new CultureInfo("fr-FR");
+            AutoUpdater.ReportErrors = true;
         }
 
         private void ButtonCheckForUpdate_Click(object sender, RoutedEventArgs e)
