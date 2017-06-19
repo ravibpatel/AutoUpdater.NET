@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using AutoUpdaterDotNET.Properties;
@@ -39,6 +40,8 @@ namespace AutoUpdaterDotNET
     /// </summary>
     public static class AutoUpdater
     {
+        private static System.Timers.Timer _remindLaterTimer;
+
         internal static String ChangeLogURL;
 
         internal static String DownloadURL;
@@ -52,6 +55,8 @@ namespace AutoUpdaterDotNET
         internal static Version InstalledVersion;
 
         internal static bool IsWinFormsApplication;
+
+        internal static bool Running;
 
         /// <summary>
         ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
@@ -67,6 +72,13 @@ namespace AutoUpdaterDotNET
         ///     Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
+        
+        /// <summary>
+        ///     Sets the current culture of the auto update notification window. Set this value if your application supports
+        ///     functionalty to change the languge of the application.
+        /// </summary>
+        public static CultureInfo CurrentCulture;
+
 
         /// <summary>
         ///     If this is true users can see the skip button.
@@ -113,20 +125,11 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
-        public static void Start()
+        /// <param name="myAssembly">Assembly to use for version checking.</param>
+        public static void Start(Assembly myAssembly = null)
         {
-            Start(AppCastURL);
+            Start(AppCastURL, myAssembly);
         }
-
-        /// <summary>
-        ///     A delegate type to handle how to exit the application after update is downloaded.
-        /// </summary>
-        public delegate void ApplicationExitEventHandler();
-
-        /// <summary>
-        ///     An event that developers can use to exit the application gracefully.
-        /// </summary>
-        public static event ApplicationExitEventHandler ApplicationExitEvent;
 
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
@@ -135,17 +138,27 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
-            AppCastURL = appCast;
+            if (!Running && _remindLaterTimer == null)
+            {
+                Running = true;
 
-            IsWinFormsApplication = Application.MessageLoop;
+                if (CurrentCulture == null)
+                {
+                    CurrentCulture = CultureInfo.CurrentCulture;
+                }
 
-            var backgroundWorker = new BackgroundWorker();
+                AppCastURL = appCast;
 
-            backgroundWorker.DoWork += BackgroundWorkerDoWork;
+                IsWinFormsApplication = Application.MessageLoop;
 
-            backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
+                var backgroundWorker = new BackgroundWorker();
 
-            backgroundWorker.RunWorkerAsync(myAssembly ?? Assembly.GetEntryAssembly());
+                backgroundWorker.DoWork += BackgroundWorkerDoWork;
+
+                backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
+
+                backgroundWorker.RunWorkerAsync(myAssembly ?? Assembly.GetEntryAssembly());
+            }
         }
 
         private static void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
@@ -174,8 +187,33 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                var updateForm = new UpdateForm();
-                                updateForm.Show();
+                                var backgroundworker = new BackgroundWorker();
+                                backgroundworker.DoWork += delegate (object o, DoWorkEventArgs eventArgs)
+                                {
+                                    eventArgs.Cancel = true;
+                                    Thread thread = new Thread(new ThreadStart(delegate
+                                    {
+                                        var updateForm = new UpdateForm();
+                                        if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                                        {
+                                            eventArgs.Cancel = false;
+                                        }
+                                    }));
+                                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture;
+                                    thread.SetApartmentState(ApartmentState.STA);
+                                    thread.Start();
+                                    thread.Join();
+                                };
+                                backgroundworker.RunWorkerCompleted +=
+                                    delegate (object o, RunWorkerCompletedEventArgs eventArgs)
+                                    {
+                                        if (!eventArgs.Cancelled)
+                                        {
+                                            Exit();
+                                        }
+                                    };
+                                backgroundworker.RunWorkerAsync();
+                                return;
                             }
                             else
                             {
@@ -196,6 +234,7 @@ namespace AutoUpdaterDotNET
                             }
                         }
                     }
+                    Running = false;
                 }
             }
         }
@@ -385,39 +424,30 @@ namespace AutoUpdaterDotNET
             return temp;
         }
 
-        internal static void Exit(Form ownerForm)
+        private static void Exit()
         {
-            if (ApplicationExitEvent != null)
+            var currentProcess = Process.GetCurrentProcess();
+            foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
             {
-                ApplicationExitEvent();
+                if (process.Id != currentProcess.Id)
+                {
+                    process.Kill();
+                }
             }
+
+            if (IsWinFormsApplication)
+            {
+                Application.Exit();
+            }
+        #if NETWPF
+            else if (System.Windows.Application.Current != null)
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
+        #endif
             else
             {
-                var currentProcess = Process.GetCurrentProcess();
-                foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
-                {
-                    if (process.Id != currentProcess.Id)
-                    {
-                        process.Kill();
-                    }
-                }
-
-                ownerForm.Close();
-
-                if (IsWinFormsApplication)
-                {
-                    Application.Exit();
-                }
-            #if NETWPF
-                else if (System.Windows.Application.Current != null)
-                {
-                    System.Windows.Application.Current.Shutdown();
-                }
-            #endif
-                else
-                {
-                    Environment.Exit(0);
-                }
+                Environment.Exit(0);
             }
         }
 
@@ -434,16 +464,17 @@ namespace AutoUpdaterDotNET
         internal static void SetTimer(DateTime remindLater)
         {
             TimeSpan timeSpan = remindLater - DateTime.Now;
-            var timer = new System.Timers.Timer
+            _remindLaterTimer = new System.Timers.Timer
             {
-                Interval = (int) timeSpan.TotalMilliseconds
+                Interval = (int) timeSpan.TotalMilliseconds,
             };
-            timer.Elapsed += delegate
+            _remindLaterTimer.Elapsed += delegate
             {
-                timer.Stop();
+                _remindLaterTimer.Stop();
+                _remindLaterTimer = null;
                 Start();
             };
-            timer.Start();
+            _remindLaterTimer.Start();
         }
 
         /// <summary>

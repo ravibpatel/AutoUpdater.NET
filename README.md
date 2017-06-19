@@ -20,7 +20,7 @@ AutoUpdater.NET uses XML file located on a server to get the release information
     <version>2.0.0.0</version>
     <url>http://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
     <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
-	<mandatory>false</mandatory>
+    <mandatory>false</mandatory>
 </item>
 ````
 
@@ -50,10 +50,10 @@ Start method of AutoUpdater class takes URL of the XML file you uploaded to serv
 ## Configuration Options
 ### Change Language
 
-You can change of language of the update dialog by adding following line with the above code.
+You can change of language of the update dialog by adding following line with the above code. If you don't do this it will use current culture of your application.
 
 ````csharp
-Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("ru");
+AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 ````
 
 In above example AutoUpdater.NET will show update dialog in russian language.
@@ -104,19 +104,32 @@ AutoUpdater.RemindLaterAt = 2;
 
 In above example when user press Remind Later button of update dialog, It will remind user for update after 2 days.
 
-## Handling Application exit logic manually
+## Check updates frequently
 
-If you like to handle Application exit logic yourself then you can use ApplicationExiEvent like below. This is very useful if you like to do something before closing the application.
+You can call Start method inside Timer to check for updates frequently.
+
+###### WinForms
 
 ````csharp
-AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
-
-private void AutoUpdater_ApplicationExitEvent()
+System.Timers.Timer timer = new System.Timers.Timer {Interval = 2 * 60 * 1000};
+timer.Elapsed += delegate(object sender, ElapsedEventArgs args)
 {
-    Text = @"Closing application...";
-    Thread.Sleep(5000);
-    Application.Exit();
-}
+    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+};
+timer.Start();
+````
+
+###### WPF
+
+````csharp
+System.Timers.Timer timer = new System.Timers.Timer {Interval = 2 * 60 * 1000};
+timer.Elapsed += delegate(object sender, ElapsedEventArgs args)
+{
+    Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
+        AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+    }));
+};
+timer.Start();
 ````
 
 ## Handling updates manually

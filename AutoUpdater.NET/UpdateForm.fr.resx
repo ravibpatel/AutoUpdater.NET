@@ -130,7 +130,7 @@
     <value>Mettre à jour</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Rappelle plus tard</value>
+    <value>Rappeler plus tard</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>Passer cette version</value>

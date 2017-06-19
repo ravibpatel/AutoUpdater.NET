@@ -81,7 +81,7 @@ namespace AutoUpdaterDotNET
                     throw;
             }
 
-            AutoUpdater.Exit(this);
+            Close();
         }
 
         private static string GetFileName(string url, string httpWebRequestMethod = "HEAD")

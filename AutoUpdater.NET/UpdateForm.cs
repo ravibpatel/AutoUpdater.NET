@@ -61,12 +61,14 @@ namespace AutoUpdaterDotNET
                 var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
 
                 Process.Start(processStartInfo);
+
+                DialogResult = DialogResult.OK;
             }
             else
             {
                 if (AutoUpdater.DownloadUpdate())
                 {
-                    Close();
+                    DialogResult = DialogResult.OK;
                 }
             }
         }
@@ -79,7 +81,6 @@ namespace AutoUpdaterDotNET
                 {
                     updateKey.SetValue("version", AutoUpdater.CurrentVersion.ToString());
                     updateKey.SetValue("skip", 1);
-                    Close();
                 }
             }
         }
@@ -97,12 +98,16 @@ namespace AutoUpdaterDotNET
                     AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
                     AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
                 }
-                if (dialogResult.Equals(DialogResult.Abort))
+                else if (dialogResult.Equals(DialogResult.Abort))
                 {
                     if (AutoUpdater.DownloadUpdate())
                     {
-                        Close();
+                        DialogResult = DialogResult.OK;
                     }
+                    return;
+                }
+                else
+                {
                     return;
                 }
             }
@@ -132,7 +137,12 @@ namespace AutoUpdaterDotNET
                     AutoUpdater.SetTimer(remindLaterDateTime);
                 }
             }
-            Close();
+            DialogResult = DialogResult.Cancel;
+        }
+
+        private void UpdateForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            AutoUpdater.Running = false;
         }
     }
 }

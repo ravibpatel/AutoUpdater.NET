@@ -64,7 +64,6 @@ namespace AutoUpdaterDotNET
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonUpdate.Image = global::AutoUpdaterDotNET.Properties.Resources.download;
             resources.ApplyResources(this.buttonUpdate, "buttonUpdate");
             this.buttonUpdate.Name = "buttonUpdate";
@@ -73,7 +72,6 @@ namespace AutoUpdaterDotNET
             // 
             // buttonRemindLater
             // 
-            this.buttonRemindLater.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonRemindLater.Image = global::AutoUpdaterDotNET.Properties.Resources.clock_go;
             resources.ApplyResources(this.buttonRemindLater, "buttonRemindLater");
             this.buttonRemindLater.Name = "buttonRemindLater";
@@ -101,7 +99,6 @@ namespace AutoUpdaterDotNET
             this.AcceptButton = this.buttonUpdate;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.buttonRemindLater;
             this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.labelReleaseNotes);
             this.Controls.Add(this.labelDescription);
@@ -114,6 +111,7 @@ namespace AutoUpdaterDotNET
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UpdateForm_FormClosed);
             this.Load += new System.EventHandler(this.UpdateFormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
