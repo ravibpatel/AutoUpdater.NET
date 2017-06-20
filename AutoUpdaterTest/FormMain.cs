@@ -58,10 +58,10 @@ namespace AutoUpdaterTest
 
             //Want to check for updates frequently then uncomment following lines.
 
-            //System.Timers.Timer timer = new System.Timers.Timer { Interval = 1 * 60 * 1000 };
+            //System.Timers.Timer timer = new System.Timers.Timer { Interval = 2 * 60 * 1000 };
             //timer.Elapsed += delegate (object sender, ElapsedEventArgs args)
             //{
-            //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+            //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //};
             //timer.Start();
         }
