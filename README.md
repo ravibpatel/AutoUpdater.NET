@@ -108,26 +108,11 @@ In above example when user press Remind Later button of update dialog, It will r
 
 You can call Start method inside Timer to check for updates frequently.
 
-###### WinForms
-
 ````csharp
 System.Timers.Timer timer = new System.Timers.Timer {Interval = 2 * 60 * 1000};
 timer.Elapsed += delegate(object sender, ElapsedEventArgs args)
 {
     AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
-};
-timer.Start();
-````
-
-###### WPF
-
-````csharp
-System.Timers.Timer timer = new System.Timers.Timer {Interval = 2 * 60 * 1000};
-timer.Elapsed += delegate(object sender, ElapsedEventArgs args)
-{
-    Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() => {
-        AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
-    }));
 };
 timer.Start();
 ````

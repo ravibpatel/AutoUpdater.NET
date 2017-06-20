@@ -79,7 +79,6 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static CultureInfo CurrentCulture;
 
-
         /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
@@ -187,32 +186,17 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                var backgroundworker = new BackgroundWorker();
-                                backgroundworker.DoWork += delegate (object o, DoWorkEventArgs eventArgs)
+                                Thread thread = new Thread(new ThreadStart(delegate
                                 {
-                                    eventArgs.Cancel = true;
-                                    Thread thread = new Thread(new ThreadStart(delegate
+                                    var updateForm = new UpdateForm();
+                                    if (updateForm.ShowDialog().Equals(DialogResult.OK))
                                     {
-                                        var updateForm = new UpdateForm();
-                                        if (updateForm.ShowDialog().Equals(DialogResult.OK))
-                                        {
-                                            eventArgs.Cancel = false;
-                                        }
-                                    }));
-                                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture;
-                                    thread.SetApartmentState(ApartmentState.STA);
-                                    thread.Start();
-                                    thread.Join();
-                                };
-                                backgroundworker.RunWorkerCompleted +=
-                                    delegate (object o, RunWorkerCompletedEventArgs eventArgs)
-                                    {
-                                        if (!eventArgs.Cancelled)
-                                        {
-                                            Exit();
-                                        }
-                                    };
-                                backgroundworker.RunWorkerAsync();
+                                        Exit();
+                                    }
+                                }));
+                                thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture;
+                                thread.SetApartmentState(ApartmentState.STA);
+                                thread.Start();
                                 return;
                             }
                             else
@@ -442,7 +426,7 @@ namespace AutoUpdaterDotNET
         #if NETWPF
             else if (System.Windows.Application.Current != null)
             {
-                System.Windows.Application.Current.Shutdown();
+                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() => System.Windows.Application.Current.Shutdown()));
             }
         #endif
             else

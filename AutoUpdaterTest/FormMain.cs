@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
 using AutoUpdaterTest.Properties;
@@ -21,7 +22,7 @@ namespace AutoUpdaterTest
         {
             //Uncomment below line to see russian version
 
-            //Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("ru");
+            //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
 
             //If you want to open download page when user click on download button uncomment below line.
 
@@ -46,25 +47,23 @@ namespace AutoUpdaterTest
             //AutoUpdater.AppTitle = "My Custom Application Title";
 
             //Want to show errors then uncomment below line.
-            
+
             //AutoUpdater.ReportErrors = true;
-
-            //Want to handle how your application will exit when application finished downloading then uncomment below line.
-
-            //AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
 
             //Want to handle update logic yourself then uncomment below line.
 
             //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
             //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
-        }
 
-        private void AutoUpdater_ApplicationExitEvent()
-        {
-            Text = @"Closing application...";
-            Thread.Sleep(5000);
-            Application.Exit();
+            //Want to check for updates frequently then uncomment following lines.
+
+            //System.Timers.Timer timer = new System.Timers.Timer { Interval = 1 * 60 * 1000 };
+            //timer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+            //{
+            //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+            //};
+            //timer.Start();
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
