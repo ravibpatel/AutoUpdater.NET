@@ -71,7 +71,8 @@
             this.Controls.Add(this.progressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            this.MinimizeBox = false;		
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Name = "FormMain";
             this.Text = "Installing update...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
