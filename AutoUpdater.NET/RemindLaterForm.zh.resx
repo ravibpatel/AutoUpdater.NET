@@ -141,18 +141,8 @@
   <data name="comboBoxRemindLater.Items6" xml:space="preserve">
     <value>10 天后</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="comboBoxRemindLater.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 105</value>
-  </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
     <value>是的，请以后提醒我</value>
-  </data>
-  <data name="labelDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 66</value>
-  </data>
-  <data name="labelDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>408, 30</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
     <value>您应该现在就下载更新。一般只需要花费几分钟（具体时间视您的网络状况而定）就能确保您的程序最新。</value>
