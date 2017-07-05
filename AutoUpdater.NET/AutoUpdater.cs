@@ -273,11 +273,10 @@ namespace AutoUpdaterDotNET
                 else
                 {
                     e.Cancel = false;
+                    webResponse.Close();
                     return;
                 }
             }
-
-            webResponse.Close();
 
             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
 
@@ -292,7 +291,10 @@ namespace AutoUpdaterDotNET
                         CurrentVersion = new Version(appVersion);
 
                         if (CurrentVersion == null)
+                        {
+                            webResponse.Close();
                             return;
+                        }
                     }
                     else
                         continue;
@@ -330,6 +332,8 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
+
+            webResponse.Close();
 
             if (!Mandatory)
             {
