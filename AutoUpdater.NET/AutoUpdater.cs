@@ -218,9 +218,9 @@ namespace AutoUpdaterDotNET
                             }
                         }
                     }
-                    Running = false;
                 }
             }
+            Running = false;
         }
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
