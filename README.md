@@ -21,6 +21,7 @@ AutoUpdater.NET uses XML file located on a server to get the release information
     <url>http://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
     <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
     <mandatory>false</mandatory>
+    <description>For detail please contact our support (support@...com)</description>
 </item>
 ````
 
@@ -30,6 +31,7 @@ There are three things you need to provide in XML file as you can see above.
 * url (Required): You need to provide URL of the latest version installer file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
 * mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
+* description (Optional): You can provide some description for the update to display to the user.
 
 ### Adding one line to make it work
 
@@ -175,3 +177,4 @@ When you do this it will execute the code in above event when AutoUpdater.Start 
 * ChangelogURL (string) : URL of the webpage specifying changes in the new update.
 * CurrentVersion (Version) : Newest version of the application available to download.
 * InstalledVersion (Version) : Version of the application currently installed on the user's PC.
+* Description (Optional): Provided description for the update.

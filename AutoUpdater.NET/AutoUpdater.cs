@@ -48,6 +48,8 @@ namespace AutoUpdaterDotNET
 
         internal static bool Mandatory;
 
+        internal static String Description;
+        
         internal static String RegistryLocation;
 
         internal static Version CurrentVersion;
@@ -319,6 +321,12 @@ namespace AutoUpdaterDotNET
                         }
                     }
 
+                    XmlNode description = item.SelectSingleNode("description");
+                    if (description != null)
+                    {
+                        Description = description.InnerText;
+                    }
+
                     if (IntPtr.Size.Equals(8))
                     {
                         XmlNode appCastUrl64 = item.SelectSingleNode("url64");
@@ -388,7 +396,8 @@ namespace AutoUpdaterDotNET
                 ChangelogURL = ChangeLogURL,
                 CurrentVersion = CurrentVersion,
                 InstalledVersion = InstalledVersion,
-                IsUpdateAvailable = CurrentVersion > InstalledVersion
+                IsUpdateAvailable = CurrentVersion > InstalledVersion,
+                Description = Description
             };
 
             e.Cancel = false;
@@ -512,5 +521,10 @@ namespace AutoUpdaterDotNET
         ///     Returns version of the application currently installed on the user's PC.
         /// </summary>
         public Version InstalledVersion { get; set; }
+
+        /// <summary>
+        ///     Returns the description of the new update 
+        /// </summary>
+        public string Description { get; set; }
     }
 }
