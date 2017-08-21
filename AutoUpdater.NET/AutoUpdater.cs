@@ -367,7 +367,7 @@ namespace AutoUpdaterDotNET
                         if (remindLaterTime != null)
                         {
                             DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
-                                CultureInfo.CreateSpecificCulture("en-US"));
+                                CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
 
                             int compareResult = DateTime.Compare(DateTime.Now, remindLater);
 

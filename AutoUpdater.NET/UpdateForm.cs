@@ -130,7 +130,7 @@ namespace AutoUpdaterDotNET
 
                     }
                     updateKey.SetValue("remindlater",
-                        remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US")));
+                        remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
                     AutoUpdater.SetTimer(remindLaterDateTime);
                 }
             }
