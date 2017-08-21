@@ -100,10 +100,7 @@ namespace AutoUpdaterDotNET
                 }
                 else if (dialogResult.Equals(DialogResult.Abort))
                 {
-                    if (AutoUpdater.DownloadUpdate())
-                    {
-                        DialogResult = DialogResult.OK;
-                    }
+                    ButtonUpdateClick(sender, e);
                     return;
                 }
                 else
