@@ -100,22 +100,7 @@ namespace AutoUpdaterDotNET
                 }
                 else if (dialogResult.Equals(DialogResult.Abort))
                 {
-                    if (AutoUpdater.OpenDownloadPage)
-                    {
-                        var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
-
-                        Process.Start(processStartInfo);
-
-                        DialogResult = DialogResult.OK;
-                    }
-                    else
-                    {
-                        if (AutoUpdater.DownloadUpdate())
-                        {
-                            DialogResult = DialogResult.OK;
-                        }
-                    }
-
+                    ButtonUpdateClick(sender, e);
                     return;
                 }
                 else
