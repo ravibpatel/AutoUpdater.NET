@@ -25,7 +25,7 @@ namespace AutoUpdaterTestWPF
             AutoUpdater.RemindLaterAt = 1;
             AutoUpdater.ReportErrors = true;
             System.Timers.Timer timer = new System.Timers.Timer {Interval = 2 * 60 * 1000};
-            timer.Elapsed += delegate(object sender, ElapsedEventArgs args)
+            timer.Elapsed += delegate
             {
                 AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
             };

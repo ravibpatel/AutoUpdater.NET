@@ -59,7 +59,7 @@ namespace AutoUpdaterTest
             //Want to check for updates frequently then uncomment following lines.
 
             //System.Timers.Timer timer = new System.Timers.Timer { Interval = 2 * 60 * 1000 };
-            //timer.Elapsed += delegate (object sender, ElapsedEventArgs args)
+            //timer.Elapsed += delegate
             //{
             //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //};
@@ -84,7 +84,10 @@ namespace AutoUpdaterTest
                         {
                             //You can use Download Update dialog used by AutoUpdater.NET to download the update.
 
-                            AutoUpdater.DownloadUpdate();
+                            if (AutoUpdater.DownloadUpdate())
+                            {
+                                Application.Exit();
+                            }
                         }
                         catch (Exception exception)
                         {
