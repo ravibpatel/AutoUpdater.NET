@@ -112,16 +112,12 @@ namespace AutoUpdaterDotNET
                         }
                         contentDisposition = httpWebResponse.Headers["content-disposition"];
                     }
-                    if (!string.IsNullOrEmpty(contentDisposition))
+
+                    fileName = TryToFindFileName(contentDisposition, "filename=");
+                    // It can be another response: attachment; filename*=UTF-8''Setup_client_otb_1.2.88.0.msi
+                    if (string.IsNullOrEmpty(fileName))
                     {
-                        const string lookForFileName = "filename=";
-                        var index = contentDisposition.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
-                        if (index >= 0)
-                            fileName = contentDisposition.Substring(index + lookForFileName.Length);
-                        if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
-                        {
-                            fileName = fileName.Substring(1, fileName.Length - 2);
-                        }
+                        fileName = TryToFindFileName(contentDisposition, "filename*=UTF-8''");
                     }
                 }
                 if (string.IsNullOrEmpty(fileName))
@@ -134,6 +130,22 @@ namespace AutoUpdaterDotNET
             {
                 return GetFileName(url, "GET");
             }
+        }
+
+        private static string TryToFindFileName(string contentDisposition, string lookForFileName)
+        {
+            string fileName = String.Empty;
+            if (!string.IsNullOrEmpty(contentDisposition))
+            {
+                var index = contentDisposition.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
+                if (index >= 0)
+                    fileName = contentDisposition.Substring(index + lookForFileName.Length);
+                if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
+                {
+                    fileName = fileName.Substring(1, fileName.Length - 2);
+                }
+            }
+            return fileName;
         }
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)
