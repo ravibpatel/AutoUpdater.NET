@@ -110,7 +110,7 @@ You can call Start method inside Timer to check for updates frequently.
 
 ````csharp
 System.Timers.Timer timer = new System.Timers.Timer {Interval = 2 * 60 * 1000};
-timer.Elapsed += delegate(object sender, ElapsedEventArgs args)
+timer.Elapsed += delegate
 {
     AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
 };
@@ -143,8 +143,10 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
                 try
                 {
                     //You can use Download Update dialog used by AutoUpdater.NET to download the update.
-
-                    AutoUpdater.DownloadUpdate();
+                    if (AutoUpdater.DownloadUpdate())
+                    {
+                        Application.Exit();
+                    }
                 }
                 catch (Exception exception)
                 {
