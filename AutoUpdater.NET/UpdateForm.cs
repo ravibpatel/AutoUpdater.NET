@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -14,6 +16,7 @@ namespace AutoUpdaterDotNET
         public UpdateForm()
         {
             InitializeComponent();
+            UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
@@ -44,6 +47,39 @@ namespace AutoUpdaterDotNET
         {
             get => base.Text;
             set => base.Text = value;
+        }
+
+        private void UseLatestIE()
+        {
+            int ieValue = 0;
+            switch (webBrowser.Version.Major)
+            {
+                case 11:
+                    ieValue = 11001;
+                    break;
+                case 10:
+                    ieValue = 10001;
+                    break;
+                case 9:
+                    ieValue = 9999;
+                    break;
+                case 8:
+                    ieValue = 8888;
+                    break;
+                case 7:
+                    ieValue = 7000;
+                    break;
+            }
+            if (ieValue != 0)
+            {
+                using (RegistryKey registryKey =
+                    Registry.CurrentUser.OpenSubKey(
+                        @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                {
+                    registryKey?.SetValue(Path.GetFileName(Assembly.GetEntryAssembly().Location), ieValue,
+                        RegistryValueKind.DWord);
+                }
+            }
         }
 
         private void UpdateFormLoad(object sender, EventArgs e)
