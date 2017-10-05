@@ -58,7 +58,11 @@ namespace AutoUpdaterTest
 
             //Want to check for updates frequently then uncomment following lines.
 
-            //System.Timers.Timer timer = new System.Timers.Timer { Interval = 2 * 60 * 1000 };
+            //System.Timers.Timer timer = new System.Timers.Timer
+            //{
+            //    Interval = 2 * 60 * 1000,
+            //    SynchronizingObject = this
+            //};
             //timer.Elapsed += delegate
             //{
             //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");

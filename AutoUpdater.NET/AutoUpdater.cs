@@ -7,6 +7,9 @@ using System.Net;
 using System.Net.Cache;
 using System.Reflection;
 using System.Threading;
+#if NET4
+using System.Threading.Tasks;
+#endif
 using System.Windows.Forms;
 using System.Xml;
 using AutoUpdaterDotNET.Properties;
@@ -186,17 +189,17 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                Thread thread = new Thread(new ThreadStart(delegate
+                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
                                 {
-                                    var updateForm = new UpdateForm();
-                                    if (updateForm.ShowDialog().Equals(DialogResult.OK))
-                                    {
-                                        Exit();
-                                    }
-                                }));
-                                thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture;
-                                thread.SetApartmentState(ApartmentState.STA);
-                                thread.Start();
+                                    ShowUpdateForm();
+                                }
+                                else
+                                {
+                                    Thread thread = new Thread(ShowUpdateForm);
+                                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture;
+                                    thread.SetApartmentState(ApartmentState.STA);
+                                    thread.Start();
+                                }
                                 return;
                             }
                             else
@@ -221,6 +224,15 @@ namespace AutoUpdaterDotNET
                 }
             }
             Running = false;
+        }
+
+        private static void ShowUpdateForm()
+        {
+            var updateForm = new UpdateForm();
+            if (updateForm.ShowDialog().Equals(DialogResult.OK))
+            {
+                Exit();
+            }
         }
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -268,7 +280,16 @@ namespace AutoUpdaterDotNET
 
                 if (appCastStream != null)
                 {
-                    receivedAppCastDocument.Load(appCastStream);
+                    try
+                    {
+                        receivedAppCastDocument.Load(appCastStream);
+                    }
+                    catch (XmlException)
+                    {
+                        e.Cancel = false;
+                        webResponse.Close();
+                        return;
+                    }
                 }
                 else
                 {
@@ -452,16 +473,28 @@ namespace AutoUpdaterDotNET
         internal static void SetTimer(DateTime remindLater)
         {
             TimeSpan timeSpan = remindLater - DateTime.Now;
+
+        #if NET4
+            var context = TaskScheduler.FromCurrentSynchronizationContext();
+            Task task = new Task(() => Start());
+        #endif
+
             _remindLaterTimer = new System.Timers.Timer
             {
                 Interval = (int) timeSpan.TotalMilliseconds,
+                AutoReset = false
             };
+
             _remindLaterTimer.Elapsed += delegate
             {
-                _remindLaterTimer.Stop();
                 _remindLaterTimer = null;
+            #if NET4
+                task.RunSynchronously(context);
+            #else
                 Start();
+            #endif
             };
+
             _remindLaterTimer.Start();
         }
 
