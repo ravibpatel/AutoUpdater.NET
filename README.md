@@ -104,6 +104,15 @@ AutoUpdater.RemindLaterAt = 2;
 
 In above example when user press Remind Later button of update dialog, It will remind user for update after 2 days.
 
+### Proxy Server
+
+If your XML and Update file can only be used from certain Proxy Server then you can use following settings to tell AutoUpdater.NET to use that proxy. Currently, if your Changelog URL is also restricted to Proxy server then you should omit changelog tag from XML file cause it is not supported using Proxy Server.
+
+````csharp
+var proxy = new WebProxy("ProxyIP:ProxyPort", true) {Credentials = new NetworkCredential("ProxyUserName", "ProxyPassword")};
+AutoUpdater.Proxy = proxy;
+````
+
 ## Check updates frequently
 
 You can call Start method inside Timer to check for updates frequently.

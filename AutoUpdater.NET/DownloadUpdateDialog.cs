@@ -28,6 +28,11 @@ namespace AutoUpdaterDotNET
         {
             _webClient = new WebClient {CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)};
 
+            if (AutoUpdater.Proxy != null)
+            {
+                _webClient.Proxy = AutoUpdater.Proxy;
+            }
+
             var uri = new Uri(_downloadURL);
 
             _tempPath = Path.Combine(Path.GetTempPath(), GetFileName(_downloadURL));
@@ -55,6 +60,8 @@ namespace AutoUpdaterDotNET
             {
                 MessageBox.Show(e.Error.Message, e.Error.GetType().ToString(), MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+                _webClient = null;
+                Close();
                 return;
             }
 
@@ -86,13 +93,17 @@ namespace AutoUpdaterDotNET
 
         private static string GetFileName(string url, string httpWebRequestMethod = "HEAD")
         {
+            var fileName = string.Empty;
+            var uri = new Uri(url);
             try
             {
-                var fileName = string.Empty;
-                var uri = new Uri(url);
                 if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
                 {
                     var httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+                    if (AutoUpdater.Proxy != null)
+                    {
+                        httpWebRequest.Proxy = AutoUpdater.Proxy;
+                    }
                     httpWebRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
                     httpWebRequest.Method = httpWebRequestMethod;
                     httpWebRequest.AllowAutoRedirect = false;
@@ -114,6 +125,7 @@ namespace AutoUpdaterDotNET
                     }
 
                     fileName = TryToFindFileName(contentDisposition, "filename=");
+
                     // It can be another response: attachment; filename*=UTF-8''Setup_client_otb_1.2.88.0.msi
                     if (string.IsNullOrEmpty(fileName))
                     {
@@ -128,6 +140,10 @@ namespace AutoUpdaterDotNET
             }
             catch (WebException)
             {
+                if (httpWebRequestMethod.Equals("GET"))
+                {
+                    return Path.GetFileName(uri.LocalPath);
+                }
                 return GetFileName(url, "GET");
             }
         }
@@ -150,7 +166,11 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_webClient.IsBusy)
+            if (_webClient == null)
+            {
+                DialogResult = DialogResult.Cancel;
+            }
+            else if (_webClient.IsBusy)
             {
                 _webClient.CancelAsync();
                 DialogResult = DialogResult.Cancel;

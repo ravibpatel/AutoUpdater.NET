@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Net;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -55,6 +56,12 @@ namespace AutoUpdaterTest
             //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
             //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
+
+            //Want to use XML and Update file served only through Proxy.
+
+            //var proxy = new WebProxy("localproxyIP:8080", true) {Credentials = new NetworkCredential("domain\\user", "password")};
+
+            //AutoUpdater.Proxy = proxy;
 
             //Want to check for updates frequently then uncomment following lines.
 

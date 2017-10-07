@@ -109,6 +109,11 @@ namespace AutoUpdaterDotNET
         public static bool ReportErrors = false;
 
         /// <summary>
+        ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
+        /// </summary>
+        public static WebProxy Proxy;
+
+        /// <summary>
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
@@ -259,7 +264,10 @@ namespace AutoUpdaterDotNET
 
             var webRequest = WebRequest.Create(AppCastURL);
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-
+            if (Proxy != null)
+            {
+                webRequest.Proxy = Proxy;
+            }
             WebResponse webResponse;
 
             try
