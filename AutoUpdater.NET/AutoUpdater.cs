@@ -7,9 +7,6 @@ using System.Net;
 using System.Net.Cache;
 using System.Reflection;
 using System.Threading;
-#if NET4
-using System.Threading.Tasks;
-#endif
 using System.Windows.Forms;
 using System.Xml;
 using AutoUpdaterDotNET.Properties;
@@ -454,7 +451,8 @@ namespace AutoUpdaterDotNET
 
             if (IsWinFormsApplication)
             {
-                Application.Exit();
+                MethodInvoker methodInvoker = Application.Exit;
+                methodInvoker.Invoke();
             }
         #if NETWPF
             else if (System.Windows.Application.Current != null)
@@ -482,10 +480,7 @@ namespace AutoUpdaterDotNET
         {
             TimeSpan timeSpan = remindLater - DateTime.Now;
 
-        #if NET4
-            var context = TaskScheduler.FromCurrentSynchronizationContext();
-            Task task = new Task(() => Start());
-        #endif
+            var context = SynchronizationContext.Current;
 
             _remindLaterTimer = new System.Timers.Timer
             {
@@ -496,11 +491,14 @@ namespace AutoUpdaterDotNET
             _remindLaterTimer.Elapsed += delegate
             {
                 _remindLaterTimer = null;
-            #if NET4
-                task.RunSynchronously(context);
-            #else
-                Start();
-            #endif
+                if (context != null)
+                {
+                    context.Send(state => Start(), null);
+                }
+                else
+                {
+                    Start();
+                }
             };
 
             _remindLaterTimer.Start();
