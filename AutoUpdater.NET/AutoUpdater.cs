@@ -493,7 +493,14 @@ namespace AutoUpdaterDotNET
                 _remindLaterTimer = null;
                 if (context != null)
                 {
-                    context.Send(state => Start(), null);
+                    try
+                    {
+                        context.Send(state => Start(), null);
+                    }
+                    catch (InvalidAsynchronousStateException)
+                    {
+                        Start();
+                    }
                 }
                 else
                 {
