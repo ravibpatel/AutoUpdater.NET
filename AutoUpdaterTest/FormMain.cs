@@ -8,6 +8,7 @@ using System.Timers;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
 using AutoUpdaterTest.Properties;
+using Newtonsoft.Json;
 
 namespace AutoUpdaterTest
 {
@@ -21,6 +22,8 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            AutoUpdater.ParseUpdateAppInfoEvent += AutoUpdaterOnParseUpdateAppInfoEvent;
+
             //Uncomment below line to see russian version
 
             //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
@@ -75,6 +78,13 @@ namespace AutoUpdaterTest
             //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //};
             //timer.Start();
+        }
+
+        private void AutoUpdaterOnParseUpdateAppInfoEvent(ParseUpdateInformationEventArgs args)
+        {
+            // parse in our way the data from server
+            JsonUpdateInfo info = JsonConvert.DeserializeObject<JsonUpdateInfo>(args.RemoteData);
+            args.UpdateAppInfo = info;
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)

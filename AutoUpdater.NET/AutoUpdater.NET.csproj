@@ -72,6 +72,7 @@
     <Compile Include="DownloadUpdateDialog.Designer.cs">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="IUpdateAppInfo.cs" />
     <Compile Include="RemindLaterForm.cs">
       <SubType>Form</SubType>
     </Compile>

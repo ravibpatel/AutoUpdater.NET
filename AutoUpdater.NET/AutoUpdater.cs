@@ -126,6 +126,10 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static event CheckForUpdateEventHandler CheckForUpdateEvent;
 
+        public delegate void ParseUpdateAppInfoHandler(ParseUpdateInformationEventArgs args);
+
+        public static event ParseUpdateAppInfoHandler ParseUpdateAppInfoEvent;
+
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
@@ -277,89 +281,132 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
-            XmlDocument receivedAppCastDocument;
-
-            using (Stream appCastStream = webResponse.GetResponseStream())
+            if (ParseUpdateAppInfoEvent != null)
             {
-                receivedAppCastDocument = new XmlDocument();
-
-                if (appCastStream != null)
+                using (Stream appCastStream = webResponse.GetResponseStream())
                 {
-                    try
+                    if (appCastStream != null)
                     {
-                        receivedAppCastDocument.Load(appCastStream);
+                        using (StreamReader streamReader = new StreamReader(appCastStream))
+                        {
+                            try
+                            {
+                                string data = streamReader.ReadToEnd();
+                                ParseUpdateInformationEventArgs parseArgs = new ParseUpdateInformationEventArgs(data);
+                                ParseUpdateAppInfoEvent(parseArgs);
+                                CurrentVersion = parseArgs.UpdateAppInfo.CurrentVersion;
+                                if (CurrentVersion == null)
+                                {
+                                    webResponse.Close();
+                                    return;
+                                }
+
+                                if (parseArgs.UpdateAppInfo == null)
+                                {
+                                    webResponse.Close();
+                                    return;
+                                }
+
+                                ChangeLogURL = parseArgs.UpdateAppInfo.ChangeLogURL;
+                                DownloadURL = parseArgs.UpdateAppInfo.DownloadURL;
+                                Mandatory = parseArgs.UpdateAppInfo.Mandatory;
+                            }
+                            catch (Exception)
+                            {
+                                e.Cancel = true;
+                                webResponse.Close();
+                                return;
+                            }
+                        }
                     }
-                    catch (XmlException)
+                }
+            }
+            else
+            {
+                XmlDocument receivedAppCastDocument;
+
+                using (Stream appCastStream = webResponse.GetResponseStream())
+                {
+                    receivedAppCastDocument = new XmlDocument();
+
+                    if (appCastStream != null)
+                    {
+                        try
+                        {
+                            receivedAppCastDocument.Load(appCastStream);
+                        }
+                        catch (XmlException)
+                        {
+                            e.Cancel = false;
+                            webResponse.Close();
+                            return;
+                        }
+                    }
+                    else
                     {
                         e.Cancel = false;
                         webResponse.Close();
                         return;
                     }
                 }
-                else
+
+                XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
+
+                if (appCastItems != null)
                 {
-                    e.Cancel = false;
-                    webResponse.Close();
-                    return;
-                }
-            }
-
-            XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
-
-            if (appCastItems != null)
-            {
-                foreach (XmlNode item in appCastItems)
-                {
-                    XmlNode appCastVersion = item.SelectSingleNode("version");
-                    if (appCastVersion != null)
+                    foreach (XmlNode item in appCastItems)
                     {
-                        String appVersion = appCastVersion.InnerText;
-                        CurrentVersion = new Version(appVersion);
-
-                        if (CurrentVersion == null)
+                        XmlNode appCastVersion = item.SelectSingleNode("version");
+                        if (appCastVersion != null)
                         {
-                            webResponse.Close();
-                            return;
+                            String appVersion = appCastVersion.InnerText;
+                            CurrentVersion = new Version(appVersion);
+
+                            if (CurrentVersion == null)
+                            {
+                                webResponse.Close();
+                                return;
+                            }
                         }
-                    }
-                    else
-                        continue;
+                        else
+                            continue;
 
-                    XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
+                        XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
 
-                    ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog);
+                        ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog);
 
-                    XmlNode appCastUrl = item.SelectSingleNode("url");
+                        XmlNode appCastUrl = item.SelectSingleNode("url");
 
-                    DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
+                        DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
 
-                    XmlNode mandatory = item.SelectSingleNode("mandatory");
+                        XmlNode mandatory = item.SelectSingleNode("mandatory");
 
-                    if (mandatory != null)
-                    {
-                        Mandatory = Boolean.Parse(mandatory.InnerText);
-                        if (Mandatory)
+                        if (mandatory != null)
                         {
-                            ShowRemindLaterButton = false;
-                            ShowSkipButton = false;
+                            Mandatory = Boolean.Parse(mandatory.InnerText);
+                            if (Mandatory)
+                            {
+                                ShowRemindLaterButton = false;
+                                ShowSkipButton = false;
+                            }
                         }
-                    }
 
-                    if (IntPtr.Size.Equals(8))
-                    {
-                        XmlNode appCastUrl64 = item.SelectSingleNode("url64");
-
-                        var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
-
-                        if (!string.IsNullOrEmpty(downloadURL64))
+                        if (IntPtr.Size.Equals(8))
                         {
-                            DownloadURL = downloadURL64;
+                            XmlNode appCastUrl64 = item.SelectSingleNode("url64");
+
+                            var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
+
+                            if (!string.IsNullOrEmpty(downloadURL64))
+                            {
+                                DownloadURL = downloadURL64;
+                            }
                         }
                     }
                 }
-            }
 
-            webResponse.Close();
+                webResponse.Close();
+            }
 
             if (!Mandatory)
             {
@@ -558,5 +605,17 @@ namespace AutoUpdaterDotNET
         ///     Returns version of the application currently installed on the user's PC.
         /// </summary>
         public Version InstalledVersion { get; set; }
+    }
+
+    public class ParseUpdateInformationEventArgs : EventArgs
+    {
+        public string RemoteData { get; } 
+
+        public IUpdateAppInfo UpdateAppInfo { get; set; }
+
+        public ParseUpdateInformationEventArgs(string remoteData)
+        {
+            RemoteData = remoteData;
+        }
     }
 }
