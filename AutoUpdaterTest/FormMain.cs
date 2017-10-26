@@ -84,7 +84,7 @@ namespace AutoUpdaterTest
             //timer.Start();
         }
 
-        private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInformationEventArgs args)
+        private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
             dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
             args.UpdateInfo = new UpdateInfoEventArgs

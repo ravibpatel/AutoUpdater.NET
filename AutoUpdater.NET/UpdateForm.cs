@@ -27,7 +27,7 @@ namespace AutoUpdaterDotNET
             labelDescription.Text =
                 string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
                     AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
-            if (string.IsNullOrEmpty(AutoUpdater.ChangeLogURL))
+            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
             {
                 HideReleaseNotes = true;
                 var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
@@ -86,7 +86,7 @@ namespace AutoUpdaterDotNET
         {
             if (!HideReleaseNotes)
             {
-                webBrowser.Navigate(AutoUpdater.ChangeLogURL);
+                webBrowser.Navigate(AutoUpdater.ChangelogURL);
             }
         }
 
