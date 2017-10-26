@@ -358,6 +358,7 @@ namespace AutoUpdaterDotNET
 
             if (args.CurrentVersion == null || string.IsNullOrEmpty(args.DownloadURL))
             {
+                Debug.WriteLine("AppCast file has incorrect data.");
                 webResponse.Close();
                 return;
             }

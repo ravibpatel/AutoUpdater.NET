@@ -109,7 +109,10 @@ In above example when user press Remind Later button of update dialog, It will r
 If your XML and Update file can only be used from certain Proxy Server then you can use following settings to tell AutoUpdater.NET to use that proxy. Currently, if your Changelog URL is also restricted to Proxy server then you should omit changelog tag from XML file cause it is not supported using Proxy Server.
 
 ````csharp
-var proxy = new WebProxy("ProxyIP:ProxyPort", true) {Credentials = new NetworkCredential("ProxyUserName", "ProxyPassword")};
+var proxy = new WebProxy("ProxyIP:ProxyPort", true) 
+{
+    Credentials = new NetworkCredential("ProxyUserName", "ProxyPassword")
+};
 AutoUpdater.Proxy = proxy;
 ````
 
@@ -147,21 +150,28 @@ timer.Start();
 If you want to use other format instead of XML as a AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
 
 ````csharp
-dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
-args.UpdateInfo = new UpdateInfoEventArgs
+AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
+AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+
+private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 {
-    CurrentVersion = json.version,
-    ChangelogURL = json.changelog,
-    Mandatory = json.mandatory,
-    DownloadURL = json.url
-};
+    dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
+    args.UpdateInfo = new UpdateInfoEventArgs
+    {
+        CurrentVersion = json.version,
+        ChangelogURL = json.changelog,
+        Mandatory = json.mandatory,
+        DownloadURL = json.url
+    };
+}
 ````
 ### JSON file used in the Example above
 
 ````json
 {
     "version":"2.0.0.0", 
-    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip", "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases", 
+    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
+    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
     "mandatory":true 
 }
 ````
