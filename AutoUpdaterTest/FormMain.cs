@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using AutoUpdaterDotNET;
 using AutoUpdaterTest.Properties;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AutoUpdaterTest
 {
@@ -22,7 +23,10 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            AutoUpdater.ParseUpdateAppInfoEvent += AutoUpdaterOnParseUpdateAppInfoEvent;
+            //Uncomment below lines to handle parsing logic of non XML AppCast file.
+
+            //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
+            //AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
 
             //Uncomment below line to see russian version
 
@@ -80,11 +84,16 @@ namespace AutoUpdaterTest
             //timer.Start();
         }
 
-        private void AutoUpdaterOnParseUpdateAppInfoEvent(ParseUpdateInformationEventArgs args)
+        private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInformationEventArgs args)
         {
-            // parse in our way the data from server
-            JsonUpdateInfo info = JsonConvert.DeserializeObject<JsonUpdateInfo>(args.RemoteData);
-            args.UpdateAppInfo = info;
+            dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
+            args.UpdateInfo = new UpdateInfoEventArgs
+            {
+                CurrentVersion = json.version,
+                ChangelogURL = json.changelog,
+                Mandatory = json.mandatory,
+                DownloadURL = json.url
+            };
         }
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
@@ -93,13 +102,28 @@ namespace AutoUpdaterTest
             {
                 if (args.IsUpdateAvailable)
                 {
-                    var dialogResult =
-                        MessageBox.Show(
-                            $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. Do you want to update the application now?", @"Update Available",
-                            MessageBoxButtons.YesNo,
-                            MessageBoxIcon.Information);
+                    DialogResult dialogResult;
+                    if (args.Mandatory)
+                    {
+                        dialogResult =
+                            MessageBox.Show(
+                                $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. This is required update. Press Ok to begin updating the application.", @"Update Available",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        dialogResult =
+                            MessageBox.Show(
+                                $@"There is new version {args.CurrentVersion} available. You are using version {
+                                        args.InstalledVersion
+                                    }. Do you want to update the application now?", @"Update Available",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Information);
+                    }
 
-                    if (dialogResult.Equals(DialogResult.Yes))
+
+                    if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
                     {
                         try
                         {

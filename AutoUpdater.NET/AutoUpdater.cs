@@ -126,9 +126,16 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static event CheckForUpdateEventHandler CheckForUpdateEvent;
 
+        /// <summary>
+        ///     A delegate type for hooking up parsing logic.
+        /// </summary>
+        /// <param name="args">An object containing the AppCast file received from server.</param>
         public delegate void ParseUpdateAppInfoHandler(ParseUpdateInformationEventArgs args);
 
-        public static event ParseUpdateAppInfoHandler ParseUpdateAppInfoEvent;
+        /// <summary>
+        ///     An event that clients can use to be notified whenever the AppCast file needs parsing.
+        /// </summary>
+        public static event ParseUpdateAppInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
@@ -280,8 +287,8 @@ namespace AutoUpdaterDotNET
                 e.Cancel = false;
                 return;
             }
-
-            if (ParseUpdateAppInfoEvent != null)
+            UpdateInfoEventArgs args = null;
+            if (ParseUpdateInfoEvent != null)
             {
                 using (Stream appCastStream = webResponse.GetResponseStream())
                 {
@@ -289,31 +296,27 @@ namespace AutoUpdaterDotNET
                     {
                         using (StreamReader streamReader = new StreamReader(appCastStream))
                         {
-                            try
+                            string data = streamReader.ReadToEnd();
+                            ParseUpdateInformationEventArgs parseArgs = new ParseUpdateInformationEventArgs(data);
+                            ParseUpdateInfoEvent(parseArgs);
+
+                            if (parseArgs.UpdateInfo != null)
                             {
-                                string data = streamReader.ReadToEnd();
-                                ParseUpdateInformationEventArgs parseArgs = new ParseUpdateInformationEventArgs(data);
-                                ParseUpdateAppInfoEvent(parseArgs);
-                                CurrentVersion = parseArgs.UpdateAppInfo.CurrentVersion;
+                                CurrentVersion = parseArgs.UpdateInfo.CurrentVersion;
                                 if (CurrentVersion == null)
                                 {
+                                    e.Cancel = false;
                                     webResponse.Close();
                                     return;
                                 }
-
-                                if (parseArgs.UpdateAppInfo == null)
-                                {
-                                    webResponse.Close();
-                                    return;
-                                }
-
-                                ChangeLogURL = parseArgs.UpdateAppInfo.ChangeLogURL;
-                                DownloadURL = parseArgs.UpdateAppInfo.DownloadURL;
-                                Mandatory = parseArgs.UpdateAppInfo.Mandatory;
+                                ChangeLogURL = GetURL(webResponse.ResponseUri, parseArgs.UpdateInfo.ChangelogURL);
+                                DownloadURL = GetURL(webResponse.ResponseUri, parseArgs.UpdateInfo.DownloadURL);
+                                Mandatory = parseArgs.UpdateInfo.Mandatory;
+                                args = parseArgs.UpdateInfo;
                             }
-                            catch (Exception)
+                            else
                             {
-                                e.Cancel = true;
+                                e.Cancel = false;
                                 webResponse.Close();
                                 return;
                             }
@@ -370,14 +373,13 @@ namespace AutoUpdaterDotNET
                         }
                         else
                             continue;
-
                         XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
 
-                        ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog);
+                        ChangeLogURL = GetURL(webResponse.ResponseUri, appCastChangeLog?.InnerText);
 
                         XmlNode appCastUrl = item.SelectSingleNode("url");
 
-                        DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl);
+                        DownloadURL = GetURL(webResponse.ResponseUri, appCastUrl?.InnerText);
 
                         XmlNode mandatory = item.SelectSingleNode("mandatory");
 
@@ -395,7 +397,7 @@ namespace AutoUpdaterDotNET
                         {
                             XmlNode appCastUrl64 = item.SelectSingleNode("url64");
 
-                            var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64);
+                            var downloadURL64 = GetURL(webResponse.ResponseUri, appCastUrl64?.InnerText);
 
                             if (!string.IsNullOrEmpty(downloadURL64))
                             {
@@ -455,34 +457,36 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            var args = new UpdateInfoEventArgs
+            if (args == null)
             {
-                DownloadURL = DownloadURL,
-                ChangelogURL = ChangeLogURL,
-                CurrentVersion = CurrentVersion,
-                InstalledVersion = InstalledVersion,
-                IsUpdateAvailable = CurrentVersion > InstalledVersion
-            };
+                args = new UpdateInfoEventArgs
+                {
+                    DownloadURL = DownloadURL,
+                    ChangelogURL = ChangeLogURL,
+                    CurrentVersion = CurrentVersion,
+                    Mandatory = Mandatory
+                };
+            }
+            args.IsUpdateAvailable = CurrentVersion > InstalledVersion;
+            args.InstalledVersion = InstalledVersion;
 
             e.Cancel = false;
             e.Result = args;
         }
 
-        private static string GetURL(Uri baseUri, XmlNode xmlNode)
+        private static string GetURL(Uri baseUri, String url)
         {
-            var temp = xmlNode?.InnerText ?? "";
-
-            if (!string.IsNullOrEmpty(temp) && Uri.IsWellFormedUriString(temp, UriKind.Relative))
+            if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
-                Uri uri = new Uri(baseUri, temp);
+                Uri uri = new Uri(baseUri, url);
 
                 if (uri.IsAbsoluteUri)
                 {
-                    temp = uri.AbsoluteUri;
+                    url = uri.AbsoluteUri;
                 }
             }
 
-            return temp;
+            return url;
         }
 
         private static void Exit()
@@ -605,14 +609,32 @@ namespace AutoUpdaterDotNET
         ///     Returns version of the application currently installed on the user's PC.
         /// </summary>
         public Version InstalledVersion { get; set; }
+
+        /// <summary>
+        ///     Shows if the update is required or optional.
+        /// </summary>
+        public bool Mandatory { get; set; }
     }
 
+    /// <summary>
+    ///     An object of this class contains the AppCast file received from server..
+    /// </summary>
     public class ParseUpdateInformationEventArgs : EventArgs
     {
-        public string RemoteData { get; } 
+        /// <summary>
+        ///     Remote data received from the AppCast file.
+        /// </summary>
+        public string RemoteData { get; }
 
-        public IUpdateAppInfo UpdateAppInfo { get; set; }
+        /// <summary>
+        ///      Set this object with values received from the AppCast file.
+        /// </summary>
+        public UpdateInfoEventArgs UpdateInfo { get; set; }
 
+        /// <summary>
+        ///     An object containing the AppCast file received from server.
+        /// </summary>
+        /// <param name="remoteData">A string containing remote data received from the AppCast file.</param>
         public ParseUpdateInformationEventArgs(string remoteData)
         {
             RemoteData = remoteData;
