@@ -58,6 +58,10 @@ namespace AutoUpdaterTest
 
             //AutoUpdater.ReportErrors = true;
 
+            //Want to handle how your application will exit when application finished downloading then uncomment below line.
+
+            AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
+
             //Want to handle update logic yourself then uncomment below line.
 
             //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
@@ -83,6 +87,14 @@ namespace AutoUpdaterTest
             //};
             //timer.Start();
         }
+
+        private void AutoUpdater_ApplicationExitEvent()
+        {
+            Text = @"Closing application...";
+            Thread.Sleep(5000);
+            Application.Exit();
+        }
+
 
         private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {

@@ -47,6 +47,8 @@ AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
 
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.
 
+    AutoUpdater.Start should be called from UI thread.
+
 ## Configuration Options
 ### Change Language
 
@@ -145,34 +147,18 @@ timer.Tick += delegate
 };
 timer.Start();
 ````
-## Handling parsing logic manually
+## Handling Application exit logic manually
 
-If you want to use other format instead of XML as a AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
+If you like to handle Application exit logic yourself then you can use ApplicationExiEvent like below. This is very useful if you like to do something before closing the application.
 
 ````csharp
-AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
-AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
 
-private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
+private void AutoUpdater_ApplicationExitEvent()
 {
-    dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
-    args.UpdateInfo = new UpdateInfoEventArgs
-    {
-        CurrentVersion = json.version,
-        ChangelogURL = json.changelog,
-        Mandatory = json.mandatory,
-        DownloadURL = json.url
-    };
-}
-````
-### JSON file used in the Example above
-
-````json
-{
-    "version":"2.0.0.0", 
-    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
-    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
-    "mandatory":true 
+    Text = @"Closing application...";
+    Thread.Sleep(5000);
+    Application.Exit();
 }
 ````
 
@@ -248,3 +234,34 @@ When you do this it will execute the code in above event when AutoUpdater.Start 
 * CurrentVersion (Version) : Newest version of the application available to download.
 * InstalledVersion (Version) : Version of the application currently installed on the user's PC.
 * Mandatory (bool) : Shows if the update is required or optional.
+
+## Handling parsing logic manually
+
+If you want to use other format instead of XML as a AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
+
+````csharp
+AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
+AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+
+private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
+{
+    dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
+    args.UpdateInfo = new UpdateInfoEventArgs
+    {
+        CurrentVersion = json.version,
+        ChangelogURL = json.changelog,
+        Mandatory = json.mandatory,
+        DownloadURL = json.url
+    };
+}
+````
+### JSON file used in the Example above
+
+````json
+{
+    "version":"2.0.0.0", 
+    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
+    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
+    "mandatory":true 
+}
+````

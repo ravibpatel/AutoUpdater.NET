@@ -117,6 +117,16 @@ namespace AutoUpdaterDotNET
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         /// <summary>
+        ///     A delegate type to handle how to exit the application after update is downloaded.
+        /// </summary>
+        public delegate void ApplicationExitEventHandler();
+
+        /// <summary>
+        ///     An event that developers can use to exit the application gracefully.
+        /// </summary>
+        public static event ApplicationExitEventHandler ApplicationExitEvent;
+
+        /// <summary>
         ///     A delegate type for hooking up update notifications.
         /// </summary>
         /// <param name="args">An object containing all the parameters recieved from AppCast XML file. If there will be an error while looking for the XML file then this object will be null.</param>
@@ -445,29 +455,37 @@ namespace AutoUpdaterDotNET
 
         private static void Exit()
         {
-            var currentProcess = Process.GetCurrentProcess();
-            foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
+            if (ApplicationExitEvent != null)
             {
-                if (process.Id != currentProcess.Id)
-                {
-                    process.Kill();
-                }
+                ApplicationExitEvent();
             }
-
-            if (IsWinFormsApplication)
-            {
-                MethodInvoker methodInvoker = Application.Exit;
-                methodInvoker.Invoke();
-            }
-        #if NETWPF
-            else if (System.Windows.Application.Current != null)
-            {
-                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() => System.Windows.Application.Current.Shutdown()));
-            }
-        #endif
             else
             {
-                Environment.Exit(0);
+                var currentProcess = Process.GetCurrentProcess();
+                foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
+                {
+                    if (process.Id != currentProcess.Id)
+                    {
+                        process.Kill();
+                    }
+                }
+
+                if (IsWinFormsApplication)
+                {
+                    MethodInvoker methodInvoker = Application.Exit;
+                    methodInvoker.Invoke();
+                }
+#if NETWPF
+                else if (System.Windows.Application.Current != null)
+                {
+                    System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                        System.Windows.Application.Current.Shutdown()));
+                }
+#endif
+                else
+                {
+                    Environment.Exit(0);
+                }
             }
         }
 
