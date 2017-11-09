@@ -16,6 +16,7 @@ namespace AutoUpdaterDotNET
         public UpdateForm()
         {
             InitializeComponent();
+            AutoUpdater.UseSystemFont(this);
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;

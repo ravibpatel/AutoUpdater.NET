@@ -107,7 +107,7 @@ namespace AutoUpdaterDotNET
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonSkip);
             this.Controls.Add(this.buttonRemindLater);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateForm";

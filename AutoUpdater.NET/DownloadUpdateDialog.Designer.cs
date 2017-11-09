@@ -59,7 +59,7 @@
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.pictureBoxIcon);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DownloadUpdateDialog";

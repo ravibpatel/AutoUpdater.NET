@@ -36,9 +36,9 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(86, 53);
+            this.progressBar.Location = new System.Drawing.Point(85, 40);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(446, 23);
+            this.progressBar.Size = new System.Drawing.Size(447, 23);
             this.progressBar.TabIndex = 0;
             // 
             // pictureBoxIcon
@@ -54,10 +54,10 @@
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
-            this.labelInformation.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.labelInformation.Location = new System.Drawing.Point(82, 12);
+            this.labelInformation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
+            this.labelInformation.Location = new System.Drawing.Point(82, 22);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(78, 19);
+            this.labelInformation.Size = new System.Drawing.Size(68, 15);
             this.labelInformation.TabIndex = 3;
             this.labelInformation.Text = "Extracting...";
             // 
@@ -71,9 +71,9 @@
             this.Controls.Add(this.progressBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;		
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.MinimizeBox = false;
             this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Installing update...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Shown += new System.EventHandler(this.FormMain_Shown);

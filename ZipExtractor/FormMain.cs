@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
@@ -16,6 +18,7 @@ namespace ZipExtractor
         public FormMain()
         {
             InitializeComponent();
+            UseSystemFont(this);
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -102,6 +105,26 @@ namespace ZipExtractor
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             _backgroundWorker.CancelAsync();
+        }
+
+        private static void UseSystemFont(Form form)
+        {
+            form.Font = SystemFonts.MessageBoxFont;
+            SetFont(form.Controls);
+        }
+
+        private static void SetFont(IEnumerable controls)
+        {
+            foreach (Control control in controls)
+            {
+                var font = new Font(SystemFonts.MessageBoxFont.FontFamily, control.Font.SizeInPoints, control.Font.Style,
+                    GraphicsUnit.Point);
+                control.Font = font;
+                if (control.HasChildren)
+                {
+                    SetFont(control.Controls);
+                }
+            }
         }
     }
 }

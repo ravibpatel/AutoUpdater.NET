@@ -12,6 +12,7 @@ namespace AutoUpdaterDotNET
         public RemindLaterForm()
         {
             InitializeComponent();
+            AutoUpdater.UseSystemFont(this);
         }
 
         private void RemindLaterFormLoad(object sender, EventArgs e)

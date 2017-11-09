@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -9,7 +11,6 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Serialization;
 using AutoUpdaterDotNET.Properties;
 using Microsoft.Win32;
 
@@ -550,6 +551,27 @@ namespace AutoUpdaterDotNET
             }
             return false;
         }
+
+        internal static void UseSystemFont(Form form)
+        {
+            form.Font = SystemFonts.MessageBoxFont;
+            SetFont(form.Controls);
+        }
+
+        private static void SetFont(IEnumerable controls)
+        {
+            foreach (Control control in controls)
+            {
+                var font = new Font(SystemFonts.MessageBoxFont.FontFamily, control.Font.SizeInPoints, control.Font.Style,
+                    GraphicsUnit.Point);
+                control.Font = font;
+                if (control.HasChildren)
+                {
+                    SetFont(control.Controls);
+                }
+            }
+        }
+
     }
 
     /// <summary>
