@@ -169,7 +169,7 @@
     <value>True</value>
   </data>
   <data name="labelInformation.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12px</value>
+    <value>Segoe UI, 12pt</value>
   </data>
   <data name="labelInformation.Location" type="System.Drawing.Point, System.Drawing">
     <value>68, 21</value>
@@ -205,7 +205,7 @@
     <value>354, 78</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 11px</value>
+    <value>Segoe UI, 11pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
