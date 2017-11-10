@@ -151,7 +151,7 @@
     <value>True</value>
   </data>
   <data name="labelUpdate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 14px, style=Bold</value>
+    <value>Segoe UI, 14pt, style=Bold</value>
   </data>
   <data name="labelUpdate.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 14</value>
@@ -217,7 +217,7 @@
     <value>True</value>
   </data>
   <data name="labelReleaseNotes.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 13px, style=Bold</value>
+    <value>Segoe UI, 13pt, style=Bold</value>
   </data>
   <data name="labelReleaseNotes.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 90</value>

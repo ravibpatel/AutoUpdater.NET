@@ -160,7 +160,7 @@
     <value>Bottom</value>
   </data>
   <data name="radioButtonNo.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12px, style=Bold</value>
+    <value>Segoe UI, 12pt, style=Bold</value>
   </data>
   <data name="radioButtonNo.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 138</value>
@@ -371,7 +371,7 @@
     <value>Bottom</value>
   </data>
   <data name="labelTitle.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 14px, style=Bold</value>
+    <value>Segoe UI, 14pt, style=Bold</value>
   </data>
   <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
     <value>88, 13</value>
