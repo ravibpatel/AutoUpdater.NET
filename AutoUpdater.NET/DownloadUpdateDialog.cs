@@ -76,7 +76,7 @@ namespace AutoUpdaterDotNET
                 {
                     UseShellExecute = true,
                     FileName = installerPath,
-                    Arguments = $"\"{_tempPath}\" \"{Assembly.GetEntryAssembly().Location}\""
+                    Arguments = $"\"{_tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\""
                 };
             }
             try
