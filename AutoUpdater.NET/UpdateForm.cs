@@ -77,7 +77,7 @@ namespace AutoUpdaterDotNET
                     Registry.CurrentUser.OpenSubKey(
                         @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
                 {
-                    registryKey?.SetValue(Path.GetFileName(Assembly.GetEntryAssembly().Location), ieValue,
+                    registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName), ieValue,
                         RegistryValueKind.DWord);
                 }
             }
