@@ -151,7 +151,7 @@
     <value>True</value>
   </data>
   <data name="labelUpdate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 14px, style=Bold</value>
+    <value>Segoe UI, 10.5pt, style=Bold</value>
   </data>
   <data name="labelUpdate.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 14</value>
@@ -184,7 +184,7 @@
     <value>True</value>
   </data>
   <data name="labelDescription.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12px</value>
+    <value>Segoe UI, 9pt</value>
   </data>
   <data name="labelDescription.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 50</value>
@@ -217,7 +217,7 @@
     <value>True</value>
   </data>
   <data name="labelReleaseNotes.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 13px, style=Bold</value>
+    <value>Segoe UI, 9.75pt, style=Bold</value>
   </data>
   <data name="labelReleaseNotes.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 90</value>
@@ -376,7 +376,7 @@
     <value>643, 609</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12px</value>
+    <value>Segoe UI, 9pt</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
