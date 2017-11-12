@@ -36,17 +36,19 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(85, 40);
+            this.progressBar.Location = new System.Drawing.Point(113, 61);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(447, 23);
+            this.progressBar.Size = new System.Drawing.Size(597, 35);
             this.progressBar.TabIndex = 0;
             // 
             // pictureBoxIcon
             // 
             this.pictureBoxIcon.Image = global::ZipExtractor.Properties.Resources.ZipExtractor;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(12, 12);
+            this.pictureBoxIcon.Location = new System.Drawing.Point(16, 19);
+            this.pictureBoxIcon.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(64, 64);
+            this.pictureBoxIcon.Size = new System.Drawing.Size(85, 99);
             this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxIcon.TabIndex = 2;
             this.pictureBoxIcon.TabStop = false;
@@ -54,25 +56,29 @@
             // labelInformation
             // 
             this.labelInformation.AutoSize = true;
-            this.labelInformation.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.labelInformation.Location = new System.Drawing.Point(82, 22);
+            this.labelInformation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelInformation.Location = new System.Drawing.Point(109, 34);
+            this.labelInformation.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(68, 15);
+            this.labelInformation.Size = new System.Drawing.Size(84, 20);
             this.labelInformation.TabIndex = 3;
             this.labelInformation.Text = "Extracting...";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(544, 88);
+            this.ClientSize = new System.Drawing.Size(725, 135);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.progressBar);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Installing update...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);

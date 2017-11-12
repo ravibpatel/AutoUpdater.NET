@@ -20,7 +20,7 @@ namespace AutoUpdaterTestWPF
             Assembly assembly = Assembly.GetEntryAssembly();
             LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
             AutoUpdater.CurrentCulture = new CultureInfo("fr-FR");
-            AutoUpdater.LetUserSelectRemindLater = false;
+            AutoUpdater.LetUserSelectRemindLater = true;
             AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Minutes;
             AutoUpdater.RemindLaterAt = 1;
             AutoUpdater.ReportErrors = true;

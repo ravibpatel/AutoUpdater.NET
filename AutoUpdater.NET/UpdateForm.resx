@@ -119,17 +119,17 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="webBrowser.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 120</value>
+    <value>107, 160</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="webBrowser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="webBrowser.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>23, 23</value>
+    <value>26, 31</value>
   </data>
   <data name="webBrowser.Size" type="System.Drawing.Size, System.Drawing">
-    <value>538, 432</value>
+    <value>615, 576</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="webBrowser.TabIndex" type="System.Int32, mscorlib">
@@ -154,13 +154,13 @@
     <value>Segoe UI, 10.5pt, style=Bold</value>
   </data>
   <data name="labelUpdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 14</value>
+    <value>104, 19</value>
   </data>
   <data name="labelUpdate.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>560, 0</value>
+    <value>640, 0</value>
   </data>
   <data name="labelUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>227, 19</value>
+    <value>289, 25</value>
   </data>
   <data name="labelUpdate.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -187,13 +187,13 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="labelDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 50</value>
+    <value>104, 67</value>
   </data>
   <data name="labelDescription.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>550, 0</value>
+    <value>629, 0</value>
   </data>
   <data name="labelDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>479, 15</value>
+    <value>604, 20</value>
   </data>
   <data name="labelDescription.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -220,10 +220,10 @@
     <value>Segoe UI, 9.75pt, style=Bold</value>
   </data>
   <data name="labelReleaseNotes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 90</value>
+    <value>104, 120</value>
   </data>
   <data name="labelReleaseNotes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 17</value>
+    <value>125, 23</value>
   </data>
   <data name="labelReleaseNotes.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -243,14 +243,17 @@
   <data name="&gt;&gt;labelReleaseNotes.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="buttonUpdate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="buttonUpdate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>478, 570</value>
+    <value>546, 760</value>
   </data>
   <data name="buttonUpdate.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="buttonUpdate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 28</value>
+    <value>175, 37</value>
   </data>
   <data name="buttonUpdate.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -276,14 +279,17 @@
   <data name="&gt;&gt;buttonUpdate.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="buttonRemindLater.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="buttonRemindLater.Location" type="System.Drawing.Point, System.Drawing">
-    <value>321, 570</value>
+    <value>367, 760</value>
   </data>
   <data name="buttonRemindLater.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="buttonRemindLater.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 28</value>
+    <value>175, 37</value>
   </data>
   <data name="buttonRemindLater.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -310,10 +316,13 @@
     <value>7</value>
   </data>
   <data name="pictureBoxIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 14</value>
+    <value>14, 19</value>
+  </data>
+  <data name="pictureBoxIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
   </data>
   <data name="pictureBoxIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 66</value>
+    <value>80, 88</value>
   </data>
   <data name="pictureBoxIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
@@ -333,14 +342,17 @@
   <data name="&gt;&gt;pictureBoxIcon.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="buttonSkip.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="buttonSkip.Location" type="System.Drawing.Point, System.Drawing">
-    <value>95, 570</value>
+    <value>109, 760</value>
   </data>
   <data name="buttonSkip.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="buttonSkip.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 28</value>
+    <value>175, 37</value>
   </data>
   <data name="buttonSkip.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -370,10 +382,10 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
+    <value>8, 20</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>643, 609</value>
+    <value>735, 812</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
@@ -917,7 +929,7 @@
 </value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>2, 2, 2, 2</value>
+    <value>2, 3, 2, 3</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>

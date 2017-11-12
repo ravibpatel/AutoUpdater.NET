@@ -130,10 +130,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pictureBoxIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 3</value>
+    <value>3, 4</value>
+  </data>
+  <data name="pictureBoxIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
   </data>
   <data name="pictureBoxIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 90</value>
+    <value>91, 120</value>
   </data>
   <data name="pictureBoxIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>CenterImage</value>
@@ -163,13 +166,13 @@
     <value>Segoe UI, 9pt, style=Bold</value>
   </data>
   <data name="radioButtonNo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 138</value>
+    <value>104, 186</value>
   </data>
   <data name="radioButtonNo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 3, 3, 3</value>
+    <value>7, 4, 3, 4</value>
   </data>
   <data name="radioButtonNo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>406, 19</value>
+    <value>464, 24</value>
   </data>
   <data name="radioButtonNo.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -214,13 +217,13 @@
     <value>After 10 days</value>
   </data>
   <data name="comboBoxRemindLater.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 102</value>
+    <value>428, 142</value>
   </data>
   <data name="comboBoxRemindLater.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 3, 10, 3</value>
+    <value>11, 4, 11, 4</value>
   </data>
   <data name="comboBoxRemindLater.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 23</value>
+    <value>132, 28</value>
   </data>
   <data name="comboBoxRemindLater.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -243,14 +246,17 @@
   <data name="radioButtonYes.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
   </data>
+  <data name="radioButtonYes.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="radioButtonYes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>91, 106</value>
+    <value>104, 143</value>
   </data>
   <data name="radioButtonYes.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>6, 3, 3, 3</value>
+    <value>7, 4, 3, 4</value>
   </data>
   <data name="radioButtonYes.Size" type="System.Drawing.Size, System.Drawing">
-    <value>271, 19</value>
+    <value>310, 24</value>
   </data>
   <data name="radioButtonYes.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -276,11 +282,14 @@
   <data name="labelDescription.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
   </data>
+  <data name="labelDescription.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9pt</value>
+  </data>
   <data name="labelDescription.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 51</value>
+    <value>100, 68</value>
   </data>
   <data name="labelDescription.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 45</value>
+    <value>468, 60</value>
   </data>
   <data name="labelDescription.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -305,13 +314,13 @@
     <value>Fill</value>
   </data>
   <data name="buttonOK.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 163</value>
+    <value>428, 218</value>
   </data>
   <data name="buttonOK.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>10, 3, 10, 3</value>
+    <value>11, 4, 11, 4</value>
   </data>
   <data name="buttonOK.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 32</value>
+    <value>132, 42</value>
   </data>
   <data name="buttonOK.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -343,11 +352,14 @@
   <data name="tableLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
+  <data name="tableLayoutPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 4, 3, 4</value>
+  </data>
   <data name="tableLayoutPanel.RowCount" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="tableLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>499, 198</value>
+    <value>570, 264</value>
   </data>
   <data name="tableLayoutPanel.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
@@ -365,7 +377,7 @@
     <value>0</value>
   </data>
   <data name="tableLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
-    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBoxIcon" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelTitle" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="radioButtonNo" Row="3" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="comboBoxRemindLater" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="radioButtonYes" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelDescription" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="buttonOK" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,85,Absolute,280,Absolute,135" /&gt;&lt;Rows Styles="Absolute,32,Absolute,64,Absolute,32,Absolute,32,Absolute,16" /&gt;&lt;/TableLayoutSettings&gt;</value>
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="pictureBoxIcon" Row="0" RowSpan="2" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelTitle" Row="0" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="radioButtonNo" Row="3" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="comboBoxRemindLater" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="radioButtonYes" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="labelDescription" Row="1" RowSpan="1" Column="1" ColumnSpan="2" /&gt;&lt;Control Name="buttonOK" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Absolute,97,Absolute,320,Absolute,154" /&gt;&lt;Rows Styles="Absolute,43,Absolute,85,Absolute,43,Absolute,43,Absolute,21" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <data name="labelTitle.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Bottom</value>
@@ -374,10 +386,10 @@
     <value>Segoe UI, 10.5pt, style=Bold</value>
   </data>
   <data name="labelTitle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>88, 13</value>
+    <value>100, 18</value>
   </data>
   <data name="labelTitle.Size" type="System.Drawing.Size, System.Drawing">
-    <value>409, 19</value>
+    <value>468, 25</value>
   </data>
   <data name="labelTitle.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -401,16 +413,16 @@
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 15</value>
+    <value>8, 20</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>499, 198</value>
+    <value>570, 264</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
+    <value>3, 5, 3, 5</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterParent</value>

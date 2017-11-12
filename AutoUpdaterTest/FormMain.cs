@@ -23,6 +23,7 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            AutoUpdater.SetProcessDPIAwareness = true;
             //Uncomment below lines to handle parsing logic of non XML AppCast file.
 
             //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");

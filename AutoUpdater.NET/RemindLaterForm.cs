@@ -11,6 +11,7 @@ namespace AutoUpdaterDotNET
 
         public RemindLaterForm()
         {
+            AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             InitializeComponent();
             AutoUpdater.UseSystemFont(this);
         }

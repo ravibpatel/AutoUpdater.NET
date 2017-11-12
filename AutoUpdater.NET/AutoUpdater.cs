@@ -118,6 +118,11 @@ namespace AutoUpdaterDotNET
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         /// <summary>
+        ///    Make process DPI aware so the forms will scale properly on High DPI display. This option affects whole process so it will make your application forms DPI aware too. You should only set this to true if you are calling this from unmanaged application.
+        /// </summary>
+        public static bool SetProcessDPIAwareness = false;
+
+        /// <summary>
         ///     A delegate type to handle how to exit the application after update is downloaded.
         /// </summary>
         public delegate void ApplicationExitEventHandler();
@@ -209,10 +214,7 @@ namespace AutoUpdaterDotNET
                         {
                             if (args.IsUpdateAvailable)
                             {
-                                if (!IsWinFormsApplication)
-                                {
-                                    Application.EnableVisualStyles();
-                                }
+                                Application.EnableVisualStyles();
                                 if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
                                 {
                                     ShowUpdateForm();

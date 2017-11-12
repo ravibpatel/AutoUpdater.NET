@@ -34,11 +34,10 @@
             // 
             // buttonCheckForUpdate
             // 
-            this.buttonCheckForUpdate.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.buttonCheckForUpdate.Location = new System.Drawing.Point(11, 41);
-            this.buttonCheckForUpdate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.buttonCheckForUpdate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCheckForUpdate.Location = new System.Drawing.Point(12, 53);
             this.buttonCheckForUpdate.Name = "buttonCheckForUpdate";
-            this.buttonCheckForUpdate.Size = new System.Drawing.Size(162, 31);
+            this.buttonCheckForUpdate.Size = new System.Drawing.Size(270, 57);
             this.buttonCheckForUpdate.TabIndex = 0;
             this.buttonCheckForUpdate.Text = "Check for update";
             this.buttonCheckForUpdate.UseVisualStyleBackColor = true;
@@ -47,27 +46,26 @@
             // labelVersion
             // 
             this.labelVersion.AutoSize = true;
-            this.labelVersion.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.labelVersion.Location = new System.Drawing.Point(7, 9);
-            this.labelVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelVersion.Location = new System.Drawing.Point(12, 19);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(156, 19);
+            this.labelVersion.Size = new System.Drawing.Size(160, 20);
             this.labelVersion.TabIndex = 1;
             this.labelVersion.Text = "Current version : 1.0.0.0";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 11F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(184, 83);
+            this.ClientSize = new System.Drawing.Size(294, 122);
             this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.buttonCheckForUpdate);
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";
+            this.ShowIcon = false;
             this.Text = "AutoUpdaterTest";
             this.Load += new System.EventHandler(this.FormMain_Load);
             this.ResumeLayout(false);
