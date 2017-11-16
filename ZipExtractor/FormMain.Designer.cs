@@ -36,19 +36,23 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(113, 61);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(96, 44);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(5);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(597, 35);
+            this.progressBar.Size = new System.Drawing.Size(396, 35);
             this.progressBar.TabIndex = 0;
             // 
             // pictureBoxIcon
             // 
+            this.pictureBoxIcon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBoxIcon.Image = global::ZipExtractor.Properties.Resources.ZipExtractor;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(16, 19);
-            this.pictureBoxIcon.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.pictureBoxIcon.Location = new System.Drawing.Point(14, 14);
+            this.pictureBoxIcon.Margin = new System.Windows.Forms.Padding(5);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(85, 99);
+            this.pictureBoxIcon.Size = new System.Drawing.Size(72, 72);
             this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxIcon.TabIndex = 2;
             this.pictureBoxIcon.TabStop = false;
@@ -57,24 +61,25 @@
             // 
             this.labelInformation.AutoSize = true;
             this.labelInformation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInformation.Location = new System.Drawing.Point(109, 34);
+            this.labelInformation.Location = new System.Drawing.Point(93, 14);
             this.labelInformation.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(84, 20);
+            this.labelInformation.Size = new System.Drawing.Size(68, 15);
             this.labelInformation.TabIndex = 3;
             this.labelInformation.Text = "Extracting...";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(725, 135);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(506, 100);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.progressBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";

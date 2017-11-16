@@ -14,24 +14,9 @@ namespace AutoUpdaterDotNET
     {
         private bool HideReleaseNotes { get; set; }
 
-        [DllImport("shcore.dll")]
-        internal static extern int SetProcessDpiAwareness(Process_DPI_Awareness value);
-
-        internal enum Process_DPI_Awareness
-        {
-            Process_DPI_Unaware = 0,
-            Process_System_DPI_Aware = 1,
-            Process_Per_Monitor_DPI_Aware = 2
-        }
-
         public UpdateForm()
         {
-            if (AutoUpdater.SetProcessDPIAwareness)
-            {
-                SetProcessDpiAwareness(Process_DPI_Awareness.Process_System_DPI_Aware);
-            }
             InitializeComponent();
-            AutoUpdater.UseSystemFont(this);
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;

@@ -148,13 +148,13 @@
     <value>2</value>
   </data>
   <data name="progressBar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 45</value>
+    <value>81, 45</value>
   </data>
   <data name="progressBar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
   </data>
   <data name="progressBar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>316, 26</value>
+    <value>319, 26</value>
   </data>
   <data name="progressBar.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -178,7 +178,7 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="labelInformation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 26</value>
+    <value>78, 14</value>
   </data>
   <data name="labelInformation.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>

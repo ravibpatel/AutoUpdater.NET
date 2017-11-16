@@ -74,12 +74,6 @@ namespace AutoUpdaterDotNET
         ///     Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
-        
-        /// <summary>
-        ///     Sets the current culture of the auto update notification window. Set this value if your application supports
-        ///     functionalty to change the languge of the application.
-        /// </summary>
-        public static CultureInfo CurrentCulture;
 
         /// <summary>
         ///     If this is true users can see the skip button.
@@ -116,11 +110,6 @@ namespace AutoUpdaterDotNET
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
-
-        /// <summary>
-        ///    Make process DPI aware so the forms will scale properly on High DPI display. This option affects whole process so it will make your application forms DPI aware too. You should only set this to true if you are calling this from unmanaged application.
-        /// </summary>
-        public static bool SetProcessDPIAwareness = false;
 
         /// <summary>
         ///     A delegate type to handle how to exit the application after update is downloaded.
@@ -174,11 +163,6 @@ namespace AutoUpdaterDotNET
             {
                 Running = true;
 
-                if (CurrentCulture == null)
-                {
-                    CurrentCulture = CultureInfo.CurrentCulture;
-                }
-
                 AppCastURL = appCast;
 
                 IsWinFormsApplication = Application.MessageLoop;
@@ -214,7 +198,10 @@ namespace AutoUpdaterDotNET
                         {
                             if (args.IsUpdateAvailable)
                             {
-                                Application.EnableVisualStyles();
+                                if (!IsWinFormsApplication)
+                                {
+                                    Application.EnableVisualStyles();
+                                }
                                 if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
                                 {
                                     ShowUpdateForm();
@@ -222,7 +209,7 @@ namespace AutoUpdaterDotNET
                                 else
                                 {
                                     Thread thread = new Thread(ShowUpdateForm);
-                                    thread.CurrentCulture = thread.CurrentUICulture = CurrentCulture;
+                                    thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
                                     thread.SetApartmentState(ApartmentState.STA);
                                     thread.Start();
                                 }
@@ -371,8 +358,11 @@ namespace AutoUpdaterDotNET
 
             if (args.CurrentVersion == null || string.IsNullOrEmpty(args.DownloadURL))
             {
-                Debug.WriteLine("AppCast file has incorrect data.");
                 webResponse.Close();
+                if (ReportErrors)
+                {
+                    throw new InvalidDataException();
+                }
                 return;
             }
 
@@ -553,27 +543,6 @@ namespace AutoUpdaterDotNET
             }
             return false;
         }
-
-        internal static void UseSystemFont(Form form)
-        {
-            form.Font = SystemFonts.MessageBoxFont;
-            SetFont(form.Controls);
-        }
-
-        private static void SetFont(IEnumerable controls)
-        {
-            foreach (Control control in controls)
-            {
-                var font = new Font(SystemFonts.MessageBoxFont.FontFamily, control.Font.SizeInPoints, control.Font.Style,
-                    GraphicsUnit.Point);
-                control.Font = font;
-                if (control.HasChildren)
-                {
-                    SetFont(control.Controls);
-                }
-            }
-        }
-
     }
 
     /// <summary>

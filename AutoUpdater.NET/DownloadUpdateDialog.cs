@@ -20,7 +20,6 @@ namespace AutoUpdaterDotNET
         public DownloadUpdateDialog(string downloadURL)
         {
             InitializeComponent();
-            AutoUpdater.UseSystemFont(this);
 
             _downloadURL = downloadURL;
         }

@@ -50,16 +50,6 @@ Start method of AutoUpdater class takes URL of the XML file you uploaded to serv
     AutoUpdater.Start should be called from UI thread.
 
 ## Configuration Options
-### Change Language
-
-You can change of language of the update dialog by adding following line with the above code. If you don't do this it will use current culture of your application.
-
-````csharp
-AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
-````
-
-In above example AutoUpdater.NET will show update dialog in russian language.
-
 ### Disable Skip Button
 
 If you don't want to show Skip button on Update form then just add following line with above code.

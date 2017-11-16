@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
-using System.Timers;
 using System.Windows;
 using System.Windows.Threading;
 using AutoUpdaterDotNET;
@@ -19,7 +18,7 @@ namespace AutoUpdaterTestWPF
             InitializeComponent();
             Assembly assembly = Assembly.GetEntryAssembly();
             LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
-            AutoUpdater.CurrentCulture = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("fr");
             AutoUpdater.LetUserSelectRemindLater = true;
             AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Minutes;
             AutoUpdater.RemindLaterAt = 1;

@@ -23,7 +23,6 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            AutoUpdater.SetProcessDPIAwareness = true;
             //Uncomment below lines to handle parsing logic of non XML AppCast file.
 
             //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
@@ -31,7 +30,7 @@ namespace AutoUpdaterTest
 
             //Uncomment below line to see russian version
 
-            //AutoUpdater.CurrentCulture = CultureInfo.CreateSpecificCulture("ru");
+            //Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("ru");
 
             //If you want to open download page when user click on download button uncomment below line.
 

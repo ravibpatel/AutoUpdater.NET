@@ -34,10 +34,12 @@
             // 
             // buttonCheckForUpdate
             // 
+            this.buttonCheckForUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCheckForUpdate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCheckForUpdate.Location = new System.Drawing.Point(12, 53);
+            this.buttonCheckForUpdate.Location = new System.Drawing.Point(12, 54);
             this.buttonCheckForUpdate.Name = "buttonCheckForUpdate";
-            this.buttonCheckForUpdate.Size = new System.Drawing.Size(270, 57);
+            this.buttonCheckForUpdate.Size = new System.Drawing.Size(196, 40);
             this.buttonCheckForUpdate.TabIndex = 0;
             this.buttonCheckForUpdate.Text = "Check for update";
             this.buttonCheckForUpdate.UseVisualStyleBackColor = true;
@@ -47,17 +49,17 @@
             // 
             this.labelVersion.AutoSize = true;
             this.labelVersion.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelVersion.Location = new System.Drawing.Point(12, 19);
+            this.labelVersion.Location = new System.Drawing.Point(9, 23);
             this.labelVersion.Name = "labelVersion";
-            this.labelVersion.Size = new System.Drawing.Size(160, 20);
+            this.labelVersion.Size = new System.Drawing.Size(130, 15);
             this.labelVersion.TabIndex = 1;
             this.labelVersion.Text = "Current version : 1.0.0.0";
             // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(294, 122);
+            this.ClientSize = new System.Drawing.Size(220, 106);
             this.Controls.Add(this.labelVersion);
             this.Controls.Add(this.buttonCheckForUpdate);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
