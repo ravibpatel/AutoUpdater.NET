@@ -320,7 +320,14 @@ namespace AutoUpdaterDotNET
                                 {
                                     XmlNode appCastVersion = item.SelectSingleNode("version");
 
-                                    Version.TryParse(appCastVersion?.InnerText, out CurrentVersion);
+                                    try
+                                    {
+                                        CurrentVersion = new Version(appCastVersion?.InnerText);
+                                    }
+                                    catch (Exception)
+                                    {
+                                        CurrentVersion = null;
+                                    }
 
                                     args.CurrentVersion = CurrentVersion;
 
