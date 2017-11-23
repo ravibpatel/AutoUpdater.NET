@@ -133,7 +133,7 @@
     <value>{0} {1} er nu klar. Du har version {2} installeret. Ønsker du at installere nu?</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Releae Bemærkninger:</value>
+    <value>Release Bemærkninger:</value>
   </data>
   <data name="labelUpdate.Text" xml:space="preserve">
     <value>En ny version af {0} er klar til download!</value>
