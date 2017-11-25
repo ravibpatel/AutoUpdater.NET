@@ -136,6 +136,6 @@
     <value>{0} {1} is beschikbaar!</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Releae Opmerkingen:</value>
+    <value>Release Opmerkingen:</value>
   </data>
 </root>
