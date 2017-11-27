@@ -19,6 +19,10 @@ namespace AutoUpdaterDotNET
             InitializeComponent();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
+
+            // Hide Close button on form if the skip button is hidden as well
+            ControlBox = AutoUpdater.ShowSkipButton;
+
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
             Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
