@@ -48,6 +48,8 @@ namespace AutoUpdaterDotNET
 
         internal static String DownloadURL;
 
+        internal static String InstallerArgs;
+
         internal static bool Mandatory;
 
         internal static String RegistryLocation;
@@ -350,6 +352,10 @@ namespace AutoUpdaterDotNET
                                     Boolean.TryParse(mandatory?.InnerText, out Mandatory);
 
                                     args.Mandatory = Mandatory;
+
+                                    XmlNode appArgs = item.SelectSingleNode("args");
+
+                                    args.InstallerArgs = appArgs?.InnerText;
                                 }
                             }
                         }
@@ -380,6 +386,7 @@ namespace AutoUpdaterDotNET
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
             Mandatory = args.Mandatory;
+            InstallerArgs = args.InstallerArgs;
             webResponse.Close();
 
             if (Mandatory)
@@ -610,6 +617,11 @@ namespace AutoUpdaterDotNET
         ///     Shows if the update is required or optional.
         /// </summary>
         public bool Mandatory { get; set; }
+
+        /// <summary>
+        ///     Installer arguament string.
+        /// </summary>
+        public string InstallerArgs { get; set; }
     }
 
     /// <summary>
