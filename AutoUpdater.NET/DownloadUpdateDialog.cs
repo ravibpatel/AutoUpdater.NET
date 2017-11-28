@@ -65,7 +65,11 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
-            var processStartInfo = new ProcessStartInfo {FileName = _tempPath, UseShellExecute = true};
+            var processStartInfo = new ProcessStartInfo {
+                FileName = _tempPath,
+                UseShellExecute = true,
+                Arguments = AutoUpdater.InstallerArgs,
+            };
             var extension = Path.GetExtension(_tempPath);
             if (extension != null && extension.ToLower().Equals(".zip"))
             {
