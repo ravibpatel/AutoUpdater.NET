@@ -349,7 +349,7 @@ namespace AutoUpdaterDotNET
 
                                     XmlNode appArgs = item.SelectSingleNode("args");
 
-                                    args.InstallerArgs = appArgs?.InnerText;
+                                    args.InstallerArgs = appArgs?.InnerText ?? String.Empty;
                                 }
                             }
                         }
@@ -595,7 +595,7 @@ namespace AutoUpdaterDotNET
         public bool Mandatory { get; set; }
 
         /// <summary>
-        ///     Installer arguament string.
+        ///     Command line arguments used by Installer.
         /// </summary>
         public string InstallerArgs { get; set; }
     }

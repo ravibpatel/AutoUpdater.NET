@@ -167,7 +167,7 @@ namespace AutoUpdaterTest
             }
         }
 
-        private void buttonCheckForUpdate_Click(object sender, EventArgs e)
+        private void ButtonCheckForUpdate_Click(object sender, EventArgs e)
         {
             AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
         }

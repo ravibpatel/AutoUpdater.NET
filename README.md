@@ -24,12 +24,13 @@ AutoUpdater.NET uses XML file located on a server to get the release information
 </item>
 ````
 
-There are three things you need to provide in XML file as you can see above.
+There are two things you need to provide in XML file as you can see above.
 
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
 * mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
+* args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
 
 ### Adding one line to make it work
 

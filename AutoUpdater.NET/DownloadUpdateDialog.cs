@@ -68,7 +68,7 @@ namespace AutoUpdaterDotNET
             var processStartInfo = new ProcessStartInfo {
                 FileName = _tempPath,
                 UseShellExecute = true,
-                Arguments = AutoUpdater.InstallerArgs,
+                Arguments = AutoUpdater.InstallerArgs.Replace("%path%", Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName))
             };
             var extension = Path.GetExtension(_tempPath);
             if (extension != null && extension.ToLower().Equals(".zip"))

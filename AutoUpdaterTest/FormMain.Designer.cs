@@ -43,7 +43,7 @@
             this.buttonCheckForUpdate.TabIndex = 0;
             this.buttonCheckForUpdate.Text = "Check for update";
             this.buttonCheckForUpdate.UseVisualStyleBackColor = true;
-            this.buttonCheckForUpdate.Click += new System.EventHandler(this.buttonCheckForUpdate_Click);
+            this.buttonCheckForUpdate.Click += new System.EventHandler(this.ButtonCheckForUpdate_Click);
             // 
             // labelVersion
             // 
