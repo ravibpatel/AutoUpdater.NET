@@ -5,7 +5,6 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace AutoUpdaterDotNET
 {

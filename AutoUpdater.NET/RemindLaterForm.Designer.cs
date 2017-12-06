@@ -80,6 +80,7 @@
             // comboBoxRemindLater
             // 
             resources.ApplyResources(this.comboBoxRemindLater, "comboBoxRemindLater");
+            this.comboBoxRemindLater.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRemindLater.FormattingEnabled = true;
             this.comboBoxRemindLater.Items.AddRange(new object[] {
             resources.GetString("comboBoxRemindLater.Items"),
