@@ -25,7 +25,7 @@ namespace AutoUpdaterTest
         {
             //Uncomment below lines to handle parsing logic of non XML AppCast file.
 
-            //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
+            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
 
             //Uncomment below line to see russian version
@@ -169,6 +169,7 @@ namespace AutoUpdaterTest
 
         private void ButtonCheckForUpdate_Click(object sender, EventArgs e)
         {
+            AutoUpdater.Mandatory = true;
             AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
     }

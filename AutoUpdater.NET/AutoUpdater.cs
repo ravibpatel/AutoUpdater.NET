@@ -48,8 +48,6 @@ namespace AutoUpdaterDotNET
 
         internal static String InstallerArgs;
 
-        internal static bool Mandatory;
-
         internal static String RegistryLocation;
 
         internal static Version CurrentVersion;
@@ -100,6 +98,11 @@ namespace AutoUpdaterDotNET
         ///     AutoUpdater.NET will report errors if this is true.
         /// </summary>
         public static bool ReportErrors = false;
+
+        ///<summary>
+        ///     Set this to true if you want to ignore previously assigned Remind Later and Skip settings. It will also hide Remind Later and Skip buttons.
+        /// </summary>
+        public static bool Mandatory;
 
         /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
@@ -339,9 +342,12 @@ namespace AutoUpdaterDotNET
 
                                     args.DownloadURL = appCastUrl?.InnerText;
 
-                                    XmlNode mandatory = item.SelectSingleNode("mandatory");
+                                    if (Mandatory.Equals(false))
+                                    {
+                                        XmlNode mandatory = item.SelectSingleNode("mandatory");
 
-                                    Boolean.TryParse(mandatory?.InnerText, out Mandatory);
+                                        Boolean.TryParse(mandatory?.InnerText, out Mandatory);
+                                    }
 
                                     args.Mandatory = Mandatory;
 

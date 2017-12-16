@@ -67,6 +67,14 @@ If you don't want to show Remind Later button on Update form then just add follo
 AutoUpdater.ShowRemindLaterButton = false;
 ````
 
+### Ignore previous Remind Later or Skip settings
+
+If you want to ignore previosuly set Remind Later and Skip settings then you can set Mandatory property to true. It will also hide Skip and Remind Later button. If you set Mandatory to true in code then value of Mandatory in your XML file will be ignored.
+
+````csharp
+AutoUpdater.Mandatory = true;
+````
+
 ### Enable Error Reporting
 
 You can turn on error reporting by adding below code. If you do this AutoUpdater.NET will show error message, if there is no update available or if it can't get to the XML file from web server.
