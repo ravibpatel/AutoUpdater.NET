@@ -112,16 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="labelUpdate.Text" xml:space="preserve">
-    <value>Nowa wersja {0} jest dostępna!</value>
+    <value>Nowa wersja programu {0} jest dostępna!</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} jest już dostępny. Masz wersję {2} zainstalowany. Chcesz go ściągnąć?</value>
+    <value>Program {0} {1} jest już dostępny. Masz zainstalowaną wersję {2}. Chcesz ją ściągnąć?</value>
   </data>
   <data name="buttonUpdate.Text" xml:space="preserve">
     <value>Aktualizacja</value>
@@ -133,7 +133,7 @@
     <value>Pominąć tę wersję</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>{0} {1} jest dostępna!</value>
+    <value>Aktualizacja programu {0} {1} jest dostępna!</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Release Uwagi:</value>
