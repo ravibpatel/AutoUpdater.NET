@@ -160,9 +160,14 @@ namespace AutoUpdaterDotNET
                 var index = contentDisposition.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
                 if (index >= 0)
                     fileName = contentDisposition.Substring(index + lookForFileName.Length);
-                if (fileName.StartsWith("\"") && fileName.EndsWith("\""))
+                if (fileName.StartsWith("\""))
                 {
-                    fileName = fileName.Substring(1, fileName.Length - 2);
+                    var file = fileName.Substring(1, fileName.Length - 1);
+                    var i = file.IndexOf("\"", StringComparison.CurrentCultureIgnoreCase);
+                    if (i != -1)
+                    {
+                        fileName = file.Substring(0, i);
+                    }
                 }
             }
             return fileName;
