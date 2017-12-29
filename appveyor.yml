@@ -6,7 +6,7 @@ before_build:
 build:
   verbosity: minimal
 after_build:
-- cmd: 7z a AutoUpdater.NET-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\bin\Release\v4.0\
+- cmd: 7z a AutoUpdater.NET-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\bin\Debug\v4.0\
 artifacts:
 - path: AutoUpdater.NET-$(APPVEYOR_BUILD_VERSION).zip
   name: AutoUpdater.NET
