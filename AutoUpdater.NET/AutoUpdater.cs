@@ -99,6 +99,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool ReportErrors = false;
 
+        /// <summary>
+        ///     Set this to false if your application doesn't need administrator privileges to replace the old version.
+        /// </summary>
+        public static bool RunUpdateAsAdmin = true;
+
         ///<summary>
         ///     Set this to true if you want to ignore previously assigned Remind Later and Skip settings. It will also hide Remind Later and Skip buttons.
         /// </summary>

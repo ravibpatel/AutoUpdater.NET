@@ -76,10 +76,14 @@ namespace AutoUpdaterDotNET
                 File.WriteAllBytes(installerPath, Properties.Resources.ZipExtractor);
                 processStartInfo = new ProcessStartInfo
                 {
-                    UseShellExecute = true,
                     FileName = installerPath,
+                    UseShellExecute = true,
                     Arguments = $"\"{_tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\""
                 };
+                if (AutoUpdater.RunUpdateAsAdmin)
+                {
+                    processStartInfo.Verb = "runas";
+                }
             }
             try
             {

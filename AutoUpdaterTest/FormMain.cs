@@ -23,10 +23,13 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //Uncomment below lines to handle parsing logic of non XML AppCast file.
+            //Uncomment below line to handle parsing logic of non XML AppCast file.
 
-            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+
+            //Uncomment below line to run update process using non administrator account.
+
+            //AutoUpdater.RunUpdateAsAdmin = false;
 
             //Uncomment below line to see russian version
 
@@ -66,8 +69,6 @@ namespace AutoUpdaterTest
 
             //AutoUpdater.CheckForUpdateEvent += AutoUpdaterOnCheckForUpdateEvent;
 
-            //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
-
             //Want to use XML and Update file served only through Proxy.
 
             //var proxy = new WebProxy("localproxyIP:8080", true) {Credentials = new NetworkCredential("domain\\user", "password")};
@@ -86,6 +87,8 @@ namespace AutoUpdaterTest
             //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //};
             //timer.Start();
+            
+            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
         private void AutoUpdater_ApplicationExitEvent()
