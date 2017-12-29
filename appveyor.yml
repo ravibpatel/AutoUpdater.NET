@@ -1,11 +1,12 @@
 version: 1.4.7.{build}
+skip_branch_with_pr: true
 image: Visual Studio 2017
 before_build:
 - cmd: nuget restore
 build:
   verbosity: minimal
 after_build:
-- cmd: 7z a AutoUpdater.NET-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\bin\Debug\v4.0\
+- cmd: 7z a AutoUpdater.NET-%APPVEYOR_BUILD_VERSION%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\bin\Release\v4.0\
 artifacts:
 - path: AutoUpdater.NET-$(APPVEYOR_BUILD_VERSION).zip
   name: AutoUpdater.NET

@@ -1,4 +1,4 @@
-# AutoUpdater.NET  [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
+# AutoUpdater.NET  [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
 ## The nuget package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
@@ -81,6 +81,14 @@ You can turn on error reporting by adding below code. If you do this AutoUpdater
 
 ````csharp
 AutoUpdater.ReportErrors = true;
+````
+
+### Run update process without Administrator privileges
+
+If your application doesn't need administrator privileges to replace old version then you can set RunUpdateAsAdmin to false.
+
+````csharp
+AutoUpdater.RunUpdateAsAdmin = false;
 ````
 
 ### Open Download Page
