@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AutoUpdaterDotNET
 {
@@ -85,6 +87,18 @@ namespace AutoUpdaterDotNET
                     processStartInfo.Verb = "runas";
                 }
             }
+
+            if (AutoUpdater.CompareChecksum)
+            {
+                if (!CompareChecksum(processStartInfo.FileName, AutoUpdater.Checksum))
+                {
+                    _webClient = null;
+                    Close();
+                    return;                  
+                }
+
+            }
+
             try
             {
                 Process.Start(processStartInfo);
@@ -175,6 +189,25 @@ namespace AutoUpdaterDotNET
                 }
             }
             return fileName;
+        }
+
+        private static bool CompareChecksum(string fileName, string checksum)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(fileName))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant().ToLower();
+
+                    if (fileChecksum == checksum.ToLower()) return true;
+
+                    MessageBox.Show(string.Format("Checksum Failed: {0} <> {1}", fileChecksum, checksum), @"Security Alert", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return false;
+                }
+            }           
         }
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)

@@ -50,6 +50,8 @@ namespace AutoUpdaterDotNET
 
         internal static String RegistryLocation;
 
+        internal static String Checksum;
+
         internal static Version CurrentVersion;
 
         internal static Version InstalledVersion;
@@ -108,6 +110,11 @@ namespace AutoUpdaterDotNET
         ///     Set this to true if you want to ignore previously assigned Remind Later and Skip settings. It will also hide Remind Later and Skip buttons.
         /// </summary>
         public static bool Mandatory;
+
+        /// <summary>
+        ///  Set this to true if you want to compare the checksum of the updated file to the provided checksum in the XML field "checksum"
+        /// </summary>
+        public static bool CompareChecksum;
 
         /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
@@ -359,6 +366,10 @@ namespace AutoUpdaterDotNET
                                     XmlNode appArgs = item.SelectSingleNode("args");
 
                                     args.InstallerArgs = appArgs?.InnerText ?? String.Empty;
+
+                                    XmlNode checksum = item.SelectSingleNode("checksum");
+                                    
+                                    args.Checksum = checksum?.InnerText ?? String.Empty;
                                 }
                             }
                         }
@@ -393,6 +404,8 @@ namespace AutoUpdaterDotNET
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
             Mandatory = args.Mandatory;
             InstallerArgs = args.InstallerArgs;
+            Checksum = args.Checksum;
+
             webResponse.Close();
 
             if (Mandatory)
@@ -607,6 +620,11 @@ namespace AutoUpdaterDotNET
         ///     Command line arguments used by Installer.
         /// </summary>
         public string InstallerArgs { get; set; }
+
+        /// <summary>
+        ///  Checksum of the update file
+        /// </summary>
+        public string Checksum { get; set; }
     }
 
     /// <summary>

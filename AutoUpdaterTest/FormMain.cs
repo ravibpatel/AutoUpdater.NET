@@ -87,7 +87,8 @@ namespace AutoUpdaterTest
             //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
             //};
             //timer.Start();
-            
+
+            AutoUpdater.CompareChecksum = true;
             AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
