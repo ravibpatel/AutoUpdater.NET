@@ -198,7 +198,7 @@ namespace AutoUpdaterDotNET
                 using (var stream = File.OpenRead(fileName))
                 {
                     var hash = md5.ComputeHash(stream);
-                    var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant().ToLower();
+                    var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant();
 
                     if (fileChecksum == checksum.ToLower()) return true;
 
