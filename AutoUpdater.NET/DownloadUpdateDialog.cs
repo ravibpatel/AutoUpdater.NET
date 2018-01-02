@@ -88,9 +88,9 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            if (AutoUpdater.CompareChecksum)
+            if (!string.IsNullOrEmpty(AutoUpdater.Checksum))
             {
-                if (!CompareChecksum(processStartInfo.FileName, AutoUpdater.Checksum))
+                if (!CompareChecksum(_tempPath, AutoUpdater.Checksum))
                 {
                     _webClient = null;
                     Close();

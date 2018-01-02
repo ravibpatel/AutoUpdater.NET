@@ -112,11 +112,6 @@ namespace AutoUpdaterDotNET
         public static bool Mandatory;
 
         /// <summary>
-        ///  Set this to true if you want to compare the checksum of the updated file to the provided checksum in the XML field "checksum"
-        /// </summary>
-        public static bool CompareChecksum;
-
-        /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
         /// </summary>
         public static WebProxy Proxy;
