@@ -129,4 +129,16 @@
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
     <value>检查更新失败</value>
   </data>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>校验和不同</value>
+  </data>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>文件完整性检查失败并报告一些错误。</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>不支持的哈希算法</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+    <value>不支持XML文件中提供的哈希算法。</value>
+  </data>
 </root>

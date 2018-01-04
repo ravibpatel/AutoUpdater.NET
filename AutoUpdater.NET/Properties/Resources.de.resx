@@ -112,12 +112,11 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="UpdateUnavailableMessage" xml:space="preserve">
     <value>Es ist kein Update vorhanden. Bitte versuchen Sie es später noch einmal.</value>
   </data>
@@ -129,5 +128,17 @@
   </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
     <value>Update Check fehlgeschlagen</value>
+  </data>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>Checksumme ist unterschiedlich</value>
+  </data>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>Die Dateiintegritätsprüfung ist fehlgeschlagen und hat einige Fehler gemeldet.</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>Nicht unterstützter Hash-Algorithmus</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+    <value>Der in der XML-Datei enthaltene Hash-Algorithmus wird nicht unterstützt.</value>
   </data>
 </root>

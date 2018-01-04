@@ -112,12 +112,11 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="UpdateUnavailableMessage" xml:space="preserve">
     <value>사용 가능한 업데이트가 없습니다. 나중에 다시 시도 해주십시오.</value>
   </data>
@@ -129,5 +128,17 @@
   </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
     <value>업데이트 확인 실패</value>
+  </data>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>체크섬은 다릅니다.</value>
+  </data>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>파일 무결성 검사가 실패하고 몇 가지 오류가보고되었습니다.</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>지원되지 않는 해시 알고리즘</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+    <value>XML 파일에 제공된 해시 알고리즘은 지원되지 않습니다.</value>
   </data>
 </root>

@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>チェックサムは異なります</value>
+  </data>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>ファイルの整合性チェックに失敗し、いくつかのエラーが報告されました。</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>サポートされていないハッシュアルゴリズム</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+    <value>XMLファイルで提供されるハッシュアルゴリズムはサポートされていません。</value>
+  </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
     <value>アップデートの確認に失敗しました。</value>
   </data>

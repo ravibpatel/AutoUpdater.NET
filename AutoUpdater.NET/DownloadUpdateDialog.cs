@@ -7,6 +7,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using AutoUpdaterDotNET.Properties;
 
 namespace AutoUpdaterDotNET
 {
@@ -193,21 +194,30 @@ namespace AutoUpdaterDotNET
 
         private static bool CompareChecksum(string fileName, string checksum)
         {
-            using (var md5 = MD5.Create())
+            using (var hashAlgorithm = HashAlgorithm.Create(AutoUpdater.HashingAlgorithm))
             {
                 using (var stream = File.OpenRead(fileName))
                 {
-                    var hash = md5.ComputeHash(stream);
-                    var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant();
+                    if (hashAlgorithm != null)
+                    {
+                        var hash = hashAlgorithm.ComputeHash(stream);
+                        var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant();
 
-                    if (fileChecksum == checksum.ToLower()) return true;
+                        if (fileChecksum == checksum.ToLower()) return true;
 
-                    MessageBox.Show(string.Format("Checksum Failed: {0} <> {1}", fileChecksum, checksum), @"Security Alert", MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBox.Show(Resources.FileIntegrityCheckFailedMessage, Resources.FileIntegrityCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        if (AutoUpdater.ReportErrors)
+                        {
+                            MessageBox.Show(Resources.HashAlgorithmNotSupportedMessage, Resources.HashAlgorithmNotSupportedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
 
                     return false;
                 }
-            }           
+            }   
         }
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)

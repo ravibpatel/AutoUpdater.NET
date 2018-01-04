@@ -112,12 +112,11 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="UpdateUnavailableMessage" xml:space="preserve">
     <value>Der er ingen opdatering tilgængelig. Prøv igen senere.</value>
   </data>
@@ -129,5 +128,17 @@
   </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
     <value>Opdateringstjek mislykkedes</value>
+  </data>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>Kontrolsummet afviger</value>
+  </data>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>Filintegritetskontrol mislykkedes og rapporterede nogle fejl.</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>Ikke understøttet Hash-algoritme</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+    <value>Hash-algoritmen i XML-filen understøttes ikke.</value>
   </data>
 </root>

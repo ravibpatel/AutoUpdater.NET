@@ -52,6 +52,8 @@ namespace AutoUpdaterDotNET
 
         internal static String Checksum;
 
+        internal static String HashingAlgorithm;
+
         internal static Version CurrentVersion;
 
         internal static Version InstalledVersion;
@@ -363,7 +365,9 @@ namespace AutoUpdaterDotNET
                                     args.InstallerArgs = appArgs?.InnerText ?? String.Empty;
 
                                     XmlNode checksum = item.SelectSingleNode("checksum");
-                                    
+
+                                    args.HashingAlgorithm = checksum.Attributes["algorithm"]?.InnerText ?? "MD5";
+
                                     args.Checksum = checksum?.InnerText ?? String.Empty;
                                 }
                             }
@@ -399,6 +403,7 @@ namespace AutoUpdaterDotNET
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
             Mandatory = args.Mandatory;
             InstallerArgs = args.InstallerArgs;
+            HashingAlgorithm = args.HashingAlgorithm;
             Checksum = args.Checksum;
 
             webResponse.Close();
@@ -617,9 +622,14 @@ namespace AutoUpdaterDotNET
         public string InstallerArgs { get; set; }
 
         /// <summary>
-        ///  Checksum of the update file
+        ///     Checksum of the update file.
         /// </summary>
         public string Checksum { get; set; }
+
+        /// <summary>
+        ///     Hash algorithm that generated the checksum provided in the XML file.
+        /// </summary>
+        public string HashingAlgorithm { get; set; }
     }
 
     /// <summary>

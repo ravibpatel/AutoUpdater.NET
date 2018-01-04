@@ -1,8 +1,10 @@
 # AutoUpdater.NET  [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
+
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
-## The nuget package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
-https://www.nuget.org/packages/Autoupdater.NET.Official/
+## The NuGet package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
+
+`https://www.nuget.org/packages/Autoupdater.NET.Official/`
 
     PM> Install-Package Autoupdater.NET.Official
 
@@ -11,7 +13,9 @@ https://www.nuget.org/packages/Autoupdater.NET.Official/
 AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory. 
 
 ## Using the code
+
 ### XML file
+
 AutoUpdater.NET uses XML file located on a server to get the release information about the latest version of the software. You need to create XML file like below and then you need to upload it to your server.
 
 ````xml
@@ -27,10 +31,15 @@ AutoUpdater.NET uses XML file located on a server to get the release information
 There are two things you need to provide in XML file as you can see above.
 
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
-* url (Required): You need to provide URL of the latest version installer file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
+* url (Required): You need to provide URL of the latest version installer file or zip file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
 * mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
 * args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
+* checksum (Optional): You can provide the checksum for the update file between this tag. If you do this AutoUpdater.NET will compare the checksum of the downloaded file before executing the update process to check the integrity of the file. You can provide algorithm attribute in the checksum tag to specify which algorithm should be used to generate the checksum of the downloaded file. Currently, MD5, SHA1, SHA256, SHA384, and SHA512 are supported.
+
+````xml
+<checksum algorithm="MD5">Update file Checksum</checksum>
+````
 
 ### Adding one line to make it work
 
@@ -51,6 +60,7 @@ Start method of AutoUpdater class takes URL of the XML file you uploaded to serv
     AutoUpdater.Start should be called from UI thread.
 
 ## Configuration Options
+
 ### Disable Skip Button
 
 If you don't want to show Skip button on Update form then just add following line with above code.
@@ -69,7 +79,7 @@ AutoUpdater.ShowRemindLaterButton = false;
 
 ### Ignore previous Remind Later or Skip settings
 
-If you want to ignore previosuly set Remind Later and Skip settings then you can set Mandatory property to true. It will also hide Skip and Remind Later button. If you set Mandatory to true in code then value of Mandatory in your XML file will be ignored.
+If you want to ignore previously set Remind Later and Skip settings then you can set Mandatory property to true. It will also hide Skip and Remind Later button. If you set Mandatory to true in code then value of Mandatory in your XML file will be ignored.
 
 ````csharp
 AutoUpdater.Mandatory = true;
@@ -154,6 +164,7 @@ timer.Tick += delegate
 };
 timer.Start();
 ````
+
 ## Handling Application exit logic manually
 
 If you like to handle Application exit logic yourself then you can use ApplicationExiEvent like below. This is very useful if you like to do something before closing the application.
@@ -262,6 +273,7 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
     };
 }
 ````
+
 ### JSON file used in the Example above
 
 ````json
@@ -269,6 +281,6 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
     "version":"2.0.0.0", 
     "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
     "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
-    "mandatory":true 
+    "mandatory":true
 }
 ````
