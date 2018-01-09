@@ -366,7 +366,7 @@ namespace AutoUpdaterDotNET
 
                                     XmlNode checksum = item.SelectSingleNode("checksum");
 
-                                    args.HashingAlgorithm = checksum.Attributes["algorithm"]?.InnerText ?? "MD5";
+                                    args.HashingAlgorithm = checksum?.Attributes["algorithm"]?.InnerText ?? "MD5";
 
                                     args.Checksum = checksum?.InnerText ?? String.Empty;
                                 }
