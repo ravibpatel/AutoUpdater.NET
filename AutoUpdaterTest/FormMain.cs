@@ -23,9 +23,10 @@ namespace AutoUpdaterTest
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //Uncomment below line to handle parsing logic of non XML AppCast file.
+            //Uncomment below lines to handle parsing logic of non XML AppCast file.
 
             //AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+            //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
 
             //Uncomment below line to run update process using non administrator account.
 

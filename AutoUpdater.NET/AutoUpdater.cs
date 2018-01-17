@@ -362,13 +362,13 @@ namespace AutoUpdaterDotNET
 
                                     XmlNode appArgs = item.SelectSingleNode("args");
 
-                                    args.InstallerArgs = appArgs?.InnerText ?? String.Empty;
+                                    args.InstallerArgs = appArgs?.InnerText;
 
                                     XmlNode checksum = item.SelectSingleNode("checksum");
 
-                                    args.HashingAlgorithm = checksum?.Attributes["algorithm"]?.InnerText ?? "MD5";
+                                    args.HashingAlgorithm = checksum?.Attributes["algorithm"]?.InnerText;
 
-                                    args.Checksum = checksum?.InnerText ?? String.Empty;
+                                    args.Checksum = checksum?.InnerText;
                                 }
                             }
                         }
@@ -402,9 +402,9 @@ namespace AutoUpdaterDotNET
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
             Mandatory = args.Mandatory;
-            InstallerArgs = args.InstallerArgs;
-            HashingAlgorithm = args.HashingAlgorithm;
-            Checksum = args.Checksum;
+            InstallerArgs = args.InstallerArgs ?? String.Empty;
+            HashingAlgorithm = args.HashingAlgorithm ?? "MD5";
+            Checksum = args.Checksum ?? String.Empty;
 
             webResponse.Close();
 
