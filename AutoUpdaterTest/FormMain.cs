@@ -26,7 +26,7 @@ namespace AutoUpdaterTest
             //Uncomment below lines to handle parsing logic of non XML AppCast file.
 
             //AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
-            //AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
+            //AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.json");
 
             //Uncomment below line to run update process using non administrator account.
 
@@ -85,11 +85,11 @@ namespace AutoUpdaterTest
             //};
             //timer.Elapsed += delegate
             //{
-            //    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
+            //    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
             //};
             //timer.Start();
 
-            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
+            //AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
         private void AutoUpdater_ApplicationExitEvent()
@@ -173,8 +173,19 @@ namespace AutoUpdaterTest
 
         private void ButtonCheckForUpdate_Click(object sender, EventArgs e)
         {
+
+            //Uncomment below lines to select download path where update is saved.
+
+            //FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            //if (folderBrowserDialog.ShowDialog().Equals(DialogResult.OK))
+            //{
+            //    AutoUpdater.DownloadPath = folderBrowserDialog.SelectedPath;
+            //    AutoUpdater.Mandatory = true;
+            //    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+            //}
+
             AutoUpdater.Mandatory = true;
-            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
+            AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
     }
 }

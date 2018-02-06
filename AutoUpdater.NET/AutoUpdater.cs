@@ -63,6 +63,11 @@ namespace AutoUpdaterDotNET
         internal static bool Running;
 
         /// <summary>
+        ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
+        /// </summary>
+        public static String DownloadPath;
+
+        /// <summary>
         ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
         /// </summary>
         public static String AppTitle;

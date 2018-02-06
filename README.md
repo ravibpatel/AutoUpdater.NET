@@ -135,6 +135,14 @@ var proxy = new WebProxy("ProxyIP:ProxyPort", true)
 AutoUpdater.Proxy = proxy;
 ````
 
+### Specify where to download update file
+
+You can specify where you want to download update file by assigning DownloadPath field as shown below. It will be used for ZipExtractor too.
+
+````csharp
+AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+````
+
 ## Check updates frequently
 
 You can call Start method inside Timer to check for updates frequently.
