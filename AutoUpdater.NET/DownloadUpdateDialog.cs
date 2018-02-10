@@ -66,6 +66,16 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
+            if (!string.IsNullOrEmpty(AutoUpdater.Checksum))
+            {
+                if (!CompareChecksum(_tempFile, AutoUpdater.Checksum))
+                {
+                    _webClient = null;
+                    Close();
+                    return;
+                }
+            }
+
             string fileName;
             string contentDisposition = _webClient.ResponseHeaders["Content-Disposition"] ?? string.Empty;
             if (string.IsNullOrEmpty(contentDisposition))
@@ -119,16 +129,6 @@ namespace AutoUpdaterDotNET
                 if (AutoUpdater.RunUpdateAsAdmin)
                 {
                     processStartInfo.Verb = "runas";
-                }
-            }
-
-            if (!string.IsNullOrEmpty(AutoUpdater.Checksum))
-            {
-                if (!CompareChecksum(tempPath, AutoUpdater.Checksum))
-                {
-                    _webClient = null;
-                    Close();
-                    return;
                 }
             }
 

@@ -89,7 +89,7 @@ namespace AutoUpdaterTest
             //};
             //timer.Start();
 
-            //AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+            AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
         private void AutoUpdater_ApplicationExitEvent()
