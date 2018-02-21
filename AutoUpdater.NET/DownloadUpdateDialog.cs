@@ -125,11 +125,12 @@ namespace AutoUpdaterDotNET
                     FileName = installerPath,
                     UseShellExecute = true,
                     Arguments = $"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\""
-                };
-                if (AutoUpdater.RunUpdateAsAdmin)
-                {
-                    processStartInfo.Verb = "runas";
-                }
+                };          
+            }
+            
+            if (AutoUpdater.RunUpdateAsAdmin)
+            {
+                processStartInfo.Verb = "runas";
             }
 
             try
