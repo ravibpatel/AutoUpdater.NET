@@ -87,6 +87,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static Boolean ShowSkipButton = true;
 
+		/// <summary>
+		///		If this is true, last 'remind' and 'skip' options are ignored, but download is not mandatory.
+		/// </summary>
+		public static Boolean ForceUpdateCheck = false;
+
         /// <summary>
         ///     If this is true users can see the Remind Later button.
         /// </summary>
@@ -176,7 +181,7 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
-            if (!Running && _remindLaterTimer == null)
+            if (!Running && (_remindLaterTimer == null || ForceUpdateCheck))
             {
                 Running = true;
 
@@ -418,7 +423,7 @@ namespace AutoUpdaterDotNET
                 ShowRemindLaterButton = false;
                 ShowSkipButton = false;
             }
-            else
+            else if (!ForceUpdateCheck)
             {
                 using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
                 {
