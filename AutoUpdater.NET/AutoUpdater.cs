@@ -328,7 +328,7 @@ namespace AutoUpdaterDotNET
                             receivedAppCastDocument.Load(appCastStream);
 
                             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
-                            
+
                             args = new UpdateInfoEventArgs();
 
                             if (appCastItems != null)
@@ -487,6 +487,9 @@ namespace AutoUpdaterDotNET
             return url;
         }
 
+        /// <summary>
+        /// Detects and exits all instances of running assembly, including current.
+        /// </summary>
         private static void Exit()
         {
             if (ApplicationExitEvent != null)
@@ -498,9 +501,25 @@ namespace AutoUpdaterDotNET
                 var currentProcess = Process.GetCurrentProcess();
                 foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
                 {
-                    if (process.Id != currentProcess.Id)
+                    try
                     {
-                        process.Kill();
+                        if (process.Id != currentProcess.Id &&
+                            process.MainModule.FileName == Assembly.GetExecutingAssembly().CodeBase) //get all instances of assembly except current
+                        {
+                            if (!process.CloseMainWindow())
+                            {
+                                //process didn't receive a message or doesn't have a window 
+                                process.WaitForExit((int) TimeSpan.FromSeconds(5).TotalMilliseconds); //give some time to process message
+                                if (!process.HasExited)
+                                    process.Kill(); //TODO show UI message asking user to close program himself instead of killing it
+                            }
+                        }
+                    }
+                    catch (Win32Exception)
+                    {
+                        if (Environment.Is64BitOperatingSystem)
+                            throw; //64-bit can always read other process' properties
+                        //if 32-bit, then it's another process that we don't want to touch
                     }
                 }
 
