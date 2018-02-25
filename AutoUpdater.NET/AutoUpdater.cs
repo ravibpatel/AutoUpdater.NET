@@ -501,25 +501,29 @@ namespace AutoUpdaterDotNET
                 var currentProcess = Process.GetCurrentProcess();
                 foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
                 {
+                    string processPath;
                     try
                     {
-                        if (process.Id != currentProcess.Id &&
-                            process.MainModule.FileName == Assembly.GetExecutingAssembly().CodeBase) //get all instances of assembly except current
-                        {
-                            if (!process.CloseMainWindow())
-                            {
-                                //process didn't receive a message or doesn't have a window 
-                                process.WaitForExit((int) TimeSpan.FromSeconds(5).TotalMilliseconds); //give some time to process message
-                                if (!process.HasExited)
-                                    process.Kill(); //TODO show UI message asking user to close program himself instead of killing it
-                            }
-                        }
+                        processPath = process.MainModule.FileName;
                     }
                     catch (Win32Exception)
                     {
                         if (Environment.Is64BitOperatingSystem)
-                            throw; //64-bit can always read other process' properties
-                        //if 32-bit, then it's another process that we don't want to touch
+                            throw; //64-bit can always read other process' properties, so we should retrow this ex
+                        continue;  //if 32-bit, then it's another process that we don't want to touch, so we suppress ex
+                    }
+
+                    if (process.Id != currentProcess.Id &&
+                        currentProcess.MainModule.FileName == processPath) //get all instances of assembly except current
+                    {
+                        if (process.CloseMainWindow())
+                        {
+                            process.WaitForExit((int) TimeSpan.FromSeconds(5).TotalMilliseconds); //give some time to process message
+                        }
+                        if (!process.HasExited)
+                        {
+                            process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
+                        }
                     }
                 }
 
