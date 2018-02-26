@@ -328,7 +328,7 @@ namespace AutoUpdaterDotNET
                             receivedAppCastDocument.Load(appCastStream);
 
                             XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
-                            
+
                             args = new UpdateInfoEventArgs();
 
                             if (appCastItems != null)
@@ -487,6 +487,9 @@ namespace AutoUpdaterDotNET
             return url;
         }
 
+        /// <summary>
+        /// Detects and exits all instances of running assembly, including current.
+        /// </summary>
         private static void Exit()
         {
             if (ApplicationExitEvent != null)
@@ -498,9 +501,29 @@ namespace AutoUpdaterDotNET
                 var currentProcess = Process.GetCurrentProcess();
                 foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
                 {
-                    if (process.Id != currentProcess.Id)
+                    string processPath;
+                    try
                     {
-                        process.Kill();
+                        processPath = process.MainModule.FileName;
+                    }
+                    catch (Win32Exception)
+                    {
+                        if (Environment.Is64BitOperatingSystem)
+                            throw; //64-bit can always read other process' properties, so we should retrow this ex
+                        continue;  //if 32-bit, then it's another process that we don't want to touch, so we suppress ex
+                    }
+
+                    if (process.Id != currentProcess.Id &&
+                        currentProcess.MainModule.FileName == processPath) //get all instances of assembly except current
+                    {
+                        if (process.CloseMainWindow())
+                        {
+                            process.WaitForExit((int) TimeSpan.FromSeconds(5).TotalMilliseconds); //give some time to process message
+                        }
+                        if (!process.HasExited)
+                        {
+                            process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
+                        }
                     }
                 }
 
