@@ -198,9 +198,9 @@ namespace AutoUpdaterDotNET
         {
             if (!runWorkerCompletedEventArgs.Cancelled)
             {
-                if (runWorkerCompletedEventArgs.Result is DateTime remindLaterTime)
+                if (runWorkerCompletedEventArgs.Result is DateTime)
                 {
-                    SetTimer(remindLaterTime);
+                    SetTimer((DateTime)runWorkerCompletedEventArgs.Result);
                 }
                 else
                 {
