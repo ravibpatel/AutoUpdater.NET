@@ -44,8 +44,8 @@ namespace AutoUpdaterDotNET
 
         public sealed override string Text
         {
-            get => base.Text;
-            set => base.Text = value;
+            get { return  base.Text; }
+            set { base.Text = value; }
         }
 
         private void UseLatestIE()
