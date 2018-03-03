@@ -1,4 +1,4 @@
-version: 1.4.7.{build}
+version: 1.4.8.{build}
 skip_branch_with_pr: true
 image: Visual Studio 2017
 before_build:

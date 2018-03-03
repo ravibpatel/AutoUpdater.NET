@@ -120,11 +120,17 @@ namespace AutoUpdaterDotNET
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);
+                string arguments =
+                    $"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"";
+                if (!string.IsNullOrEmpty(Environment.CommandLine))
+                {
+                    arguments += $" \"{Environment.CommandLine}\"";
+                }
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = installerPath,
                     UseShellExecute = true,
-                    Arguments = $"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\""
+                    Arguments = arguments
                 };          
             }
             
