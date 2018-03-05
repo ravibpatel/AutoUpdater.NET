@@ -21,7 +21,7 @@ namespace ZipExtractor
         private void FormMain_Shown(object sender, EventArgs e)
         {
             string[] args = Environment.GetCommandLineArgs();
-            if (args.Length.Equals(3))
+            if (args.Length >= 3)
             {
                 foreach (var process in Process.GetProcesses())
                 {
@@ -85,6 +85,11 @@ namespace ZipExtractor
                         labelInformation.Text = @"Finished";
                         try
                         {
+                            ProcessStartInfo processStartInfo = new ProcessStartInfo(args[2]);
+                            if (args.Length > 3)
+                            {
+                                processStartInfo.Arguments = args[3];
+                            }
                             Process.Start(args[2]);
                         }
                         catch (Win32Exception exception)

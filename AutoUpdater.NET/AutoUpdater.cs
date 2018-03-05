@@ -176,6 +176,12 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
+            if (Mandatory && _remindLaterTimer != null)
+            {
+                _remindLaterTimer.Stop();
+                _remindLaterTimer.Close();
+                _remindLaterTimer = null;
+            }
             if (!Running && _remindLaterTimer == null)
             {
                 Running = true;
@@ -229,6 +235,7 @@ namespace AutoUpdaterDotNET
                                     thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
                                     thread.SetApartmentState(ApartmentState.STA);
                                     thread.Start();
+                                    thread.Join();
                                 }
                                 return;
                             }
@@ -508,9 +515,9 @@ namespace AutoUpdaterDotNET
                     }
                     catch (Win32Exception)
                     {
-                        if (Environment.Is64BitOperatingSystem)
-                            throw; //64-bit can always read other process' properties, so we should retrow this ex
-                        continue;  //if 32-bit, then it's another process that we don't want to touch, so we suppress ex
+                        // Current process should be same as processes created by other instances of the application so it should be able to access modules of other instances. 
+                        // This means this is not the process we are looking for so we can safely skip this.
+                        continue;
                     }
 
                     if (process.Id != currentProcess.Id &&
@@ -518,7 +525,7 @@ namespace AutoUpdaterDotNET
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(5).TotalMilliseconds); //give some time to process message
+                            process.WaitForExit((int) TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
                         }
                         if (!process.HasExited)
                         {
