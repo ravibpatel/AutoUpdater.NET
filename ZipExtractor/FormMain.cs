@@ -90,7 +90,7 @@ namespace ZipExtractor
                             {
                                 processStartInfo.Arguments = args[3];
                             }
-                            Process.Start(args[2]);
+                            Process.Start(processStartInfo);
                         }
                         catch (Win32Exception exception)
                         {
