@@ -64,7 +64,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="ZipStorer">
-      <HintPath>..\packages\ZipStorer.3.4.0\lib\net40\ZipStorer.dll</HintPath>
+      <HintPath>..\packages\ZipStorer.3.4.0\lib\net20\ZipStorer.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
