@@ -50,9 +50,9 @@
             // pictureBoxIcon
             // 
             this.pictureBoxIcon.Image = global::ZipExtractor.Properties.Resources.ZipExtractor;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(12, 12);
+            this.pictureBoxIcon.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(76, 67);
+            this.pictureBoxIcon.Size = new System.Drawing.Size(85, 79);
             this.pictureBoxIcon.TabIndex = 4;
             this.pictureBoxIcon.TabStop = false;
             // 
