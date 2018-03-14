@@ -108,5 +108,10 @@ namespace ZipExtractor
         {
             _backgroundWorker?.CancelAsync();
         }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
