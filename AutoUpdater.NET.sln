@@ -4,13 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater.NET", "AutoUpdater.NET\AutoUpdater.NET.csproj", "{FB9E7E6B-B19F-4F37-A708-2996190CEF13}"
-	ProjectSection(ProjectDependencies) = postProject
-		{91DE558C-6DB8-429B-A069-C0491DCFF15B} = {91DE558C-6DB8-429B-A069-C0491DCFF15B}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTest", "AutoUpdaterTest\AutoUpdaterTest.csproj", "{FD5AE762-C630-49F8-B814-FCF70E7838D1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipExtractor", "ZipExtractor\ZipExtractor.csproj", "{91DE558C-6DB8-429B-A069-C0491DCFF15B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13} = {FB9E7E6B-B19F-4F37-A708-2996190CEF13}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTestWPF", "AutoUpdaterTestWPF\AutoUpdaterTestWPF.csproj", "{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}"
 EndProject
@@ -39,6 +39,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA3C04C7-01E4-40FC-91C6-AAD7F5BF6948}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

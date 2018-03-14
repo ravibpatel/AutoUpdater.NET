@@ -63,6 +63,10 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZipStorer">
+      <HintPath>..\packages\ZipStorer.3.4.0\lib\net40\ZipStorer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoUpdater.cs" />
@@ -90,6 +94,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="ZipExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DownloadUpdateDialog.da.resx">
@@ -248,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AutoUpdater.NET.pfx" />
+    <None Include="packages.config" />
     <None Include="Resources\download.png" />
   </ItemGroup>
   <ItemGroup>
@@ -268,11 +274,8 @@
   <ItemGroup>
     <None Include="Resources\download_32.png" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ZipExtractor.exe" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
