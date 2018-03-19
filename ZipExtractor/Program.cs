@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace ZipExtractor
+namespace ZipExtractorForm
 {
     static class Program
     {

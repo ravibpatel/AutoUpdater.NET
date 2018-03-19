@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ZipExtractor.Properties {
+namespace ZipExtractorForm.Properties {
     using System;
     
     

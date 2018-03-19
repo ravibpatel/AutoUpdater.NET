@@ -1,4 +1,4 @@
-﻿namespace ZipExtractor
+﻿namespace ZipExtractorForm
 {
     partial class FormMain
     {
@@ -40,21 +40,20 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar.Location = new System.Drawing.Point(96, 44);
             this.progressBar.Margin = new System.Windows.Forms.Padding(5);
+            this.progressBar.Minimum = 20;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(396, 35);
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 0;
+            this.progressBar.Value = 20;
             // 
             // pictureBoxIcon
             // 
-            this.pictureBoxIcon.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBoxIcon.Image = global::ZipExtractor.Properties.Resources.ZipExtractor;
-            this.pictureBoxIcon.Location = new System.Drawing.Point(14, 14);
-            this.pictureBoxIcon.Margin = new System.Windows.Forms.Padding(5);
+            this.pictureBoxIcon.Image = global::ZipExtractorForm.Properties.Resources.ZipExtractor;
+            this.pictureBoxIcon.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxIcon.Name = "pictureBoxIcon";
-            this.pictureBoxIcon.Size = new System.Drawing.Size(72, 72);
-            this.pictureBoxIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBoxIcon.TabIndex = 2;
+            this.pictureBoxIcon.Size = new System.Drawing.Size(85, 79);
+            this.pictureBoxIcon.TabIndex = 4;
             this.pictureBoxIcon.TabStop = false;
             // 
             // labelInformation
@@ -87,6 +86,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Installing update...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+            this.Load += new System.EventHandler(this.FormMain_Load);
             this.Shown += new System.EventHandler(this.FormMain_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
             this.ResumeLayout(false);
