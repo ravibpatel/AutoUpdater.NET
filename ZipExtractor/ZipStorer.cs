@@ -1,9 +1,13 @@
 ﻿// ZipStorer, by Jaime Olivares
 // Website: http://github.com/jaime-olivares/zipstorer
-// Version: 3.2.0 (January 20, 2017)
+// Version: 3.4.0 (August 4, 2017)
 
 using System.Collections.Generic;
 using System.Text;
+
+#if NET45
+using System.Threading.Tasks;
+#endif
 
 namespace System.IO.Compression
 {
@@ -95,6 +99,8 @@ namespace System.IO.Compression
         private ushort ExistingFiles = 0;
         // File access for Open method
         private FileAccess Access;
+        // leave the stream open after the ZipStorer object is disposed
+        private bool leaveOpen;
         // Static CRC32 Table
         private static UInt32[] CrcTable = null;
         // Default filename encoder
@@ -141,14 +147,15 @@ namespace System.IO.Compression
         /// </summary>
         /// <param name="_stream"></param>
         /// <param name="_comment"></param>
+        /// <param name="_leaveOpen">true to leave the stream open after the ZipStorer object is disposed; otherwise, false (default).</param>
         /// <returns>A valid ZipStorer object</returns>
-        public static ZipStorer Create(Stream _stream, string _comment)
+        public static ZipStorer Create(Stream _stream, string _comment, bool _leaveOpen = false)
         {
             ZipStorer zip = new ZipStorer();
             zip.Comment = _comment;
             zip.ZipFileStream = _stream;
             zip.Access = FileAccess.Write;
-
+            zip.leaveOpen = _leaveOpen;
             return zip;
         }
         /// <summary>
@@ -171,8 +178,9 @@ namespace System.IO.Compression
         /// </summary>
         /// <param name="_stream">Already opened stream with zip contents</param>
         /// <param name="_access">File access mode for stream operations</param>
+        /// <param name="_leaveOpen">true to leave the stream open after the ZipStorer object is disposed; otherwise, false (default).</param>
         /// <returns>A valid ZipStorer object</returns>
-        public static ZipStorer Open(Stream _stream, FileAccess _access)
+        public static ZipStorer Open(Stream _stream, FileAccess _access, bool _leaveOpen = false)
         {
             if (!_stream.CanSeek && _access != FileAccess.Read)
                 throw new InvalidOperationException("Stream cannot seek");
@@ -181,6 +189,7 @@ namespace System.IO.Compression
             //zip.FileName = _filename;
             zip.ZipFileStream = _stream;
             zip.Access = _access;
+            zip.leaveOpen = _leaveOpen;
 
             if (zip.ReadFileInfo())
                 return zip;
@@ -199,9 +208,10 @@ namespace System.IO.Compression
             if (Access == FileAccess.Read)
                 throw new InvalidOperationException("Writing is not alowed");
 
-            FileStream stream = new FileStream(_pathname, FileMode.Open, FileAccess.Read);
-            AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment);
-            stream.Close();
+            using (var stream = new FileStream(_pathname, FileMode.Open, FileAccess.Read))
+            {
+                AddStream(_method, _filenameInZip, stream, File.GetLastWriteTime(_pathname), _comment);
+            }
         }
         /// <summary>
         /// Add full contents of a stream into the Zip storage
@@ -215,15 +225,6 @@ namespace System.IO.Compression
         {
             if (Access == FileAccess.Read)
                 throw new InvalidOperationException("Writing is not alowed");
-
-            long offset;
-            if (this.Files.Count == 0)
-                offset = 0;
-            else
-            {
-                ZipFileEntry last = this.Files[this.Files.Count - 1];
-                offset = last.HeaderOffset + last.HeaderSize;
-            }
 
             // Prepare the fileinfo
             ZipFileEntry zfe = new ZipFileEntry();
@@ -276,7 +277,7 @@ namespace System.IO.Compression
                     this.WriteEndRecord(centralSize, centralOffset);
             }
 
-            if (this.ZipFileStream != null)
+            if (this.ZipFileStream != null && !this.leaveOpen)
             {
                 this.ZipFileStream.Flush();
                 this.ZipFileStream.Dispose();
@@ -344,7 +345,7 @@ namespace System.IO.Compression
         public bool ExtractFile(ZipFileEntry _zfe, string _filename)
         {
             // Make sure the parent directory exist
-            string path = System.IO.Path.GetDirectoryName(_filename);
+            string path = Path.GetDirectoryName(_filename);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
@@ -352,13 +353,17 @@ namespace System.IO.Compression
             if (Directory.Exists(_filename))
                 return true;
 
-            Stream output = new FileStream(_filename, FileMode.Create, FileAccess.Write);
-            bool result = ExtractFile(_zfe, output);
-            if (result)
-                output.Close();
+            bool result;
+            using (var output = new FileStream(_filename, FileMode.Create, FileAccess.Write))
+            {
+                result = ExtractFile(_zfe, output);
+            }
 
-            File.SetCreationTime(_filename, _zfe.ModifyTime);
-            File.SetLastWriteTime(_filename, _zfe.ModifyTime);
+            if (result)
+            {
+                File.SetCreationTime(_filename, _zfe.ModifyTime);
+                File.SetLastWriteTime(_filename, _zfe.ModifyTime);
+            }
 
             return result;
         }
@@ -406,6 +411,52 @@ namespace System.IO.Compression
                 inStream.Dispose();
             return true;
         }
+#if NET45
+        /// <summary>
+        /// Copy the contents of a stored file into an opened stream
+        /// </summary>
+        /// <param name="_zfe">Entry information of file to extract</param>
+        /// <param name="_stream">Stream to store the uncompressed data</param>
+        /// <returns>True if success, false if not.</returns>
+        /// <remarks>Unique compression methods are Store and Deflate</remarks>
+        public async Task<bool> ExtractFileAsync(ZipFileEntry _zfe, Stream _stream)
+        {
+            if (!_stream.CanWrite)
+                throw new InvalidOperationException("Stream cannot be written");
+
+            // check signature
+            byte[] signature = new byte[4];
+            this.ZipFileStream.Seek(_zfe.HeaderOffset, SeekOrigin.Begin);
+            await this.ZipFileStream.ReadAsync(signature, 0, 4).ConfigureAwait(false);
+            if (BitConverter.ToUInt32(signature, 0) != 0x04034b50)
+                return false;
+
+            // Select input stream for inflating or just reading
+            Stream inStream;
+            if (_zfe.Method == Compression.Store)
+                inStream = this.ZipFileStream;
+            else if (_zfe.Method == Compression.Deflate)
+                inStream = new DeflateStream(this.ZipFileStream, CompressionMode.Decompress, true);
+            else
+                return false;
+
+            // Buffered copy
+            byte[] buffer = new byte[16384];
+            this.ZipFileStream.Seek(_zfe.FileOffset, SeekOrigin.Begin);
+            uint bytesPending = _zfe.FileSize;
+            while (bytesPending > 0)
+            {
+                int bytesRead = await inStream.ReadAsync(buffer, 0, (int)Math.Min(bytesPending, buffer.Length)).ConfigureAwait(false);
+                await _stream.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
+                bytesPending -= (uint)bytesRead;
+            }
+            _stream.Flush();
+
+            if (_zfe.Method == Compression.Deflate)
+                inStream.Dispose();
+            return true;
+        }
+#endif
         /// <summary>
         /// Copy the contents of a stored file into a byte array
         /// </summary>
@@ -443,15 +494,15 @@ namespace System.IO.Compression
 
 
             //Get full list of entries
-            List<ZipFileEntry> fullList = _zip.ReadCentralDir();
+            var fullList = _zip.ReadCentralDir();
 
             //In order to delete we need to create a copy of the zip file excluding the selected items
-            string tempZipName = Path.GetTempFileName();
-            string tempEntryName = Path.GetTempFileName();
+            var tempZipName = Path.GetTempFileName();
+            var tempEntryName = Path.GetTempFileName();
 
             try
             {
-                ZipStorer tempZip = ZipStorer.Create(tempZipName, string.Empty);
+                var tempZip = ZipStorer.Create(tempZipName, string.Empty);
 
                 foreach (ZipFileEntry zfe in fullList)
                 {
@@ -620,7 +671,7 @@ namespace System.IO.Compression
             Stream outStream;
 
             long posStart = this.ZipFileStream.Position;
-            long sourceStart = _source.Position;
+            long sourceStart = _source.CanSeek ? _source.Position : 0;
 
             if (_zfe.Method == Compression.Store)
                 outStream = this.ZipFileStream;
@@ -642,7 +693,7 @@ namespace System.IO.Compression
                         _zfe.Crc32 = ZipStorer.CrcTable[(_zfe.Crc32 ^ buffer[i]) & 0xFF] ^ (_zfe.Crc32 >> 8);
                     }
                 }
-            } while (bytesRead == buffer.Length);
+            } while (bytesRead > 0);
             outStream.Flush();
 
             if (_zfe.Method == Compression.Deflate)
@@ -696,15 +747,11 @@ namespace System.IO.Compression
 
         /* CRC32 algorithm
           The 'magic number' for the CRC is 0xdebb20e3.  
-          The proper CRC pre and post conditioning
-          is used, meaning that the CRC register is
-          pre-conditioned with all ones (a starting value
-          of 0xffffffff) and the value is post-conditioned by
+          The proper CRC pre and post conditioning is used, meaning that the CRC register is
+          pre-conditioned with all ones (a starting value of 0xffffffff) and the value is post-conditioned by
           taking the one's complement of the CRC residual.
-          If bit 3 of the general purpose flag is set, this
-          field is set to zero in the local header and the correct
-          value is put in the data descriptor and in the central
-          directory.
+          If bit 3 of the general purpose flag is set, this field is set to zero in the local header and the correct
+          value is put in the data descriptor and in the central directory.
         */
         private void UpdateCrcAndSizes(ref ZipFileEntry _zfe)
         {

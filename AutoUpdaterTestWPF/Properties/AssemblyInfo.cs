@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RBSoft")]
 [assembly: AssemblyProduct("AutoUpdaterTestWPF")]
-[assembly: AssemblyCopyright("Copyright © 2012-2017 RBSoft")]
+[assembly: AssemblyCopyright("Copyright © 2012-2018 RBSoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
