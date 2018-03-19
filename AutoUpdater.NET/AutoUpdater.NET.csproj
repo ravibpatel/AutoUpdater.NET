@@ -128,6 +128,9 @@
     <EmbeddedResource Include="DownloadUpdateDialog.ru.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.sk.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DownloadUpdateDialog.sv.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -186,6 +189,9 @@
     <EmbeddedResource Include="RemindLaterForm.ru.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.sk.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.sv.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -235,6 +241,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.ru.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.sk.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.sv.resx">
