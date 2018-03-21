@@ -190,9 +190,6 @@
     <EmbeddedResource Include="DownloadUpdateDialog.zh.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.sk.resx" />
-      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-	</EmbeddedResource>
     <EmbeddedResource Include="DownloadUpdateDialog.zh-tw.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -206,6 +203,7 @@
     <EmbeddedResource Include="Properties\Resources.nl.resx" />
     <EmbeddedResource Include="Properties\Resources.pl.resx" />
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
+	<EmbeddedResource Include="Properties\Resources.sk.resx" />
     <EmbeddedResource Include="Properties\Resources.sv.resx" />
     <EmbeddedResource Include="Properties\Resources.zh.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
