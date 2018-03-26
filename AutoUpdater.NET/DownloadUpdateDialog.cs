@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 using AutoUpdaterDotNET.Properties;
 
@@ -120,17 +121,22 @@ namespace AutoUpdaterDotNET
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);
-                string arguments =
-                    $"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"";
-                if (!string.IsNullOrEmpty(Environment.CommandLine))
+                StringBuilder arguments = new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+                string[] args = Environment.GetCommandLineArgs();
+                for (int i = 1; i < args.Length; i++)
                 {
-                    arguments += $" \"{Environment.CommandLine}\"";
+                    if (i.Equals(1))
+                    {
+                        arguments.Append(" \"");
+                    }
+                    arguments.Append(args[i]);
+                    arguments.Append(i.Equals(args.Length - 1) ? "\"" : " ");
                 }
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = installerPath,
                     UseShellExecute = true,
-                    Arguments = arguments
+                    Arguments = arguments.ToString()
                 };          
             }
             
