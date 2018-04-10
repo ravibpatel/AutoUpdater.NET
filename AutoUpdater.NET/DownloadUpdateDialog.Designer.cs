@@ -32,6 +32,7 @@
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.labelInformation = new System.Windows.Forms.Label();
+            this.labelSize = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,10 +53,16 @@
             resources.ApplyResources(this.labelInformation, "labelInformation");
             this.labelInformation.Name = "labelInformation";
             // 
+            // labelSize
+            // 
+            resources.ApplyResources(this.labelSize, "labelSize");
+            this.labelSize.Name = "labelSize";
+            // 
             // DownloadUpdateDialog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.labelSize);
             this.Controls.Add(this.labelInformation);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.pictureBoxIcon);
@@ -76,5 +83,6 @@
         private System.Windows.Forms.PictureBox pictureBoxIcon;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Label labelInformation;
+        private System.Windows.Forms.Label labelSize;
     }
 }

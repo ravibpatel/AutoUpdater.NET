@@ -141,4 +141,7 @@
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
     <value>不支持XML文件中提供的哈希算法。</value>
   </data>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>以{0}/s下载</value>
+  </data>
 </root>

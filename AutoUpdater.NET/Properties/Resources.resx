@@ -166,4 +166,7 @@
   <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
     <value>Checksum differs</value>
   </data>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>Downloading at {0}/s</value>
+  </data>
 </root>

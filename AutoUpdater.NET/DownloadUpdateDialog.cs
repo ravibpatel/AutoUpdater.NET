@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Cache;
@@ -18,6 +19,8 @@ namespace AutoUpdaterDotNET
         private string _tempFile;
 
         private MyWebClient _webClient;
+
+        private DateTime _startedAt;
 
         public DownloadUpdateDialog(string downloadURL)
         {
@@ -42,12 +45,26 @@ namespace AutoUpdaterDotNET
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
             _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
-
+            
             _webClient.DownloadFileAsync(uri, _tempFile);
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
+            if (_startedAt == default(DateTime))
+            {
+                _startedAt = DateTime.Now;
+            }
+            else
+            {
+                var timeSpan = DateTime.Now - _startedAt;
+                if (timeSpan.Seconds > 0)
+                {
+                    var bytesPerSecond = e.BytesReceived / timeSpan.Seconds;
+                    labelInformation.Text = string.Format(Resources.DownloadSpeedMessage, BytesToString(bytesPerSecond));
+                }
+            }
+            labelSize.Text = $@"{BytesToString(e.BytesReceived)} / {BytesToString(e.TotalBytesToReceive)}";
             progressBar.Value = e.ProgressPercentage;
         }
 
@@ -157,6 +174,17 @@ namespace AutoUpdaterDotNET
             }
 
             Close();
+        }
+
+        private static String BytesToString(long byteCount)
+        {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return $"{(Math.Sign(byteCount) * num).ToString(CultureInfo.InvariantCulture)} {suf[place]}";
         }
 
         private static string TryToFindFileName(string contentDisposition, string lookForFileName)

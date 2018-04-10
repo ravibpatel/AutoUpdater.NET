@@ -141,4 +141,7 @@
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
     <value>Hash-algoritmen i XML-filen understøttes ikke.</value>
   </data>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>Downloader ved {0}/s</value>
+  </data>
 </root>
