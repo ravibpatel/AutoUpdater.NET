@@ -58,9 +58,9 @@ namespace AutoUpdaterDotNET
             else
             {
                 var timeSpan = DateTime.Now - _startedAt;
-                if (timeSpan.Seconds > 0)
+                if (timeSpan.TotalSeconds > 0)
                 {
-                    var bytesPerSecond = e.BytesReceived / timeSpan.Seconds;
+                    var bytesPerSecond = e.BytesReceived / (int) timeSpan.TotalSeconds;
                     labelInformation.Text = string.Format(Resources.DownloadSpeedMessage, BytesToString(bytesPerSecond));
                 }
             }
