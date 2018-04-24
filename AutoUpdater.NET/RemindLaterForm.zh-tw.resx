@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,31 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UpdateUnavailableMessage" xml:space="preserve">
-    <value>Der er ingen opdatering tilgængelig. Prøv igen senere.</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>稍後提醒</value>
   </data>
-  <data name="UpdateUnavailableCaption" xml:space="preserve">
-    <value>Opdatering Utilgængelig</value>
+  <data name="buttonOK.Text" xml:space="preserve">
+    <value>確定</value>
   </data>
-  <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Der er et problem at nå opdateringsserver. Kontroller din internetforbindelse og prøv igen senere.</value>
+  <data name="comboBoxRemindLater.Items" xml:space="preserve">
+    <value>30分鐘後</value>
   </data>
-  <data name="UpdateCheckFailedCaption" xml:space="preserve">
-    <value>Opdateringstjek mislykkedes</value>
+  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
+    <value>12小時後</value>
   </data>
-  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
-    <value>Kontrolsummet afviger</value>
+  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
+    <value>1天後</value>
   </data>
-  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
-    <value>Filintegritetskontrol mislykkedes og rapporterede nogle fejl.</value>
+  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
+    <value>2天後</value>
   </data>
-  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
-    <value>Ikke understøttet Hash-algoritme</value>
+  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
+    <value>4天後</value>
   </data>
-  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>Hash-algoritmen i XML-filen understøttes ikke.</value>
+  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
+    <value>8天後</value>
   </data>
-  <data name="DownloadSpeedMessage" xml:space="preserve">
-    <value>Downloader ved {0}/s</value>
+  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
+    <value>10天後</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>您應現在下載更新。一般而言，此過程僅花費幾分鐘(視您的網路狀況而定)。</value>
+  </data>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>您希望稍後再下載更新嗎？</value>
+  </data>
+  <data name="radioButtonNo.Text" xml:space="preserve">
+    <value>不，現在就下載更新(推薦)</value>
+  </data>
+  <data name="radioButtonYes.Text" xml:space="preserve">
+    <value>是，請稍後再提醒我</value>
   </data>
 </root>

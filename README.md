@@ -266,8 +266,8 @@ When you do this it will execute the code in above event when AutoUpdater.Start 
 If you want to use other format instead of XML as a AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
 
 ````csharp
-AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
 AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
+AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
 
 private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 {

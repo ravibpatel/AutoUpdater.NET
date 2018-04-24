@@ -141,4 +141,7 @@
   <data name="UpdateUnavailableMessage" xml:space="preserve">
     <value>利用できるアップデートがありません。後日、試してください。</value>
   </data>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>{0}/秒でダウンロード中</value>
+  </data>
 </root>

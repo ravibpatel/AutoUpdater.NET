@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,31 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UpdateUnavailableMessage" xml:space="preserve">
-    <value>Der er ingen opdatering tilgængelig. Prøv igen senere.</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>{0} {1} 已經發行</value>
   </data>
-  <data name="UpdateUnavailableCaption" xml:space="preserve">
-    <value>Opdatering Utilgængelig</value>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>稍後再提醒</value>
   </data>
-  <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Der er et problem at nå opdateringsserver. Kontroller din internetforbindelse og prøv igen senere.</value>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>忽略</value>
   </data>
-  <data name="UpdateCheckFailedCaption" xml:space="preserve">
-    <value>Opdateringstjek mislykkedes</value>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>更新</value>
   </data>
-  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
-    <value>Kontrolsummet afviger</value>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>{0} {1} 已經發行。本機目前的版本是 {2}。是否立即進行更新？</value>
   </data>
-  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
-    <value>Filintegritetskontrol mislykkedes og rapporterede nogle fejl.</value>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>發行事項：</value>
   </data>
-  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
-    <value>Ikke understøttet Hash-algoritme</value>
-  </data>
-  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>Hash-algoritmen i XML-filen understøttes ikke.</value>
-  </data>
-  <data name="DownloadSpeedMessage" xml:space="preserve">
-    <value>Downloader ved {0}/s</value>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>新版 {0} 已經發行！</value>
   </data>
 </root>

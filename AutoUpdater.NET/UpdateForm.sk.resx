@@ -117,31 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UpdateUnavailableMessage" xml:space="preserve">
-    <value>Der er ingen opdatering tilgængelig. Prøv igen senere.</value>
+  <data name="labelUpdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>212, 19</value>
   </data>
-  <data name="UpdateUnavailableCaption" xml:space="preserve">
-    <value>Opdatering Utilgængelig</value>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>Nová verzie {0} je k dispozícii!</value>
   </data>
-  <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Der er et problem at nå opdateringsserver. Kontroller din internetforbindelse og prøv igen senere.</value>
+  <data name="labelDescription.Size" type="System.Drawing.Size, System.Drawing">
+    <value>489, 15</value>
   </data>
-  <data name="UpdateCheckFailedCaption" xml:space="preserve">
-    <value>Opdateringstjek mislykkedes</value>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Je k dispozícii verzia {0} {1}. Nainštalovaná je verzia {2}. Želáte si aktualizovať na novú verziu?</value>
   </data>
-  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
-    <value>Kontrolsummet afviger</value>
+  <data name="labelReleaseNotes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 17</value>
   </data>
-  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
-    <value>Filintegritetskontrol mislykkedes og rapporterede nogle fejl.</value>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Poznámky k vydaniu:</value>
   </data>
-  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
-    <value>Ikke understøttet Hash-algoritme</value>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Aktualizovať</value>
   </data>
-  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>Hash-algoritmen i XML-filen understøttes ikke.</value>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Pripomenúť neskôr</value>
   </data>
-  <data name="DownloadSpeedMessage" xml:space="preserve">
-    <value>Downloader ved {0}/s</value>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Preskočiť túto verziu</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>{0} {1} je k dispozícii!</value>
   </data>
 </root>

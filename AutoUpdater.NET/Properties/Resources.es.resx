@@ -141,4 +141,7 @@
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
     <value>El algoritmo Hash proporcionado en el archivo XML no es compatible.</value>
   </data>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>Descargando a {0}/s</value>
+  </data>
 </root>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 using AutoUpdaterDotNET.Properties;
 
@@ -17,6 +19,8 @@ namespace AutoUpdaterDotNET
         private string _tempFile;
 
         private MyWebClient _webClient;
+
+        private DateTime _startedAt;
 
         public DownloadUpdateDialog(string downloadURL)
         {
@@ -41,12 +45,27 @@ namespace AutoUpdaterDotNET
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
             _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
-
+            
             _webClient.DownloadFileAsync(uri, _tempFile);
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
+            if (_startedAt == default(DateTime))
+            {
+                _startedAt = DateTime.Now;
+            }
+            else
+            {
+                var timeSpan = DateTime.Now - _startedAt;
+                long totalSeconds = (long) timeSpan.TotalSeconds;
+                if (totalSeconds > 0)
+                {
+                    var bytesPerSecond = e.BytesReceived / totalSeconds;
+                    labelInformation.Text = string.Format(Resources.DownloadSpeedMessage, BytesToString(bytesPerSecond));
+                }
+            }
+            labelSize.Text = $@"{BytesToString(e.BytesReceived)} / {BytesToString(e.TotalBytesToReceive)}";
             progressBar.Value = e.ProgressPercentage;
         }
 
@@ -120,17 +139,22 @@ namespace AutoUpdaterDotNET
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);
-                string arguments =
-                    $"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"";
-                if (!string.IsNullOrEmpty(Environment.CommandLine))
+                StringBuilder arguments = new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+                string[] args = Environment.GetCommandLineArgs();
+                for (int i = 1; i < args.Length; i++)
                 {
-                    arguments += $" \"{Environment.CommandLine}\"";
+                    if (i.Equals(1))
+                    {
+                        arguments.Append(" \"");
+                    }
+                    arguments.Append(args[i]);
+                    arguments.Append(i.Equals(args.Length - 1) ? "\"" : " ");
                 }
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = installerPath,
                     UseShellExecute = true,
-                    Arguments = arguments
+                    Arguments = arguments.ToString()
                 };          
             }
             
@@ -151,6 +175,17 @@ namespace AutoUpdaterDotNET
             }
 
             Close();
+        }
+
+        private static String BytesToString(long byteCount)
+        {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return $"{(Math.Sign(byteCount) * num).ToString(CultureInfo.InvariantCulture)} {suf[place]}";
         }
 
         private static string TryToFindFileName(string contentDisposition, string lookForFileName)

@@ -141,4 +141,7 @@
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
     <value>XML 파일에 제공된 해시 알고리즘은 지원되지 않습니다.</value>
   </data>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>{0}/s에서 다운로드 중</value>
+  </data>
 </root>
