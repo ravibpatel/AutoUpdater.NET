@@ -65,7 +65,11 @@ namespace ZipExtractor
                             return;
                         }
                         ZipStorer.ZipFileEntry entry = dir[index];
-                        zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
+                        try
+                        {
+                            zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
+                        }
+                        catch{}
                         _backgroundWorker.ReportProgress((index + 1) * 100 / dir.Count, string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip));
                     }
 
