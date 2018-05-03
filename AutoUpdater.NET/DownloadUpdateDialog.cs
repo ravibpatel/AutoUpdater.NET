@@ -31,7 +31,7 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
-            _webClient = new MyWebClient {CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)};
+            _webClient = new MyWebClient { CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore) };
 
             if (AutoUpdater.Proxy != null)
             {
@@ -45,7 +45,7 @@ namespace AutoUpdaterDotNET
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
             _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
-            
+
             _webClient.DownloadFileAsync(uri, _tempFile);
         }
 
@@ -58,7 +58,7 @@ namespace AutoUpdaterDotNET
             else
             {
                 var timeSpan = DateTime.Now - _startedAt;
-                long totalSeconds = (long) timeSpan.TotalSeconds;
+                long totalSeconds = (long)timeSpan.TotalSeconds;
                 if (totalSeconds > 0)
                 {
                     var bytesPerSecond = e.BytesReceived / totalSeconds;
@@ -135,7 +135,7 @@ namespace AutoUpdaterDotNET
             };
 
             var extension = Path.GetExtension(tempPath);
-            if (extension.ToLower().Equals(".zip"))
+            if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);
@@ -155,9 +155,17 @@ namespace AutoUpdaterDotNET
                     FileName = installerPath,
                     UseShellExecute = true,
                     Arguments = arguments.ToString()
-                };          
+                };
             }
-            
+            else if (extension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
+            {
+                processStartInfo = new ProcessStartInfo
+                {
+                    FileName = "msiexec",
+                    Arguments = "/i " + tempPath
+                };
+            }
+
             if (AutoUpdater.RunUpdateAsAdmin)
             {
                 processStartInfo.Verb = "runas";
@@ -234,7 +242,7 @@ namespace AutoUpdaterDotNET
 
                     return false;
                 }
-            }   
+            }
         }
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)
@@ -254,7 +262,7 @@ namespace AutoUpdaterDotNET
             }
         }
     }
-    
+
     /// <inheritdoc />
     public class MyWebClient : WebClient
     {
