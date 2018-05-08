@@ -42,6 +42,11 @@ namespace AutoUpdaterDotNET
 
             _tempFile = string.IsNullOrEmpty(AutoUpdater.DownloadPath) ? Path.GetTempFileName() : Path.Combine(AutoUpdater.DownloadPath, $"{Guid.NewGuid().ToString()}.tmp");
 
+            if (!Directory.Exists(AutoUpdater.DownloadPath))
+            {
+                Directory.CreateDirectory(AutoUpdater.DownloadPath);
+            }
+
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
             _webClient.DownloadFileCompleted += WebClientOnDownloadFileCompleted;
