@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -34,54 +34,64 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net20</OutputPath>
     <DocumentationFile>bin\Debug\net20\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <OutputPath>build\lib\net20</OutputPath>
     <DocumentationFile>build\lib\net20\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net35</OutputPath>
     <DocumentationFile>bin\Debug\net35\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputPath>build\lib\net35</OutputPath>
     <DocumentationFile>build\lib\net35\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net40</OutputPath>
     <DocumentationFile>bin\Debug\net40\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>build\lib\net40</OutputPath>
     <DocumentationFile>build\lib\net40\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET452' ">
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net452</OutputPath>
     <DocumentationFile>bin\Debug\net452\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET452' ">
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <OutputPath>build\lib\net452</OutputPath>
     <DocumentationFile>build\lib\net452\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET462' ">
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net462</OutputPath>
     <DocumentationFile>bin\Debug\net462\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET462' ">
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OutputPath>build\lib\net462</OutputPath>
     <DocumentationFile>build\lib\net462\AutoUpdater.NET.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
@@ -93,6 +103,16 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFrameworkVersion)' == 'v2.0' Or '$(TargetFrameworkVersion)' == 'v3.0' ">
     <WPFSupported>false</WPFSupported>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug-NET460'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-NET460\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETWPF</DefineConstants>
+    <DocumentationFile>bin\Debug\net462\AutoUpdater.NET.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Choose>
     <When Condition=" '$(WPFSupported)' ">
@@ -111,6 +131,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -121,6 +142,12 @@
     </Compile>
     <Compile Include="DownloadUpdateDialog.Designer.cs">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PersistenceProvider.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RemindLaterForm.cs">
       <SubType>Form</SubType>
@@ -135,11 +162,6 @@
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DownloadUpdateDialog.da.resx">
@@ -203,7 +225,7 @@
     <EmbeddedResource Include="Properties\Resources.nl.resx" />
     <EmbeddedResource Include="Properties\Resources.pl.resx" />
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
-	<EmbeddedResource Include="Properties\Resources.sk.resx" />
+    <EmbeddedResource Include="Properties\Resources.sk.resx" />
     <EmbeddedResource Include="Properties\Resources.sv.resx" />
     <EmbeddedResource Include="Properties\Resources.zh.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
@@ -294,8 +316,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.ru.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>

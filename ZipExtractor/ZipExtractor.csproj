@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ZipExtractor</RootNamespace>
     <AssemblyName>ZipExtractor</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -48,40 +48,50 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net20</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net35</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET35' ">
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net40</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET40' ">
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET452' ">
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net452</OutputPath>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET452' ">
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET462' ">
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <OutputPath>bin\Debug\net462</OutputPath>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET462' ">
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
@@ -92,6 +102,16 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug-NET460'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug-NET460\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

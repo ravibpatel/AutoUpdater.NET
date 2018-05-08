@@ -10,7 +10,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using AutoUpdaterDotNET.Properties;
-using Microsoft.Win32;
+//using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
@@ -124,6 +124,11 @@ namespace AutoUpdaterDotNET
         public static WebProxy Proxy;
 
         /// <summary>
+        /// Set this to an instance implementing the IPersistenceProvider interface for using a data storage method different from the default Windows Registry based one.
+        /// </summary>
+        public static IPersistenceProvider PersistenceProvider;
+
+        /// <summary>
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
@@ -161,12 +166,33 @@ namespace AutoUpdaterDotNET
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
+        /// This flag is used for indicating that a previous user request for ignoring an application version must be disregarded.
+        /// </summary>
+        private static bool IgnoreRemindLaterAndSkip = false;
+
+        /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(Assembly myAssembly = null)
         {
             Start(AppCastURL, myAssembly);
+        }
+
+        /// <summary>
+        /// Disregards a previous user request for ignoring an application version update.
+        /// </summary>
+        /// <remarks>Al clears the timer for late reminding, if active.</remarks>
+        public static void SetIgnoreRemindLaterAndSkip(bool Ignore)
+        {
+            if (Ignore && (_remindLaterTimer != null))
+            {
+                _remindLaterTimer.Stop();
+                _remindLaterTimer.Close();
+                _remindLaterTimer = null;
+            }
+
+            IgnoreRemindLaterAndSkip = Ignore;
         }
 
         /// <summary>
@@ -291,6 +317,11 @@ namespace AutoUpdaterDotNET
             RegistryLocation = !string.IsNullOrEmpty(appCompany)
                 ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
                 : $@"Software\{AppTitle}\AutoUpdater";
+
+            if (PersistenceProvider == null)
+            {
+                PersistenceProvider = new RegistryPersistenceProvider( RegistryLocation );
+            }
 
             InstalledVersion = mainAssembly.GetName().Version;
 
@@ -427,46 +458,37 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
+                if (!IgnoreRemindLaterAndSkip)
                 {
-                    if (updateKey != null)
+                    bool Skip;
+                    string SkippedVersion;
+                    DateTime RemaindLaterTime;
+
+                    // Read the persisted state from the persistance provider.
+                    // This method makes the persistance handling independent from the storage method.
+                    if (PersistenceProvider.GetSkippedApplicationVersion(out Skip, out SkippedVersion))
                     {
-                        object skip = updateKey.GetValue("skip");
-                        object applicationVersion = updateKey.GetValue("version");
-                        if (skip != null && applicationVersion != null)
+                        var skipVersion = new Version( SkippedVersion.ToString() );
+
+                        if (Skip && (CurrentVersion <= skipVersion))
+                            return;
+
+                        if (CurrentVersion > skipVersion)
                         {
-                            string skipValue = skip.ToString();
-                            var skipVersion = new Version(applicationVersion.ToString());
-                            if (skipValue.Equals("1") && CurrentVersion <= skipVersion)
-                                return;
-                            if (CurrentVersion > skipVersion)
-                            {
-                                using (RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation))
-                                {
-                                    if (updateKeyWrite != null)
-                                    {
-                                        updateKeyWrite.SetValue("version", CurrentVersion.ToString());
-                                        updateKeyWrite.SetValue("skip", 0);
-                                    }
-                                }
-                            }
+                            // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
+                            PersistenceProvider.SetSkippedApplicationVersion( false, CurrentVersion.ToString() );
                         }
+                    }
 
-                        object remindLaterTime = updateKey.GetValue("remindlater");
+                    if (PersistenceProvider.GetRemaindLater(out RemaindLaterTime ))
+                    {
+                        int compareResult = DateTime.Compare( DateTime.Now, RemaindLaterTime );
 
-                        if (remindLaterTime != null)
+                        if (compareResult < 0)
                         {
-                            DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
-                                CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
-
-                            int compareResult = DateTime.Compare(DateTime.Now, remindLater);
-
-                            if (compareResult < 0)
-                            {
-                                e.Cancel = false;
-                                e.Result = remindLater;
-                                return;
-                            }
+                            e.Cancel = false;
+                            e.Result = RemaindLaterTime;
+                            return;
                         }
                     }
                 }

@@ -15,11 +15,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTestWPF", "AutoUpdaterTestWPF\AutoUpdaterTestWPF.csproj", "{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug-NET35|Any CPU = Debug-NET35|Any CPU
 		Debug-NET40|Any CPU = Debug-NET40|Any CPU
 		Debug-NET452|Any CPU = Debug-NET452|Any CPU
+		Debug-NET460|Any CPU = Debug-NET460|Any CPU
 		Debug-NET462|Any CPU = Debug-NET462|Any CPU
 		Release|Any CPU = Release|Any CPU
 		Release-NET35|Any CPU = Release-NET35|Any CPU
@@ -36,6 +41,8 @@ Global
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET40|Any CPU.Build.0 = Debug-NET40|Any CPU
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET452|Any CPU.ActiveCfg = Debug-NET452|Any CPU
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET452|Any CPU.Build.0 = Debug-NET452|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET460|Any CPU.ActiveCfg = Debug-NET460|Any CPU
+		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET460|Any CPU.Build.0 = Debug-NET460|Any CPU
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET462|Any CPU.ActiveCfg = Debug-NET462|Any CPU
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Debug-NET462|Any CPU.Build.0 = Debug-NET462|Any CPU
 		{FB9E7E6B-B19F-4F37-A708-2996190CEF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -56,6 +63,8 @@ Global
 		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
 		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET452|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET452|Any CPU.Build.0 = Debug|Any CPU
+		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET460|Any CPU.ActiveCfg = Debug-NET460|Any CPU
+		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET460|Any CPU.Build.0 = Debug-NET460|Any CPU
 		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET462|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Debug-NET462|Any CPU.Build.0 = Debug|Any CPU
 		{FD5AE762-C630-49F8-B814-FCF70E7838D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -76,8 +85,9 @@ Global
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET452|Any CPU.ActiveCfg = Debug|Any CPU
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET452|Any CPU.Build.0 = Debug|Any CPU
-		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET462|Any CPU.ActiveCfg = Debug|Any CPU
-		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET462|Any CPU.Build.0 = Debug|Any CPU
+		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET460|Any CPU.ActiveCfg = Debug-NET460|Any CPU
+		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET460|Any CPU.Build.0 = Debug-NET460|Any CPU
+		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Debug-NET462|Any CPU.ActiveCfg = Debug-NET462|Any CPU
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{91DE558C-6DB8-429B-A069-C0491DCFF15B}.Release-NET35|Any CPU.ActiveCfg = Release|Any CPU
@@ -96,6 +106,8 @@ Global
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET452|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET452|Any CPU.Build.0 = Debug|Any CPU
+		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET460|Any CPU.ActiveCfg = Debug-NET460|Any CPU
+		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET460|Any CPU.Build.0 = Debug-NET460|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET462|Any CPU.ActiveCfg = Debug|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Debug-NET462|Any CPU.Build.0 = Debug|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -114,9 +126,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75C1F7DD-ECF1-4859-8379-89B62DF2516C}
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
