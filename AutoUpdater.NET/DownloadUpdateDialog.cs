@@ -40,12 +40,19 @@ namespace AutoUpdaterDotNET
 
             var uri = new Uri(_downloadURL);
 
-            _tempFile = string.IsNullOrEmpty(AutoUpdater.DownloadPath) ? Path.GetTempFileName() : Path.Combine(AutoUpdater.DownloadPath, $"{Guid.NewGuid().ToString()}.tmp");
-
-            if (!Directory.Exists(AutoUpdater.DownloadPath))
+            if (string.IsNullOrEmpty(AutoUpdater.DownloadPath))
             {
-                Directory.CreateDirectory(AutoUpdater.DownloadPath);
+                _tempFile = Path.GetTempFileName();
             }
+            else
+            {
+                _tempFile = Path.Combine(AutoUpdater.DownloadPath, $"{Guid.NewGuid().ToString()}.tmp");
+                if (!Directory.Exists(AutoUpdater.DownloadPath))
+                {
+                    Directory.CreateDirectory(AutoUpdater.DownloadPath);
+                }
+            }
+
 
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
@@ -167,7 +174,7 @@ namespace AutoUpdaterDotNET
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = "msiexec",
-                    Arguments = "/i " + tempPath
+                    Arguments = $"/i \"{tempPath}\""
                 };
             }
 
