@@ -1,4 +1,4 @@
-<p align="center"><img src="logo/horizontalversion.png" alt="AutoUpdater.NET" height="120px"></p>
+<p align="center"><img src="Logo/Horizontal.png" alt="AutoUpdater.NET" height="120px"></p>
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
 
