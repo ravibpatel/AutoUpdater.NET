@@ -54,13 +54,21 @@ namespace AutoUpdaterDotNET
 
         internal static String HashingAlgorithm;
 
-        internal static Version CurrentVersion;
+        /// <summary>
+        /// 升级的应用程序版本
+        /// </summary>
+        public static Version CurrentVersion { get; internal set; }
 
-        internal static Version InstalledVersion;
+        /// <summary>
+        ///     Set the Application Installed Version shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Version.
+        /// </summary>
+        public static Version InstalledVersion;
 
         internal static bool IsWinFormsApplication;
 
         internal static bool Running;
+
+        internal static bool ReportUnavailable = false;
 
         /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
@@ -166,15 +174,16 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(Assembly myAssembly = null)
         {
-            Start(AppCastURL, myAssembly);
+            Start(AppCastURL, false, myAssembly);
         }
 
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
+        /// <param name="reportUnavailable"></param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
-        public static void Start(String appCast, Assembly myAssembly = null)
+        public static void Start(String appCast, bool reportUnavailable = false, Assembly myAssembly = null)
         {
             if (Mandatory && _remindLaterTimer != null)
             {
@@ -187,6 +196,8 @@ namespace AutoUpdaterDotNET
                 Running = true;
 
                 AppCastURL = appCast;
+
+                ReportUnavailable = reportUnavailable;
 
                 IsWinFormsApplication = Application.MessageLoop;
 
@@ -241,7 +252,7 @@ namespace AutoUpdaterDotNET
                             }
                             else
                             {
-                                if (ReportErrors)
+                                if (ReportUnavailable && ReportErrors)
                                 {
                                     MessageBox.Show(Resources.UpdateUnavailableMessage, Resources.UpdateUnavailableCaption,
                                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -278,11 +289,11 @@ namespace AutoUpdaterDotNET
             Assembly mainAssembly = e.Argument as Assembly;
 
             var companyAttribute =
-                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+                (AssemblyCompanyAttribute)GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
             if (string.IsNullOrEmpty(AppTitle))
             {
                 var titleAttribute =
-                    (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
+                    (AssemblyTitleAttribute)GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
@@ -292,7 +303,10 @@ namespace AutoUpdaterDotNET
                 ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
                 : $@"Software\{AppTitle}\AutoUpdater";
 
-            InstalledVersion = mainAssembly.GetName().Version;
+            if (InstalledVersion == null)
+            {
+                InstalledVersion = mainAssembly.GetName().Version;
+            }
 
             var webRequest = WebRequest.Create(AppCastURL);
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
@@ -525,7 +539,7 @@ namespace AutoUpdaterDotNET
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
+                            process.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
                         }
                         if (!process.HasExited)
                         {
@@ -560,7 +574,7 @@ namespace AutoUpdaterDotNET
             {
                 return null;
             }
-            return (Attribute) attributes[0];
+            return (Attribute)attributes[0];
         }
 
         internal static void SetTimer(DateTime remindLater)
@@ -571,7 +585,7 @@ namespace AutoUpdaterDotNET
 
             _remindLaterTimer = new System.Timers.Timer
             {
-                Interval = (int) timeSpan.TotalMilliseconds,
+                Interval = (int)timeSpan.TotalMilliseconds,
                 AutoReset = false
             };
 
