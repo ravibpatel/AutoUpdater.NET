@@ -20,7 +20,7 @@ namespace AutoUpdaterTestWPF
             //LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("zh");
             AutoUpdater.AppTitle = "自定义标题";
-            AutoUpdater.InstalledVersion = Version.Parse("2.0.0.0");
+            AutoUpdater.InstalledVersion = Version.Parse("1.0.0.0");
             AutoUpdater.LetUserSelectRemindLater = true;
             AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
             AutoUpdater.RemindLaterAt = 1;

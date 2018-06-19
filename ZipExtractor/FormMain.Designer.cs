@@ -57,8 +57,8 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.labelInformation);
-            this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.progressBar);
+            this.Controls.Add(this.pictureBoxIcon);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
