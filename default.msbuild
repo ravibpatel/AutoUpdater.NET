@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0" DefaultTargets="Run">
+
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <appname>AutoUpdater.NET</appname>
+    <outputdir>Publisher</outputdir>
+	<nuget>nuget\nuget_v4.6.0.exe</nuget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SolutionToBuild Include=".\AutoUpdater.NET.sln">
+      <DontClean/>
+    </SolutionToBuild>
+  </ItemGroup>
+
+  <Target Name="Run">
+    <CallTarget Targets="Compile" />
+    <CallTarget Targets="Deploy_App" />
+    <!--<CallTarget Targets="Deploy_nugetServer" />-->
+  </Target>
+
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(outputdir)\$(appname)\"/>
+  </Target>
+
+  <Target Name="Init" DependsOnTargets="Clean">
+    <MakeDir Directories="$(outputdir)\$(appname)\"/>
+  </Target>
+
+  <Target Name="Compile" DependsOnTargets="Init">
+	<Exec Command="$(nuget) restore @(SolutionToBuild)" />
+	<MSBuild Projects="@(SolutionToBuild)" Properties="Configuration=$(Configuration);Version=$(TargetFrameworkVersion);SolutionDir=E:\Projects\github\ajayumi\AutoUpdater.NET\" />
+  </Target>
+
+  <Target Name="Deploy_App" DependsOnTargets="Compile">
+    <Message Text="发布$(appname)项目"/>
+	<Exec Command="xcopy &quot;AutoUpdater.NET\bin\$(Configuration)\*&quot; &quot;$(outputdir)\$(appname)\&quot; /R /Y /I /S" />
+  </Target>
+
+  <Target Name="Deploy_nugetServer" DependsOnTargets="Deploy_App">
+    <Exec Command="$(nuget) push $(outputdir)\$(appname)\ajayumi.develop.CSharp.Data.*.nupkg ajayumi13584089910 -Source http://www.ajayumi.com:5555/nuget" />
+  </Target>
+</Project>

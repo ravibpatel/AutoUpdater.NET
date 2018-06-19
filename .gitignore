@@ -253,3 +253,5 @@ paket-files/
 *.snk
 /AutoUpdater.NET/lib
 /AutoUpdater.NET/build/lib/net40
+
+Publisher
