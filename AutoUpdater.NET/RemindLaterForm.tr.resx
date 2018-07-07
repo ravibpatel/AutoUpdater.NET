@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>Daha sonra hatırlar</value>
+    <value>Daha sonra hatırlat</value>
   </data>
   <data name="buttonOK.Text" xml:space="preserve">
     <value>Tamam</value>
@@ -145,15 +145,15 @@
     <value>10 gün sonra</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Güncellemeleri şimdi yüklemelisiniz. Bu internet bağlantı hızınıza bağlı olarak birkaç dakika alarak size uygulamanın son sürümlerini sağlar.</value>
+    <value>Güncellemeleri şimdi yüklemelisiniz. Bu Internet bağlantı hızınıza bağlı olarak birkaç dakika sürecek ve uygulamanın son sürümünü kullanmanızı sağlayacaktır.</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
     <value>Güncellemeleri sonra yüklemek istediğinize emin misiniz?</value>
   </data>
   <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>Hayır, Güncellemeleri şimdi yükle(Önerilen).</value>
+    <value>Hayır, güncellemeleri şimdi yükle (önerilen).</value>
   </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Evet, Lütfen daha sonra hatırlat : </value>
+    <value>Evet, lütfen daha sonra hatırlat: </value>
   </data>
 </root>
