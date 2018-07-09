@@ -176,6 +176,11 @@ namespace AutoUpdaterDotNET
                     FileName = "msiexec",
                     Arguments = $"/i \"{tempPath}\""
                 };
+                if (!string.IsNullOrEmpty(AutoUpdater.InstallerArgs))
+                {
+                    var args = AutoUpdater.InstallerArgs.Split(' ');
+                    processStartInfo.Arguments += " " + string.Join(" ", args);
+                }
             }
 
             if (AutoUpdater.RunUpdateAsAdmin)
