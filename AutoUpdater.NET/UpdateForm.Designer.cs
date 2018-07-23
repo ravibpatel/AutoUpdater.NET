@@ -39,6 +39,7 @@ namespace AutoUpdaterDotNET
             this.buttonRemindLater = new System.Windows.Forms.Button();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.buttonSkip = new System.Windows.Forms.Button();
+            this.textBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -94,11 +95,18 @@ namespace AutoUpdaterDotNET
             this.buttonSkip.UseVisualStyleBackColor = true;
             this.buttonSkip.Click += new System.EventHandler(this.ButtonSkipClick);
             // 
+            // textBox
+            //
+            resources.ApplyResources(this.textBox, "textBox");
+            this.textBox.Name = "textBox";
+            this.textBox.ReadOnly = true;
+            //
             // UpdateForm
             // 
             this.AcceptButton = this.buttonUpdate;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.textBox);
             this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.labelReleaseNotes);
             this.Controls.Add(this.labelDescription);
@@ -129,6 +137,6 @@ namespace AutoUpdaterDotNET
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.Label labelReleaseNotes;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
-
+        private System.Windows.Forms.RichTextBox textBox;
     }
 }

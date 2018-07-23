@@ -44,6 +44,8 @@ namespace AutoUpdaterDotNET
 
         internal static String ChangelogURL;
 
+        internal static String ChangelogContentURL;
+
         internal static String DownloadURL;
 
         internal static String InstallerArgs;
@@ -359,6 +361,10 @@ namespace AutoUpdaterDotNET
 
                                     args.ChangelogURL = appCastChangeLog?.InnerText;
 
+                                    XmlNode appCastChangeLogContent = item.SelectSingleNode("changelogcontent");
+
+                                    args.ChangelogContentURL = appCastChangeLogContent?.InnerText;
+
                                     XmlNode appCastUrl = item.SelectSingleNode("url");
 
                                     args.DownloadURL = appCastUrl?.InnerText;
@@ -412,6 +418,7 @@ namespace AutoUpdaterDotNET
 
             CurrentVersion = args.CurrentVersion;
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
+            ChangelogContentURL = args.ChangelogContentURL = GetURL(webResponse.ResponseUri, args.ChangelogContentURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
             Mandatory = args.Mandatory;
             InstallerArgs = args.InstallerArgs ?? String.Empty;
@@ -630,6 +637,8 @@ namespace AutoUpdaterDotNET
         ///     Download URL of the update file.
         /// </summary>
         public string DownloadURL { get; set; }
+
+        public string ChangelogContentURL { get; set; }
 
         /// <summary>
         ///     URL of the webpage specifying changes in the new update.

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -26,12 +27,13 @@ namespace AutoUpdaterDotNET
             labelDescription.Text =
                 string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
                     AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
-            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
+            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL) && string.IsNullOrEmpty(AutoUpdater.ChangelogContentURL))
             {
                 HideReleaseNotes = true;
                 var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
                 labelReleaseNotes.Hide();
                 webBrowser.Hide();
+                textBox.Hide();
 
                 Height -= reduceHeight;
 
@@ -85,7 +87,16 @@ namespace AutoUpdaterDotNET
         {
             if (!HideReleaseNotes)
             {
-                webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                if (!string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
+                    webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                else if (!string.IsNullOrEmpty(AutoUpdater.ChangelogContentURL))
+                {
+                    using (WebClient wc = new WebClient())
+                    {
+                        var changelogContent = wc.DownloadString(AutoUpdater.ChangelogContentURL);
+                        textBox.Rtf = changelogContent;
+                    }
+                }
             }
         }
 
