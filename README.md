@@ -223,6 +223,9 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
                         MessageBoxIcon.Information);
             }
 
+            // Uncomment the following line if you want to show standard update dialog instead.
+            // AutoUpdater.ShowUpdateForm();
+
             if (dialogResult.Equals(DialogResult.Yes))
             {
                 try
