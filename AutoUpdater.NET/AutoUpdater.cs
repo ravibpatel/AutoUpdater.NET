@@ -263,7 +263,7 @@ namespace AutoUpdaterDotNET
             Running = false;
         }
 
-        private static void ShowUpdateForm()
+        public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
             if (updateForm.ShowDialog().Equals(DialogResult.OK))
