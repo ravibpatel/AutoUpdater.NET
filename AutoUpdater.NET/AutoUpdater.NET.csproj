@@ -60,26 +60,6 @@
     <OutputPath>build\lib\net40</OutputPath>
     <DocumentationFile>build\lib\net40\AutoUpdater.NET.XML</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET452' ">
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\net452</OutputPath>
-    <DocumentationFile>bin\Debug\net452\AutoUpdater.NET.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET452' ">
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <OutputPath>build\lib\net452</OutputPath>
-    <DocumentationFile>build\lib\net452\AutoUpdater.NET.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug-NET462' ">
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\net462</OutputPath>
-    <DocumentationFile>bin\Debug\net462\AutoUpdater.NET.XML</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release-NET462' ">
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <OutputPath>build\lib\net462</OutputPath>
-    <DocumentationFile>build\lib\net462\AutoUpdater.NET.XML</DocumentationFile>
-  </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>

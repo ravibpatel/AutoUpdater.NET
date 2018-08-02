@@ -178,8 +178,7 @@ namespace AutoUpdaterDotNET
                 };
                 if (!string.IsNullOrEmpty(AutoUpdater.InstallerArgs))
                 {
-                    var args = AutoUpdater.InstallerArgs.Split(' ');
-                    processStartInfo.Arguments += " " + string.Join(" ", args);
+                    processStartInfo.Arguments += " " + AutoUpdater.InstallerArgs;
                 }
             }
 
