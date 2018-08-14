@@ -65,6 +65,7 @@ namespace AutoUpdaterDotNET
             // buttonUpdate
             // 
             resources.ApplyResources(this.buttonUpdate, "buttonUpdate");
+            this.buttonUpdate.Image = global::AutoUpdaterDotNET.Properties.Resources.download;
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.UseVisualStyleBackColor = true;
             this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdateClick);
@@ -72,12 +73,14 @@ namespace AutoUpdaterDotNET
             // buttonRemindLater
             // 
             resources.ApplyResources(this.buttonRemindLater, "buttonRemindLater");
+            this.buttonRemindLater.Image = global::AutoUpdaterDotNET.Properties.Resources.clock_go;
             this.buttonRemindLater.Name = "buttonRemindLater";
             this.buttonRemindLater.UseVisualStyleBackColor = true;
             this.buttonRemindLater.Click += new System.EventHandler(this.ButtonRemindLaterClick);
             // 
             // pictureBoxIcon
             // 
+            this.pictureBoxIcon.Image = global::AutoUpdaterDotNET.Properties.Resources.update;
             resources.ApplyResources(this.pictureBoxIcon, "pictureBoxIcon");
             this.pictureBoxIcon.Name = "pictureBoxIcon";
             this.pictureBoxIcon.TabStop = false;
@@ -86,6 +89,7 @@ namespace AutoUpdaterDotNET
             // 
             this.buttonSkip.DialogResult = System.Windows.Forms.DialogResult.Abort;
             resources.ApplyResources(this.buttonSkip, "buttonSkip");
+            this.buttonSkip.Image = global::AutoUpdaterDotNET.Properties.Resources.hand_point;
             this.buttonSkip.Name = "buttonSkip";
             this.buttonSkip.UseVisualStyleBackColor = true;
             this.buttonSkip.Click += new System.EventHandler(this.ButtonSkipClick);
