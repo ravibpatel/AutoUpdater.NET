@@ -161,6 +161,17 @@ namespace AutoUpdaterDotNET
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
+        ///     A delegate type for hooking up Update Form close logic.
+        /// </summary>
+        /// <param name="args">An object containing the dialogResult of the UpdateForm</param>
+        public delegate void UpdateFormClosedHandler(UpdateFormClosedEventArgs args);
+
+        /// <summary>
+        ///     An event that clients can use to be notified whenever the update form is closed.
+        /// </summary>
+        public static event UpdateFormClosedHandler UpdateFormClosedEvent;
+
+        /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
@@ -266,7 +277,15 @@ namespace AutoUpdaterDotNET
         public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
-            if (updateForm.ShowDialog().Equals(DialogResult.OK))
+
+            var dialogResult = updateForm.ShowDialog();
+
+            if (UpdateFormClosedEvent != null)
+            {
+                UpdateFormClosedEvent(new UpdateFormClosedEventArgs(dialogResult));
+            }
+
+            if (dialogResult.Equals(DialogResult.OK))
             {
                 Exit();
             }
@@ -424,6 +443,7 @@ namespace AutoUpdaterDotNET
             {
                 ShowRemindLaterButton = false;
                 ShowSkipButton = false;
+                
             }
             else
             {
@@ -689,6 +709,23 @@ namespace AutoUpdaterDotNET
         public ParseUpdateInfoEventArgs(string remoteData)
         {
             RemoteData = remoteData;
+        }
+    }
+
+    public class UpdateFormClosedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// The dialog result of the form
+        /// </summary>
+        public DialogResult DialogResult { get; }
+
+        /// <summary>
+        /// An object containing the dialogResult of the UpdateForm
+        /// </summary>
+        /// <param name="dialogResult">The dialog result of the form</param>
+        public UpdateFormClosedEventArgs(DialogResult dialogResult)
+        {
+            DialogResult = dialogResult;
         }
     }
 }
