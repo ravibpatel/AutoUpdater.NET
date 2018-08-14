@@ -712,6 +712,9 @@ namespace AutoUpdaterDotNET
         }
     }
 
+    /// <summary>
+    /// An object of this class contains the dialogResult of the UpdateForm
+    /// </summary>
     public class UpdateFormClosedEventArgs : EventArgs
     {
         /// <summary>
