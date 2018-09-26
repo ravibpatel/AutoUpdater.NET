@@ -130,7 +130,7 @@
     <value>Update</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} ist jetzt verfügbar. Aktuell ist version {2} installiert. Soll die neue Version jetzt heruntergeladen werden?</value>
+    <value>{0} {1} ist jetzt verfügbar. Aktuell ist Version {2} installiert. Soll die neue Version jetzt heruntergeladen werden?</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Versionshinweise:</value>
