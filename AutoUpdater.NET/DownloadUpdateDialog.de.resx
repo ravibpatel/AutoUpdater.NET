@@ -121,6 +121,6 @@
     <value>Software Update</value>
   </data>
   <data name="labelInformation.Text" xml:space="preserve">
-    <value>Lade Update...</value>
+    <value>Update wird heruntergeladen...</value>
   </data>
 </root>
