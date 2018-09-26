@@ -145,7 +145,7 @@
     <value>Es wird empfohlen jetzt das neue Update herunterzuladen. Dies dauert nur einige Minuten, je nach Internetverbindung. Damit ist sichergestellt, dass die aktuellste Version dieser Anwendung genutzt wird.</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
-    <value>Soll das Update später geladen werden?</value>
+    <value>Soll das Update später heruntergeladen werden?</value>
   </data>
   <data name="radioButtonNo.Text" xml:space="preserve">
     <value>Nein, jetzt das Update herunterladen (empfohlen)</value>
