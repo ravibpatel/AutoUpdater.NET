@@ -15,28 +15,29 @@ using Microsoft.Win32;
 namespace AutoUpdaterDotNET
 {
     /// <summary>
-    ///     Enum representing the remind later time span.
+    /// Enum representing the remind later time span.
     /// </summary>
     public enum RemindLaterFormat
     {
         /// <summary>
-        ///     Represents the time span in minutes.
+        /// Represents the time span in minutes.
         /// </summary>
         Minutes,
 
         /// <summary>
-        ///     Represents the time span in hours.
+        /// Represents the time span in hours.
         /// </summary>
         Hours,
 
         /// <summary>
-        ///     Represents the time span in days.
+        /// Represents the time span in days.
         /// </summary>
         Days
     }
 
     /// <summary>
-    ///     Main class that lets you auto update applications by setting some static fields and executing its Start method.
+    /// Main class that lets you auto update applications by setting some static fields and executing
+    /// its Start method.
     /// </summary>
     public static class AutoUpdater
     {
@@ -63,43 +64,50 @@ namespace AutoUpdaterDotNET
         internal static bool Running;
 
         /// <summary>
-        ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
+        /// Set it to folder path where you want to download the update file. If not provided then it
+        /// defaults to Temp folder.
         /// </summary>
         public static String DownloadPath;
 
         /// <summary>
-        ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
+        /// Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it
+        /// automatically, you can set this property if you like to give custom Title.
         /// </summary>
         public static String AppTitle;
 
         /// <summary>
-        ///     URL of the xml file that contains information about latest version of the application.
+        /// URL of the xml file that contains information about latest version of the application.
         /// </summary>
         public static String AppCastURL;
 
         /// <summary>
-        ///     Opens the download url in default browser if true. Very usefull if you have portable application.
+        /// Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
 
         /// <summary>
-        ///     If this is true users can see the skip button.
+        /// If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
 
         /// <summary>
-        ///     If this is true users can see the Remind Later button.
+        /// If this is true users can see the Remind Later button.
         /// </summary>
         public static Boolean ShowRemindLaterButton = true;
 
         /// <summary>
-        ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
-        ///     RemindLaterAt and RemindLaterTimeSpan fields.
+        /// If this is false users don't see UpdateForm.
+        /// </summary>
+        public static Boolean ShowUpdateFormUI { get; set; } = true;
+
+        /// <summary>
+        /// If this is true users see dialog where they can set remind later interval otherwise it
+        /// will take the interval from RemindLaterAt and RemindLaterTimeSpan fields.
         /// </summary>
         public static Boolean LetUserSelectRemindLater = true;
 
         /// <summary>
-        ///     Remind Later interval after user should be reminded of update.
+        /// Remind Later interval after user should be reminded of update.
         /// </summary>
         public static int RemindLaterAt = 2;
 
@@ -109,7 +117,8 @@ namespace AutoUpdaterDotNET
         public static bool ReportErrors = false;
 
         /// <summary>
-        ///     Set this to false if your application doesn't need administrator privileges to replace the old version.
+        /// Set this to false if your application doesn't need administrator privileges to replace
+        /// the old version.
         /// </summary>
         public static bool RunUpdateAsAdmin = true;
 
@@ -119,49 +128,52 @@ namespace AutoUpdaterDotNET
         public static bool Mandatory;
 
         /// <summary>
-        ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
+        /// Set Proxy server to use for all the web requests in AutoUpdater.NET.
         /// </summary>
         public static WebProxy Proxy;
 
         /// <summary>
-        ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
+        /// Set if RemindLaterAt interval should be in Minutes, Hours or Days.
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         /// <summary>
-        ///     A delegate type to handle how to exit the application after update is downloaded.
+        /// A delegate type to handle how to exit the application after update is downloaded.
         /// </summary>
         public delegate void ApplicationExitEventHandler();
 
         /// <summary>
-        ///     An event that developers can use to exit the application gracefully.
+        /// An event that developers can use to exit the application gracefully.
         /// </summary>
         public static event ApplicationExitEventHandler ApplicationExitEvent;
 
         /// <summary>
-        ///     A delegate type for hooking up update notifications.
+        /// A delegate type for hooking up update notifications.
         /// </summary>
-        /// <param name="args">An object containing all the parameters recieved from AppCast XML file. If there will be an error while looking for the XML file then this object will be null.</param>
+        /// <param name="args">
+        /// An object containing all the parameters recieved from AppCast XML file. If there will be
+        /// an error while looking for the XML file then this object will be null.
+        /// </param>
         public delegate void CheckForUpdateEventHandler(UpdateInfoEventArgs args);
 
         /// <summary>
-        ///     An event that clients can use to be notified whenever the update is checked.
+        /// An event that clients can use to be notified whenever the update is checked.
         /// </summary>
         public static event CheckForUpdateEventHandler CheckForUpdateEvent;
 
         /// <summary>
-        ///     A delegate type for hooking up parsing logic.
+        /// A delegate type for hooking up parsing logic.
         /// </summary>
         /// <param name="args">An object containing the AppCast file received from server.</param>
         public delegate void ParseUpdateInfoHandler(ParseUpdateInfoEventArgs args);
 
         /// <summary>
-        ///     An event that clients can use to be notified whenever the AppCast file needs parsing.
+        /// An event that clients can use to be notified whenever the AppCast file needs parsing.
         /// </summary>
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
-        ///     Start checking for new version of application and display dialog to the user if update is available.
+        /// Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(Assembly myAssembly = null)
@@ -170,9 +182,11 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        ///     Start checking for new version of application and display dialog to the user if update is available.
+        /// Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
-        /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
+        /// <param name="appCast">
+        /// URL of the xml file that contains information about latest version of the application.
+        /// </param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
@@ -225,17 +239,29 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA) && AutoUpdater.ShowUpdateFormUI)
                                 {
                                     ShowUpdateForm();
                                 }
                                 else
                                 {
-                                    Thread thread = new Thread(ShowUpdateForm);
-                                    thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                    thread.SetApartmentState(ApartmentState.STA);
-                                    thread.Start();
-                                    thread.Join();
+                                    if (AutoUpdater.ShowUpdateFormUI)
+                                    {
+                                        Thread thread = new Thread(ShowUpdateForm);
+                                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                        thread.SetApartmentState(ApartmentState.STA);
+                                        thread.Start();
+                                        thread.Join();
+                                    }
+                                    else
+                                    {
+                                        Exit();
+                                        Thread thread = new Thread(DontShowUpdateForm);
+                                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                        thread.SetApartmentState(ApartmentState.STA);
+                                        thread.Start();
+                                        thread.Join();
+                                    }
                                 }
                                 return;
                             }
@@ -263,6 +289,22 @@ namespace AutoUpdaterDotNET
             Running = false;
         }
 
+        /// <summary>
+        /// Don't Show UpdateForm UI , update automatic
+        /// </summary>
+        public static void DontShowUpdateForm()
+        {
+            if (AutoUpdater.OpenDownloadPage)
+            {
+                var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
+                Process.Start(processStartInfo);
+            }
+            else
+            {
+                AutoUpdater.DownloadUpdate();
+            }
+        }
+
         public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
@@ -278,11 +320,11 @@ namespace AutoUpdaterDotNET
             Assembly mainAssembly = e.Argument as Assembly;
 
             var companyAttribute =
-                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+                (AssemblyCompanyAttribute)GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
             if (string.IsNullOrEmpty(AppTitle))
             {
                 var titleAttribute =
-                    (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
+                    (AssemblyTitleAttribute)GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
@@ -515,8 +557,10 @@ namespace AutoUpdaterDotNET
                     }
                     catch (Win32Exception)
                     {
-                        // Current process should be same as processes created by other instances of the application so it should be able to access modules of other instances. 
-                        // This means this is not the process we are looking for so we can safely skip this.
+                        // Current process should be same as processes created by other instances of
+                        // the application so it should be able to access modules of other instances.
+                        // This means this is not the process we are looking for so we can safely
+                        // skip this.
                         continue;
                     }
 
@@ -525,7 +569,7 @@ namespace AutoUpdaterDotNET
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
+                            process.WaitForExit((int)TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
                         }
                         if (!process.HasExited)
                         {
@@ -560,7 +604,7 @@ namespace AutoUpdaterDotNET
             {
                 return null;
             }
-            return (Attribute) attributes[0];
+            return (Attribute)attributes[0];
         }
 
         internal static void SetTimer(DateTime remindLater)
@@ -571,7 +615,7 @@ namespace AutoUpdaterDotNET
 
             _remindLaterTimer = new System.Timers.Timer
             {
-                Interval = (int) timeSpan.TotalMilliseconds,
+                Interval = (int)timeSpan.TotalMilliseconds,
                 AutoReset = false
             };
 
@@ -599,7 +643,8 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        ///     Opens the Download window that download the update and execute the installer when download completes.
+        /// Opens the Download window that download the update and execute the installer when
+        /// download completes.
         /// </summary>
         public static bool DownloadUpdate()
         {
@@ -617,75 +662,78 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
-    ///     Object of this class gives you all the details about the update useful in handling the update logic yourself.
+    /// Object of this class gives you all the details about the update useful in handling the update
+    /// logic yourself.
     /// </summary>
     public class UpdateInfoEventArgs : EventArgs
     {
         /// <summary>
-        ///     If new update is available then returns true otherwise false.
+        /// If new update is available then returns true otherwise false.
         /// </summary>
         public bool IsUpdateAvailable { get; set; }
 
         /// <summary>
-        ///     Download URL of the update file.
+        /// Download URL of the update file.
         /// </summary>
         public string DownloadURL { get; set; }
 
         /// <summary>
-        ///     URL of the webpage specifying changes in the new update.
+        /// URL of the webpage specifying changes in the new update.
         /// </summary>
         public string ChangelogURL { get; set; }
 
         /// <summary>
-        ///     Returns newest version of the application available to download.
+        /// Returns newest version of the application available to download.
         /// </summary>
         public Version CurrentVersion { get; set; }
 
         /// <summary>
-        ///     Returns version of the application currently installed on the user's PC.
+        /// Returns version of the application currently installed on the user's PC.
         /// </summary>
         public Version InstalledVersion { get; set; }
 
         /// <summary>
-        ///     Shows if the update is required or optional.
+        /// Shows if the update is required or optional.
         /// </summary>
         public bool Mandatory { get; set; }
 
         /// <summary>
-        ///     Command line arguments used by Installer.
+        /// Command line arguments used by Installer.
         /// </summary>
         public string InstallerArgs { get; set; }
 
         /// <summary>
-        ///     Checksum of the update file.
+        /// Checksum of the update file.
         /// </summary>
         public string Checksum { get; set; }
 
         /// <summary>
-        ///     Hash algorithm that generated the checksum provided in the XML file.
+        /// Hash algorithm that generated the checksum provided in the XML file.
         /// </summary>
         public string HashingAlgorithm { get; set; }
     }
 
     /// <summary>
-    ///     An object of this class contains the AppCast file received from server..
+    /// An object of this class contains the AppCast file received from server..
     /// </summary>
     public class ParseUpdateInfoEventArgs : EventArgs
     {
         /// <summary>
-        ///     Remote data received from the AppCast file.
+        /// Remote data received from the AppCast file.
         /// </summary>
         public string RemoteData { get; }
 
         /// <summary>
-        ///      Set this object with values received from the AppCast file.
+        /// Set this object with values received from the AppCast file.
         /// </summary>
         public UpdateInfoEventArgs UpdateInfo { get; set; }
 
         /// <summary>
-        ///     An object containing the AppCast file received from server.
+        /// An object containing the AppCast file received from server.
         /// </summary>
-        /// <param name="remoteData">A string containing remote data received from the AppCast file.</param>
+        /// <param name="remoteData">
+        /// A string containing remote data received from the AppCast file.
+        /// </param>
         public ParseUpdateInfoEventArgs(string remoteData)
         {
             RemoteData = remoteData;

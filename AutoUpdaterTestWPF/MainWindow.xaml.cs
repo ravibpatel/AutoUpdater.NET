@@ -23,7 +23,7 @@ namespace AutoUpdaterTestWPF
             AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Minutes;
             AutoUpdater.RemindLaterAt = 1;
             AutoUpdater.ReportErrors = true;
-            DispatcherTimer timer = new DispatcherTimer {Interval = TimeSpan.FromMinutes(2)};
+            DispatcherTimer timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(2) };
             timer.Tick += delegate
             {
                 AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
@@ -33,6 +33,7 @@ namespace AutoUpdaterTestWPF
 
         private void ButtonCheckForUpdate_Click(object sender, RoutedEventArgs e)
         {
+            AutoUpdater.ShowUpdateFormUI = false;
             AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
         }
     }

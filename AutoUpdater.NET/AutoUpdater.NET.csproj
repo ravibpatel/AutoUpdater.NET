@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AutoUpdaterDotNET</RootNamespace>
     <AssemblyName>AutoUpdater.NET</AssemblyName>
@@ -64,7 +64,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <!-- WPF Specific -->
   <PropertyGroup Condition=" '$(TargetFrameworkVersion)' != 'v2.0' And '$(TargetFrameworkVersion)' != 'v3.0' ">
@@ -73,6 +74,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(TargetFrameworkVersion)' == 'v2.0' Or '$(TargetFrameworkVersion)' == 'v3.0' ">
     <WPFSupported>false</WPFSupported>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Choose>
     <When Condition=" '$(WPFSupported)' ">
@@ -183,7 +187,7 @@
     <EmbeddedResource Include="Properties\Resources.nl.resx" />
     <EmbeddedResource Include="Properties\Resources.pl.resx" />
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
-	<EmbeddedResource Include="Properties\Resources.sk.resx" />
+    <EmbeddedResource Include="Properties\Resources.sk.resx" />
     <EmbeddedResource Include="Properties\Resources.sv.resx" />
     <EmbeddedResource Include="Properties\Resources.zh.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
@@ -297,7 +301,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AutoUpdater.NET.snk" />
     <None Include="build\Autoupdater.NET.Official.nuspec">
       <SubType>Designer</SubType>
     </None>

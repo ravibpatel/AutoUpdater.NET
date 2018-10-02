@@ -99,7 +99,6 @@ namespace AutoUpdaterTest
             Application.Exit();
         }
 
-
         private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
             dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
@@ -138,7 +137,6 @@ namespace AutoUpdaterTest
                                 MessageBoxIcon.Information);
                     }
 
-
                     if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
                     {
                         try
@@ -173,7 +171,6 @@ namespace AutoUpdaterTest
 
         private void ButtonCheckForUpdate_Click(object sender, EventArgs e)
         {
-
             //Uncomment below lines to select download path where update is saved.
 
             //FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -185,6 +182,7 @@ namespace AutoUpdaterTest
             //}
 
             AutoUpdater.Mandatory = true;
+            AutoUpdater.ShowUpdateFormUI = false;
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
     }

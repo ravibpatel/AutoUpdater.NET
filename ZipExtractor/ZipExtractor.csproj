@@ -70,7 +70,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -121,7 +122,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="ZipExtractor.snk" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ZipExtractor.png" />
