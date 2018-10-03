@@ -255,12 +255,12 @@ namespace AutoUpdaterDotNET
                                     }
                                     else
                                     {
-                                        Exit();
                                         Thread thread = new Thread(DontShowUpdateForm);
                                         thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
                                         thread.SetApartmentState(ApartmentState.STA);
                                         thread.Start();
                                         thread.Join();
+                                        Exit();
                                     }
                                 }
                                 return;
