@@ -128,6 +128,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
+		/// <summary>
+		///     Set if a specific culture is required for the UI dialog
+		/// </summary>
+		public static CultureInfo Culture { get; set; } = CultureInfo.CurrentCulture;
+
         /// <summary>
         ///     A delegate type to handle how to exit the application after update is downloaded.
         /// </summary>
@@ -232,7 +237,7 @@ namespace AutoUpdaterDotNET
                                 else
                                 {
                                     Thread thread = new Thread(ShowUpdateForm);
-                                    thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                    thread.CurrentCulture = Culture;
                                     thread.SetApartmentState(ApartmentState.STA);
                                     thread.Start();
                                     thread.Join();
