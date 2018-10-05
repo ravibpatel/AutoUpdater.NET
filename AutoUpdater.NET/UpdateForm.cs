@@ -19,12 +19,12 @@ namespace AutoUpdaterDotNET
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
-            Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
+            Text = string.Format(resources.GetString("$this.Text", AutoUpdater.Culture),
                 AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
-            labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
+            labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", AutoUpdater.Culture),
                 AutoUpdater.AppTitle);
             labelDescription.Text =
-                string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
+                string.Format(resources.GetString("labelDescription.Text", AutoUpdater.Culture),
                     AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
             if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
             {
