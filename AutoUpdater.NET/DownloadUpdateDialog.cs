@@ -16,17 +16,23 @@ namespace AutoUpdaterDotNET
     {
         private readonly string _downloadURL;
 
+        private readonly string _userName;
+
+        private readonly string _password;
+        
         private string _tempFile;
 
         private MyWebClient _webClient;
 
         private DateTime _startedAt;
 
-        public DownloadUpdateDialog(string downloadURL)
+        public DownloadUpdateDialog(string downloadURL, string userName, string password)
         {
             InitializeComponent();
 
             _downloadURL = downloadURL;
+            _userName = userName;
+            _password = password;
         }
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
@@ -53,6 +59,11 @@ namespace AutoUpdaterDotNET
                 }
             }
 
+            if (_userName != null && _password != null)
+            {
+                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(_userName + ":" + _password));
+                _webClient.Headers[HttpRequestHeader.Authorization] = "Basic " + credentials;
+            }
 
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 

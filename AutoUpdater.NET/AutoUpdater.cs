@@ -83,6 +83,16 @@ namespace AutoUpdaterDotNET
         public static bool OpenDownloadPage;
 
         /// <summary>
+        ///     The Basic authentication user name for downloading the update file
+        /// </summary>
+        public static string DownloadUserName;
+
+        /// <summary>
+        ///     The Basic authentication password for downloading the update file
+        /// </summary>
+        public static string DownloadPassword;
+
+        /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
@@ -603,7 +613,7 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool DownloadUpdate()
         {
-            var downloadDialog = new DownloadUpdateDialog(DownloadURL);
+            var downloadDialog = new DownloadUpdateDialog(DownloadURL, DownloadUserName, DownloadPassword);
 
             try
             {
