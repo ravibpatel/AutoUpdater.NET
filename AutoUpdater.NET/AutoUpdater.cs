@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
@@ -77,6 +78,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static String AppCastURL;
 
+        public static String Username;
+
+        public static String Password;
+
+        public static String ArchivePassword; 
         /// <summary>
         ///     Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
@@ -174,7 +180,7 @@ namespace AutoUpdaterDotNET
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
-        public static void Start(String appCast, Assembly myAssembly = null)
+        public static void Start(String appCast, Assembly myAssembly = null, string username = null, string password = null, string archive_password = null)
         {
             if (Mandatory && _remindLaterTimer != null)
             {
@@ -187,6 +193,12 @@ namespace AutoUpdaterDotNET
                 Running = true;
 
                 AppCastURL = appCast;
+
+                Username = username;
+
+                Password = password;
+
+                ArchivePassword = archive_password;
 
                 IsWinFormsApplication = Application.MessageLoop;
 
@@ -272,6 +284,13 @@ namespace AutoUpdaterDotNET
             }
         }
 
+        public static void SetBasicAuthHeader(WebRequest request, String userName, String userPassword)
+        {
+            string authInfo = userName + ":" + userPassword;
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            request.Headers["Authorization"] = "Basic " + authInfo;
+        }
+
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
             e.Cancel = true;
@@ -295,6 +314,8 @@ namespace AutoUpdaterDotNET
             InstalledVersion = mainAssembly.GetName().Version;
 
             var webRequest = WebRequest.Create(AppCastURL);
+            if (Username != null && Password != null)
+                SetBasicAuthHeader(webRequest, Username, Password);
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             if (Proxy != null)
             {
@@ -603,7 +624,7 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool DownloadUpdate()
         {
-            var downloadDialog = new DownloadUpdateDialog(DownloadURL);
+            var downloadDialog = new DownloadUpdateDialog(DownloadURL, Username, Password);
 
             try
             {

@@ -16,22 +16,40 @@ namespace AutoUpdaterDotNET
     {
         private readonly string _downloadURL;
 
+        private readonly string _username;
+
+        private readonly string _password;
+
         private string _tempFile;
 
         private MyWebClient _webClient;
 
         private DateTime _startedAt;
 
-        public DownloadUpdateDialog(string downloadURL)
+        public DownloadUpdateDialog(string downloadURL, string username = null, string password = null)
         {
             InitializeComponent();
 
             _downloadURL = downloadURL;
+
+            _username = username;
+
+            _password = password;
+        }
+
+        public static void SetBasicAuthHeader(MyWebClient request, String userName, String userPassword)
+        {
+            string authInfo = userName + ":" + userPassword;
+            authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+            request.Headers["Authorization"] = "Basic " + authInfo;
         }
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
             _webClient = new MyWebClient { CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore) };
+
+            if (_username != null && _password != null)
+                SetBasicAuthHeader(_webClient, _username, _password);
 
             if (AutoUpdater.Proxy != null)
             {
@@ -151,7 +169,12 @@ namespace AutoUpdaterDotNET
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);
-                StringBuilder arguments = new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+                StringBuilder arguments = null;
+                if( AutoUpdater.ArchivePassword != null)
+                    arguments = new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\" \"{AutoUpdater.ArchivePassword}\"");
+                else
+                    arguments = new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+
                 string[] args = Environment.GetCommandLineArgs();
                 for (int i = 1; i < args.Length; i++)
                 {

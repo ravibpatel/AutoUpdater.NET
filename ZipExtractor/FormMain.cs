@@ -58,7 +58,13 @@ namespace ZipExtractor
                     if (args[1].ToLower().EndsWith(".7z"))
                     {
                         IReader reader = null;
-                        SevenZipArchive archive = SevenZipArchive.Open(args[1]);
+                        var opts = new SharpCompress.Readers.ReaderOptions();
+                        if (args.Length >= 4)
+                        {
+                            opts.Password = args[3];
+                        }
+                        SevenZipArchive archive = SevenZipArchive.Open(args[1], opts);
+
                         reader = archive.ExtractAllEntries();
 
                         int count = archive.Entries.Count;
