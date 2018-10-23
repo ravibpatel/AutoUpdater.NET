@@ -147,7 +147,7 @@ namespace AutoUpdaterDotNET
             };
 
             var extension = Path.GetExtension(tempPath);
-            if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+            if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase) || extension.Equals(".7z", StringComparison.OrdinalIgnoreCase))
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);

@@ -6,6 +6,11 @@ using System.IO;
 using System.IO.Compression;
 using System.Windows.Forms;
 using ZipExtractor.Properties;
+using SharpCompress;
+using SharpCompress.Readers;
+using SharpCompress.Common;
+using SharpCompress.Archives.Rar;
+using SharpCompress.Archives.SevenZip;
 
 namespace ZipExtractor
 {
@@ -50,26 +55,58 @@ namespace ZipExtractor
                 {
                     var path = Path.GetDirectoryName(args[2]);
 
-                    // Open an existing zip file for reading.
-                    ZipStorer zip = ZipStorer.Open(args[1], FileAccess.Read);
-
-                    // Read the central directory collection.
-                    List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
-
-                    for (var index = 0; index < dir.Count; index++)
+                    if (args[1].ToLower().EndsWith(".7z"))
                     {
-                        if (_backgroundWorker.CancellationPending)
+                        IReader reader = null;
+                        SevenZipArchive archive = SevenZipArchive.Open(args[1]);
+                        reader = archive.ExtractAllEntries();
+
+                        int count = archive.Entries.Count;
+                        int index = 0;
+                        while (reader.MoveToNextEntry())
                         {
-                            eventArgs.Cancel = true;
-                            zip.Close();
-                            return;
+                            if (!reader.Entry.IsDirectory)
+                            {
+                                if (_backgroundWorker.CancellationPending)
+                                {
+                                    eventArgs.Cancel = true;
+                                    return;
+                                }
+
+                                reader.WriteEntryToDirectory(path, new ExtractionOptions()
+                                {
+                                    ExtractFullPath = true,
+                                    Overwrite = true
+                                });
+
+                                _backgroundWorker.ReportProgress((index + 1) * 100 / count, string.Format(Resources.CurrentFileExtracting, reader.Entry.ToString()));
+                                index++;
+                            }
                         }
-                        ZipStorer.ZipFileEntry entry = dir[index];
-                        zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
-                        _backgroundWorker.ReportProgress((index + 1) * 100 / dir.Count, string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip));
+                    } else if (args[1].ToLower().EndsWith(".zip"))
+                    {
+                        // Open an existing zip file for reading.
+                        ZipStorer zip = ZipStorer.Open(args[1], FileAccess.Read);
+
+                        // Read the central directory collection.
+                        List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
+
+                        for (var index = 0; index < dir.Count; index++)
+                        {
+                            if (_backgroundWorker.CancellationPending)
+                            {
+                                eventArgs.Cancel = true;
+                                zip.Close();
+                                return;
+                            }
+                            ZipStorer.ZipFileEntry entry = dir[index];
+                            zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
+                            _backgroundWorker.ReportProgress((index + 1) * 100 / dir.Count, string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip));
+                        }
+
+                        zip.Close();
                     }
 
-                    zip.Close();
                 };
 
                 _backgroundWorker.ProgressChanged += (o, eventArgs) =>
@@ -103,6 +140,8 @@ namespace ZipExtractor
                 _backgroundWorker.RunWorkerAsync();
             }
         }
+
+     
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
