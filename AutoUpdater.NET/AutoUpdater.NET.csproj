@@ -340,7 +340,7 @@
     <None Include="Resources\ZipExtractor.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets" Condition="Exists('..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets')" />
+  <Import Project="..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets" Condition="Exists('..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets') And '$(WPFSupported)' And '$(TargetFrameworkVersion)' != 'v3.5' " />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
