@@ -6,6 +6,7 @@ using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
@@ -100,6 +101,11 @@ namespace AutoUpdaterDotNET
         ///     Opens the download url in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
+
+        /// <summary>
+        ///     Set Basic Authentication credentials required to download the file.
+        /// </summary>
+        public static BasicAuthentication BasicAuthDownload;
 
         /// <summary>
         ///     If this is true users can see the skip button.
@@ -717,7 +723,7 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
-    ///     An object of this class contains the AppCast file received from server..
+    ///     An object of this class contains the AppCast file received from server.
     /// </summary>
     public class ParseUpdateInfoEventArgs : EventArgs
     {
@@ -738,6 +744,34 @@ namespace AutoUpdaterDotNET
         public ParseUpdateInfoEventArgs(string remoteData)
         {
             RemoteData = remoteData;
+        }
+    }
+
+    /// <summary>
+    ///     Provides Basic Authentication header for web request.
+    /// </summary>
+    public class BasicAuthentication
+    {
+        private string Username { get; }
+
+        private string Password { get; }
+
+        /// <summary>
+        /// Intialize credentials for Basic Authentication.
+        /// </summary>
+        /// <param name="username">Username to use for Basic Authentication</param>
+        /// <param name="password">Password to use for Basic Authentication</param>
+        public BasicAuthentication(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
+            return $"Basic {token}";
         }
     }
 }

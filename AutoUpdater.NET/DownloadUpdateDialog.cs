@@ -15,7 +15,7 @@ namespace AutoUpdaterDotNET
     internal partial class DownloadUpdateDialog : Form
     {
         private readonly string _downloadURL;
-
+        
         private string _tempFile;
 
         private MyWebClient _webClient;
@@ -58,6 +58,10 @@ namespace AutoUpdaterDotNET
                 }
             }
 
+            if (AutoUpdater.BasicAuthDownload != null)
+            {
+                _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
+            }
 
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
 
