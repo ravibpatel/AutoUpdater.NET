@@ -15,10 +15,6 @@ namespace AutoUpdaterDotNET
     internal partial class DownloadUpdateDialog : Form
     {
         private readonly string _downloadURL;
-
-        private readonly string _userName;
-
-        private readonly string _password;
         
         private string _tempFile;
 
@@ -26,7 +22,7 @@ namespace AutoUpdaterDotNET
 
         private DateTime _startedAt;
 
-        public DownloadUpdateDialog(string downloadURL, string userName, string password)
+        public DownloadUpdateDialog(string downloadURL)
         {
             InitializeComponent();
 
@@ -36,8 +32,6 @@ namespace AutoUpdaterDotNET
             {
                 ControlBox = false;
             }
-            _userName = userName;
-            _password = password;
         }
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
@@ -64,10 +58,9 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            if (_userName != null && _password != null)
+            if (AutoUpdater.BasicAuthDownload != null)
             {
-                string credentials = Convert.ToBase64String(Encoding.ASCII.GetBytes(_userName + ":" + _password));
-                _webClient.Headers[HttpRequestHeader.Authorization] = "Basic " + credentials;
+                _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
             }
 
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
