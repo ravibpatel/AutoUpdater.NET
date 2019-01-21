@@ -263,6 +263,9 @@ namespace AutoUpdaterDotNET
             Running = false;
         }
 
+        /// <summary>
+        /// Shows standard update dialog.
+        /// </summary>
         public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
