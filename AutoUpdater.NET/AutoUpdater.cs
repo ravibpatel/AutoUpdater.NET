@@ -108,6 +108,11 @@ namespace AutoUpdaterDotNET
         public static BasicAuthentication BasicAuthDownload;
 
         /// <summary>
+        ///     Set Basic Authentication credentials required to download the XML file.
+        /// </summary>
+        public static BasicAuthentication BasicAuthXML;
+
+        /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
@@ -337,6 +342,10 @@ namespace AutoUpdaterDotNET
             InstalledVersion = mainAssembly.GetName().Version;
 
             var webRequest = WebRequest.Create(AppCastURL);
+            if (BasicAuthXML != null)
+            {
+                webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+            }
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             if (Proxy != null)
             {
