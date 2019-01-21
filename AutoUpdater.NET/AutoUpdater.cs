@@ -121,7 +121,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
         /// </summary>
-        public static WebProxy Proxy;
+        public static IWebProxy Proxy;
 
         /// <summary>
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.

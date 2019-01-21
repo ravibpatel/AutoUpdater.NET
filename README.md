@@ -1,18 +1,16 @@
-<p align="center"><img src="Logo/Horizontal.png" alt="AutoUpdater.NET" height="120px"></p>
+![AutoUpdater.NET](Logo/Horizontal.png)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
 
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
-## The NuGet package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
-
-`https://www.nuget.org/packages/Autoupdater.NET.Official/`
+# The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
 
     PM> Install-Package Autoupdater.NET.Official
 
 ## How it works
 
-AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory. 
+AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory.
 
 ## Using the code
 
@@ -60,6 +58,20 @@ AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.
 
     AutoUpdater.Start should be called from UI thread.
+
+### Current version detection
+
+AutoUpdater.NET uses Assembly version to determine the current verison of the application. You can update it by going to Properties of the project as shown in following screenshot.
+
+![How to change assembly version of your .NET application?](https://rbsoft.org/images/assembly-version.png)
+
+Version specified in XML file should be higher than Assembly version to trigger the update.
+
+If you want to provide your own Assembly then you can do it by providing second argument of Start method as shown below.
+
+````csharp
+AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml", myAssembly);
+````
 
 ## Configuration Options
 
