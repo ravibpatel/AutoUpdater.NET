@@ -33,7 +33,12 @@ There are two things you need to provide in XML file as you can see above.
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file or zip file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
-* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
+* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog. You can provide mode attribute to change the behaviour of the mandatory flag. If you provide "1" as the value of mode attribute then it will also hide the Close button on update dialog. If you provide "2" as the value of mode attribute then it will skip the updae dialog and start downloading and updating application automatically.
+
+````xml
+<mandatory mode="2">true</mandatory>
+````
+
 * args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
 * checksum (Optional): You can provide the checksum for the update file between this tag. If you do this AutoUpdater.NET will compare the checksum of the downloaded file before executing the update process to check the integrity of the file. You can provide algorithm attribute in the checksum tag to specify which algorithm should be used to generate the checksum of the downloaded file. Currently, MD5, SHA1, SHA256, SHA384, and SHA512 are supported.
 
@@ -97,6 +102,15 @@ If you want to ignore previously set Remind Later and Skip settings then you can
 
 ````csharp
 AutoUpdater.Mandatory = true;
+````
+
+### Forced updates
+
+You can enable forced updated by setting Mandatory property to true and setting UpdateMode to value of "Forced" or "ForceDownload". "Force" option will remove Remind Later, Skip and Close buttons on standard update dialog. "ForceDownload" option will skip the standard update dialog and start downloading and updating the application without user interaction.
+
+````csharp
+AutoUpdater.Mandatory = true;
+AutoUpdater.UpdateMode = Mode.ForceDownload;
 ````
 
 ### Enable Error Reporting

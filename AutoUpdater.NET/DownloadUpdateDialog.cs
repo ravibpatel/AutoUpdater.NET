@@ -27,6 +27,11 @@ namespace AutoUpdaterDotNET
             InitializeComponent();
 
             _downloadURL = downloadURL;
+
+            if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
+            {
+                ControlBox = false;
+            }
         }
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)

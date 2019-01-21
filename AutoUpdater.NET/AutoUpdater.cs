@@ -36,6 +36,25 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
+    ///     Enum representing the effect of Mandatory flag.
+    /// </summary>
+    public enum Mode
+    {
+        /// <summary>
+        /// In this mode, it ignores Remind Later and Skip values set previously and hide both buttons.
+        /// </summary>
+        Normal,
+        /// <summary>
+        /// In this mode, it won't show close button in addition to Normal mode behaviour.
+        /// </summary>
+        Forced,
+        /// <summary>
+        /// In this mode, it will start downloading and applying update without showing standarad update dialog in addition to Forced mode behaviour.
+        /// </summary>
+        ForcedDownload
+    }
+
+    /// <summary>
     ///     Main class that lets you auto update applications by setting some static fields and executing its Start method.
     /// </summary>
     public static class AutoUpdater
@@ -117,6 +136,11 @@ namespace AutoUpdaterDotNET
         ///     Set this to true if you want to ignore previously assigned Remind Later and Skip settings. It will also hide Remind Later and Skip buttons.
         /// </summary>
         public static bool Mandatory;
+
+        /// <summary>
+        ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
+        /// </summary>
+        public static Mode UpdateMode;
 
         /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
@@ -225,17 +249,26 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+
+                                if (Mandatory && UpdateMode == Mode.ForcedDownload)
                                 {
-                                    ShowUpdateForm();
+                                    DownloadUpdate();
+                                    Exit();
                                 }
                                 else
                                 {
-                                    Thread thread = new Thread(ShowUpdateForm);
-                                    thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                    thread.SetApartmentState(ApartmentState.STA);
-                                    thread.Start();
-                                    thread.Join();
+                                    if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                    {
+                                        ShowUpdateForm();
+                                    }
+                                    else
+                                    {
+                                        Thread thread = new Thread(ShowUpdateForm);
+                                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                        thread.SetApartmentState(ApartmentState.STA);
+                                        thread.Start();
+                                        thread.Join();
+                                    }
                                 }
                                 return;
                             }
@@ -370,6 +403,13 @@ namespace AutoUpdaterDotNET
                                     {
                                         XmlNode mandatory = item.SelectSingleNode("mandatory");
 
+                                        args.UpdateMode = (Mode)Enum.Parse(typeof(Mode), mandatory?.Attributes["mode"]?.InnerText);
+                                        if (ReportErrors && !Enum.IsDefined(typeof(Mode), args.UpdateMode))
+                                        {
+                                            throw new InvalidDataException(
+                                                $"{args.UpdateMode} is not an underlying value of the Mode enumeration.");
+                                        }
+
                                         Boolean.TryParse(mandatory?.InnerText, out Mandatory);
                                     }
 
@@ -417,6 +457,7 @@ namespace AutoUpdaterDotNET
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
             Mandatory = args.Mandatory;
+            UpdateMode = args.UpdateMode;
             InstallerArgs = args.InstallerArgs ?? String.Empty;
             HashingAlgorithm = args.HashingAlgorithm ?? "MD5";
             Checksum = args.Checksum ?? String.Empty;
@@ -653,6 +694,11 @@ namespace AutoUpdaterDotNET
         ///     Shows if the update is required or optional.
         /// </summary>
         public bool Mandatory { get; set; }
+
+        /// <summary>
+        ///     Defines how the Mandatory flag should work.
+        /// </summary>
+        public Mode UpdateMode { get; set; }
 
         /// <summary>
         ///     Command line arguments used by Installer.
