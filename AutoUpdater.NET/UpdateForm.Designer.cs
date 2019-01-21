@@ -46,6 +46,7 @@ namespace AutoUpdaterDotNET
             // 
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
             // 
             // labelUpdate
             // 

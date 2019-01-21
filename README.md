@@ -106,7 +106,7 @@ AutoUpdater.Mandatory = true;
 
 ### Forced updates
 
-You can enable forced updated by setting Mandatory property to true and setting UpdateMode to value of "Forced" or "ForceDownload". "Force" option will remove Remind Later, Skip and Close buttons on standard update dialog. "ForceDownload" option will skip the standard update dialog and start downloading and updating the application without user interaction.
+You can enable forced updates by setting Mandatory property to true and setting UpdateMode to value of "Forced" or "ForceDownload". "Forced" option will hide Remind Later, Skip and Close buttons on the standard update dialog. "ForceDownload" option will skip the standard update dialog and start downloading and updating the application without user interaction.
 
 ````csharp
 AutoUpdater.Mandatory = true;
