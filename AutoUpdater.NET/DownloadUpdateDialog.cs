@@ -31,6 +31,11 @@ namespace AutoUpdaterDotNET
             InitializeComponent();
 
             _downloadURL = downloadURL;
+
+            if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
+            {
+                ControlBox = false;
+            }
             _userName = userName;
             _password = password;
         }

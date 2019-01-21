@@ -1,18 +1,16 @@
-<p align="center"><img src="Logo/Horizontal.png" alt="AutoUpdater.NET" height="120px"></p>
+![AutoUpdater.NET](Logo/Horizontal.png)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
 
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
-## The NuGet package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
-
-`https://www.nuget.org/packages/Autoupdater.NET.Official/`
+# The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
 
     PM> Install-Package Autoupdater.NET.Official
 
 ## How it works
 
-AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory. 
+AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory.
 
 ## Using the code
 
@@ -35,7 +33,12 @@ There are two things you need to provide in XML file as you can see above.
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file or zip file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
-* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
+* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog. You can provide mode attribute to change the behaviour of the mandatory flag. If you provide "1" as the value of mode attribute then it will also hide the Close button on update dialog. If you provide "2" as the value of mode attribute then it will skip the updae dialog and start downloading and updating application automatically.
+
+````xml
+<mandatory mode="2">true</mandatory>
+````
+
 * args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
 * checksum (Optional): You can provide the checksum for the update file between this tag. If you do this AutoUpdater.NET will compare the checksum of the downloaded file before executing the update process to check the integrity of the file. You can provide algorithm attribute in the checksum tag to specify which algorithm should be used to generate the checksum of the downloaded file. Currently, MD5, SHA1, SHA256, SHA384, and SHA512 are supported.
 
@@ -61,6 +64,20 @@ Start method of AutoUpdater class takes URL of the XML file you uploaded to serv
 
     AutoUpdater.Start should be called from UI thread.
 
+### Current version detection
+
+AutoUpdater.NET uses Assembly version to determine the current verison of the application. You can update it by going to Properties of the project as shown in following screenshot.
+
+![How to change assembly version of your .NET application?](https://rbsoft.org/images/assembly-version.png)
+
+Version specified in XML file should be higher than Assembly version to trigger the update.
+
+If you want to provide your own Assembly then you can do it by providing second argument of Start method as shown below.
+
+````csharp
+AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml", myAssembly);
+````
+
 ## Configuration Options
 
 ### Disable Skip Button
@@ -85,6 +102,15 @@ If you want to ignore previously set Remind Later and Skip settings then you can
 
 ````csharp
 AutoUpdater.Mandatory = true;
+````
+
+### Forced updates
+
+You can enable forced updates by setting Mandatory property to true and setting UpdateMode to value of "Forced" or "ForceDownload". "Forced" option will hide Remind Later, Skip and Close buttons on the standard update dialog. "ForceDownload" option will skip the standard update dialog and start downloading and updating the application without user interaction.
+
+````csharp
+AutoUpdater.Mandatory = true;
+AutoUpdater.UpdateMode = Mode.ForceDownload;
 ````
 
 ### Enable Error Reporting

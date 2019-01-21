@@ -40,6 +40,11 @@ namespace AutoUpdaterDotNET
                     buttonRemindLater.Location.Y - reduceHeight);
                 buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
             }
+
+            if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
+            {
+                ControlBox = false;
+            }
         }
 
         public sealed override string Text
