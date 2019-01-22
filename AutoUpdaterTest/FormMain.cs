@@ -89,6 +89,11 @@ namespace AutoUpdaterTest
             //};
             //timer.Start();
 
+            //Uncomment following lines to provide basic authentication credetials to use.
+
+            //BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
+            //AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 

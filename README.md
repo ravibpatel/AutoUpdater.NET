@@ -110,7 +110,16 @@ You can enable forced updates by setting Mandatory property to true and setting 
 
 ````csharp
 AutoUpdater.Mandatory = true;
-AutoUpdater.UpdateMode = Mode.ForceDownload;
+AutoUpdater.UpdateMode = Mode.Forced;
+````
+
+### Basic Authetication
+
+You can provide Basic Authetication for XML and Update file as shown in below code.
+
+````csharp
+BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
+AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
 ````
 
 ### Enable Error Reporting
