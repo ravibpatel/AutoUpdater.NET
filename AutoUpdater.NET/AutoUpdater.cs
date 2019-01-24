@@ -98,7 +98,7 @@ namespace AutoUpdaterDotNET
         public static String AppCastURL;
 
         /// <summary>
-        ///     Opens the download url in default browser if true. Very usefull if you have portable application.
+        ///     Opens the download URL in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
 
@@ -770,7 +770,7 @@ namespace AutoUpdaterDotNET
         private string Password { get; }
 
         /// <summary>
-        /// Intialize credentials for Basic Authentication.
+        /// Initializes credentials for Basic Authentication.
         /// </summary>
         /// <param name="username">Username to use for Basic Authentication</param>
         /// <param name="password">Password to use for Basic Authentication</param>
