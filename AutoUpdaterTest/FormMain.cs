@@ -94,6 +94,11 @@ namespace AutoUpdaterTest
             //BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
             //AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
 
+            //Uncomment following lines to enable forced updates.
+
+            //AutoUpdater.Mandatory = true;
+            //AutoUpdater.UpdateMode = Mode.Forced;
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 

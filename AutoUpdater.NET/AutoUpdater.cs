@@ -418,17 +418,23 @@ namespace AutoUpdaterDotNET
                                     {
                                         XmlNode mandatory = item.SelectSingleNode("mandatory");
 
-                                        args.UpdateMode = (Mode)Enum.Parse(typeof(Mode), mandatory?.Attributes["mode"]?.InnerText);
-                                        if (ReportErrors && !Enum.IsDefined(typeof(Mode), args.UpdateMode))
-                                        {
-                                            throw new InvalidDataException(
-                                                $"{args.UpdateMode} is not an underlying value of the Mode enumeration.");
-                                        }
-
                                         Boolean.TryParse(mandatory?.InnerText, out Mandatory);
+
+                                        string mode = mandatory?.Attributes["mode"]?.InnerText;
+
+                                        if (!string.IsNullOrEmpty(mode))
+                                        {
+                                            UpdateMode = (Mode) Enum.Parse(typeof(Mode), mode);
+                                            if (ReportErrors && !Enum.IsDefined(typeof(Mode), UpdateMode))
+                                            {
+                                                throw new InvalidDataException(
+                                                    $"{UpdateMode} is not an underlying value of the Mode enumeration.");
+                                            }
+                                        }
                                     }
 
                                     args.Mandatory = Mandatory;
+                                    args.UpdateMode = UpdateMode;
 
                                     XmlNode appArgs = item.SelectSingleNode("args");
 
@@ -471,8 +477,6 @@ namespace AutoUpdaterDotNET
             CurrentVersion = args.CurrentVersion;
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
-            Mandatory = args.Mandatory;
-            UpdateMode = args.UpdateMode;
             InstallerArgs = args.InstallerArgs ?? String.Empty;
             HashingAlgorithm = args.HashingAlgorithm ?? "MD5";
             Checksum = args.Checksum ?? String.Empty;
