@@ -15,7 +15,7 @@ namespace AutoUpdaterDotNET
     internal partial class DownloadUpdateDialog : Form
     {
         private readonly string _downloadURL;
-        
+
         private string _tempFile;
 
         private MyWebClient _webClient;
@@ -36,7 +36,10 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
-            _webClient = new MyWebClient { CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore) };
+            _webClient = new MyWebClient
+            {
+                CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
+            };
 
             if (AutoUpdater.Proxy != null)
             {
@@ -79,13 +82,15 @@ namespace AutoUpdaterDotNET
             else
             {
                 var timeSpan = DateTime.Now - _startedAt;
-                long totalSeconds = (long)timeSpan.TotalSeconds;
+                long totalSeconds = (long) timeSpan.TotalSeconds;
                 if (totalSeconds > 0)
                 {
                     var bytesPerSecond = e.BytesReceived / totalSeconds;
-                    labelInformation.Text = string.Format(Resources.DownloadSpeedMessage, BytesToString(bytesPerSecond));
+                    labelInformation.Text =
+                        string.Format(Resources.DownloadSpeedMessage, BytesToString(bytesPerSecond));
                 }
             }
+
             labelSize.Text = $@"{BytesToString(e.BytesReceived)} / {BytesToString(e.TotalBytesToReceive)}";
             progressBar.Value = e.ProgressPercentage;
         }
@@ -99,7 +104,8 @@ namespace AutoUpdaterDotNET
 
             if (asyncCompletedEventArgs.Error != null)
             {
-                MessageBox.Show(asyncCompletedEventArgs.Error.Message, asyncCompletedEventArgs.Error.GetType().ToString(), MessageBoxButtons.OK,
+                MessageBox.Show(asyncCompletedEventArgs.Error.Message,
+                    asyncCompletedEventArgs.Error.GetType().ToString(), MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 _webClient = null;
                 Close();
@@ -130,7 +136,11 @@ namespace AutoUpdaterDotNET
                     fileName = TryToFindFileName(contentDisposition, "filename*=UTF-8''");
                 }
             }
-            var tempPath = Path.Combine(string.IsNullOrEmpty(AutoUpdater.DownloadPath) ? Path.GetTempPath() : AutoUpdater.DownloadPath, fileName);
+
+            var tempPath =
+                Path.Combine(
+                    string.IsNullOrEmpty(AutoUpdater.DownloadPath) ? Path.GetTempPath() : AutoUpdater.DownloadPath,
+                    fileName);
 
             try
             {
@@ -138,6 +148,7 @@ namespace AutoUpdaterDotNET
                 {
                     File.Delete(tempPath);
                 }
+
                 File.Move(_tempFile, tempPath);
             }
             catch (Exception e)
@@ -152,7 +163,8 @@ namespace AutoUpdaterDotNET
             {
                 FileName = tempPath,
                 UseShellExecute = true,
-                Arguments = AutoUpdater.InstallerArgs.Replace("%path%", Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName))
+                Arguments = AutoUpdater.InstallerArgs.Replace("%path%",
+                    Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName))
             };
 
             var extension = Path.GetExtension(tempPath);
@@ -160,7 +172,8 @@ namespace AutoUpdaterDotNET
             {
                 string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
                 File.WriteAllBytes(installerPath, Resources.ZipExtractor);
-                StringBuilder arguments = new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+                StringBuilder arguments =
+                    new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
                 string[] args = Environment.GetCommandLineArgs();
                 for (int i = 1; i < args.Length; i++)
                 {
@@ -168,9 +181,11 @@ namespace AutoUpdaterDotNET
                     {
                         arguments.Append(" \"");
                     }
+
                     arguments.Append(args[i]);
                     arguments.Append(i.Equals(args.Length - 1) ? "\"" : " ");
                 }
+
                 processStartInfo = new ProcessStartInfo
                 {
                     FileName = installerPath,
@@ -212,7 +227,7 @@ namespace AutoUpdaterDotNET
 
         private static String BytesToString(long byteCount)
         {
-            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            string[] suf = {"B", "KB", "MB", "GB", "TB", "PB", "EB"};
             if (byteCount == 0)
                 return "0" + suf[0];
             long bytes = Math.Abs(byteCount);
@@ -239,6 +254,7 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
+
             return fileName;
         }
 
@@ -255,13 +271,15 @@ namespace AutoUpdaterDotNET
 
                         if (fileChecksum == checksum.ToLower()) return true;
 
-                        MessageBox.Show(Resources.FileIntegrityCheckFailedMessage, Resources.FileIntegrityCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Resources.FileIntegrityCheckFailedMessage,
+                            Resources.FileIntegrityCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
                         if (AutoUpdater.ReportErrors)
                         {
-                            MessageBox.Show(Resources.HashAlgorithmNotSupportedMessage, Resources.HashAlgorithmNotSupportedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(Resources.HashAlgorithmNotSupportedMessage,
+                                Resources.HashAlgorithmNotSupportedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
 

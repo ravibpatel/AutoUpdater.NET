@@ -55,6 +55,7 @@ namespace AutoUpdaterDotNET
                         RemindLaterAt = 10;
                         break;
                 }
+
                 DialogResult = DialogResult.OK;
             }
             else

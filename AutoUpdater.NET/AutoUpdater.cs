@@ -45,10 +45,12 @@ namespace AutoUpdaterDotNET
         /// In this mode, it ignores Remind Later and Skip values set previously and hide both buttons.
         /// </summary>
         Normal,
+
         /// <summary>
         /// In this mode, it won't show close button in addition to Normal mode behaviour.
         /// </summary>
         Forced,
+
         /// <summary>
         /// In this mode, it will start downloading and applying update without showing standarad update dialog in addition to Forced mode behaviour.
         /// </summary>
@@ -211,12 +213,16 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
+            ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
+                                                    (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+
             if (Mandatory && _remindLaterTimer != null)
             {
                 _remindLaterTimer.Stop();
                 _remindLaterTimer.Close();
                 _remindLaterTimer = null;
             }
+
             if (!Running && _remindLaterTimer == null)
             {
                 Running = true;
@@ -235,13 +241,14 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        private static void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        private static void BackgroundWorkerOnRunWorkerCompleted(object sender,
+            RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
             if (!runWorkerCompletedEventArgs.Cancelled)
             {
                 if (runWorkerCompletedEventArgs.Result is DateTime)
                 {
-                    SetTimer((DateTime)runWorkerCompletedEventArgs.Result);
+                    SetTimer((DateTime) runWorkerCompletedEventArgs.Result);
                 }
                 else
                 {
@@ -281,13 +288,15 @@ namespace AutoUpdaterDotNET
                                         thread.Join();
                                     }
                                 }
+
                                 return;
                             }
                             else
                             {
                                 if (ReportErrors)
                                 {
-                                    MessageBox.Show(Resources.UpdateUnavailableMessage, Resources.UpdateUnavailableCaption,
+                                    MessageBox.Show(Resources.UpdateUnavailableMessage,
+                                        Resources.UpdateUnavailableCaption,
                                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
@@ -304,6 +313,7 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
+
             Running = false;
         }
 
@@ -346,11 +356,13 @@ namespace AutoUpdaterDotNET
             {
                 webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
             }
+
             webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             if (Proxy != null)
             {
                 webRequest.Proxy = Proxy;
             }
+
             WebResponse webResponse;
 
             try
@@ -362,6 +374,7 @@ namespace AutoUpdaterDotNET
                 e.Cancel = false;
                 return;
             }
+
             UpdateInfoEventArgs args;
             using (Stream appCastStream = webResponse.GetResponseStream())
             {
@@ -471,6 +484,7 @@ namespace AutoUpdaterDotNET
                 {
                     throw new InvalidDataException();
                 }
+
                 return;
             }
 
@@ -584,12 +598,15 @@ namespace AutoUpdaterDotNET
                     }
 
                     if (process.Id != currentProcess.Id &&
-                        currentProcess.MainModule.FileName == processPath) //get all instances of assembly except current
+                        currentProcess.MainModule.FileName == processPath
+                    ) //get all instances of assembly except current
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
+                            process.WaitForExit((int) TimeSpan.FromSeconds(10)
+                                .TotalMilliseconds); //give some time to process message
                         }
+
                         if (!process.HasExited)
                         {
                             process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
@@ -623,6 +640,7 @@ namespace AutoUpdaterDotNET
             {
                 return null;
             }
+
             return (Attribute) attributes[0];
         }
 
@@ -675,6 +693,7 @@ namespace AutoUpdaterDotNET
             catch (TargetInvocationException)
             {
             }
+
             return false;
         }
     }

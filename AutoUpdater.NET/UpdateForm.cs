@@ -49,7 +49,7 @@ namespace AutoUpdaterDotNET
 
         public sealed override string Text
         {
-            get { return  base.Text; }
+            get { return base.Text; }
             set { base.Text = value; }
         }
 
@@ -74,6 +74,7 @@ namespace AutoUpdaterDotNET
                     ieValue = 7000;
                     break;
             }
+
             if (ieValue != 0)
             {
                 using (RegistryKey registryKey =
@@ -167,13 +168,14 @@ namespace AutoUpdaterDotNET
                         case RemindLaterFormat.Minutes:
                             remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
                             break;
-
                     }
+
                     updateKey.SetValue("remindlater",
                         remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
                     AutoUpdater.SetTimer(remindLaterDateTime);
                 }
             }
+
             DialogResult = DialogResult.Cancel;
         }
 
