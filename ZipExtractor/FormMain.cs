@@ -64,9 +64,11 @@ namespace ZipExtractor
                             zip.Close();
                             return;
                         }
+
                         ZipStorer.ZipFileEntry entry = dir[index];
                         zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
-                        _backgroundWorker.ReportProgress((index + 1) * 100 / dir.Count, string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip));
+                        _backgroundWorker.ReportProgress((index + 1) * 100 / dir.Count,
+                            string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip));
                     }
 
                     zip.Close();
@@ -90,6 +92,7 @@ namespace ZipExtractor
                             {
                                 processStartInfo.Arguments = args[3];
                             }
+
                             Process.Start(processStartInfo);
                         }
                         catch (Win32Exception exception)
@@ -97,6 +100,7 @@ namespace ZipExtractor
                             if (exception.NativeErrorCode != 1223)
                                 throw;
                         }
+
                         Application.Exit();
                     }
                 };
