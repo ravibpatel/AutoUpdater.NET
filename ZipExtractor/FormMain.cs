@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 using System.Windows.Forms;
 using ZipExtractor.Properties;
 
@@ -12,6 +13,7 @@ namespace ZipExtractor
     public partial class FormMain : Form
     {
         private BackgroundWorker _backgroundWorker;
+        readonly StringBuilder _logBuilder = new StringBuilder();
 
         public FormMain()
         {
@@ -20,7 +22,19 @@ namespace ZipExtractor
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
+            _logBuilder.AppendLine(DateTime.Now.ToString("F"));
+            _logBuilder.AppendLine();
+            _logBuilder.AppendLine("ZipExtractor started with following command line arguments.");
+
             string[] args = Environment.GetCommandLineArgs();
+            for (var index = 0; index < args.Length; index++)
+            {
+                var arg = args[index];
+                _logBuilder.AppendLine($"[{index}] {arg}");
+            }
+
+            _logBuilder.AppendLine();
+
             if (args.Length >= 3)
             {
                 foreach (var process in Process.GetProcesses())
@@ -29,6 +43,8 @@ namespace ZipExtractor
                     {
                         if (process.MainModule.FileName.Equals(args[2]))
                         {
+                            _logBuilder.AppendLine("Waiting for application process to Exit...");
+
                             labelInformation.Text = @"Waiting for application to Exit...";
                             process.WaitForExit();
                         }
@@ -48,6 +64,8 @@ namespace ZipExtractor
 
                 _backgroundWorker.DoWork += (o, eventArgs) =>
                 {
+                    _logBuilder.AppendLine("BackgroundWorker started successfully.");
+
                     var path = Path.GetDirectoryName(args[2]);
 
                     // Open an existing zip file for reading.
@@ -55,6 +73,8 @@ namespace ZipExtractor
 
                     // Read the central directory collection.
                     List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
+
+                    _logBuilder.AppendLine($"Found total of {dir.Count} files and folders inside the zip file.");
 
                     for (var index = 0; index < dir.Count; index++)
                     {
@@ -67,8 +87,11 @@ namespace ZipExtractor
 
                         ZipStorer.ZipFileEntry entry = dir[index];
                         zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
-                        _backgroundWorker.ReportProgress((index + 1) * 100 / dir.Count,
-                            string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip));
+                        string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip);
+                        int progress = (index + 1) * 100 / dir.Count;
+                        _backgroundWorker.ReportProgress(progress, currentFile);
+
+                        _logBuilder.AppendLine($"{currentFile} [{progress}%]");
                     }
 
                     zip.Close();
@@ -82,28 +105,52 @@ namespace ZipExtractor
 
                 _backgroundWorker.RunWorkerCompleted += (o, eventArgs) =>
                 {
-                    if (!eventArgs.Cancelled)
+                    try
                     {
-                        labelInformation.Text = @"Finished";
-                        try
+                        if (eventArgs.Error != null)
                         {
-                            ProcessStartInfo processStartInfo = new ProcessStartInfo(args[2]);
-                            if (args.Length > 3)
+                            throw eventArgs.Error;
+                        }
+
+                        if (!eventArgs.Cancelled)
+                        {
+                            labelInformation.Text = @"Finished";
+                            try
                             {
-                                processStartInfo.Arguments = args[3];
+                                ProcessStartInfo processStartInfo = new ProcessStartInfo(args[2]);
+                                if (args.Length > 3)
+                                {
+                                    processStartInfo.Arguments = args[3];
+                                }
+
+                                Process.Start(processStartInfo);
+
+                                _logBuilder.AppendLine("Successfully launched the updated application.");
                             }
-
-                            Process.Start(processStartInfo);
+                            catch (Win32Exception exception)
+                            {
+                                if (exception.NativeErrorCode != 1223)
+                                {
+                                    throw;
+                                }
+                            }
                         }
-                        catch (Win32Exception exception)
-                        {
-                            if (exception.NativeErrorCode != 1223)
-                                throw;
-                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        _logBuilder.AppendLine();
+                        _logBuilder.AppendLine(exception.ToString());
 
+                        MessageBox.Show(exception.Message, exception.GetType().ToString(),
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    finally
+                    {
+                        _logBuilder.AppendLine();
                         Application.Exit();
                     }
                 };
+
                 _backgroundWorker.RunWorkerAsync();
             }
         }
@@ -111,6 +158,9 @@ namespace ZipExtractor
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             _backgroundWorker?.CancelAsync();
+
+            _logBuilder.AppendLine();
+            File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "ZipExtractor.log"), _logBuilder.ToString());
         }
     }
 }
