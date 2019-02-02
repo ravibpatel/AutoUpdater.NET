@@ -37,24 +37,6 @@ namespace ZipExtractor
 
             if (args.Length >= 3)
             {
-                foreach (var process in Process.GetProcesses())
-                {
-                    try
-                    {
-                        if (process.MainModule.FileName.Equals(args[2]))
-                        {
-                            _logBuilder.AppendLine("Waiting for application process to Exit...");
-
-                            labelInformation.Text = @"Waiting for application to Exit...";
-                            process.WaitForExit();
-                        }
-                    }
-                    catch (Exception exception)
-                    {
-                        Debug.WriteLine(exception.Message);
-                    }
-                }
-
                 // Extract all the files.
                 _backgroundWorker = new BackgroundWorker
                 {
@@ -64,6 +46,24 @@ namespace ZipExtractor
 
                 _backgroundWorker.DoWork += (o, eventArgs) =>
                 {
+                    foreach (var process in Process.GetProcesses())
+                    {
+                        try
+                        {
+                            if (process.MainModule.FileName.Equals(args[2]))
+                            {
+                                _logBuilder.AppendLine("Waiting for application process to Exit...");
+
+                                _backgroundWorker.ReportProgress(0, "Waiting for application to Exit...");
+                                process.WaitForExit();
+                            }
+                        }
+                        catch (Exception exception)
+                        {
+                            Debug.WriteLine(exception.Message);
+                        }
+                    }
+
                     _logBuilder.AppendLine("BackgroundWorker started successfully.");
 
                     var path = Path.GetDirectoryName(args[2]);
