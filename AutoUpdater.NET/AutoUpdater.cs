@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -197,6 +198,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
+		/// <summary>
+		///     Set if you want the default update form to have a different size.
+		/// </summary>
+		public static Size? UpdateFormSize = null;
+
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
@@ -323,6 +329,9 @@ namespace AutoUpdaterDotNET
         public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
+			if (UpdateFormSize.HasValue) {
+				updateForm.Size = UpdateFormSize.Value;
+			}
             if (updateForm.ShowDialog().Equals(DialogResult.OK))
             {
                 Exit();

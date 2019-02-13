@@ -34,12 +34,7 @@ namespace AutoUpdaterDotNET
                 webBrowser.Hide();
 
                 Height -= reduceHeight;
-
-                buttonSkip.Location = new Point(buttonSkip.Location.X, buttonSkip.Location.Y - reduceHeight);
-                buttonRemindLater.Location = new Point(buttonRemindLater.Location.X,
-                    buttonRemindLater.Location.Y - reduceHeight);
-                buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
-            }
+			}
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
