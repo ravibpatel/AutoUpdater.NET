@@ -78,14 +78,15 @@ namespace AutoUpdaterDotNET
                 var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
                 labelReleaseNotes.Hide();
                 webBrowser.Hide();
-                var labelSize = new Size(Width - 110, 0);
-                labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
                 Height -= reduceHeight;
             }
             else
             {
                 webBrowser.Navigate(AutoUpdater.ChangelogURL);
             }
+
+            var labelSize = new Size(Width - 110, 0);
+            labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
         }
 
         private void ButtonUpdateClick(object sender, EventArgs e)
