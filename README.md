@@ -180,6 +180,14 @@ You can specify where you want to download the update file by assigning Download
 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
 ````
 
+### Specify size of the UpdateForm
+
+You can specify the size of the update form by using below code.
+
+````csharp
+AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
+````
+
 ## Check updates frequently
 
 You can call Start method inside Timer to check for updates frequently.
