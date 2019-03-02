@@ -219,8 +219,12 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
-            ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
-                                                    (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+            try
+            {
+                ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
+                                                        (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+            }
+            catch (NotSupportedException) {}
 
             if (Mandatory && _remindLaterTimer != null)
             {
