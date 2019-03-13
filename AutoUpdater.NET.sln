@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipExtractor", "ZipExtracto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTestWPF", "AutoUpdaterTestWPF\AutoUpdaterTestWPF.csproj", "{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoUpdater.NETStandard", "AutoUpdater.NETStandard\AutoUpdater.NETStandard.csproj", "{8819B8EE-674C-435C-813F-0F6607A052A8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +74,18 @@ Global
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Release-NET35|Any CPU.Build.0 = Release|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Release-NET40|Any CPU.ActiveCfg = Release|Any CPU
 		{9AEE4F21-5ED5-4C7E-9249-8A680123B5E3}.Release-NET40|Any CPU.Build.0 = Release|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Debug-NET35|Any CPU.ActiveCfg = Debug|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Debug-NET35|Any CPU.Build.0 = Debug|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Debug-NET40|Any CPU.ActiveCfg = Debug|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Debug-NET40|Any CPU.Build.0 = Debug|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Release-NET35|Any CPU.ActiveCfg = Release|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Release-NET35|Any CPU.Build.0 = Release|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Release-NET40|Any CPU.ActiveCfg = Release|Any CPU
+		{8819B8EE-674C-435C-813F-0F6607A052A8}.Release-NET40|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
