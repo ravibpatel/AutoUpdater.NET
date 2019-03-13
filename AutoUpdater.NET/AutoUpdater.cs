@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -198,6 +199,11 @@ namespace AutoUpdaterDotNET
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
+        ///     Set if you want the default update form to have a different size.
+        /// </summary>
+        public static Size? UpdateFormSize = null;
+
+        /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
@@ -213,8 +219,12 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
-            ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
-                                                    (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+            try
+            {
+                ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
+                                                        (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+            }
+            catch (NotSupportedException) {}
 
             if (Mandatory && _remindLaterTimer != null)
             {
@@ -323,6 +333,11 @@ namespace AutoUpdaterDotNET
         public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
+            if (UpdateFormSize.HasValue)
+            {
+                updateForm.Size = UpdateFormSize.Value;
+            }
+
             if (updateForm.ShowDialog().Equals(DialogResult.OK))
             {
                 Exit();
