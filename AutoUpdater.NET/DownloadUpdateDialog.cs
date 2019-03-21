@@ -222,6 +222,18 @@ namespace AutoUpdaterDotNET
             {
                 processStartInfo.Verb = "runas";
             }
+            
+            if(AutoUpdater.RunUpdateAsUser && AutoUpdater.ServiceAccount != null)
+            {
+                SecureString ssPwd = new SecureString();
+
+                Array.ForEach(AutoUpdater.ServiceAccount.Password.ToCharArray(),
+                    (x) => ssPwd.AppendChar(x));
+
+                processStartInfo.Domain = AutoUpdater.ServiceAccount.Domain;
+                processStartInfo.UserName = AutoUpdater.ServiceAccount.UserName;
+                processStartInfo.Password = ssPwd;
+            }
 
             try
             {
