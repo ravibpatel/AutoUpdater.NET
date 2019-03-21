@@ -227,8 +227,8 @@ namespace AutoUpdaterDotNET
             {
                 SecureString ssPwd = new SecureString();
 
-                Array.ForEach(AutoUpdater.ServiceAccount.Password.ToCharArray(),
-                    (x) => ssPwd.AppendChar(x));
+                Array.ForEach(AutoUpdater.ServiceAccount.Password.ToCharArray(), ssPwd.AppendChar);
+                ssPwd.MakeReadOnly();
 
                 processStartInfo.Domain = AutoUpdater.ServiceAccount.Domain;
                 processStartInfo.UserName = AutoUpdater.ServiceAccount.UserName;
