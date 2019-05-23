@@ -159,12 +159,14 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
+            AutoUpdater.InstallerArgs = AutoUpdater.InstallerArgs.Replace("%path%",
+                Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
+
             var processStartInfo = new ProcessStartInfo
             {
                 FileName = tempPath,
                 UseShellExecute = true,
-                Arguments = AutoUpdater.InstallerArgs.Replace("%path%",
-                    Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName))
+                Arguments = AutoUpdater.InstallerArgs
             };
 
             var extension = Path.GetExtension(tempPath);
