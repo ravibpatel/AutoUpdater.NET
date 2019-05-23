@@ -36,17 +36,24 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
-            _webClient = new MyWebClient
+            var uri = new Uri(_downloadURL);
+
+            if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
             {
-                CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
-            };
+                _webClient = new MyWebClient
+                {
+                    CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
+                };
+            }
+            else if (uri.Scheme.Equals(Uri.UriSchemeFtp))
+            {
+                _webClient = new MyWebClient {Credentials = AutoUpdater.FtpCredentials};
+            }
 
             if (AutoUpdater.Proxy != null)
             {
                 _webClient.Proxy = AutoUpdater.Proxy;
             }
-
-            var uri = new Uri(_downloadURL);
 
             if (string.IsNullOrEmpty(AutoUpdater.DownloadPath))
             {

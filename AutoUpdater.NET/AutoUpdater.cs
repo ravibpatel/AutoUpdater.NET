@@ -101,6 +101,11 @@ namespace AutoUpdaterDotNET
         public static String AppCastURL;
 
         /// <summary>
+        /// Login/password/domain for FTP-request
+        /// </summary>
+        public static NetworkCredential FtpCredentials;
+
+        /// <summary>
         ///     Opens the download URL in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
@@ -210,6 +215,18 @@ namespace AutoUpdaterDotNET
         public static void Start(Assembly myAssembly = null)
         {
             Start(AppCastURL, myAssembly);
+        }
+
+        /// <summary>
+        ///     Start checking for new version of application via FTP and display dialog to the user if update is available.
+        /// </summary>
+        /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
+        /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
+        /// <param name="myAssembly">Assembly to use for version checking.</param>
+        public static void Start(String appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
+        {
+            FtpCredentials = ftpCredentials;
+            Start(appCast, myAssembly);
         }
 
         /// <summary>
@@ -367,12 +384,29 @@ namespace AutoUpdaterDotNET
             InstalledVersion = mainAssembly.GetName().Version;
 
             var webRequest = WebRequest.Create(AppCastURL);
-            if (BasicAuthXML != null)
+
+            var uri = new Uri(AppCastURL);
+
+            if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
             {
-                webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+                if (BasicAuthXML != null)
+                {
+                    webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+                }
+
+                webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            }
+            else if (uri.Scheme.Equals(Uri.UriSchemeFtp))
+            {
+                var ftpReauest = (FtpWebRequest) webRequest;
+                ftpReauest.Credentials = FtpCredentials;
+                ftpReauest.UseBinary = true;
+                ftpReauest.UsePassive = true;
+                ftpReauest.KeepAlive = true;
+                ftpReauest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
+                ftpReauest.Method = WebRequestMethods.Ftp.DownloadFile;
             }
 
-            webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             if (Proxy != null)
             {
                 webRequest.Proxy = Proxy;
@@ -391,6 +425,7 @@ namespace AutoUpdaterDotNET
             }
 
             UpdateInfoEventArgs args;
+
             using (Stream appCastStream = webResponse.GetResponseStream())
             {
                 if (appCastStream != null)
