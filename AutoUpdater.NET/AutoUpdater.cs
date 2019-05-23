@@ -99,7 +99,7 @@ namespace AutoUpdaterDotNET
         ///     URL of the xml file that contains information about latest version of the application.
         /// </summary>
         public static String AppCastURL;
-        
+
         /// <summary>
         /// Login/password/domain for FTP-request
         /// </summary>
@@ -216,13 +216,13 @@ namespace AutoUpdaterDotNET
         {
             Start(AppCastURL, myAssembly);
         }
-        
+
         /// <summary>
-        /// If uses FTP
+        ///     Start checking for new version of application via FTP and display dialog to the user if update is available.
         /// </summary>
-        /// <param name="appCast"></param>
-        /// <param name="myAssembly"></param>
-        /// <param name="ftpCredentials"></param>
+        /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
+        /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
+        /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
         {
             FtpCredentials = ftpCredentials;
@@ -384,28 +384,29 @@ namespace AutoUpdaterDotNET
             InstalledVersion = mainAssembly.GetName().Version;
 
             var webRequest = WebRequest.Create(AppCastURL);
-            
+
             var uri = new Uri(AppCastURL);
+
             if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
             {
                 if (BasicAuthXML != null)
                 {
                     webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
                 }
+
                 webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
             }
-            //If uses FTP
             else if (uri.Scheme.Equals(Uri.UriSchemeFtp))
             {
-                var ftpReauest = (FtpWebRequest)webRequest;
-                ftpReauest.Credentials = FtpCredentials;//credentials from start method
+                var ftpReauest = (FtpWebRequest) webRequest;
+                ftpReauest.Credentials = FtpCredentials;
                 ftpReauest.UseBinary = true;
                 ftpReauest.UsePassive = true;
                 ftpReauest.KeepAlive = true;
-                ftpReauest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.Default);//select policy?
+                ftpReauest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
                 ftpReauest.Method = WebRequestMethods.Ftp.DownloadFile;
             }
-            
+
             if (Proxy != null)
             {
                 webRequest.Proxy = Proxy;
@@ -424,6 +425,7 @@ namespace AutoUpdaterDotNET
             }
 
             UpdateInfoEventArgs args;
+
             using (Stream appCastStream = webResponse.GetResponseStream())
             {
                 if (appCastStream != null)
@@ -732,15 +734,7 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool DownloadUpdate()
         {
-            DownloadUpdateDialog downloadDialog = null;
-            //ftp-DownloadURL from xml file
-            var uri = new Uri(DownloadURL);
-            if (uri.Scheme.Equals(Uri.UriSchemeFtp))
-            {
-                downloadDialog = new DownloadUpdateDialog(DownloadURL, FtpCredentials);
-            }
-            else
-                downloadDialog = new DownloadUpdateDialog(DownloadURL);
+            var downloadDialog = new DownloadUpdateDialog(DownloadURL);
 
             try
             {

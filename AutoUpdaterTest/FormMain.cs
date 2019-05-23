@@ -99,12 +99,12 @@ namespace AutoUpdaterTest
             //AutoUpdater.Mandatory = true;
             //AutoUpdater.UpdateMode = Mode.Forced;
 
-			//Want to change update form size then uncomment below line.
+            //Want to change update form size then uncomment below line.
 
-			//AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
-	    //FTP
-            //Change test-values for real example
-            //AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("testUserName", "testPassword", "testDomain"));
+            //AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
+
+            //Uncomment following if you want to update using FTP.
+            //AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
 
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }

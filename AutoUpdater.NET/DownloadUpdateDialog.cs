@@ -21,14 +21,6 @@ namespace AutoUpdaterDotNET
         private MyWebClient _webClient;
 
         private DateTime _startedAt;
-        
-        //If uses FTP
-        private NetworkCredential FtpCredentials;
-        public DownloadUpdateDialog(string downloadURL, NetworkCredential ftpCredentials)
-            :this(downloadURL)
-        {
-            FtpCredentials = ftpCredentials;            
-        }
 
         public DownloadUpdateDialog(string downloadURL)
         {
@@ -45,6 +37,7 @@ namespace AutoUpdaterDotNET
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
             var uri = new Uri(_downloadURL);
+
             if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
             {
                 _webClient = new MyWebClient
@@ -52,19 +45,15 @@ namespace AutoUpdaterDotNET
                     CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
                 };
             }
-            //If uses FTP
             else if (uri.Scheme.Equals(Uri.UriSchemeFtp))
             {
-                _webClient = new MyWebClient();
-                _webClient.Credentials = FtpCredentials;
+                _webClient = new MyWebClient {Credentials = AutoUpdater.FtpCredentials};
             }
 
             if (AutoUpdater.Proxy != null)
             {
                 _webClient.Proxy = AutoUpdater.Proxy;
             }
-
-            var uri = new Uri(_downloadURL);
 
             if (string.IsNullOrEmpty(AutoUpdater.DownloadPath))
             {
@@ -234,14 +223,6 @@ namespace AutoUpdaterDotNET
                 {
                     processStartInfo.Arguments += " " + AutoUpdater.InstallerArgs;
                 }
-            }
-            //If downloads .exe setup file
-            else if (extension.Equals(".exe", StringComparison.OrdinalIgnoreCase))
-            {
-                processStartInfo = new ProcessStartInfo
-                {
-                    FileName = tempPath
-                };
             }
 
             if (AutoUpdater.RunUpdateAsAdmin)
