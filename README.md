@@ -80,6 +80,16 @@ AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml", myAssembly);
 
 ## Configuration Options
 
+### Download Update file and XML using FTP
+
+If you like to use ftp XML URL to check for updates or download the update file then you can provide you FTP credentials in alternative Start method as shown below.
+
+````csharp
+AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
+````
+
+If you are using FTP download URL in the XML file then credentials provided here will be used to authenticate the request.
+
 ### Disable Skip Button
 
 If you don't want to show Skip button on Update form then just add following line with above code.
