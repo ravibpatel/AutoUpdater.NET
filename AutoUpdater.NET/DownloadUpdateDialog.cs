@@ -44,16 +44,15 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                _webClient = new MyWebClient
-                {
-                    CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
-                };
+                _webClient = new MyWebClient();
 
                 if (AutoUpdater.BasicAuthDownload != null)
                 {
                     _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
                 }
             }
+
+            _webClient.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
             if (AutoUpdater.Proxy != null)
             {
