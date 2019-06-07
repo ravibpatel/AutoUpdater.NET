@@ -383,43 +383,46 @@ namespace AutoUpdaterDotNET
 
             InstalledVersion = mainAssembly.GetName().Version;
 
-            var webRequest = WebRequest.Create(AppCastURL);
+            WebRequest webRequest = WebRequest.Create(AppCastURL);
 
-            var uri = new Uri(AppCastURL);
-
-            if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
-            {
-                if (BasicAuthXML != null)
-                {
-                    webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
-                }
-
-                webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-            }
-            else if (uri.Scheme.Equals(Uri.UriSchemeFtp))
-            {
-                var ftpReauest = (FtpWebRequest) webRequest;
-                ftpReauest.Credentials = FtpCredentials;
-                ftpReauest.UseBinary = true;
-                ftpReauest.UsePassive = true;
-                ftpReauest.KeepAlive = true;
-                ftpReauest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
-                ftpReauest.Method = WebRequestMethods.Ftp.DownloadFile;
-            }
+            webRequest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
 
             if (Proxy != null)
             {
                 webRequest.Proxy = Proxy;
             }
 
+            var uri = new Uri(AppCastURL);
+
             WebResponse webResponse;
 
             try
             {
-                webResponse = webRequest.GetResponse();
+                if (uri.Scheme.Equals(Uri.UriSchemeFtp))
+                {
+                    var ftpWebRequest = (FtpWebRequest) webRequest;
+                    ftpWebRequest.Credentials = FtpCredentials;
+                    ftpWebRequest.UseBinary = true;
+                    ftpWebRequest.UsePassive = true;
+                    ftpWebRequest.KeepAlive = true;
+                    ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                    webResponse = ftpWebRequest.GetResponse();
+                }
+                else
+                {
+                    if (BasicAuthXML != null)
+                    {
+                        webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+                    }
+
+                    webResponse = webRequest.GetResponse();
+                }
+
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Debug.WriteLine(exception);
                 e.Cancel = false;
                 return;
             }

@@ -279,7 +279,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
             // Uncomment the following line if you want to show standard update dialog instead.
             // AutoUpdater.ShowUpdateForm();
 
-            if (dialogResult.Equals(DialogResult.Yes))
+            if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
             {
                 try
                 {

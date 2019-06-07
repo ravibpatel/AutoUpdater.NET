@@ -37,17 +37,22 @@ namespace AutoUpdaterDotNET
         private void DownloadUpdateDialogLoad(object sender, EventArgs e)
         {
             var uri = new Uri(_downloadURL);
-
-            if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
+            
+            if (uri.Scheme.Equals(Uri.UriSchemeFtp))
+            {
+                _webClient = new MyWebClient {Credentials = AutoUpdater.FtpCredentials};
+            }
+            else
             {
                 _webClient = new MyWebClient
                 {
-                    CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
+                    CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
                 };
-            }
-            else if (uri.Scheme.Equals(Uri.UriSchemeFtp))
-            {
-                _webClient = new MyWebClient {Credentials = AutoUpdater.FtpCredentials};
+
+                if (AutoUpdater.BasicAuthDownload != null)
+                {
+                    _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
+                }
             }
 
             if (AutoUpdater.Proxy != null)
@@ -66,11 +71,6 @@ namespace AutoUpdaterDotNET
                 {
                     Directory.CreateDirectory(AutoUpdater.DownloadPath);
                 }
-            }
-
-            if (AutoUpdater.BasicAuthDownload != null)
-            {
-                _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
             }
 
             _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
