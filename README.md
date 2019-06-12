@@ -230,7 +230,7 @@ timer.Start();
 
 ## Handling Application exit logic manually
 
-If you like to handle Application exit logic yourself then you can use ApplicationExiEvent like below. This is very useful if you like to do something before closing the application.
+If you like to handle Application exit logic yourself then you can use ApplicationExitEvent like below. This is very useful if you like to do something before closing the application.
 
 ````csharp
 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
