@@ -1,3 +1,5 @@
+using AutoUpdaterDotNET.Properties;
+using Microsoft.Win32;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -11,8 +13,6 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-using AutoUpdaterDotNET.Properties;
-using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
@@ -65,17 +65,17 @@ namespace AutoUpdaterDotNET
     {
         private static System.Timers.Timer _remindLaterTimer;
 
-        internal static String ChangelogURL;
+        internal static string ChangelogURL;
 
-        internal static String DownloadURL;
+        internal static string DownloadURL;
 
-        internal static String InstallerArgs;
+        internal static string InstallerArgs;
 
-        internal static String RegistryLocation;
+        internal static string RegistryLocation;
 
-        internal static String Checksum;
+        internal static string Checksum;
 
-        internal static String HashingAlgorithm;
+        internal static string HashingAlgorithm;
 
         internal static Version CurrentVersion;
 
@@ -88,17 +88,17 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
-        public static String DownloadPath;
+        public static string DownloadPath;
 
         /// <summary>
         ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
         /// </summary>
-        public static String AppTitle;
+        public static string AppTitle;
 
         /// <summary>
         ///     URL of the xml file that contains information about latest version of the application.
         /// </summary>
-        public static String AppCastURL;
+        public static string AppCastURL;
 
         /// <summary>
         /// Login/password/domain for FTP-request
@@ -123,18 +123,18 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
-        public static Boolean ShowSkipButton = true;
+        public static bool ShowSkipButton = true;
 
         /// <summary>
         ///     If this is true users can see the Remind Later button.
         /// </summary>
-        public static Boolean ShowRemindLaterButton = true;
+        public static bool ShowRemindLaterButton = true;
 
         /// <summary>
         ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
         ///     RemindLaterAt and RemindLaterTimeSpan fields.
         /// </summary>
-        public static Boolean LetUserSelectRemindLater = true;
+        public static bool LetUserSelectRemindLater = true;
 
         /// <summary>
         ///     Remind Later interval after user should be reminded of update.
@@ -223,7 +223,7 @@ namespace AutoUpdaterDotNET
         /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
-        public static void Start(String appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
+        public static void Start(string appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
         {
             FtpCredentials = ftpCredentials;
             Start(appCast, myAssembly);
@@ -234,14 +234,14 @@ namespace AutoUpdaterDotNET
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
-        public static void Start(String appCast, Assembly myAssembly = null)
+        public static void Start(string appCast, Assembly myAssembly = null)
         {
             try
             {
-                ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
-                                                        (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+                ServicePointManager.SecurityProtocol |= (SecurityProtocolType)192 |
+                                                        (SecurityProtocolType)768 | (SecurityProtocolType)3072;
             }
-            catch (NotSupportedException) {}
+            catch (NotSupportedException) { }
 
             if (Mandatory && _remindLaterTimer != null)
             {
@@ -275,7 +275,7 @@ namespace AutoUpdaterDotNET
             {
                 if (runWorkerCompletedEventArgs.Result is DateTime)
                 {
-                    SetTimer((DateTime) runWorkerCompletedEventArgs.Result);
+                    SetTimer((DateTime)runWorkerCompletedEventArgs.Result);
                 }
                 else
                 {
@@ -349,15 +349,17 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static void ShowUpdateForm()
         {
-            var updateForm = new UpdateForm();
-            if (UpdateFormSize.HasValue)
+            using (var updateForm = new UpdateForm())
             {
-                updateForm.Size = UpdateFormSize.Value;
-            }
+                if (UpdateFormSize.HasValue)
+                {
+                    updateForm.Size = UpdateFormSize.Value;
+                }
 
-            if (updateForm.ShowDialog().Equals(DialogResult.OK))
-            {
-                Exit();
+                if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                {
+                    Exit();
+                }
             }
         }
 
@@ -367,11 +369,11 @@ namespace AutoUpdaterDotNET
             Assembly mainAssembly = e.Argument as Assembly;
 
             var companyAttribute =
-                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+                (AssemblyCompanyAttribute)GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
             if (string.IsNullOrEmpty(AppTitle))
             {
                 var titleAttribute =
-                    (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
+                    (AssemblyTitleAttribute)GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
@@ -400,7 +402,7 @@ namespace AutoUpdaterDotNET
             {
                 if (uri.Scheme.Equals(Uri.UriSchemeFtp))
                 {
-                    var ftpWebRequest = (FtpWebRequest) webRequest;
+                    var ftpWebRequest = (FtpWebRequest)webRequest;
                     ftpWebRequest.Credentials = FtpCredentials;
                     ftpWebRequest.UseBinary = true;
                     ftpWebRequest.UsePassive = true;
@@ -484,13 +486,13 @@ namespace AutoUpdaterDotNET
                                     {
                                         XmlNode mandatory = item.SelectSingleNode("mandatory");
 
-                                        Boolean.TryParse(mandatory?.InnerText, out Mandatory);
+                                        bool.TryParse(mandatory?.InnerText, out Mandatory);
 
                                         string mode = mandatory?.Attributes["mode"]?.InnerText;
 
                                         if (!string.IsNullOrEmpty(mode))
                                         {
-                                            UpdateMode = (Mode) Enum.Parse(typeof(Mode), mode);
+                                            UpdateMode = (Mode)Enum.Parse(typeof(Mode), mode);
                                             if (ReportErrors && !Enum.IsDefined(typeof(Mode), UpdateMode))
                                             {
                                                 throw new InvalidDataException(
@@ -544,9 +546,9 @@ namespace AutoUpdaterDotNET
             CurrentVersion = args.CurrentVersion;
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
-            InstallerArgs = args.InstallerArgs ?? String.Empty;
+            InstallerArgs = args.InstallerArgs ?? string.Empty;
             HashingAlgorithm = args.HashingAlgorithm ?? "MD5";
-            Checksum = args.Checksum ?? String.Empty;
+            Checksum = args.Checksum ?? string.Empty;
 
             webResponse.Close();
 
@@ -609,7 +611,7 @@ namespace AutoUpdaterDotNET
             e.Result = args;
         }
 
-        private static string GetURL(Uri baseUri, String url)
+        private static string GetURL(Uri baseUri, string url)
         {
             if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
@@ -656,7 +658,7 @@ namespace AutoUpdaterDotNET
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10)
+                            process.WaitForExit((int)TimeSpan.FromSeconds(10)
                                 .TotalMilliseconds); //give some time to process message
                         }
 
@@ -694,7 +696,7 @@ namespace AutoUpdaterDotNET
                 return null;
             }
 
-            return (Attribute) attributes[0];
+            return (Attribute)attributes[0];
         }
 
         internal static void SetTimer(DateTime remindLater)
@@ -705,7 +707,7 @@ namespace AutoUpdaterDotNET
 
             _remindLaterTimer = new System.Timers.Timer
             {
-                Interval = (int) timeSpan.TotalMilliseconds,
+                Interval = (int)timeSpan.TotalMilliseconds,
                 AutoReset = false
             };
 
@@ -733,18 +735,20 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        ///     Opens the Download window that download the update and execute the installer when download completes.
+        /// Opens the Download window that download the update and execute the installer when download completes.
+        /// <paramref name="restart">Restart after update.</paramref>
         /// </summary>
-        public static bool DownloadUpdate()
+        public static bool DownloadUpdate(bool restart = true)
         {
-            var downloadDialog = new DownloadUpdateDialog(DownloadURL);
-
-            try
+            using (var downloadDialog = new DownloadUpdateDialog(DownloadURL, restart))
             {
-                return downloadDialog.ShowDialog().Equals(DialogResult.OK);
-            }
-            catch (TargetInvocationException)
-            {
+                try
+                {
+                    return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+                }
+                catch (TargetInvocationException)
+                {
+                }
             }
 
             return false;

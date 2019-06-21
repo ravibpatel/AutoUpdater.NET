@@ -97,6 +97,10 @@
       <Project>{fb9e7e6b-b19f-4f37-a708-2996190cef13}</Project>
       <Name>AutoUpdater.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ZipExtractor\ZipExtractor.csproj">
+      <Project>{91de558c-6db8-429b-a069-c0491dcff15b}</Project>
+      <Name>ZipExtractor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,19 +15,19 @@ namespace AutoUpdaterDotNET
     internal partial class DownloadUpdateDialog : Form
     {
         private readonly string _downloadURL;
-
+        private readonly bool restart;
         private string _tempFile;
 
         private MyWebClient _webClient;
 
         private DateTime _startedAt;
 
-        public DownloadUpdateDialog(string downloadURL)
+        public DownloadUpdateDialog(string downloadURL, bool restart = true)
         {
             InitializeComponent();
 
             _downloadURL = downloadURL;
-
+            this.restart = restart;
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {
                 ControlBox = false;
@@ -175,36 +175,25 @@ namespace AutoUpdaterDotNET
                 Arguments = AutoUpdater.InstallerArgs
             };
 
-            var extension = Path.GetExtension(tempPath);
+            string extension = Path.GetExtension(tempPath);
             if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
             {
-                string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
-
-                try
-                {
-                    File.WriteAllBytes(installerPath, Resources.ZipExtractor);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    _webClient = null;
-                    Close();
-                    return;
-                }
-
-                StringBuilder arguments =
-                    new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+                string exePath = Process.GetCurrentProcess().MainModule.FileName;
+                string installerPath = Path.Combine(Path.GetDirectoryName(exePath), "ZipExtractor.exe");
+                
+                var arguments = new StringBuilder($"\"{tempPath}\" \"{exePath}\"");
                 string[] args = Environment.GetCommandLineArgs();
                 for (int i = 1; i < args.Length; i++)
                 {
-                    if (i.Equals(1))
-                    {
+                    if (i == 1)
                         arguments.Append(" \"");
-                    }
 
                     arguments.Append(args[i]);
                     arguments.Append(i.Equals(args.Length - 1) ? "\"" : " ");
                 }
+
+                if (!restart)
+                    arguments.Append(" --no-restart");
 
                 processStartInfo = new ProcessStartInfo
                 {
@@ -245,7 +234,7 @@ namespace AutoUpdaterDotNET
             Close();
         }
 
-        private static String BytesToString(long byteCount)
+        private static string BytesToString(long byteCount)
         {
             string[] suf = {"B", "KB", "MB", "GB", "TB", "PB", "EB"};
             if (byteCount == 0)
@@ -258,7 +247,7 @@ namespace AutoUpdaterDotNET
 
         private static string TryToFindFileName(string contentDisposition, string lookForFileName)
         {
-            string fileName = String.Empty;
+            string fileName = string.Empty;
             if (!string.IsNullOrEmpty(contentDisposition))
             {
                 var index = contentDisposition.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
@@ -287,7 +276,7 @@ namespace AutoUpdaterDotNET
                     if (hashAlgorithm != null)
                     {
                         var hash = hashAlgorithm.ComputeHash(stream);
-                        var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant();
+                        var fileChecksum = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
 
                         if (fileChecksum == checksum.ToLower()) return true;
 

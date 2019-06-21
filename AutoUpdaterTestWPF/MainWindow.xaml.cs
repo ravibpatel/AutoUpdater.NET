@@ -16,6 +16,7 @@ namespace AutoUpdaterTestWPF
         public MainWindow()
         {
             InitializeComponent();
+            AutoUpdater.RunUpdateAsAdmin = false;
             Assembly assembly = Assembly.GetEntryAssembly();
             LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
             Thread.CurrentThread.CurrentCulture =
@@ -25,13 +26,13 @@ namespace AutoUpdaterTestWPF
             AutoUpdater.RemindLaterAt = 1;
             AutoUpdater.ReportErrors = true;
             DispatcherTimer timer = new DispatcherTimer {Interval = TimeSpan.FromMinutes(2)};
-            timer.Tick += delegate { AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml"); };
+            timer.Tick += delegate { AutoUpdater.Start(@"C:\Updates\update.xml"); };
             timer.Start();
         }
 
         private void ButtonCheckForUpdate_Click(object sender, RoutedEventArgs e)
         {
-            AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+            AutoUpdater.Start(@"C:\Updates\update.xml");
         }
     }
 }

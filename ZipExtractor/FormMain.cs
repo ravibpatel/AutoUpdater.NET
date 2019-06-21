@@ -12,7 +12,8 @@ namespace ZipExtractor
 {
     public partial class FormMain : Form
     {
-        private BackgroundWorker _backgroundWorker;
+        BackgroundWorker _backgroundWorker;
+        DateTime startTime;
         readonly StringBuilder _logBuilder = new StringBuilder();
 
         public FormMain()
@@ -22,14 +23,15 @@ namespace ZipExtractor
 
         private void FormMain_Shown(object sender, EventArgs e)
         {
-            _logBuilder.AppendLine(DateTime.Now.ToString("F"));
+            startTime = DateTime.UtcNow;
+            _logBuilder.AppendLine(startTime.ToString("F"));
             _logBuilder.AppendLine();
             _logBuilder.AppendLine("ZipExtractor started with following command line arguments.");
 
             string[] args = Environment.GetCommandLineArgs();
-            for (var index = 0; index < args.Length; index++)
+            for (int index = 0; index < args.Length; index++)
             {
-                var arg = args[index];
+                string arg = args[index];
                 _logBuilder.AppendLine($"[{index}] {arg}");
             }
 
@@ -115,6 +117,10 @@ namespace ZipExtractor
                         if (!eventArgs.Cancelled)
                         {
                             labelInformation.Text = @"Finished";
+
+                            foreach (string arg in args)
+                                if (arg == "--no-restart") return;
+
                             try
                             {
                                 ProcessStartInfo processStartInfo = new ProcessStartInfo(args[2]);
@@ -158,9 +164,10 @@ namespace ZipExtractor
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             _backgroundWorker?.CancelAsync();
+            _backgroundWorker?.Dispose();
 
             _logBuilder.AppendLine();
-            File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "ZipExtractor.log"), _logBuilder.ToString());
+            File.AppendAllText(Path.Combine(Path.GetTempPath(), $"ZipExtractor-{startTime.ToString("yyyy-dd-M--HH-mm-ss")}.log"), _logBuilder.ToString());
         }
     }
 }
