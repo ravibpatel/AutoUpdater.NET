@@ -1,0 +1,21 @@
+﻿<Window x:Class="AutoUpdater.NET.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdater.NET.WPF"
+        xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="810.765" Width="800" ContentRendered="Window_ContentRendered">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="107*"/>
+            <ColumnDefinition Width="57*"/>
+            <ColumnDefinition Width="628*"/>
+        </Grid.ColumnDefinitions>
+        <controls:WebView x:Name="WebView" Margin="40,40,40,100" Grid.ColumnSpan="3" />
+        <Button x:Name="buttonUpdate" Content="Update" Grid.Column="2" HorizontalAlignment="Left" Margin="485.728,720,0,0" VerticalAlignment="Top" Width="100" Height="35" Click="ButtonUpdate_Click"/>
+        <Button x:Name="buttonSkip" Grid.ColumnSpan="2" Content="Skip" HorizontalAlignment="Left" Margin="40,720,0,0" VerticalAlignment="Top" Width="100" Height="35"/>
+        <Button x:Name="buttonRemindLate" Content="Remind Later" HorizontalAlignment="Left" Margin="2.728,720,0,0" VerticalAlignment="Top" Width="100" Height="35" Grid.Column="2"/>
+    </Grid>
+</Window>
