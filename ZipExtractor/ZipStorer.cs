@@ -102,7 +102,7 @@ namespace System.IO.Compression
         // leave the stream open after the ZipStorer object is disposed
         private bool leaveOpen;
         // Static CRC32 Table
-        private static UInt32[] CrcTable = null;
+        private static uint[] CrcTable = null;
         // Default filename encoder
         private static Encoding DefaultEncoding = Encoding.GetEncoding(437);
         #endregion
@@ -112,10 +112,10 @@ namespace System.IO.Compression
         static ZipStorer()
         {
             // Generate CRC32 table
-            CrcTable = new UInt32[256];
+            CrcTable = new uint[256];
             for (int i = 0; i < CrcTable.Length; i++)
             {
-                UInt32 c = (UInt32)i;
+                uint c = (uint)i;
                 for (int j = 0; j < 8; j++)
                 {
                     if ((c & 1) != 0)
@@ -791,15 +791,15 @@ namespace System.IO.Compression
                 do
                 {
                     this.ZipFileStream.Seek(-5, SeekOrigin.Current);
-                    UInt32 sig = br.ReadUInt32();
+                    uint sig = br.ReadUInt32();
                     if (sig == 0x06054b50)
                     {
                         this.ZipFileStream.Seek(6, SeekOrigin.Current);
 
-                        UInt16 entries = br.ReadUInt16();
-                        Int32 centralSize = br.ReadInt32();
-                        UInt32 centralDirOffset = br.ReadUInt32();
-                        UInt16 commentSize = br.ReadUInt16();
+                        ushort entries = br.ReadUInt16();
+                        int centralSize = br.ReadInt32();
+                        uint centralDirOffset = br.ReadUInt32();
+                        ushort commentSize = br.ReadUInt16();
 
                         // check if comment field is the very last data in file
                         if (this.ZipFileStream.Position + commentSize != this.ZipFileStream.Length)
