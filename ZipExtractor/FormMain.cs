@@ -160,7 +160,7 @@ namespace ZipExtractor
             _backgroundWorker?.CancelAsync();
 
             _logBuilder.AppendLine();
-            File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "ZipExtractor.log"), _logBuilder.ToString());
+            File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ZipExtractor.log"), _logBuilder.ToString());
         }
     }
 }
