@@ -11,8 +11,6 @@ namespace AutoUpdaterDotNET
 {
     internal partial class UpdateForm : Form
     {
-        private bool HideReleaseNotes { get; set; }
-
         public UpdateForm()
         {
             InitializeComponent();
@@ -27,26 +25,33 @@ namespace AutoUpdaterDotNET
             labelDescription.Text =
                 string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
                     AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
-            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL) && string.IsNullOrEmpty(AutoUpdater.ChangelogContentURL))
+
+          if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL) && string.IsNullOrEmpty(AutoUpdater.ChangelogContentURL))
+          {
+            labelReleaseNotes.Hide();
+            webBrowser.Hide();
+            textBox.Hide();
+          }
+//<<<<<<< HEAD
+//            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL) && string.IsNullOrEmpty(AutoUpdater.ChangelogContentURL))
+//            {
+//                HideReleaseNotes = true;
+//                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+//                labelReleaseNotes.Hide();
+//                webBrowser.Hide();
+//                textBox.Hide();
+//=======
+//>>>>>>> 4a58e817790f0c2500812343b0c5ef9b2c3a6522
+
+            if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
-                HideReleaseNotes = true;
-                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
-                labelReleaseNotes.Hide();
-                webBrowser.Hide();
-                textBox.Hide();
-
-                Height -= reduceHeight;
-
-                buttonSkip.Location = new Point(buttonSkip.Location.X, buttonSkip.Location.Y - reduceHeight);
-                buttonRemindLater.Location = new Point(buttonRemindLater.Location.X,
-                    buttonRemindLater.Location.Y - reduceHeight);
-                buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
+                ControlBox = false;
             }
         }
 
         public sealed override string Text
         {
-            get { return  base.Text; }
+            get { return base.Text; }
             set { base.Text = value; }
         }
 
@@ -71,21 +76,38 @@ namespace AutoUpdaterDotNET
                     ieValue = 7000;
                     break;
             }
+
             if (ieValue != 0)
             {
-                using (RegistryKey registryKey =
-                    Registry.CurrentUser.OpenSubKey(
-                        @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                try
                 {
-                    registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName), ieValue,
-                        RegistryValueKind.DWord);
+                    using (RegistryKey registryKey =
+                        Registry.CurrentUser.OpenSubKey(
+                            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
+                            true))
+                    {
+                        registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName),
+                            ieValue,
+                            RegistryValueKind.DWord);
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
         }
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            if (!HideReleaseNotes)
+            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
+            {
+                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                labelReleaseNotes.Hide();
+                webBrowser.Hide();
+                Height -= reduceHeight;
+            }
+            else
             {
                 if (!string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
                     webBrowser.Navigate(AutoUpdater.ChangelogURL);
@@ -98,6 +120,9 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
+
+            var labelSize = new Size(Width - 110, 0);
+            labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
         }
 
         private void ButtonUpdateClick(object sender, EventArgs e)
@@ -173,13 +198,14 @@ namespace AutoUpdaterDotNET
                         case RemindLaterFormat.Minutes:
                             remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
                             break;
-
                     }
+
                     updateKey.SetValue("remindlater",
                         remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
                     AutoUpdater.SetTimer(remindLaterDateTime);
                 }
             }
+
             DialogResult = DialogResult.Cancel;
         }
 

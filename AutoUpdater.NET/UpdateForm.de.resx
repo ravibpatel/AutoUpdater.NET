@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>{0} {1} ist möglich!</value>
+    <value>{0} {1} ist verfügbar!</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
     <value>Später erinnern</value>
@@ -130,12 +130,12 @@
     <value>Update</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} ist jetzt verfügbar. Aktuell ist version {2} installiert. Soll die neue Version jetzt geladen werden?</value>
+    <value>{0} {1} ist jetzt verfügbar. Aktuell ist Version {2} installiert. Soll die neue Version jetzt heruntergeladen werden?</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Versionshinweise:</value>
   </data>
   <data name="labelUpdate.Text" xml:space="preserve">
-    <value>Eine neue Version für {0} ist verfügbar!</value>
+    <value>Eine neue Version von {0} ist verfügbar!</value>
   </data>
 </root>

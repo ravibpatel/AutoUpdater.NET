@@ -117,25 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="labelUpdate.Text" xml:space="preserve">
-    <value>新版本 {0} 可用!</value>
+  <data name="DownloadSpeedMessage" xml:space="preserve">
+    <value>جارٍ تنزيله على {0}/ثانية</value>
   </data>
-  <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} 现在可用。您安装的版本是 {2}。你现在要下载这个新版本吗？</value>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>المجموع الاختباري (Checksum) مختلف</value>
   </data>
-  <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>发行说明:</value>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>فشل التحقق من سلامة الملفات وظهرت بعض الأخطاء.</value>
   </data>
-  <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>更新</value>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>خوارزمية التجزئة (Hash) غير مدعومة</value>
   </data>
-  <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>以后再提醒更新</value>
+  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+    <value>خوارزمية التجزئة المقدمة في ملف XML غير مدعومة.</value>
   </data>
-  <data name="buttonSkip.Text" xml:space="preserve">
-    <value>忽略这个版本</value>
+  <data name="UpdateCheckFailedCaption" xml:space="preserve">
+    <value>فشل التحقق من التحديث</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>{0} {1} 现在可用</value>
+  <data name="UpdateCheckFailedMessage" xml:space="preserve">
+    <value>هناك مشكلة في الوصول إلى سيرفر التحديث. يرجى التحقق من اتصال الإنترنت الخاص بك وحاول مرة أخرى في وقت لاحق.</value>
+  </data>
+  <data name="UpdateUnavailableCaption" xml:space="preserve">
+    <value>التحديث غير متاح</value>
+  </data>
+  <data name="UpdateUnavailableMessage" xml:space="preserve">
+    <value>لا يوجد تحديث متاح. الرجاء معاودة المحاولة في وقت لاحق.</value>
   </data>
 </root>

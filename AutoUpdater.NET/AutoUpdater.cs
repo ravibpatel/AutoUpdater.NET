@@ -1,11 +1,13 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
@@ -33,6 +35,27 @@ namespace AutoUpdaterDotNET
         ///     Represents the time span in days.
         /// </summary>
         Days
+    }
+
+    /// <summary>
+    ///     Enum representing the effect of Mandatory flag.
+    /// </summary>
+    public enum Mode
+    {
+        /// <summary>
+        /// In this mode, it ignores Remind Later and Skip values set previously and hide both buttons.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// In this mode, it won't show close button in addition to Normal mode behaviour.
+        /// </summary>
+        Forced,
+
+        /// <summary>
+        /// In this mode, it will start downloading and applying update without showing standarad update dialog in addition to Forced mode behaviour.
+        /// </summary>
+        ForcedDownload
     }
 
     /// <summary>
@@ -80,9 +103,24 @@ namespace AutoUpdaterDotNET
         public static String AppCastURL;
 
         /// <summary>
-        ///     Opens the download url in default browser if true. Very usefull if you have portable application.
+        /// Login/password/domain for FTP-request
+        /// </summary>
+        public static NetworkCredential FtpCredentials;
+
+        /// <summary>
+        ///     Opens the download URL in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
+
+        /// <summary>
+        ///     Set Basic Authentication credentials required to download the file.
+        /// </summary>
+        public static BasicAuthentication BasicAuthDownload;
+
+        /// <summary>
+        ///     Set Basic Authentication credentials required to download the XML file.
+        /// </summary>
+        public static BasicAuthentication BasicAuthXML;
 
         /// <summary>
         ///     If this is true users can see the skip button.
@@ -121,9 +159,14 @@ namespace AutoUpdaterDotNET
         public static bool Mandatory;
 
         /// <summary>
+        ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
+        /// </summary>
+        public static Mode UpdateMode;
+
+        /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
         /// </summary>
-        public static WebProxy Proxy;
+        public static IWebProxy Proxy;
 
         /// <summary>
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
@@ -163,6 +206,11 @@ namespace AutoUpdaterDotNET
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
+        ///     Set if you want the default update form to have a different size.
+        /// </summary>
+        public static Size? UpdateFormSize = null;
+
+        /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
@@ -172,18 +220,38 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
+        ///     Start checking for new version of application via FTP and display dialog to the user if update is available.
+        /// </summary>
+        /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
+        /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
+        /// <param name="myAssembly">Assembly to use for version checking.</param>
+        public static void Start(String appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
+        {
+            FtpCredentials = ftpCredentials;
+            Start(appCast, myAssembly);
+        }
+
+        /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
+            try
+            {
+                ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
+                                                        (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+            }
+            catch (NotSupportedException) {}
+
             if (Mandatory && _remindLaterTimer != null)
             {
                 _remindLaterTimer.Stop();
                 _remindLaterTimer.Close();
                 _remindLaterTimer = null;
             }
+
             if (!Running && _remindLaterTimer == null)
             {
                 Running = true;
@@ -202,13 +270,14 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        private static void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        private static void BackgroundWorkerOnRunWorkerCompleted(object sender,
+            RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
             if (!runWorkerCompletedEventArgs.Cancelled)
             {
                 if (runWorkerCompletedEventArgs.Result is DateTime)
                 {
-                    SetTimer((DateTime)runWorkerCompletedEventArgs.Result);
+                    SetTimer((DateTime) runWorkerCompletedEventArgs.Result);
                 }
                 else
                 {
@@ -227,25 +296,36 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+
+                                if (Mandatory && UpdateMode == Mode.ForcedDownload)
                                 {
-                                    ShowUpdateForm();
+                                    DownloadUpdate();
+                                    Exit();
                                 }
                                 else
                                 {
-                                    Thread thread = new Thread(ShowUpdateForm);
-                                    thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                    thread.SetApartmentState(ApartmentState.STA);
-                                    thread.Start();
-                                    thread.Join();
+                                    if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                    {
+                                        ShowUpdateForm();
+                                    }
+                                    else
+                                    {
+                                        Thread thread = new Thread(ShowUpdateForm);
+                                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                        thread.SetApartmentState(ApartmentState.STA);
+                                        thread.Start();
+                                        thread.Join();
+                                    }
                                 }
+
                                 return;
                             }
                             else
                             {
                                 if (ReportErrors)
                                 {
-                                    MessageBox.Show(Resources.UpdateUnavailableMessage, Resources.UpdateUnavailableCaption,
+                                    MessageBox.Show(Resources.UpdateUnavailableMessage,
+                                        Resources.UpdateUnavailableCaption,
                                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
@@ -262,12 +342,21 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
+
             Running = false;
         }
 
-        private static void ShowUpdateForm()
+        /// <summary>
+        /// Shows standard update dialog.
+        /// </summary>
+        public static void ShowUpdateForm()
         {
             var updateForm = new UpdateForm();
+            if (UpdateFormSize.HasValue)
+            {
+                updateForm.Size = UpdateFormSize.Value;
+            }
+
             if (updateForm.ShowDialog().Equals(DialogResult.OK))
             {
                 Exit();
@@ -296,24 +385,52 @@ namespace AutoUpdaterDotNET
 
             InstalledVersion = mainAssembly.GetName().Version;
 
-            var webRequest = WebRequest.Create(AppCastURL);
-            webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+            WebRequest webRequest = WebRequest.Create(AppCastURL);
+
+            webRequest.CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore);
+
             if (Proxy != null)
             {
                 webRequest.Proxy = Proxy;
             }
+
+            var uri = new Uri(AppCastURL);
+
             WebResponse webResponse;
 
             try
             {
-                webResponse = webRequest.GetResponse();
+                if (uri.Scheme.Equals(Uri.UriSchemeFtp))
+                {
+                    var ftpWebRequest = (FtpWebRequest) webRequest;
+                    ftpWebRequest.Credentials = FtpCredentials;
+                    ftpWebRequest.UseBinary = true;
+                    ftpWebRequest.UsePassive = true;
+                    ftpWebRequest.KeepAlive = true;
+                    ftpWebRequest.Method = WebRequestMethods.Ftp.DownloadFile;
+
+                    webResponse = ftpWebRequest.GetResponse();
+                }
+                else
+                {
+                    if (BasicAuthXML != null)
+                    {
+                        webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+                    }
+
+                    webResponse = webRequest.GetResponse();
+                }
+
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                Debug.WriteLine(exception);
                 e.Cancel = false;
                 return;
             }
+
             UpdateInfoEventArgs args;
+
             using (Stream appCastStream = webResponse.GetResponseStream())
             {
                 if (appCastStream != null)
@@ -374,9 +491,22 @@ namespace AutoUpdaterDotNET
                                         XmlNode mandatory = item.SelectSingleNode("mandatory");
 
                                         Boolean.TryParse(mandatory?.InnerText, out Mandatory);
+
+                                        string mode = mandatory?.Attributes["mode"]?.InnerText;
+
+                                        if (!string.IsNullOrEmpty(mode))
+                                        {
+                                            UpdateMode = (Mode) Enum.Parse(typeof(Mode), mode);
+                                            if (ReportErrors && !Enum.IsDefined(typeof(Mode), UpdateMode))
+                                            {
+                                                throw new InvalidDataException(
+                                                    $"{UpdateMode} is not an underlying value of the Mode enumeration.");
+                                            }
+                                        }
                                     }
 
                                     args.Mandatory = Mandatory;
+                                    args.UpdateMode = UpdateMode;
 
                                     XmlNode appArgs = item.SelectSingleNode("args");
 
@@ -413,6 +543,7 @@ namespace AutoUpdaterDotNET
                 {
                     throw new InvalidDataException();
                 }
+
                 return;
             }
 
@@ -420,7 +551,6 @@ namespace AutoUpdaterDotNET
             ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
             ChangelogContentURL = args.ChangelogContentURL = GetURL(webResponse.ResponseUri, args.ChangelogContentURL);
             DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
-            Mandatory = args.Mandatory;
             InstallerArgs = args.InstallerArgs ?? String.Empty;
             HashingAlgorithm = args.HashingAlgorithm ?? "MD5";
             Checksum = args.Checksum ?? String.Empty;
@@ -528,12 +658,15 @@ namespace AutoUpdaterDotNET
                     }
 
                     if (process.Id != currentProcess.Id &&
-                        currentProcess.MainModule.FileName == processPath) //get all instances of assembly except current
+                        currentProcess.MainModule.FileName == processPath
+                    ) //get all instances of assembly except current
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
+                            process.WaitForExit((int) TimeSpan.FromSeconds(10)
+                                .TotalMilliseconds); //give some time to process message
                         }
+
                         if (!process.HasExited)
                         {
                             process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
@@ -567,6 +700,7 @@ namespace AutoUpdaterDotNET
             {
                 return null;
             }
+
             return (Attribute) attributes[0];
         }
 
@@ -619,6 +753,7 @@ namespace AutoUpdaterDotNET
             catch (TargetInvocationException)
             {
             }
+
             return false;
         }
     }
@@ -661,6 +796,11 @@ namespace AutoUpdaterDotNET
         public bool Mandatory { get; set; }
 
         /// <summary>
+        ///     Defines how the Mandatory flag should work.
+        /// </summary>
+        public Mode UpdateMode { get; set; }
+
+        /// <summary>
         ///     Command line arguments used by Installer.
         /// </summary>
         public string InstallerArgs { get; set; }
@@ -677,7 +817,7 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
-    ///     An object of this class contains the AppCast file received from server..
+    ///     An object of this class contains the AppCast file received from server.
     /// </summary>
     public class ParseUpdateInfoEventArgs : EventArgs
     {
@@ -698,6 +838,34 @@ namespace AutoUpdaterDotNET
         public ParseUpdateInfoEventArgs(string remoteData)
         {
             RemoteData = remoteData;
+        }
+    }
+
+    /// <summary>
+    ///     Provides Basic Authentication header for web request.
+    /// </summary>
+    public class BasicAuthentication
+    {
+        private string Username { get; }
+
+        private string Password { get; }
+
+        /// <summary>
+        /// Initializes credentials for Basic Authentication.
+        /// </summary>
+        /// <param name="username">Username to use for Basic Authentication</param>
+        /// <param name="password">Password to use for Basic Authentication</param>
+        public BasicAuthentication(string username, string password)
+        {
+            Username = username;
+            Password = password;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
+            return $"Basic {token}";
         }
     }
 }

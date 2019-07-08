@@ -89,6 +89,23 @@ namespace AutoUpdaterTest
             //};
             //timer.Start();
 
+            //Uncomment following lines to provide basic authentication credetials to use.
+
+            //BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
+            //AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
+
+            //Uncomment following lines to enable forced updates.
+
+            //AutoUpdater.Mandatory = true;
+            //AutoUpdater.UpdateMode = Mode.Forced;
+
+            //Want to change update form size then uncomment below line.
+
+            //AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
+
+            //Uncomment following if you want to update using FTP.
+            //AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
@@ -123,7 +140,10 @@ namespace AutoUpdaterTest
                     {
                         dialogResult =
                             MessageBox.Show(
-                                $@"There is new version {args.CurrentVersion} available. You are using version {args.InstalledVersion}. This is required update. Press Ok to begin updating the application.", @"Update Available",
+                                $@"There is new version {args.CurrentVersion} available. You are using version {
+                                        args.InstalledVersion
+                                    }. This is required update. Press Ok to begin updating the application.",
+                                @"Update Available",
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
                     }
@@ -166,14 +186,13 @@ namespace AutoUpdaterTest
             else
             {
                 MessageBox.Show(
-                       @"There is a problem reaching update server. Please check your internet connection and try again later.",
-                       @"Update Check Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    @"There is a problem reaching update server. Please check your internet connection and try again later.",
+                    @"Update Check Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ButtonCheckForUpdate_Click(object sender, EventArgs e)
         {
-
             //Uncomment below lines to select download path where update is saved.
 
             //FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();

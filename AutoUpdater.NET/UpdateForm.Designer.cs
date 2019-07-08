@@ -47,6 +47,7 @@ namespace AutoUpdaterDotNET
             // 
             resources.ApplyResources(this.webBrowser, "webBrowser");
             this.webBrowser.Name = "webBrowser";
+            this.webBrowser.ScriptErrorsSuppressed = true;
             // 
             // labelUpdate
             // 
@@ -88,8 +89,8 @@ namespace AutoUpdaterDotNET
             // 
             // buttonSkip
             // 
-            this.buttonSkip.DialogResult = System.Windows.Forms.DialogResult.Abort;
             resources.ApplyResources(this.buttonSkip, "buttonSkip");
+            this.buttonSkip.DialogResult = System.Windows.Forms.DialogResult.Abort;
             this.buttonSkip.Image = global::AutoUpdaterDotNET.Properties.Resources.hand_point;
             this.buttonSkip.Name = "buttonSkip";
             this.buttonSkip.UseVisualStyleBackColor = true;
