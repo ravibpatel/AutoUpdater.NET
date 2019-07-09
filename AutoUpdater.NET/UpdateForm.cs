@@ -91,7 +91,14 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                if (null != AutoUpdater.BasicAuthChangeLog)
+                {
+                    webBrowser.Navigate(AutoUpdater.ChangelogURL, "", null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                }
+                else
+                {
+                   webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                }
             }
 
             var labelSize = new Size(Width - 110, 0);

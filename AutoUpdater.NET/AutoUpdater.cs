@@ -121,6 +121,11 @@ namespace AutoUpdaterDotNET
         public static BasicAuthentication BasicAuthXML;
 
         /// <summary>
+        ///     Set Basic Authentication credentials to navigate to the change log URL. 
+        /// </summary>
+        public static BasicAuthentication BasicAuthChangeLog;
+
+        /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
