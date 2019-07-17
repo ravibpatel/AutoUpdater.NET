@@ -261,16 +261,19 @@ namespace AutoUpdaterDotNET
             string fileName = String.Empty;
             if (!string.IsNullOrEmpty(contentDisposition))
             {
-                var index = contentDisposition.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
-                if (index >= 0)
-                    fileName = contentDisposition.Substring(index + lookForFileName.Length);
-                if (fileName.StartsWith("\""))
+                foreach(var line in contentDisposition.Split(';'))
                 {
-                    var file = fileName.Substring(1, fileName.Length - 1);
-                    var i = file.IndexOf("\"", StringComparison.CurrentCultureIgnoreCase);
-                    if (i != -1)
+                    var index = line.IndexOf(lookForFileName, StringComparison.CurrentCultureIgnoreCase);
+                    if (index >= 0)
+                        fileName = line.Substring(index + lookForFileName.Length);
+                    if (fileName.StartsWith("\""))
                     {
-                        fileName = file.Substring(0, i);
+                        var file = fileName.Substring(1, fileName.Length - 1);
+                        var i = file.IndexOf("\"", StringComparison.CurrentCultureIgnoreCase);
+                        if (i != -1)
+                        {
+                            fileName = file.Substring(0, i);
+                        }
                     }
                 }
             }
