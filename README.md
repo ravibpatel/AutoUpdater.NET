@@ -66,7 +66,7 @@ Start method of AutoUpdater class takes URL of the XML file you uploaded to serv
 
 ### Current version detection
 
-AutoUpdater.NET uses Assembly version to determine the current verison of the application. You can update it by going to Properties of the project as shown in following screenshot.
+AutoUpdater.NET uses Assembly version to determine the current version of the application. You can update it by going to Properties of the project as shown in following screenshot.
 
 ![How to change assembly version of your .NET application?](https://rbsoft.org/images/assembly-version.png)
 
@@ -125,11 +125,11 @@ AutoUpdater.UpdateMode = Mode.Forced;
 
 ### Basic Authetication
 
-You can provide Basic Authetication for XML and Update file as shown in below code.
+You can provide Basic Authetication for XML, Update file and Change Log as shown in below code.
 
 ````csharp
 BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
-AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
+AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = AutoUpdater.BasicAuthChangeLog = basicAuthentication;
 ````
 
 ### Enable Error Reporting
