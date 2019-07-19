@@ -129,6 +129,16 @@ namespace AutoUpdaterDotNET
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
+        
+        /// <summary>
+        ///     Set this to true if you want to run updater on another account other than current user or admin. Very usefull in the case of service account
+        /// </summary>
+        public static bool RunUpdateAsUser = false;
+
+        /// <summary>
+        ///     Set credentials for service account which will be used to invoke updater
+        /// </summary>
+        public static NetworkCredential ServiceAccount;
 
         /// <summary>
         ///     If this is true users can see the Remind Later button.
