@@ -124,7 +124,12 @@ namespace AutoUpdaterDotNET
         ///     Set Basic Authentication credentials to navigate to the change log URL. 
         /// </summary>
         public static BasicAuthentication BasicAuthChangeLog;
-
+        
+        /// <summary>
+        ///     Set the http User Agent.
+        /// </summary>
+        public static string HttpUserAgent;
+        
         /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
@@ -422,6 +427,11 @@ namespace AutoUpdaterDotNET
                     if (BasicAuthXML != null)
                     {
                         httpWebRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+                    }
+
+                    if (HttpUserAgent != string.Empty)
+                    {
+                        ((HttpWebRequest)webRequest).UserAgent = HttpUserAgent;
                     }
 
                     webResponse = httpWebRequest.GetResponse();
