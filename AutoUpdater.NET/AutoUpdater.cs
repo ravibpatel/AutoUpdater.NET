@@ -414,16 +414,22 @@ namespace AutoUpdaterDotNET
 
                     webResponse = ftpWebRequest.GetResponse();
                 }
-                else
+                else if(uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
                 {
+                    HttpWebRequest httpWebRequest = (HttpWebRequest) webRequest;
+                    httpWebRequest.UserAgent = $"{AppTitle}/{InstalledVersion}";
+
                     if (BasicAuthXML != null)
                     {
-                        webRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+                        httpWebRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
                     }
 
-                    webResponse = webRequest.GetResponse();
+                    webResponse = httpWebRequest.GetResponse();
                 }
-
+                else
+                {
+                    webResponse = webRequest.GetResponse(); 
+                }
             }
             catch (Exception exception)
             {
