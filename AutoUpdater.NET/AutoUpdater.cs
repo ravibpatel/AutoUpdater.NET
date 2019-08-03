@@ -124,9 +124,9 @@ namespace AutoUpdaterDotNET
         ///     Set Basic Authentication credentials to navigate to the change log URL. 
         /// </summary>
         public static BasicAuthentication BasicAuthChangeLog;
-        
+
         /// <summary>
-        ///     Set the http User Agent.
+        ///     Set the User-Agent string to be used for HTTP web requests.
         /// </summary>
         public static string HttpUserAgent;
         
@@ -422,16 +422,12 @@ namespace AutoUpdaterDotNET
                 else if(uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
                 {
                     HttpWebRequest httpWebRequest = (HttpWebRequest) webRequest;
-                    httpWebRequest.UserAgent = $"{AppTitle}/{InstalledVersion}";
+
+                    httpWebRequest.UserAgent = GetUserAgent();
 
                     if (BasicAuthXML != null)
                     {
                         httpWebRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
-                    }
-
-                    if (HttpUserAgent != string.Empty)
-                    {
-                        ((HttpWebRequest)webRequest).UserAgent = HttpUserAgent;
                     }
 
                     webResponse = httpWebRequest.GetResponse();
@@ -716,6 +712,11 @@ namespace AutoUpdaterDotNET
             }
 
             return (Attribute) attributes[0];
+        }
+
+        internal static string GetUserAgent()
+        {
+            return string.IsNullOrEmpty(HttpUserAgent) ? $"{AppTitle}/{InstalledVersion}" : HttpUserAgent;
         }
 
         internal static void SetTimer(DateTime remindLater)
