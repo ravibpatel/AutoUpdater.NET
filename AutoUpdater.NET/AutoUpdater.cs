@@ -126,6 +126,11 @@ namespace AutoUpdaterDotNET
         public static BasicAuthentication BasicAuthChangeLog;
 
         /// <summary>
+        ///     Set the User-Agent string to be used for HTTP web requests.
+        /// </summary>
+        public static string HttpUserAgent;
+        
+        /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
         public static Boolean ShowSkipButton = true;
@@ -417,7 +422,8 @@ namespace AutoUpdaterDotNET
                 else if(uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
                 {
                     HttpWebRequest httpWebRequest = (HttpWebRequest) webRequest;
-                    httpWebRequest.UserAgent = $"{AppTitle}/{InstalledVersion}";
+
+                    httpWebRequest.UserAgent = GetUserAgent();
 
                     if (BasicAuthXML != null)
                     {
@@ -706,6 +712,11 @@ namespace AutoUpdaterDotNET
             }
 
             return (Attribute) attributes[0];
+        }
+
+        internal static string GetUserAgent()
+        {
+            return string.IsNullOrEmpty(HttpUserAgent) ? $"{AppTitle}/{InstalledVersion}" : HttpUserAgent;
         }
 
         internal static void SetTimer(DateTime remindLater)

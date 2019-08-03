@@ -47,9 +47,14 @@ namespace AutoUpdaterDotNET
             {
                 _webClient = new MyWebClient();
 
-                if (AutoUpdater.BasicAuthDownload != null)
+                if (uri.Scheme.Equals(Uri.UriSchemeHttp) || uri.Scheme.Equals(Uri.UriSchemeHttps))
                 {
-                    _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
+                    if (AutoUpdater.BasicAuthDownload != null)
+                    {
+                        _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
+                    }
+
+                    _webClient.Headers[HttpRequestHeader.UserAgent] = AutoUpdater.GetUserAgent();
                 }
             }
 
