@@ -124,13 +124,13 @@
     <value>Aggiornamento non disponibile</value>
   </data>
   <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Si è verificato un problema per raggiungere il server di aggiornamento. Controlla la tua connessione a Internet e riprova più tardi.</value>
+    <value>Si è verificato un problema nel raggiungere il server degli aggiornamenti. Controlla la tua connessione a Internet o riprova più tardi.</value>
   </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
-    <value>Controllo aggiornamento non riuscito</value>
+    <value>Controllo degli aggiornamenti non riuscito</value>
   </data>
   <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
-    <value>Checksum differisce</value>
+    <value>Checksum differente</value>
   </data>
   <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
     <value>La verifica dell' integrità dei file non è riuscita e ha segnalato alcuni errori.</value>
@@ -140,7 +140,7 @@
   </data>
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
     <value>L' algoritmo Hash fornito nel file XML non è supportato.</value>
-  </data> 
+  </data>
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>Download in {0}/s</value>
   </data>
