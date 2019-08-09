@@ -121,7 +121,7 @@
     <value>{0} {1} è disponibile!</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Ricorda in seguito</value>
+    <value>Ricordamelo in seguito</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>Salta questa versione</value>
@@ -130,7 +130,7 @@
     <value>aggiornare</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} è ora disponibile. Hai {2} installata versione. Volete scaricare ora?</value>
+    <value>{0} {1} è ora disponibile. Hai insallato la versione {2}. Vuoi scaricare l'aggiornamento ora?</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Note di rilascio:</value>
