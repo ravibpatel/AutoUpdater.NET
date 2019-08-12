@@ -346,6 +346,29 @@ namespace AutoUpdaterDotNET
 
         /// <summary>
         /// Shows standard update dialog.
+        /// <paramref name="updateOK">Download result.</paramref>
+        /// </summary>
+        public static void ShowUpdateForm(ref bool updateOK)
+        {
+            using (var updateForm = new UpdateForm())
+            {
+                if (UpdateFormSize.HasValue)
+                {
+                    updateForm.Size = UpdateFormSize.Value;
+                }
+
+                if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                {
+                    updateOK = true;
+                    Exit();
+                    return;
+                }
+                updateOK = false;
+            }
+        }
+
+        /// <summary>
+        /// Shows standard update dialog.
         /// </summary>
         public static void ShowUpdateForm()
         {

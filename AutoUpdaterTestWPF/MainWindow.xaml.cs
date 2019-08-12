@@ -32,7 +32,7 @@ namespace AutoUpdaterTestWPF
 
         private void ButtonCheckForUpdate_Click(object sender, RoutedEventArgs e)
         {
-            AutoUpdater.Start(@"C:\Updates\update.xml");
+            AutoUpdater.Start("http://10.10.0.31:8080/met_updates/update.2.16.2.xml");
         }
     }
 }
