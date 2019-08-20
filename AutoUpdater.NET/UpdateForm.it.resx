@@ -121,7 +121,7 @@
     <value>{0} {1} è disponibile!</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Ricordamelo in seguito</value>
+    <value>Ricordamelo più tardi</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>Salta questa versione</value>
