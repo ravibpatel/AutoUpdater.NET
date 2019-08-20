@@ -292,13 +292,13 @@
     <value>Segoe UI, 9pt</value>
   </data>
   <data name="buttonRemindLater.Location" type="System.Drawing.Point, System.Drawing">
-    <value>322, 573</value>
+    <value>296, 573</value>
   </data>
   <data name="buttonRemindLater.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
   </data>
   <data name="buttonRemindLater.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 28</value>
+    <value>179, 28</value>
   </data>
   <data name="buttonRemindLater.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
