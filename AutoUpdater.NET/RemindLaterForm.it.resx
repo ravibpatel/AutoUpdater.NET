@@ -151,6 +151,6 @@
     <value>No, scarica gli aggiornamenti adesso (consigliato)</value>
   </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Sì, per favore ricordamelo in seguito:</value>
+    <value>Sì, ricordamelo in seguito:</value>
   </data>
 </root>

@@ -117,17 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="buttonRemindLater.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 573</value>
+  </data>
+  <data name="buttonRemindLater.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 28</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>{0} {1} è disponibile!</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
-    <value>Ricordamelo in seguito</value>
+    <value>Ricordamelo più tardi</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>Salta questa versione</value>
   </data>
   <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>aggiornare</value>
+    <value>Aggiorna</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
     <value>{0} {1} è ora disponibile. Hai insallato la versione {2}. Vuoi scaricare l'aggiornamento ora?</value>

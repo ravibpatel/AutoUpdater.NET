@@ -124,7 +124,7 @@
     <value>Aggiornamento non disponibile</value>
   </data>
   <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Si è verificato un problema nel raggiungere il server degli aggiornamenti. Controlla la tua connessione a Internet o riprova più tardi.</value>
+    <value>Si è verificato un problema nel contattare il server degli aggiornamenti. Controlla la tua connessione a Internet o riprova più tardi.</value>
   </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
     <value>Controllo degli aggiornamenti non riuscito</value>
