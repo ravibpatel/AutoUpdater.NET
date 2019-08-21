@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="buttonRemindLater.Location" type="System.Drawing.Point, System.Drawing">
+    <value>296, 573</value>
+  </data>
+  <data name="buttonRemindLater.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 28</value>
+  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>{0} {1} è disponibile!</value>
   </data>
