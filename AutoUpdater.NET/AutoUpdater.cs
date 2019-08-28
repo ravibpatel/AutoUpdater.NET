@@ -531,7 +531,7 @@ namespace AutoUpdaterDotNET
                                 }
                             }
                         }
-                        catch (XmlException)
+                        catch (Exception)
                         {
                             e.Cancel = false;
                             webResponse.Close();
