@@ -132,6 +132,14 @@ BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", 
 AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = AutoUpdater.BasicAuthChangeLog = basicAuthentication;
 ````
 
+### Set User-Agent for http web requests
+	
+Set the User-Agent string to be used for HTTP web requests so you can differentiate them in your web server request logs.
+
+````csharp
+AutoUpdater.HttpUserAgent = "AutoUpdater";
+````
+
 ### Enable Error Reporting
 
 You can turn on error reporting by adding below code. If you do this AutoUpdater.NET will show error message, if there is no update available or if it can't get to the XML file from web server.
