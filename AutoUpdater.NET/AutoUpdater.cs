@@ -716,7 +716,7 @@ namespace AutoUpdaterDotNET
 
         internal static string GetUserAgent()
         {
-            return string.IsNullOrEmpty(HttpUserAgent) ? $"{AppTitle}/{InstalledVersion}" : HttpUserAgent;
+            return string.IsNullOrEmpty(HttpUserAgent) ? $"AutoUpdater.NET" : HttpUserAgent;
         }
 
         internal static void SetTimer(DateTime remindLater)
