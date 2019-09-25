@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -93,7 +94,15 @@ namespace AutoUpdaterDotNET
             {
                 if (null != AutoUpdater.BasicAuthChangeLog)
                 {
-                    webBrowser.Navigate(AutoUpdater.ChangelogURL, "", null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    // Create WebHeaderCollection
+                    WebHeaderCollection webHeaderCollection = new WebHeaderCollection();
+                    webHeaderCollection[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthChangeLog.ToString();
+
+                    // Adjust WebHeaderCollection
+                    AutoUpdater.BasicAuthChangeLog.Adjust(webHeaderCollection);
+
+                    // Navigate
+                    webBrowser.Navigate(AutoUpdater.ChangelogURL, "", null, webHeaderCollection.ToString());
                 }
                 else
                 {

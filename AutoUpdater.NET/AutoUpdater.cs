@@ -428,6 +428,9 @@ namespace AutoUpdaterDotNET
                     if (BasicAuthXML != null)
                     {
                         httpWebRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
+
+                        // Adjust WebHeaderCollection
+                        BasicAuthXML.Adjust(httpWebRequest.Headers);
                     }
 
                     webResponse = httpWebRequest.GetResponse();
@@ -860,6 +863,11 @@ namespace AutoUpdaterDotNET
     /// </summary>
     public interface IAuthentication
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="webHeaderCollection"></param>
+        void Adjust(WebHeaderCollection webHeaderCollection);
     }
 
     /// <summary>
@@ -888,6 +896,11 @@ namespace AutoUpdaterDotNET
             var token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
             return $"Basic {token}";
         }
+
+        /// <inheritdoc />
+        public void Adjust(WebHeaderCollection webHeaderCollection)
+        {
+        }
     }
 
     /// <summary>
@@ -910,6 +923,11 @@ namespace AutoUpdaterDotNET
         public override string ToString()
         {
             return this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue;
+        }
+
+        /// <inheritdoc />
+        public void Adjust(WebHeaderCollection webHeaderCollection)
+        {
         }
     }
 }
