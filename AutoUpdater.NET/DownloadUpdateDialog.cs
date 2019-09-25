@@ -54,7 +54,7 @@ namespace AutoUpdaterDotNET
                         _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
 
                         // Adjust WebHeaderCollection
-                        AutoUpdater.BasicAuthDownload.Adjust(_webClient.Headers);
+                        AutoUpdater.BasicAuthDownload.Adjust(uri, _webClient.Headers);
                     }
 
                     _webClient.Headers[HttpRequestHeader.UserAgent] = AutoUpdater.GetUserAgent();

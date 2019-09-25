@@ -99,7 +99,7 @@ namespace AutoUpdaterDotNET
                     webHeaderCollection[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthChangeLog.ToString();
 
                     // Adjust WebHeaderCollection
-                    AutoUpdater.BasicAuthChangeLog.Adjust(webHeaderCollection);
+                    AutoUpdater.BasicAuthChangeLog.Adjust(new Uri(AutoUpdater.ChangelogURL), webHeaderCollection);
 
                     // Navigate
                     webBrowser.Navigate(AutoUpdater.ChangelogURL, "", null, webHeaderCollection.ToString());
