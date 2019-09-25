@@ -895,21 +895,21 @@ namespace AutoUpdaterDotNET
     /// </summary>
     public class CustomAuthentication : IAuthentication
     {
-        private string HttpRequestHeaderHttpRequestHeaderAuthorizationValue { get; }
+        private string HttpRequestHeaderAuthorizationValue { get; }
 
         /// <summary>
-        /// Initializes for Custom Authentication
+        /// Initializes authorization header value for Custom Authentication
         /// </summary>
         /// <param name="httpRequestHeaderAuthorizationValue">Value to use as http request header authorization value</param>
         public CustomAuthentication(string httpRequestHeaderAuthorizationValue)
         {
-            this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue = httpRequestHeaderAuthorizationValue;
+            HttpRequestHeaderAuthorizationValue = httpRequestHeaderAuthorizationValue;
         }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            return this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue;
+            return HttpRequestHeaderAuthorizationValue;
         }
     }
 }
