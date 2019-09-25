@@ -430,7 +430,7 @@ namespace AutoUpdaterDotNET
                         httpWebRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
 
                         // Adjust WebHeaderCollection
-                        BasicAuthXML.Adjust(httpWebRequest.Headers);
+                        BasicAuthXML.Adjust(httpWebRequest.RequestUri, httpWebRequest.Headers);
                     }
 
                     webResponse = httpWebRequest.GetResponse();
@@ -864,10 +864,12 @@ namespace AutoUpdaterDotNET
     public interface IAuthentication
     {
         /// <summary>
-        /// 
+        /// Adjust web header collection for specific headers, e.g. add extra headers
         /// </summary>
-        /// <param name="webHeaderCollection"></param>
-        void Adjust(WebHeaderCollection webHeaderCollection);
+        /// <param name="requestUri">Requested uri</param>
+        /// <param name="webHeaderCollection">Web header collection that can be adjusted</param>
+        void Adjust(Uri requestUri,
+                    WebHeaderCollection webHeaderCollection);
     }
 
     /// <summary>
@@ -898,7 +900,7 @@ namespace AutoUpdaterDotNET
         }
 
         /// <inheritdoc />
-        public void Adjust(WebHeaderCollection webHeaderCollection)
+        public void Adjust(Uri requestUri, WebHeaderCollection webHeaderCollection)
         {
         }
     }
@@ -908,25 +910,25 @@ namespace AutoUpdaterDotNET
     /// </summary>
     public class CustomAuthentication : IAuthentication
     {
-        private string HttpRequestHeaderHttpRequestHeaderAuthorizationValue { get; }
+        private string HttpRequestHeaderAuthorizationValue { get; }
 
         /// <summary>
-        /// Initializes for Custom Authentication
+        /// Initializes authorization header value for Custom Authentication
         /// </summary>
         /// <param name="httpRequestHeaderAuthorizationValue">Value to use as http request header authorization value</param>
         public CustomAuthentication(string httpRequestHeaderAuthorizationValue)
         {
-            this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue = httpRequestHeaderAuthorizationValue;
+            HttpRequestHeaderAuthorizationValue = httpRequestHeaderAuthorizationValue;
         }
 
         /// <inheritdoc />
         public override string ToString()
         {
-            return this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue;
+            return HttpRequestHeaderAuthorizationValue;
         }
 
         /// <inheritdoc />
-        public void Adjust(WebHeaderCollection webHeaderCollection)
+        public void Adjust(Uri requestUri, WebHeaderCollection webHeaderCollection)
         {
         }
     }
