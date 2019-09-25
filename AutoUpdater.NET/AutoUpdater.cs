@@ -113,17 +113,17 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Set Basic Authentication credentials required to download the file.
         /// </summary>
-        public static BasicAuthentication BasicAuthDownload;
+        public static IAuthentication BasicAuthDownload;
 
         /// <summary>
         ///     Set Basic Authentication credentials required to download the XML file.
         /// </summary>
-        public static BasicAuthentication BasicAuthXML;
+        public static IAuthentication BasicAuthXML;
 
         /// <summary>
         ///     Set Basic Authentication credentials to navigate to the change log URL. 
         /// </summary>
-        public static BasicAuthentication BasicAuthChangeLog;
+        public static IAuthentication BasicAuthChangeLog;
 
         /// <summary>
         ///     Set the User-Agent string to be used for HTTP web requests.
@@ -854,10 +854,18 @@ namespace AutoUpdaterDotNET
         }
     }
 
+
+    /// <summary>
+    ///     Interface for authentication
+    /// </summary>
+    public interface IAuthentication
+    {
+    }
+
     /// <summary>
     ///     Provides Basic Authentication header for web request.
     /// </summary>
-    public class BasicAuthentication
+    public class BasicAuthentication : IAuthentication
     {
         private string Username { get; }
 
@@ -879,6 +887,29 @@ namespace AutoUpdaterDotNET
         {
             var token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
             return $"Basic {token}";
+        }
+    }
+
+    /// <summary>
+    ///     Provides Custom Authentication header for web request.
+    /// </summary>
+    public class CustomAuthentication : IAuthentication
+    {
+        private string HttpRequestHeaderHttpRequestHeaderAuthorizationValue { get; }
+
+        /// <summary>
+        /// Initializes for Custom Authentication
+        /// </summary>
+        /// <param name="httpRequestHeaderAuthorizationValue">Value to use as http request header authorization value</param>
+        public CustomAuthentication(string httpRequestHeaderAuthorizationValue)
+        {
+            this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue = httpRequestHeaderAuthorizationValue;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return this.HttpRequestHeaderHttpRequestHeaderAuthorizationValue;
         }
     }
 }
