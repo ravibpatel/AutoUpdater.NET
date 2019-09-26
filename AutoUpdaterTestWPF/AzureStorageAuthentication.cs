@@ -17,7 +17,6 @@ namespace AutoUpdaterTestWPF
         private string StorageKey { get; }
         private string StorageAccount { get; }
         private string Method { get; } = "GET";
-        private string Now { get; } = DateTime.UtcNow.ToString("R");
 
         public AzureStorageAuthentication(string storageKey, string storageAccount)
         {
@@ -28,16 +27,17 @@ namespace AutoUpdaterTestWPF
         public void Apply(Uri requestUri, WebHeaderCollection webHeaderCollection)
         {
             // Init
+            string now = DateTime.UtcNow.ToString("R");
             string absolutePath = requestUri.AbsolutePath;
             string containerName = absolutePath.Split('/')[1];
             string blobName = absolutePath.Remove(0, $"/{containerName}/".Length);
 
             // Adjust WebHeaderCollection
-            webHeaderCollection["x-ms-date"] = this.Now;
+            webHeaderCollection["x-ms-date"] = now;
             webHeaderCollection[HttpRequestHeader.Authorization] =
                 this.CreateAuthorizationHeader(
                     this.Method,
-                    this.Now,
+                    now,
                     this.StorageAccount,
                     this.StorageKey,
                     containerName,
