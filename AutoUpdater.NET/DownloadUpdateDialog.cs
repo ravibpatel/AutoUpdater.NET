@@ -51,10 +51,8 @@ namespace AutoUpdaterDotNET
                 {
                     if (AutoUpdater.BasicAuthDownload != null)
                     {
-                        _webClient.Headers[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthDownload.ToString();
-
-                        // Adjust WebHeaderCollection
-                        AutoUpdater.BasicAuthDownload.Adjust(uri, _webClient.Headers);
+                        // Apply Authentication
+                        AutoUpdater.BasicAuthDownload.Apply(uri, _webClient.Headers);
                     }
 
                     _webClient.Headers[HttpRequestHeader.UserAgent] = AutoUpdater.GetUserAgent();

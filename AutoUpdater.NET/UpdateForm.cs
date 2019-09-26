@@ -96,10 +96,9 @@ namespace AutoUpdaterDotNET
                 {
                     // Create WebHeaderCollection
                     WebHeaderCollection webHeaderCollection = new WebHeaderCollection();
-                    webHeaderCollection[HttpRequestHeader.Authorization] = AutoUpdater.BasicAuthChangeLog.ToString();
 
-                    // Adjust WebHeaderCollection
-                    AutoUpdater.BasicAuthChangeLog.Adjust(new Uri(AutoUpdater.ChangelogURL), webHeaderCollection);
+                    // Apply Authentication
+                    AutoUpdater.BasicAuthChangeLog.Apply(new Uri(AutoUpdater.ChangelogURL), webHeaderCollection);
 
                     // Navigate
                     webBrowser.Navigate(AutoUpdater.ChangelogURL, "", null, webHeaderCollection.ToString());

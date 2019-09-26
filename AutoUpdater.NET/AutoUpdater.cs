@@ -427,10 +427,8 @@ namespace AutoUpdaterDotNET
 
                     if (BasicAuthXML != null)
                     {
-                        httpWebRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthXML.ToString();
-
-                        // Adjust WebHeaderCollection
-                        BasicAuthXML.Adjust(httpWebRequest.RequestUri, httpWebRequest.Headers);
+                        // Apply Authentication
+                        BasicAuthXML.Apply(httpWebRequest.RequestUri, httpWebRequest.Headers);
                     }
 
                     webResponse = httpWebRequest.GetResponse();
@@ -864,11 +862,11 @@ namespace AutoUpdaterDotNET
     public interface IAuthentication
     {
         /// <summary>
-        /// Adjust web header collection for specific headers, e.g. add extra headers
+        /// Apply authentication headers to the web header collection
         /// </summary>
         /// <param name="requestUri">Requested uri</param>
         /// <param name="webHeaderCollection">Web header collection that can be adjusted</param>
-        void Adjust(Uri requestUri,
+        void Apply(Uri requestUri,
                     WebHeaderCollection webHeaderCollection);
     }
 
@@ -893,15 +891,11 @@ namespace AutoUpdaterDotNET
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public void Apply(Uri requestUri, WebHeaderCollection webHeaderCollection)
         {
-            var token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
-            return $"Basic {token}";
-        }
+            string token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
 
-        /// <inheritdoc />
-        public void Adjust(Uri requestUri, WebHeaderCollection webHeaderCollection)
-        {
+            webHeaderCollection[HttpRequestHeader.Authorization] = $"Basic {token}";
         }
     }
 
@@ -922,14 +916,9 @@ namespace AutoUpdaterDotNET
         }
 
         /// <inheritdoc />
-        public override string ToString()
+        public void Apply(Uri requestUri, WebHeaderCollection webHeaderCollection)
         {
-            return HttpRequestHeaderAuthorizationValue;
-        }
-
-        /// <inheritdoc />
-        public void Adjust(Uri requestUri, WebHeaderCollection webHeaderCollection)
-        {
+            webHeaderCollection[HttpRequestHeader.Authorization] = HttpRequestHeaderAuthorizationValue;
         }
     }
 }
