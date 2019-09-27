@@ -119,6 +119,8 @@ namespace AutoUpdaterDotNET
             {
                 var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
 
+                AutoUpdater.NotifyUpdateInstalling();
+
                 Process.Start(processStartInfo);
 
                 DialogResult = DialogResult.OK;

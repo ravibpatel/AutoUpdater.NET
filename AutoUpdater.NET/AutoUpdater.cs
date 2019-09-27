@@ -182,6 +182,16 @@ namespace AutoUpdaterDotNET
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         /// <summary>
+        ///     A delegate type to handle before the update is installed.
+        /// </summary>
+        public delegate void UpdateInstallingEventHandler();
+
+        /// <summary>
+        ///     An event that developers can use to execute specific logic before the actual installation of the update.
+        /// </summary>
+        public static event UpdateInstallingEventHandler UpdateInstallingEvent;
+
+        /// <summary>
         ///     A delegate type to handle how to exit the application after update is downloaded.
         /// </summary>
         public delegate void ApplicationExitEventHandler();
@@ -771,6 +781,14 @@ namespace AutoUpdaterDotNET
             }
 
             return false;
+        }
+
+        internal static void NotifyUpdateInstalling()
+        {
+            if (UpdateInstallingEvent != null)
+            {
+                UpdateInstallingEvent();
+            }
         }
     }
 
