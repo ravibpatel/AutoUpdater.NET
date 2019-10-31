@@ -462,8 +462,7 @@ namespace AutoUpdaterDotNET
                     }
                     else
                     {
-                        XmlDocument receivedAppCastDocument = new XmlDocument();
-
+                        XmlDocument receivedAppCastDocument = new XmlDocument {XmlResolver = null};
                         try
                         {
                             receivedAppCastDocument.Load(appCastStream);
