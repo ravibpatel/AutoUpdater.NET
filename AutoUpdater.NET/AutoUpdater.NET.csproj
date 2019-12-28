@@ -63,7 +63,7 @@
     <DocumentationFile>build\lib\net40\AutoUpdater.NET.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
@@ -136,6 +136,9 @@
     <EmbeddedResource Include="DownloadUpdateDialog.es.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.fa.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DownloadUpdateDialog.fr.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -183,6 +186,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ar.resx" />
+    <EmbeddedResource Include="Properties\Resources.fa.resx" />
     <EmbeddedResource Include="Properties\Resources.ja-JP.resx" />
     <EmbeddedResource Include="Properties\Resources.da.resx" />
     <EmbeddedResource Include="Properties\Resources.de.resx" />
@@ -210,6 +214,9 @@
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.es.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.fa.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.fr.resx">
@@ -268,6 +275,9 @@
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.es.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.fa.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.fr.resx">
