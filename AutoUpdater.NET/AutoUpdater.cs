@@ -458,6 +458,12 @@ namespace AutoUpdaterDotNET
                             ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(data);
                             ParseUpdateInfoEvent(parseArgs);
                             args = parseArgs.UpdateInfo;
+
+                            if (Mandatory.Equals(false))
+                            {
+                                Mandatory = args.Mandatory;
+                                UpdateMode = args.UpdateMode;
+                            }
                         }
                     }
                     else
