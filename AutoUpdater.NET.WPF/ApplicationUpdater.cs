@@ -13,16 +13,17 @@ namespace AutoUpdater.NET.WPF
         public override void Start(string url, Assembly assembly = null)
         {
             assembly = assembly ?? Assembly.GetEntryAssembly();
-            base.Start(url, assembly);
 
             CheckForUpdate += args =>
             {
                 if (args.IsUpdateAvailable)
                 {
-                    MainWindow mainWindow = new MainWindow(args, this);
+                    MainWindow mainWindow = new MainWindow(args);
                     mainWindow.ShowDialog();
                 }
             };
+
+            base.Start(url, assembly);
         }
     }
 }

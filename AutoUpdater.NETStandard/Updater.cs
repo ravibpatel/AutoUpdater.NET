@@ -1,15 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Cache;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Net.Mime;
 using System.Reflection;
-using System.Security.Cryptography;
+using System.Xml;
 using System.Xml.Serialization;
 
 namespace AutoUpdater.NETStandard
@@ -30,6 +24,20 @@ namespace AutoUpdater.NETStandard
         ///     Set Proxy server to use for all the web requests.
         /// </summary>
         public IWebProxy Proxy { get; set; }
+
+        /// <summary>
+        /// Login/password/domain for FTP request.
+        /// </summary>
+        public NetworkCredential FtpCredentials { get; set; }
+
+        /// <summary>
+        ///     Set the User-Agent string to be used for HTTP web requests.
+        /// </summary>
+        public string HttpUserAgent
+        {
+            get => string.IsNullOrEmpty(_httpUserAgent) ? "AutoUpdater.NET" : _httpUserAgent;
+            set => _httpUserAgent = value;
+        }
 
         /// <summary>
         ///     Set Basic Authentication credentials required to download the file.
@@ -55,8 +63,6 @@ namespace AutoUpdater.NETStandard
         /// <param name="args">An object containing the XML or JSON file received from server.</param>
         public delegate void ParseUpdateInfoHandler(ParseUpdateInfoEventArgs args);
 
-        public delegate void DownloadProgressEventHandler(DownloadProgressEventArgs args);
-
         /// <summary>
         ///     An event that developers can use to be notified whenever the update is checked.
         /// </summary>
@@ -67,13 +73,12 @@ namespace AutoUpdater.NETStandard
         /// </summary>
         public event ParseUpdateInfoHandler ParseUpdateInfo;
 
-        public event DownloadProgressEventHandler DownloadProgressChanged;
+        /// <summary>
+        ///     Uri of the XML file.
+        /// </summary>
+        internal Uri BaseUri { get; set; }
 
-        public event AsyncCompletedEventHandler DownloadCompleted;
-
-        private MyWebClient _webClient;
-
-        private DateTime _startedAt;
+        private string _httpUserAgent;
 
         public virtual async void Start(string url, Assembly assembly = null)
         {
@@ -84,43 +89,26 @@ namespace AutoUpdater.NETStandard
                 assembly = Assembly.GetEntryAssembly();
             }
 
-            HttpClient client;
-            if (Proxy != null)
-            {
-                HttpMessageHandler httpMessageHandler = new HttpClientHandler
-                {
-                    Proxy = Proxy
-                };
-                client = new HttpClient(httpMessageHandler, true);
-            }
-            else
-            {
-                client = new HttpClient();
-            }
+            BaseUri = new Uri(url);
 
-            if (BasicAuthXML != null)
+            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
             {
-                client.DefaultRequestHeaders.Authorization =
-                    new AuthenticationHeaderValue("Basic", BasicAuthXML.ToString());
-            }
-
-            using (client)
-            using (HttpResponseMessage response = await client.GetAsync(url))
-            using (HttpContent content = response.Content)
-            {
+                string content = await client.DownloadStringTaskAsync(BaseUri);
                 if (ParseUpdateInfo == null)
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfo));
-                    updateInfo = (UpdateInfo) xmlSerializer.Deserialize(await content.ReadAsStreamAsync());
+                    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(content)) { XmlResolver = null };
+                    updateInfo = (UpdateInfo)xmlSerializer.Deserialize(xmlTextReader);
                 }
                 else
                 {
-                    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(await content.ReadAsStringAsync());
+                    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(content);
                     ParseUpdateInfo(parseArgs);
                     updateInfo = parseArgs.UpdateInfo;
                 }
             }
 
+            updateInfo.Updater = this;
             var attributes = assembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
             updateInfo.ApplicationName = attributes.Length > 0 ? ((AssemblyTitleAttribute) attributes[0]).Title : assembly.GetName().Name;
             updateInfo.InstalledVersion = assembly.GetName().Version.ToString();
@@ -129,161 +117,33 @@ namespace AutoUpdater.NETStandard
             CheckForUpdate?.Invoke(updateInfo);
         }
 
-        public void Download(UpdateInfo updateInfo)
+        internal MyWebClient GetWebClient(Uri uri, BasicAuthentication basicAuthentication)
         {
-            _webClient = new MyWebClient
+            MyWebClient webClient = new MyWebClient
             {
-                CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore)
+                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
             };
 
             if (Proxy != null)
             {
-                _webClient.Proxy = Proxy;
+                webClient.Proxy = Proxy;
             }
 
-            var uri = new Uri(updateInfo.DownloadURL);
-
-            string tempFile;
-
-            if (string.IsNullOrEmpty(DownloadPath))
+            if (uri.Scheme.Equals(Uri.UriSchemeFtp))
             {
-                tempFile = Path.GetTempFileName();
+                webClient.Credentials = FtpCredentials;
             }
             else
             {
-                tempFile = Path.Combine(DownloadPath, $"{Guid.NewGuid().ToString()}.tmp");
-                if (!Directory.Exists(DownloadPath))
+                if (basicAuthentication != null)
                 {
-                    Directory.CreateDirectory(DownloadPath);
+                    webClient.Headers[HttpRequestHeader.Authorization] = basicAuthentication.ToString();
                 }
+
+                webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
             }
 
-            if (BasicAuthDownload != null)
-            {
-                _webClient.Headers[HttpRequestHeader.Authorization] = BasicAuthDownload.ToString();
-            }
-
-            _webClient.DownloadProgressChanged += (sender, args) =>
-            {
-                DownloadProgressEventArgs downloadProgressEventArgs = new DownloadProgressEventArgs();
-                if (_startedAt == default(DateTime))
-                {
-                    _startedAt = DateTime.Now;
-                }
-                else
-                {
-
-                    var timeSpan = DateTime.Now - _startedAt;
-                    long totalSeconds = (long)timeSpan.TotalSeconds;
-                    if (totalSeconds > 0)
-                    {
-                        var bytesPerSecond = args.BytesReceived / totalSeconds;
-                        downloadProgressEventArgs.Speed = $"Downloading at {BytesToString(bytesPerSecond)}/s";
-                    }
-                }
-
-                downloadProgressEventArgs.CompletedSize = $@"{BytesToString(args.BytesReceived)} / {BytesToString(args.TotalBytesToReceive)}";
-                downloadProgressEventArgs.ProgressPercentage = args.ProgressPercentage;
-
-                DownloadProgressChanged?.Invoke(downloadProgressEventArgs);
-            };
-
-            _webClient.DownloadFileCompleted += (sender, args) =>
-            {
-                if (args.Cancelled)
-                {
-                    return;
-                }
-
-                try
-                {
-                    if (args.Error != null)
-                    {
-                        throw args.Error;
-                    }
-
-                    if (updateInfo.CheckSum != null)
-                    {
-                        CompareChecksum(tempFile, updateInfo.CheckSum);
-                    }
-
-                    ContentDisposition contentDisposition = null;
-                    if (_webClient.ResponseHeaders["Content-Disposition"] != null)
-                    {
-                         contentDisposition =  new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
-                    }
-
-                    var fileName = string.IsNullOrEmpty(contentDisposition?.FileName)
-                        ? Path.GetFileName(_webClient.ResponseUri.LocalPath)
-                        : contentDisposition.FileName;
-
-                    var tempPath =
-                        Path.Combine(
-                            string.IsNullOrEmpty(DownloadPath) ? Path.GetTempPath() : DownloadPath,
-                            fileName);
-
-                    if (File.Exists(tempPath))
-                    {
-                        File.Delete(tempPath);
-                    }
-
-                    File.Move(tempFile, tempPath);
-
-                    if (updateInfo.InstallerArgs != null)
-                    {
-                        var processModule = Process.GetCurrentProcess().MainModule;
-                        updateInfo.InstallerArgs = updateInfo.InstallerArgs.Replace("%path%", processModule != null ? Path.GetDirectoryName(processModule.FileName) : Environment.CurrentDirectory);
-                    }
-
-                    DownloadCompleted?.Invoke(sender, new AsyncCompletedEventArgs(null, false, tempPath));
-                }
-                catch (Exception e)
-                {
-                    DownloadCompleted?.Invoke(sender, new AsyncCompletedEventArgs(e, false, null));
-                }
-            };
-
-            _webClient.DownloadFileAsync(uri, tempFile);
-        }
-
-        public void CancelDownload()
-        {
-            if (_webClient != null && _webClient.IsBusy)
-            {
-                _webClient.CancelAsync();
-            }
-        }
-
-        private static void CompareChecksum(string fileName, CheckSum checkSum)
-        {
-            using (var hashAlgorithm = HashAlgorithm.Create(checkSum.HashingAlgorithm))
-            {
-                using (var stream = File.OpenRead(fileName))
-                {
-                    if (hashAlgorithm != null)
-                    {
-                        var hash = hashAlgorithm.ComputeHash(stream);
-                        var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant();
-
-                        if (fileChecksum == checkSum.Text.ToLower()) return;
-
-                        throw new Exception("File integrity check failed and reported some errors.");
-                    }
-
-                    throw new Exception("Hash algorithm provided in the update infromation file is not supported.");
-                }
-            }
-        }
-
-        private string BytesToString(long byteCount)
-        {
-            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
-            if (byteCount == 0)
-                return "0" + suf[0];
-            long bytes = Math.Abs(byteCount);
-            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
-            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
-            return $"{(Math.Sign(byteCount) * num).ToString(CultureInfo.InvariantCulture)} {suf[place]}";
+            return webClient;
         }
     }
 }

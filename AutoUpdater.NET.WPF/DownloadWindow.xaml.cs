@@ -13,25 +13,21 @@ namespace AutoUpdater.NET.WPF
     /// </summary>
     public partial class DownloadWindow : Window
     {
-        private DateTime _startedAt;
         private UpdateInfo UpdateInfo { get; }
 
-        private ApplicationUpdater ApplicationUpdater { get; }
-
-        public DownloadWindow(UpdateInfo updateInfo, ApplicationUpdater applicationUpdater)
+        public DownloadWindow(UpdateInfo updateInfo)
         {
             UpdateInfo = updateInfo;
-            ApplicationUpdater = applicationUpdater;
             InitializeComponent();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            ApplicationUpdater.DownloadProgressChanged += ApplicationUpdaterOnDownloadProgressChanged;
+            UpdateInfo.DownloadProgressChanged += ApplicationUpdaterOnDownloadProgressChanged;
 
-            ApplicationUpdater.DownloadCompleted += ApplicationUpdaterOnDownloadCompleted;
+            UpdateInfo.DownloadCompleted += ApplicationUpdaterOnDownloadCompleted;
 
-            ApplicationUpdater.Download(UpdateInfo);
+            UpdateInfo.Download(UpdateInfo);
         }
 
         private void ApplicationUpdaterOnDownloadProgressChanged(DownloadProgressEventArgs args)
@@ -86,12 +82,15 @@ namespace AutoUpdater.NET.WPF
                 try
                 {
                     Process.Start(processStartInfo);
+                    Application.Current.Shutdown();
                 }
                 catch (Win32Exception exception)
                 {
                     if (exception.NativeErrorCode != 1223)
                         throw;
                 }
+
+                Close();
             }
             catch (Exception exception)
             {
@@ -104,7 +103,7 @@ namespace AutoUpdater.NET.WPF
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            ApplicationUpdater.CancelDownload();
+            UpdateInfo.CancelDownload();
         }
     }
 }

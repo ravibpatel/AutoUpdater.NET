@@ -8,26 +8,23 @@ namespace AutoUpdater.NET.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ApplicationUpdater ApplicationUpdater { get; }
-
         private UpdateInfo UpdateInfo { get; }
 
-        public MainWindow(UpdateInfo updateInfo, ApplicationUpdater applicationUpdater)
+        public MainWindow(UpdateInfo updateInfo)
         {
             UpdateInfo = updateInfo;
-            ApplicationUpdater = applicationUpdater;
             InitializeComponent();
         }
 
         private void Window_ContentRendered(object sender, System.EventArgs e)
         {
             Title = $"v{UpdateInfo.CurrentVersion} available!";
-            WebView.Navigate(UpdateInfo.ChangelogURL);
+            WebView.Navigate(UpdateInfo.ChangelogUrl);
         }
 
         private void ButtonUpdate_Click(object sender, RoutedEventArgs e)
         {
-            DownloadWindow downloadWindow = new DownloadWindow(UpdateInfo, ApplicationUpdater);
+            DownloadWindow downloadWindow = new DownloadWindow(UpdateInfo);
             downloadWindow.ShowDialog();
         }
     }

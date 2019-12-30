@@ -11,8 +11,8 @@
             <ColumnDefinition Width="311*"/>
             <ColumnDefinition Width="223*"/>
         </Grid.ColumnDefinitions>
-        <ProgressBar x:Name="ProgressBarDownload" HorizontalAlignment="Left" Height="34" Margin="10,42,0,0" VerticalAlignment="Top" Width="534" Grid.ColumnSpan="2"/>
-        <Label x:Name="LabelSpeed" Content="Downloading at 0 B/s" Grid.Column="1" Width="Auto" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="97,11,0,0"/>
-        <Label x:Name="LabelSize" Content="1.0 MB / 2 MB" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="ProgressBarDownload" Height="34" Margin="10,42,8,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.ColumnSpan="2"/>
+        <Label x:Name="LabelSpeed" Content="Downloading at 0 B/s" Grid.Column="1" Width="200" HorizontalContentAlignment="Right" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="21,11,0,0"/>
+        <Label x:Name="LabelSize" Content="1.0 MB / 2 MB" HorizontalAlignment="Right" Margin="0,11,111,0" HorizontalContentAlignment="Left" VerticalAlignment="Top" Width="200"/>
     </Grid>
 </Window>
