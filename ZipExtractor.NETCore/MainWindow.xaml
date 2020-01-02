@@ -1,0 +1,13 @@
+﻿<Window x:Class="ZipExtractor.NETCore.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ZipExtractor.NETCore"
+        mc:Ignorable="d"
+        Title="Extracting..." Height="106" Width="800" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+    <Grid Height="96">
+        <ProgressBar x:Name="ProgressBar" Height="34" Margin="10,41,10,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="LabelInfo" Content="Extracting C:/Example/example.zip" Width="200" HorizontalContentAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="26"/>
+    </Grid>
+</Window>

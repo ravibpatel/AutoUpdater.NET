@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using AutoUpdater.NETStandard;
-using MessageBox = System.Windows.MessageBox;
 
 namespace AutoUpdater.NET.WPF
 {

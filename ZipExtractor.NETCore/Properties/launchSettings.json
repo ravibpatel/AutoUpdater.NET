@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ZipExtractor.NETCore": {
+      "commandName": "Project",
+      "commandLineArgs": "--e \"C:\\Users\\Ravi Patel\\source\\repos\\AutoUpdater.NET\\AutoUpdaterTestWPF\\bin\\Debug\\AutoUpdaterTestWPF.exe\" --z \"F:\\AutoUpdaterTestWPF.zip\""
+    }
+  }
+}
