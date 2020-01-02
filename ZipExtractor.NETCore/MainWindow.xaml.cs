@@ -116,7 +116,7 @@ namespace ZipExtractor.NETCore
                     // are case-insensitive.
                     if (destinationPath.StartsWith(path, StringComparison.Ordinal))
                     {
-                        if (Path.EndsInDirectorySeparator(destinationPath) && entry.Length == 0)
+                        if (Path.EndsInDirectorySeparator(destinationPath))
                         {
                             Directory.CreateDirectory(destinationPath);
                         }
