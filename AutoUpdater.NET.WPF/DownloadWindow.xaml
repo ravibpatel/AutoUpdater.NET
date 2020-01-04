@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUpdater.NET.WPF"
         mc:Ignorable="d"
-        Title="Downloading update..." Height="131.699" Width="560.493" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="311*"/>
-            <ColumnDefinition Width="223*"/>
-        </Grid.ColumnDefinitions>
-        <ProgressBar x:Name="ProgressBarDownload" Height="34" Margin="10,42,8,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.ColumnSpan="2"/>
-        <Label x:Name="LabelSpeed" Content="Downloading at 0 B/s" Grid.Column="1" Width="200" HorizontalContentAlignment="Right" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="21,11,0,0"/>
-        <Label x:Name="LabelSize" Content="1.0 MB / 2 MB" HorizontalAlignment="Right" Margin="0,11,111,0" HorizontalContentAlignment="Left" VerticalAlignment="Top" Width="200"/>
+        Title="Downloading update..." Width="400" ResizeMode="NoResize" SizeToContent="Height" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+    <Grid Margin="0,15" Height="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="LabelSpeed" Content="Downloading at 0 B/s" Width="Auto" Height="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0"/>
+        <Label x:Name="LabelSize" Content="1.0 MB / 2 MB" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="Auto" Grid.Row="0" Margin="10,0"/>
+        <ProgressBar x:Name="ProgressBarDownload" Height="30" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="1"/>
     </Grid>
 </Window>

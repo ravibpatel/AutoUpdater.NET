@@ -23,7 +23,6 @@ namespace AutoUpdater.NET.WPF
         private void Window_ContentRendered(object sender, EventArgs e)
         {
             UpdateInfo.DownloadProgressChanged += ApplicationUpdaterOnDownloadProgressChanged;
-
             UpdateInfo.DownloadCompleted += ApplicationUpdaterOnDownloadCompleted;
 
             UpdateInfo.Download(UpdateInfo);
@@ -103,6 +102,8 @@ namespace AutoUpdater.NET.WPF
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             UpdateInfo.CancelDownload();
+            UpdateInfo.DownloadProgressChanged -= ApplicationUpdaterOnDownloadProgressChanged;
+            UpdateInfo.DownloadCompleted -= ApplicationUpdaterOnDownloadCompleted;
         }
     }
 }

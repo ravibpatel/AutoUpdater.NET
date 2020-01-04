@@ -6,16 +6,20 @@
         xmlns:local="clr-namespace:AutoUpdater.NET.WPF"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
         mc:Ignorable="d"
-        Title="MainWindow" Height="810.765" Width="800" ContentRendered="Window_ContentRendered">
-    <Grid>
+        Title="MainWindow" Width="800" SizeToContent="Height" ResizeMode="NoResize" ContentRendered="Window_ContentRendered">
+    <Grid Margin="20,15">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="107*"/>
-            <ColumnDefinition Width="57*"/>
-            <ColumnDefinition Width="628*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
-        <controls:WebView x:Name="WebView" Margin="40,40,40,100" Grid.ColumnSpan="3" />
-        <Button x:Name="buttonUpdate" Content="Update" Grid.Column="2" HorizontalAlignment="Left" Margin="485.728,720,0,0" VerticalAlignment="Top" Width="100" Height="35" Click="ButtonUpdate_Click"/>
-        <Button x:Name="buttonSkip" Grid.ColumnSpan="2" Content="Skip" HorizontalAlignment="Left" Margin="40,720,0,0" VerticalAlignment="Top" Width="100" Height="35"/>
-        <Button x:Name="buttonRemindLate" Content="Remind Later" HorizontalAlignment="Left" Margin="2.728,720,0,0" VerticalAlignment="Top" Width="100" Height="35" Grid.Column="2"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <controls:WebView x:Name="WebView" Width="Auto" Height="600" Margin="0" Grid.Row="0" Grid.ColumnSpan="3"/>
+        <Button x:Name="ButtonRemindLater" Content="Remind Later" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Grid.Column="0" Grid.Row="1" Click="ButtonRemindLater_Click"/>
+        <Button x:Name="ButtonSkip" Content="Skip" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Bottom" Width="100" Height="30" Grid.Column="1" Grid.Row="1" Click="ButtonSkip_Click"/>
+        <Button x:Name="ButtonUpdate" Content="Update" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Bottom" Width="100" Height="30" Click="ButtonUpdate_Click" Grid.Row="1" Grid.Column="2"/>
     </Grid>
 </Window>

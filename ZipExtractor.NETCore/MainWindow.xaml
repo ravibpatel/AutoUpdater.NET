@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZipExtractor.NETCore"
         Title="Extracting..." ResizeMode="NoResize" Width="600" SizeToContent="Height" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
-    <Grid Height="96">
+    <Grid Margin="0,15,0,15">
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        <Label x:Name="LabelInfo" Content="Initializing..." Width="Auto" Height="Auto" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="0" />
-        <ProgressBar x:Name="ProgressBar" Height="30" Margin="10,0,10,10" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Row="1"/>
+        <Label x:Name="LabelInfo" Content="Initializing..." Width="Auto" Height="Auto" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,10,0" Grid.Row="0" />
+        <ProgressBar x:Name="ProgressBar" Height="30" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="1"/>
     </Grid>
 </Window>

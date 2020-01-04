@@ -27,5 +27,15 @@ namespace AutoUpdater.NET.WPF
             DownloadWindow downloadWindow = new DownloadWindow(UpdateInfo);
             downloadWindow.ShowDialog();
         }
+
+        private void ButtonSkip_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ButtonRemindLater_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
