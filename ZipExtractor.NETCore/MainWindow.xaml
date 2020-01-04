@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZipExtractor.NETCore"
-        mc:Ignorable="d"
-        Title="Extracting..." Height="106" Width="800" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+        Title="Extracting..." ResizeMode="NoResize" Width="600" SizeToContent="Height" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
     <Grid Height="96">
-        <ProgressBar x:Name="ProgressBar" Height="34" Margin="10,41,10,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <Label x:Name="LabelInfo" Content="Extracting C:/Example/example.zip" Width="200" HorizontalContentAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0" Height="26"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="LabelInfo" Content="Initializing..." Width="Auto" Height="Auto" HorizontalContentAlignment="Left" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="0" />
+        <ProgressBar x:Name="ProgressBar" Height="30" Margin="10,0,10,10" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Row="1"/>
     </Grid>
 </Window>
