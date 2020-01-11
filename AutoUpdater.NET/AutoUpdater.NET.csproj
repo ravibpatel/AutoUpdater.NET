@@ -98,12 +98,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoUpdater.cs" />
+    <Compile Include="BasicAuthentication.cs" />
+    <Compile Include="CustomAuthentication.cs" />
     <Compile Include="DownloadUpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DownloadUpdateDialog.Designer.cs">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="IAuthentication.cs" />
+    <Compile Include="MyWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ParseUpdateInfoEventArgs.cs" />
     <Compile Include="RemindLaterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +129,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UpdateInfoEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DownloadUpdateDialog.ar.resx">

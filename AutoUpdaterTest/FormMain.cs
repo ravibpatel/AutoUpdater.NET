@@ -165,7 +165,7 @@ namespace AutoUpdaterTest
                         {
                             //You can use Download Update dialog used by AutoUpdater.NET to download the update.
 
-                            if (AutoUpdater.DownloadUpdate())
+                            if (AutoUpdater.DownloadUpdate(args))
                             {
                                 Application.Exit();
                             }

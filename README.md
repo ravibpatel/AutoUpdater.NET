@@ -291,7 +291,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
             {
                 try
                 {
-                    if (AutoUpdater.DownloadUpdate())
+                    if (AutoUpdater.DownloadUpdate(args))
                     {
                         Application.Exit();
                     }
@@ -318,7 +318,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
 }
 ````
 
-When you do this it will execute the code in above event when AutoUpdater.Start method is called instead of showing the update dialog. UpdateInfoEventArgs object carries all the information you need about the update. If its null then it means AutoUpdater.NET can't reach the XML file on your server. UpdateInfoEventArgs has following information about the update.
+When you do this it will execute the code in above event when AutoUpdater.Start method is called instead of showing the update dialog. 
 
 * IsUpdateAvailable (bool) :  If update is available then returns true otherwise false.
 * DownloadURL (string) : Download URL of the update file..

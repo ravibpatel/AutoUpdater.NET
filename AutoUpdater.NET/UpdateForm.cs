@@ -10,31 +10,28 @@ namespace AutoUpdaterDotNET
 {
     internal partial class UpdateForm : Form
     {
-        public UpdateForm()
+        private readonly UpdateInfoEventArgs _args;
+
+        public UpdateForm(UpdateInfoEventArgs args)
         {
+            _args = args;
             InitializeComponent();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
             Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
-                AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
+                AutoUpdater.AppTitle, _args.CurrentVersion);
             labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
                 AutoUpdater.AppTitle);
             labelDescription.Text =
                 string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
-                    AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
+                    AutoUpdater.AppTitle, _args.CurrentVersion, _args.InstalledVersion);
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
                 ControlBox = false;
             }
-        }
-
-        public sealed override string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
         }
 
         private void UseLatestIE()
@@ -82,7 +79,7 @@ namespace AutoUpdaterDotNET
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
+            if (string.IsNullOrEmpty(_args.ChangelogURL))
             {
                 var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
                 labelReleaseNotes.Hide();
@@ -93,11 +90,12 @@ namespace AutoUpdaterDotNET
             {
                 if (null != AutoUpdater.BasicAuthChangeLog)
                 {
-                    webBrowser.Navigate(AutoUpdater.ChangelogURL, "", null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    webBrowser.Navigate(_args.ChangelogURL, "", null,
+                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
                 }
                 else
                 {
-                   webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                    webBrowser.Navigate(_args.ChangelogURL);
                 }
             }
 
@@ -109,7 +107,7 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.OpenDownloadPage)
             {
-                var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
+                var processStartInfo = new ProcessStartInfo(_args.DownloadURL);
 
                 Process.Start(processStartInfo);
 
@@ -117,7 +115,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (AutoUpdater.DownloadUpdate())
+                if (AutoUpdater.DownloadUpdate(_args))
                 {
                     DialogResult = DialogResult.OK;
                 }
@@ -130,7 +128,7 @@ namespace AutoUpdaterDotNET
             {
                 if (updateKey != null)
                 {
-                    updateKey.SetValue("version", AutoUpdater.CurrentVersion.ToString());
+                    updateKey.SetValue("version", _args.CurrentVersion);
                     updateKey.SetValue("skip", 1);
                 }
             }
@@ -164,7 +162,7 @@ namespace AutoUpdaterDotNET
             {
                 if (updateKey != null)
                 {
-                    updateKey.SetValue("version", AutoUpdater.CurrentVersion);
+                    updateKey.SetValue("version", _args.CurrentVersion);
                     updateKey.SetValue("skip", 0);
                     DateTime remindLaterDateTime = DateTime.Now;
                     switch (AutoUpdater.RemindLaterTimeSpan)
