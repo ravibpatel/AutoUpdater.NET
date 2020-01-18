@@ -14,7 +14,7 @@ namespace AutoUpdaterTest.NET.Core.WPF
         {
             InitializeComponent();
             Assembly assembly = Assembly.GetEntryAssembly();
-            //LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
+            LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
         }
 
         

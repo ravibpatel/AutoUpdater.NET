@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUpdaterTestWPF"
         mc:Ignorable="d"
-        Title="AutoUpdaterTestWPF" Height="111.048" Width="195.822" ResizeMode="NoResize">
+        Title="AutoUpdaterTestWPF" Height="150.048" Width="250.822" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="46*"/>
