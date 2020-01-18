@@ -1,0 +1,25 @@
+﻿<Window x:Class="AutoUpdater.NET.Core.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdater.NET.Core.WPF"
+        xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="20,15">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="6*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <controls:WebView x:Name="WebView" Width="Auto" Height="600" Margin="0" Grid.Row="0" Grid.ColumnSpan="3"/>
+        <Button x:Name="ButtonRemindLater" Content="Remind Later" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="100" Height="30" Grid.Column="0" Grid.Row="1" Click="ButtonRemindLater_Click"/>
+        <Button x:Name="ButtonSkip" Content="Skip" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Bottom" Width="100" Height="30" Grid.Column="1" Grid.Row="1" Click="ButtonSkip_Click"/>
+        <Button x:Name="ButtonUpdate" Content="Update" HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Bottom" Width="100" Height="30" Click="ButtonUpdate_Click" Grid.Row="1" Grid.Column="2"/>
+    </Grid>
+</Window>

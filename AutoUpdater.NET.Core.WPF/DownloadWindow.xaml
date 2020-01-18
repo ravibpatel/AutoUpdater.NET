@@ -1,0 +1,18 @@
+﻿<Window x:Class="AutoUpdater.NET.Core.WPF.DownloadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdater.NET.Core.WPF"
+        mc:Ignorable="d"
+        Title="Downloading update..." Width="400" ResizeMode="NoResize" SizeToContent="Height" ContentRendered="Window_ContentRendered" Closing="Window_Closing">
+    <Grid Margin="0,15" Height="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="LabelSpeed" Content="Downloading at 0 B/s" Width="Auto" Height="Auto" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0"/>
+        <Label x:Name="LabelSize" Content="1.0 MB / 2 MB" Height="Auto" HorizontalAlignment="Right" VerticalAlignment="Top" HorizontalContentAlignment="Left" Width="Auto" Grid.Row="0" Margin="10,0"/>
+        <ProgressBar x:Name="ProgressBarDownload" Height="30" Margin="10,5,10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Grid.Row="1"/>
+    </Grid>
+</Window>
