@@ -14,7 +14,6 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public string RegistryLocation { get; }
 
-
         /// <summary>
         /// Initializes a new instance of the RegistryPersistenceProvider class indicating the path for the Windows registry key to use for storing the data.
         /// </summary>
@@ -23,7 +22,6 @@ namespace AutoUpdaterDotNET
         {
             RegistryLocation = registryLocation;
         }
-
 
         /// <summary>
         /// Reads the flag indicating whether a specific version should be skipped or not.
@@ -55,7 +53,6 @@ namespace AutoUpdaterDotNET
             }
         }
 
-
         /// <summary>
         /// Reads the value containing the date and time at which the user must be given again the possibility to upgrade the application.
         /// </summary>
@@ -80,7 +77,6 @@ namespace AutoUpdaterDotNET
             }
         }
 
-
         /// <summary>
         /// Sets the values indicating the specific version that must be ignored by AutoUpdater.
         /// </summary>
@@ -97,7 +93,6 @@ namespace AutoUpdaterDotNET
                 }
             }
         }
-
 
         /// <summary>
         /// Sets the date and time at which the user must be given again the possibility to upgrade the application.
