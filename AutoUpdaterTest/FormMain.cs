@@ -106,6 +106,8 @@ namespace AutoUpdaterTest
             //Uncomment following if you want to update using FTP.
             //AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
 
+            //AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("F:/test.json");
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 

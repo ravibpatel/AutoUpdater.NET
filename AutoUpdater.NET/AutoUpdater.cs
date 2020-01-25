@@ -12,7 +12,6 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoUpdaterDotNET.Properties;
-using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
@@ -64,8 +63,6 @@ namespace AutoUpdaterDotNET
     public static class AutoUpdater
     {
         private static System.Timers.Timer _remindLaterTimer;
-
-        internal static String RegistryLocation;
 
         internal static bool IsWinFormsApplication;
 
@@ -163,6 +160,11 @@ namespace AutoUpdaterDotNET
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
         /// </summary>
         public static IWebProxy Proxy;
+
+        /// <summary>
+        /// Set this to an instance implementing the IPersistenceProvider interface for using a data storage method different from the default Windows Registry based one.
+        /// </summary>
+        public static IPersistenceProvider PersistenceProvider;
 
         /// <summary>
         ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
@@ -383,9 +385,14 @@ namespace AutoUpdaterDotNET
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
-            RegistryLocation = !string.IsNullOrEmpty(appCompany)
+            string registryLocation = !string.IsNullOrEmpty(appCompany)
                 ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
                 : $@"Software\{AppTitle}\AutoUpdater";
+
+            if (PersistenceProvider == null)
+            {
+                PersistenceProvider = new RegistryPersistenceProvider(registryLocation);
+            }
 
             BaseUri = new Uri(AppCastURL);
 
@@ -426,47 +433,30 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
+                // Read the persisted state from the persistence provider.
+                // This method makes the persistence handling independent from the storage method.
+                if (PersistenceProvider.GetSkippedApplicationVersion(out var skip, out var skippedVersion))
                 {
-                    if (updateKey != null)
+                    var skipVersion = new Version(skippedVersion);
+                    var currentVersion = new Version(args.CurrentVersion);
+                    if (skip && currentVersion <= skipVersion)
+                        return;
+
+                    if (currentVersion > skipVersion)
                     {
-                        object skip = updateKey.GetValue("skip");
-                        object applicationVersion = updateKey.GetValue("version");
-                        if (skip != null && applicationVersion != null)
-                        {
-                            Version currentVersion = new Version(args.CurrentVersion);
-                            string skipValue = skip.ToString();
-                            var skipVersion = new Version(applicationVersion.ToString());
-                            if (skipValue.Equals("1") && currentVersion <= skipVersion)
-                                return;
-                            if (currentVersion > skipVersion)
-                            {
-                                using (RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation))
-                                {
-                                    if (updateKeyWrite != null)
-                                    {
-                                        updateKeyWrite.SetValue("version", currentVersion.ToString());
-                                        updateKeyWrite.SetValue("skip", 0);
-                                    }
-                                }
-                            }
-                        }
+                        // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
+                        PersistenceProvider.SetSkippedApplicationVersion(false, args.CurrentVersion);
+                    }
+                }
 
-                        object remindLaterTime = updateKey.GetValue("remindlater");
+                if (PersistenceProvider.GetRemindLater(out var remindLaterTime))
+                {
+                    int compareResult = DateTime.Compare(DateTime.Now, remindLaterTime);
 
-                        if (remindLaterTime != null)
-                        {
-                            DateTime remindLater = Convert.ToDateTime(remindLaterTime.ToString(),
-                                CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
-
-                            int compareResult = DateTime.Compare(DateTime.Now, remindLater);
-
-                            if (compareResult < 0)
-                            {
-                                e.Result = remindLater;
-                                return;
-                            }
-                        }
+                    if (compareResult < 0)
+                    {
+                        e.Result = remindLaterTime;
+                        return;
                     }
                 }
             }

@@ -124,14 +124,9 @@ namespace AutoUpdaterDotNET
 
         private void ButtonSkipClick(object sender, EventArgs e)
         {
-            using (RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation))
-            {
-                if (updateKey != null)
-                {
-                    updateKey.SetValue("version", _args.CurrentVersion);
-                    updateKey.SetValue("skip", 1);
-                }
-            }
+            // Update the persisted state. Indicate that user wants to ignore the current application version.
+            // This method makes the persistence handling independent from the storage method.
+            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion(true, _args.CurrentVersion);
         }
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
@@ -158,31 +153,26 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            using (RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation))
-            {
-                if (updateKey != null)
-                {
-                    updateKey.SetValue("version", _args.CurrentVersion);
-                    updateKey.SetValue("skip", 0);
-                    DateTime remindLaterDateTime = DateTime.Now;
-                    switch (AutoUpdater.RemindLaterTimeSpan)
-                    {
-                        case RemindLaterFormat.Days:
-                            remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
-                            break;
-                        case RemindLaterFormat.Hours:
-                            remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
-                            break;
-                        case RemindLaterFormat.Minutes:
-                            remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
-                            break;
-                    }
+            // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
+            // This method makes the persistence handling independent from the storage method.
+            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion(false, _args.CurrentVersion);
 
-                    updateKey.SetValue("remindlater",
-                        remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
-                    AutoUpdater.SetTimer(remindLaterDateTime);
-                }
+            DateTime remindLaterDateTime = DateTime.Now;
+            switch (AutoUpdater.RemindLaterTimeSpan)
+            {
+                case RemindLaterFormat.Days:
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
+                    break;
+                case RemindLaterFormat.Hours:
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
+                    break;
+                case RemindLaterFormat.Minutes:
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
+                    break;
             }
+
+            AutoUpdater.PersistenceProvider.SetRemindLater(remindLaterDateTime);
+            AutoUpdater.SetTimer(remindLaterDateTime);
 
             DialogResult = DialogResult.Cancel;
         }
