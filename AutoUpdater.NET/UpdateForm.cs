@@ -124,9 +124,7 @@ namespace AutoUpdaterDotNET
 
         private void ButtonSkipClick(object sender, EventArgs e)
         {
-            // Update the persisted state. Indicate that user wants to ignore the current application version.
-            // This method makes the persistence handling independent from the storage method.
-            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion(true, _args.CurrentVersion);
+            AutoUpdater.PersistenceProvider.SetSkippedVersion(new Version(_args.CurrentVersion));
         }
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
@@ -153,9 +151,7 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
-            // This method makes the persistence handling independent from the storage method.
-            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion(false, _args.CurrentVersion);
+            AutoUpdater.PersistenceProvider.SetSkippedVersion(null);
 
             DateTime remindLaterDateTime = DateTime.Now;
             switch (AutoUpdater.RemindLaterTimeSpan)

@@ -301,49 +301,55 @@ namespace AutoUpdaterDotNET
                     }
                     else
                     {
-                        var args = runWorkerCompletedEventArgs.Result as UpdateInfoEventArgs;
-                        if (CheckForUpdateEvent != null)
+                        if (runWorkerCompletedEventArgs.Result is UpdateInfoEventArgs args)
                         {
-                            CheckForUpdateEvent(args);
-                        }
-                        else
-                        {
-                            if (args.IsUpdateAvailable)
+                            if (CheckForUpdateEvent != null)
                             {
-                                if (!IsWinFormsApplication)
+                                CheckForUpdateEvent(args);
+                            }
+                            else
+                            {
+                                if (args.IsUpdateAvailable)
                                 {
-                                    Application.EnableVisualStyles();
-                                }
-
-                                if (Mandatory && UpdateMode == Mode.ForcedDownload)
-                                {
-                                    DownloadUpdate(args);
-                                    Exit();
-                                }
-                                else
-                                {
-                                    if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                    if (!IsWinFormsApplication)
                                     {
-                                        ShowUpdateForm(args);
+                                        Application.EnableVisualStyles();
+                                    }
+
+                                    if (Mandatory && UpdateMode == Mode.ForcedDownload)
+                                    {
+                                        DownloadUpdate(args);
+                                        Exit();
                                     }
                                     else
                                     {
-                                        Thread thread = new Thread(new ThreadStart(delegate { ShowUpdateForm(args); }));
-                                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                        thread.SetApartmentState(ApartmentState.STA);
-                                        thread.Start();
-                                        thread.Join();
+                                        if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                        {
+                                            ShowUpdateForm(args);
+                                        }
+                                        else
+                                        {
+                                            Thread thread = new Thread(new ThreadStart(delegate
+                                            {
+                                                ShowUpdateForm(args);
+                                            }));
+                                            thread.CurrentCulture =
+                                                thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                            thread.SetApartmentState(ApartmentState.STA);
+                                            thread.Start();
+                                            thread.Join();
+                                        }
                                     }
+
+                                    return;
                                 }
 
-                                return;
-                            }
-
-                            if (ReportErrors)
-                            {
-                                MessageBox.Show(Resources.UpdateUnavailableMessage,
-                                    Resources.UpdateUnavailableCaption,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (ReportErrors)
+                                {
+                                    MessageBox.Show(Resources.UpdateUnavailableMessage,
+                                        Resources.UpdateUnavailableCaption,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
                             }
                         }
                     }
@@ -435,27 +441,28 @@ namespace AutoUpdaterDotNET
             {
                 // Read the persisted state from the persistence provider.
                 // This method makes the persistence handling independent from the storage method.
-                if (PersistenceProvider.GetSkippedApplicationVersion(out var skip, out var skippedVersion))
+                var skippedVersion = PersistenceProvider.GetSkippedVersion();
+                if (skippedVersion != null)
                 {
-                    var skipVersion = new Version(skippedVersion);
                     var currentVersion = new Version(args.CurrentVersion);
-                    if (skip && currentVersion <= skipVersion)
+                    if (currentVersion <= skippedVersion)
                         return;
 
-                    if (currentVersion > skipVersion)
+                    if (currentVersion > skippedVersion)
                     {
-                        // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
-                        PersistenceProvider.SetSkippedApplicationVersion(false, args.CurrentVersion);
+                        // Update the persisted state. Its no longer makes sense to have this flag set as we are working on a newer application version.
+                        PersistenceProvider.SetSkippedVersion(null);
                     }
                 }
 
-                if (PersistenceProvider.GetRemindLater(out var remindLaterTime))
+                var remindLater = PersistenceProvider.GetRemindLater();
+                if (remindLater != null)
                 {
-                    int compareResult = DateTime.Compare(DateTime.Now, remindLaterTime);
+                    int compareResult = DateTime.Compare(DateTime.Now, remindLater.Value);
 
                     if (compareResult < 0)
                     {
-                        e.Result = remindLaterTime;
+                        e.Result = remindLater;
                         return;
                     }
                 }

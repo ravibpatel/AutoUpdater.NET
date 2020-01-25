@@ -23,86 +23,62 @@ namespace AutoUpdaterDotNET
             RegistryLocation = registryLocation;
         }
 
-        /// <summary>
-        /// Reads the flag indicating whether a specific version should be skipped or not.
-        /// </summary>
-        /// <param name="skip">On return, this output parameter will be filled with the current state for skip flag.</param>
-        /// <param name="version">On return, this output parameter will be filled with the current version code to be skipped. It should be ignored whenever the skip flag is set to <code>false</code>.</param>
-        /// <returns>Returns a value indicating whether the current state available in the storage is valid (<code>true</code>) or not (<code>false</code>).</returns>
-        /// <remarks>This function does not create the registry key if it does not exist.</remarks>
-        public bool GetSkippedApplicationVersion(out bool skip, out string version)
+        /// <inheritdoc />
+        public Version GetSkippedVersion()
         {
-            skip = false;
-            version = null;
-
-            using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
+            try
             {
-                if (updateKey == null)
-                    return false;
-
-                object skipRegKey = updateKey.GetValue("skip");
-                object versionRegKey = updateKey.GetValue("version");
-
-                if (skipRegKey == null || versionRegKey == null)
-                    return false;
-
-                skip = "1".Equals(skipRegKey.ToString());
-                version = versionRegKey.ToString();
-
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Reads the value containing the date and time at which the user must be given again the possibility to upgrade the application.
-        /// </summary>
-        /// <param name="remindLater">On return, this output parameter will be filled with the date and time at which the user must be given again the possibility to upgrade the application</param>
-        /// <returns>Returns a value indicating whether the current state available in the storage is valid (<code>true</code>) or not (<code>false</code>).</returns>
-        /// <remarks>This function does not create the registry key if it does not exist.</remarks>
-        public bool GetRemindLater(out DateTime remindLater)
-        {
-            remindLater = DateTime.MinValue;
-
-            using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
-            {
-                object remindLaterRegKey = updateKey?.GetValue("remindlater");
-
-                if (remindLaterRegKey == null)
-                    return false;
-
-                remindLater = Convert.ToDateTime(remindLaterRegKey.ToString(),
-                    CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
-
-                return true;
-            }
-        }
-
-        /// <summary>
-        /// Sets the values indicating the specific version that must be ignored by AutoUpdater.
-        /// </summary>
-        /// <param name="skip">Flag indicating that a specific version must be ignored (<code>true</code>) or not (<code>false</code>).</param>
-        /// <param name="version">Version code for the specific version that must be ignored. This value is taken into account only when <paramref name="skip"/> has value <code>true</code>.</param>
-        public void SetSkippedApplicationVersion(bool skip, string version)
-        {
-            using (RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation))
-            {
-                if (updateKeyWrite != null)
+                using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
                 {
-                    updateKeyWrite.SetValue("version", version);
-                    updateKeyWrite.SetValue("skip", skip ? 1 : 0);
+                    object versionValue = updateKey?.GetValue("version");
+
+                    if (versionValue != null)
+                    {
+                        return new Version(versionValue.ToString());
+                    }
                 }
             }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            return null;
         }
 
-        /// <summary>
-        /// Sets the date and time at which the user must be given again the possibility to upgrade the application.
-        /// </summary>
-        /// <param name="remindLater">Date and time at which the user must be given again the possibility to upgrade the application.</param>
+
+        /// <inheritdoc />
+        public DateTime? GetRemindLater()
+        {
+            using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
+            {
+                object remindLaterValue = updateKey?.GetValue("remindlater");
+
+                if (remindLaterValue != null)
+                {
+                    return Convert.ToDateTime(remindLaterValue.ToString(),
+                        CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
+                }
+
+                return null;
+            }
+        }
+
+        /// <inheritdoc />
+        public void SetSkippedVersion(Version version)
+        {
+            using (RegistryKey autoUpdaterKey = Registry.CurrentUser.CreateSubKey(RegistryLocation))
+            {
+                autoUpdaterKey?.SetValue("version", version != null ? version.ToString() : string.Empty);
+            }
+        }
+
+        /// <inheritdoc />
         public void SetRemindLater(DateTime remindLater)
         {
-            using (RegistryKey updateKeyWrite = Registry.CurrentUser.CreateSubKey(RegistryLocation))
+            using (RegistryKey autoUpdaterKey = Registry.CurrentUser.CreateSubKey(RegistryLocation))
             {
-                updateKeyWrite?.SetValue("remindlater",
+                autoUpdaterKey?.SetValue("remindlater",
                     remindLater.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
             }
         }
