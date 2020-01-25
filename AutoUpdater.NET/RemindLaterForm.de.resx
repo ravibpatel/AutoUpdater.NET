@@ -121,34 +121,34 @@
     <value>Später erinnern</value>
   </data>
   <data name="comboBoxRemindLater.Items" xml:space="preserve">
-    <value>Nach 30 Minuten</value>
+    <value>In 30 Minuten</value>
   </data>
   <data name="comboBoxRemindLater.Items1" xml:space="preserve">
-    <value>Nach 12 Stunden</value>
+    <value>In 12 Stunden</value>
   </data>
   <data name="comboBoxRemindLater.Items2" xml:space="preserve">
-    <value>Nach 1 Tag</value>
+    <value>In 1 Tag</value>
   </data>
   <data name="comboBoxRemindLater.Items3" xml:space="preserve">
-    <value>Nach 2 Tagen</value>
+    <value>In 2 Tagen</value>
   </data>
   <data name="comboBoxRemindLater.Items4" xml:space="preserve">
-    <value>Nach 4 Tagen</value>
+    <value>In 4 Tagen</value>
   </data>
   <data name="comboBoxRemindLater.Items5" xml:space="preserve">
-    <value>Nach 8 Tagen</value>
+    <value>In 8 Tagen</value>
   </data>
   <data name="comboBoxRemindLater.Items6" xml:space="preserve">
-    <value>Nach 10 Tagen</value>
+    <value>In 10 Tagen</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Es wird empfohlen jetzt das neue Update zu laden. Dies benötigt nur einige Minuten, je nach Internet Verbindung. Damit ist sichergestellt, dass die aktuellste Version dieser Anwendung zum Einsatz kommt.</value>
+    <value>Es wird empfohlen jetzt das neue Update herunterzuladen. Dies dauert nur einige Minuten, je nach Internetverbindung. Damit ist sichergestellt, dass die aktuellste Version dieser Anwendung genutzt wird.</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
-    <value>Soll das Update später geladen werden?</value>
+    <value>Soll das Update später heruntergeladen werden?</value>
   </data>
   <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>Nein, jetzt das Update laden (empfohlen)</value>
+    <value>Nein, jetzt das Update herunterladen (empfohlen)</value>
   </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
     <value>Ja, später erinnern:</value>

@@ -121,6 +121,6 @@
     <value>Aggiornamento software</value>
   </data>
   <data name="labelInformation.Text" xml:space="preserve">
-    <value>Scaricamento dell'aggiornamento...</value>
+    <value>Download dell'aggiornamento in corso...</value>
   </data>
 </root>

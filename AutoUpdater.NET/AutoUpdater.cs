@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -9,8 +10,8 @@ using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 using AutoUpdaterDotNET.Properties;
-//using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
@@ -36,29 +37,38 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
+    ///     Enum representing the effect of Mandatory flag.
+    /// </summary>
+    public enum Mode
+    {
+        /// <summary>
+        /// In this mode, it ignores Remind Later and Skip values set previously and hide both buttons.
+        /// </summary>
+        Normal,
+
+        /// <summary>
+        /// In this mode, it won't show close button in addition to Normal mode behaviour.
+        /// </summary>
+        Forced,
+
+        /// <summary>
+        /// In this mode, it will start downloading and applying update without showing standard update dialog in addition to Forced mode behaviour.
+        /// </summary>
+        ForcedDownload
+    }
+
+    /// <summary>
     ///     Main class that lets you auto update applications by setting some static fields and executing its Start method.
     /// </summary>
     public static class AutoUpdater
     {
         private static System.Timers.Timer _remindLaterTimer;
 
-        internal static String ChangelogURL;
-
-        internal static String DownloadURL;
-
-        internal static String InstallerArgs;
-
         internal static String RegistryLocation;
 
-        internal static String Checksum;
-
-        internal static String HashingAlgorithm;
-
-        internal static Version CurrentVersion;
-
-        internal static Version InstalledVersion;
-
         internal static bool IsWinFormsApplication;
+
+        internal static Uri BaseUri;
 
         internal static bool Running;
 
@@ -78,9 +88,34 @@ namespace AutoUpdaterDotNET
         public static String AppCastURL;
 
         /// <summary>
-        ///     Opens the download url in default browser if true. Very usefull if you have portable application.
+        /// Login/password/domain for FTP-request
+        /// </summary>
+        public static NetworkCredential FtpCredentials;
+
+        /// <summary>
+        ///     Opens the download URL in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
+
+        /// <summary>
+        ///     Set Basic Authentication credentials required to download the file.
+        /// </summary>
+        public static IAuthentication BasicAuthDownload;
+
+        /// <summary>
+        ///     Set Basic Authentication credentials required to download the XML file.
+        /// </summary>
+        public static IAuthentication BasicAuthXML;
+
+        /// <summary>
+        ///     Set Basic Authentication credentials to navigate to the change log URL. 
+        /// </summary>
+        public static IAuthentication BasicAuthChangeLog;
+
+        /// <summary>
+        ///     Set the User-Agent string to be used for HTTP web requests.
+        /// </summary>
+        public static string HttpUserAgent;
 
         /// <summary>
         ///     If this is true users can see the skip button.
@@ -119,9 +154,14 @@ namespace AutoUpdaterDotNET
         public static bool Mandatory;
 
         /// <summary>
+        ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
+        /// </summary>
+        public static Mode UpdateMode;
+
+        /// <summary>
         ///     Set Proxy server to use for all the web requests in AutoUpdater.NET.
         /// </summary>
-        public static WebProxy Proxy;
+        public static IWebProxy Proxy;
 
         /// <summary>
         /// Set this to an instance implementing the IPersistenceProvider interface for using a data storage method different from the default Windows Registry based one.
@@ -146,7 +186,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     A delegate type for hooking up update notifications.
         /// </summary>
-        /// <param name="args">An object containing all the parameters recieved from AppCast XML file. If there will be an error while looking for the XML file then this object will be null.</param>
+        /// <param name="args">An object containing all the parameters received from AppCast XML file. If there will be an error while looking for the XML file then this object will be null.</param>
         public delegate void CheckForUpdateEventHandler(UpdateInfoEventArgs args);
 
         /// <summary>
@@ -166,9 +206,9 @@ namespace AutoUpdaterDotNET
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
         /// <summary>
-        /// This flag is used for indicating that a previous user request for ignoring an application version must be disregarded.
+        ///     Set if you want the default update form to have a different size.
         /// </summary>
-        private static bool IgnoreRemindLaterAndSkip = false;
+        public static Size? UpdateFormSize = null;
 
         /// <summary>
         ///     Start checking for new version of application and display dialog to the user if update is available.
@@ -180,19 +220,15 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        /// Disregards a previous user request for ignoring an application version update.
+        ///     Start checking for new version of application via FTP and display dialog to the user if update is available.
         /// </summary>
-        /// <remarks>Al clears the timer for late reminding, if active.</remarks>
-        public static void SetIgnoreRemindLaterAndSkip(bool Ignore)
+        /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
+        /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
+        /// <param name="myAssembly">Assembly to use for version checking.</param>
+        public static void Start(String appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
         {
-            if (Ignore && (_remindLaterTimer != null))
-            {
-                _remindLaterTimer.Stop();
-                _remindLaterTimer.Close();
-                _remindLaterTimer = null;
-            }
-
-            IgnoreRemindLaterAndSkip = Ignore;
+            FtpCredentials = ftpCredentials;
+            Start(appCast, myAssembly);
         }
 
         /// <summary>
@@ -202,12 +238,22 @@ namespace AutoUpdaterDotNET
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(String appCast, Assembly myAssembly = null)
         {
+            try
+            {
+                ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
+                                                        (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+            }
+            catch (NotSupportedException)
+            {
+            }
+
             if (Mandatory && _remindLaterTimer != null)
             {
                 _remindLaterTimer.Stop();
                 _remindLaterTimer.Close();
                 _remindLaterTimer = null;
             }
+
             if (!Running && _remindLaterTimer == null)
             {
                 Running = true;
@@ -226,24 +272,43 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        private static void BackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
+        private static void BackgroundWorkerOnRunWorkerCompleted(object sender,
+            RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
         {
-            if (!runWorkerCompletedEventArgs.Cancelled)
+            if (runWorkerCompletedEventArgs.Error != null)
             {
-                if (runWorkerCompletedEventArgs.Result is DateTime)
+                if (ReportErrors)
                 {
-                    SetTimer((DateTime)runWorkerCompletedEventArgs.Result);
-                }
-                else
-                {
-                    var args = runWorkerCompletedEventArgs.Result as UpdateInfoEventArgs;
-                    if (CheckForUpdateEvent != null)
+                    if (runWorkerCompletedEventArgs.Error is WebException)
                     {
-                        CheckForUpdateEvent(args);
+                        MessageBox.Show(
+                            Resources.UpdateCheckFailedMessage,
+                            Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
-                        if (args != null)
+                        MessageBox.Show(runWorkerCompletedEventArgs.Error.ToString(),
+                            runWorkerCompletedEventArgs.GetType().ToString(), MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                if (!runWorkerCompletedEventArgs.Cancelled)
+                {
+                    if (runWorkerCompletedEventArgs.Result is DateTime time)
+                    {
+                        SetTimer(time);
+                    }
+                    else
+                    {
+                        var args = runWorkerCompletedEventArgs.Result as UpdateInfoEventArgs;
+                        if (CheckForUpdateEvent != null)
+                        {
+                            CheckForUpdateEvent(args);
+                        }
+                        else
                         {
                             if (args.IsUpdateAvailable)
                             {
@@ -251,47 +316,56 @@ namespace AutoUpdaterDotNET
                                 {
                                     Application.EnableVisualStyles();
                                 }
-                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+
+                                if (Mandatory && UpdateMode == Mode.ForcedDownload)
                                 {
-                                    ShowUpdateForm();
+                                    DownloadUpdate(args);
+                                    Exit();
                                 }
                                 else
                                 {
-                                    Thread thread = new Thread(ShowUpdateForm);
-                                    thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                    thread.SetApartmentState(ApartmentState.STA);
-                                    thread.Start();
-                                    thread.Join();
+                                    if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                    {
+                                        ShowUpdateForm(args);
+                                    }
+                                    else
+                                    {
+                                        Thread thread = new Thread(new ThreadStart(delegate { ShowUpdateForm(args); }));
+                                        thread.CurrentCulture = thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                        thread.SetApartmentState(ApartmentState.STA);
+                                        thread.Start();
+                                        thread.Join();
+                                    }
                                 }
+
                                 return;
                             }
-                            else
-                            {
-                                if (ReportErrors)
-                                {
-                                    MessageBox.Show(Resources.UpdateUnavailableMessage, Resources.UpdateUnavailableCaption,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
-                            }
-                        }
-                        else
-                        {
+
                             if (ReportErrors)
                             {
-                                MessageBox.Show(
-                                    Resources.UpdateCheckFailedMessage,
-                                    Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show(Resources.UpdateUnavailableMessage,
+                                    Resources.UpdateUnavailableCaption,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
                     }
                 }
             }
+
             Running = false;
         }
 
-        private static void ShowUpdateForm()
+        /// <summary>
+        /// Shows standard update dialog.
+        /// </summary>
+        public static void ShowUpdateForm(UpdateInfoEventArgs args)
         {
-            var updateForm = new UpdateForm();
+            var updateForm = new UpdateForm(args);
+            if (UpdateFormSize.HasValue)
+            {
+                updateForm.Size = UpdateFormSize.Value;
+            }
+
             if (updateForm.ShowDialog().Equals(DialogResult.OK))
             {
                 Exit();
@@ -300,11 +374,12 @@ namespace AutoUpdaterDotNET
 
         private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
         {
-            e.Cancel = true;
             Assembly mainAssembly = e.Argument as Assembly;
 
             var companyAttribute =
                 (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+            string appCompany = companyAttribute != null ? companyAttribute.Company : "";
+
             if (string.IsNullOrEmpty(AppTitle))
             {
                 var titleAttribute =
@@ -312,144 +387,41 @@ namespace AutoUpdaterDotNET
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
-            string appCompany = companyAttribute != null ? companyAttribute.Company : "";
-
             RegistryLocation = !string.IsNullOrEmpty(appCompany)
                 ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
                 : $@"Software\{AppTitle}\AutoUpdater";
 
-            if (PersistenceProvider == null)
-            {
-                PersistenceProvider = new RegistryPersistenceProvider( RegistryLocation );
-            }
+            BaseUri = new Uri(AppCastURL);
 
-            InstalledVersion = mainAssembly.GetName().Version;
-
-            var webRequest = WebRequest.Create(AppCastURL);
-            webRequest.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-            if (Proxy != null)
-            {
-                webRequest.Proxy = Proxy;
-            }
-            WebResponse webResponse;
-
-            try
-            {
-                webResponse = webRequest.GetResponse();
-            }
-            catch (Exception)
-            {
-                e.Cancel = false;
-                return;
-            }
             UpdateInfoEventArgs args;
-            using (Stream appCastStream = webResponse.GetResponseStream())
+            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
             {
-                if (appCastStream != null)
+                string xml = client.DownloadString(BaseUri);
+
+                if (ParseUpdateInfoEvent == null)
                 {
-                    if (ParseUpdateInfoEvent != null)
-                    {
-                        using (StreamReader streamReader = new StreamReader(appCastStream))
-                        {
-                            string data = streamReader.ReadToEnd();
-                            ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(data);
-                            ParseUpdateInfoEvent(parseArgs);
-                            args = parseArgs.UpdateInfo;
-                        }
-                    }
-                    else
-                    {
-                        XmlDocument receivedAppCastDocument = new XmlDocument();
-
-                        try
-                        {
-                            receivedAppCastDocument.Load(appCastStream);
-
-                            XmlNodeList appCastItems = receivedAppCastDocument.SelectNodes("item");
-
-                            args = new UpdateInfoEventArgs();
-
-                            if (appCastItems != null)
-                            {
-                                foreach (XmlNode item in appCastItems)
-                                {
-                                    XmlNode appCastVersion = item.SelectSingleNode("version");
-
-                                    try
-                                    {
-                                        CurrentVersion = new Version(appCastVersion?.InnerText);
-                                    }
-                                    catch (Exception)
-                                    {
-                                        CurrentVersion = null;
-                                    }
-
-                                    args.CurrentVersion = CurrentVersion;
-
-                                    XmlNode appCastChangeLog = item.SelectSingleNode("changelog");
-
-                                    args.ChangelogURL = appCastChangeLog?.InnerText;
-
-                                    XmlNode appCastUrl = item.SelectSingleNode("url");
-
-                                    args.DownloadURL = appCastUrl?.InnerText;
-
-                                    if (Mandatory.Equals(false))
-                                    {
-                                        XmlNode mandatory = item.SelectSingleNode("mandatory");
-
-                                        Boolean.TryParse(mandatory?.InnerText, out Mandatory);
-                                    }
-
-                                    args.Mandatory = Mandatory;
-
-                                    XmlNode appArgs = item.SelectSingleNode("args");
-
-                                    args.InstallerArgs = appArgs?.InnerText;
-
-                                    XmlNode checksum = item.SelectSingleNode("checksum");
-
-                                    args.HashingAlgorithm = checksum?.Attributes["algorithm"]?.InnerText;
-
-                                    args.Checksum = checksum?.InnerText;
-                                }
-                            }
-                        }
-                        catch (XmlException)
-                        {
-                            e.Cancel = false;
-                            webResponse.Close();
-                            return;
-                        }
-                    }
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
+                    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) {XmlResolver = null};
+                    args = (UpdateInfoEventArgs) xmlSerializer.Deserialize(xmlTextReader);
                 }
                 else
                 {
-                    e.Cancel = false;
-                    webResponse.Close();
-                    return;
+                    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
+                    ParseUpdateInfoEvent(parseArgs);
+                    args = parseArgs.UpdateInfo;
                 }
             }
 
-            if (args.CurrentVersion == null || string.IsNullOrEmpty(args.DownloadURL))
+            if (!Mandatory)
             {
-                webResponse.Close();
-                if (ReportErrors)
-                {
-                    throw new InvalidDataException();
-                }
-                return;
+                Mandatory = args.Mandatory;
+                UpdateMode = args.UpdateMode;
             }
 
-            CurrentVersion = args.CurrentVersion;
-            ChangelogURL = args.ChangelogURL = GetURL(webResponse.ResponseUri, args.ChangelogURL);
-            DownloadURL = args.DownloadURL = GetURL(webResponse.ResponseUri, args.DownloadURL);
-            Mandatory = args.Mandatory;
-            InstallerArgs = args.InstallerArgs ?? String.Empty;
-            HashingAlgorithm = args.HashingAlgorithm ?? "MD5";
-            Checksum = args.Checksum ?? String.Empty;
-
-            webResponse.Close();
+            if (string.IsNullOrEmpty(args.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))
+            {
+                throw new InvalidDataException();
+            }
 
             if (Mandatory)
             {
@@ -458,62 +430,38 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (!IgnoreRemindLaterAndSkip)
+                // Read the persisted state from the persistence provider.
+                // This method makes the persistence handling independent from the storage method.
+                if (PersistenceProvider.GetSkippedApplicationVersion(out var skip, out var skippedVersion))
                 {
-                    bool Skip;
-                    string SkippedVersion;
-                    DateTime RemaindLaterTime;
+                    var skipVersion = new Version(skippedVersion);
+                    var currentVersion = new Version(args.CurrentVersion);
+                    if (skip && currentVersion <= skipVersion)
+                        return;
 
-                    // Read the persisted state from the persistance provider.
-                    // This method makes the persistance handling independent from the storage method.
-                    if (PersistenceProvider.GetSkippedApplicationVersion(out Skip, out SkippedVersion))
+                    if (currentVersion > skipVersion)
                     {
-                        var skipVersion = new Version( SkippedVersion.ToString() );
-
-                        if (Skip && (CurrentVersion <= skipVersion))
-                            return;
-
-                        if (CurrentVersion > skipVersion)
-                        {
-                            // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
-                            PersistenceProvider.SetSkippedApplicationVersion( false, CurrentVersion.ToString() );
-                        }
+                        // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
+                        PersistenceProvider.SetSkippedApplicationVersion(false, args.CurrentVersion);
                     }
+                }
 
-                    if (PersistenceProvider.GetRemaindLater(out RemaindLaterTime ))
+                if (PersistenceProvider.GetRemindLater(out var remindLaterTime))
+                {
+                    int compareResult = DateTime.Compare(DateTime.Now, remindLaterTime);
+
+                    if (compareResult < 0)
                     {
-                        int compareResult = DateTime.Compare( DateTime.Now, RemaindLaterTime );
-
-                        if (compareResult < 0)
-                        {
-                            e.Cancel = false;
-                            e.Result = RemaindLaterTime;
-                            return;
-                        }
+                        e.Result = remindLaterTime;
+                        return;
                     }
                 }
             }
 
-            args.IsUpdateAvailable = CurrentVersion > InstalledVersion;
-            args.InstalledVersion = InstalledVersion;
+            args.InstalledVersion = mainAssembly.GetName().Version;
+            args.IsUpdateAvailable = new Version(args.CurrentVersion) > mainAssembly.GetName().Version;
 
-            e.Cancel = false;
             e.Result = args;
-        }
-
-        private static string GetURL(Uri baseUri, String url)
-        {
-            if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Relative))
-            {
-                Uri uri = new Uri(baseUri, url);
-
-                if (uri.IsAbsoluteUri)
-                {
-                    url = uri.AbsoluteUri;
-                }
-            }
-
-            return url;
         }
 
         /// <summary>
@@ -543,12 +491,15 @@ namespace AutoUpdaterDotNET
                     }
 
                     if (process.Id != currentProcess.Id &&
-                        currentProcess.MainModule.FileName == processPath) //get all instances of assembly except current
+                        currentProcess.MainModule.FileName == processPath
+                    ) //get all instances of assembly except current
                     {
                         if (process.CloseMainWindow())
                         {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10).TotalMilliseconds); //give some time to process message
+                            process.WaitForExit((int) TimeSpan.FromSeconds(10)
+                                .TotalMilliseconds); //give some time to process message
                         }
+
                         if (!process.HasExited)
                         {
                             process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
@@ -582,7 +533,13 @@ namespace AutoUpdaterDotNET
             {
                 return null;
             }
+
             return (Attribute) attributes[0];
+        }
+
+        internal static string GetUserAgent()
+        {
+            return string.IsNullOrEmpty(HttpUserAgent) ? $"AutoUpdater.NET" : HttpUserAgent;
         }
 
         internal static void SetTimer(DateTime remindLater)
@@ -623,9 +580,9 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Opens the Download window that download the update and execute the installer when download completes.
         /// </summary>
-        public static bool DownloadUpdate()
+        public static bool DownloadUpdate(UpdateInfoEventArgs args)
         {
-            var downloadDialog = new DownloadUpdateDialog(DownloadURL);
+            var downloadDialog = new DownloadUpdateDialog(args);
 
             try
             {
@@ -634,83 +591,37 @@ namespace AutoUpdaterDotNET
             catch (TargetInvocationException)
             {
             }
+
             return false;
         }
-    }
 
-    /// <summary>
-    ///     Object of this class gives you all the details about the update useful in handling the update logic yourself.
-    /// </summary>
-    public class UpdateInfoEventArgs : EventArgs
-    {
-        /// <summary>
-        ///     If new update is available then returns true otherwise false.
-        /// </summary>
-        public bool IsUpdateAvailable { get; set; }
-
-        /// <summary>
-        ///     Download URL of the update file.
-        /// </summary>
-        public string DownloadURL { get; set; }
-
-        /// <summary>
-        ///     URL of the webpage specifying changes in the new update.
-        /// </summary>
-        public string ChangelogURL { get; set; }
-
-        /// <summary>
-        ///     Returns newest version of the application available to download.
-        /// </summary>
-        public Version CurrentVersion { get; set; }
-
-        /// <summary>
-        ///     Returns version of the application currently installed on the user's PC.
-        /// </summary>
-        public Version InstalledVersion { get; set; }
-
-        /// <summary>
-        ///     Shows if the update is required or optional.
-        /// </summary>
-        public bool Mandatory { get; set; }
-
-        /// <summary>
-        ///     Command line arguments used by Installer.
-        /// </summary>
-        public string InstallerArgs { get; set; }
-
-        /// <summary>
-        ///     Checksum of the update file.
-        /// </summary>
-        public string Checksum { get; set; }
-
-        /// <summary>
-        ///     Hash algorithm that generated the checksum provided in the XML file.
-        /// </summary>
-        public string HashingAlgorithm { get; set; }
-    }
-
-    /// <summary>
-    ///     An object of this class contains the AppCast file received from server..
-    /// </summary>
-    public class ParseUpdateInfoEventArgs : EventArgs
-    {
-        /// <summary>
-        ///     Remote data received from the AppCast file.
-        /// </summary>
-        public string RemoteData { get; }
-
-        /// <summary>
-        ///      Set this object with values received from the AppCast file.
-        /// </summary>
-        public UpdateInfoEventArgs UpdateInfo { get; set; }
-
-        /// <summary>
-        ///     An object containing the AppCast file received from server.
-        /// </summary>
-        /// <param name="remoteData">A string containing remote data received from the AppCast file.</param>
-        public ParseUpdateInfoEventArgs(string remoteData)
+        internal static MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
         {
-            RemoteData = remoteData;
+            MyWebClient webClient = new MyWebClient
+            {
+                CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
+            };
+
+            if (Proxy != null)
+            {
+                webClient.Proxy = Proxy;
+            }
+
+            if (uri.Scheme.Equals(Uri.UriSchemeFtp))
+            {
+                webClient.Credentials = FtpCredentials;
+            }
+            else
+            {
+                if (basicAuthentication != null)
+                {
+                    webClient.Headers[HttpRequestHeader.Authorization] = basicAuthentication.ToString();
+                }
+
+                webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
+            }
+
+            return webClient;
         }
     }
 }

@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>Ricordamelo dopo</value>
+    <value>Ricordamelo più tardi</value>
   </data>
   <data name="comboBoxRemindLater.Items" xml:space="preserve">
-    <value>Dopo 30 minuti</value>
+    <value>Tra 30 minuti</value>
   </data>
   <data name="comboBoxRemindLater.Items1" xml:space="preserve">
-    <value>Dopo 12 ore</value>
+    <value>Tra 12 ore</value>
   </data>
   <data name="comboBoxRemindLater.Items2" xml:space="preserve">
-    <value>Dopo 1 giorno</value>
+    <value>Tra 1 giorno</value>
   </data>
   <data name="comboBoxRemindLater.Items3" xml:space="preserve">
-    <value>Dopo 2 giorni</value>
+    <value>Tra 2 giorni</value>
   </data>
   <data name="comboBoxRemindLater.Items4" xml:space="preserve">
-    <value>Dopo 4 giorni</value>
+    <value>Tra 4 giorni</value>
   </data>
   <data name="comboBoxRemindLater.Items5" xml:space="preserve">
-    <value>Dopo 8 giorni</value>
+    <value>Tra 8 giorni</value>
   </data>
   <data name="comboBoxRemindLater.Items6" xml:space="preserve">
-    <value>Dopo 10 giorni</value>
+    <value>Tra 10 giorni</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Si consiglia di scaricare gli aggiornamenti ora. Questo richiede solo pochi minuti a seconda della vostra connessione internet e garantirvi sempre la versione più recente dell'applicazione.</value>
+    <value>Si consiglia di scaricare gli aggiornamenti ora. Questa operazione richiede soltanto pochi minuti, a seconda della vostra connessione internet, e permette di avere sempre l'ultima versione aggiornata dell'applicazione.</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
     <value>Vuoi scaricare gli aggiornamenti più tardi?</value>
   </data>
   <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>No, scaricare gli aggiornamenti ora (consigliato)</value>
+    <value>No, scarica gli aggiornamenti adesso (consigliato)</value>
   </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Sì, per favore Ricorda in seguito:</value>
+    <value>Sì, ricordamelo in seguito:</value>
   </data>
 </root>

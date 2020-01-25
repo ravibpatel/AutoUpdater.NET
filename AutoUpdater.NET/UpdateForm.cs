@@ -10,42 +10,28 @@ namespace AutoUpdaterDotNET
 {
     internal partial class UpdateForm : Form
     {
-        private bool HideReleaseNotes { get; set; }
+        private readonly UpdateInfoEventArgs _args;
 
-        public UpdateForm()
+        public UpdateForm(UpdateInfoEventArgs args)
         {
+            _args = args;
             InitializeComponent();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
             Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
-                AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
+                AutoUpdater.AppTitle, _args.CurrentVersion);
             labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
                 AutoUpdater.AppTitle);
             labelDescription.Text =
                 string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
-                    AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
-            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
+                    AutoUpdater.AppTitle, _args.CurrentVersion, _args.InstalledVersion);
+
+            if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
-                HideReleaseNotes = true;
-                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
-                labelReleaseNotes.Hide();
-                webBrowser.Hide();
-
-                Height -= reduceHeight;
-
-                buttonSkip.Location = new Point(buttonSkip.Location.X, buttonSkip.Location.Y - reduceHeight);
-                buttonRemindLater.Location = new Point(buttonRemindLater.Location.X,
-                    buttonRemindLater.Location.Y - reduceHeight);
-                buttonUpdate.Location = new Point(buttonUpdate.Location.X, buttonUpdate.Location.Y - reduceHeight);
+                ControlBox = false;
             }
-        }
-
-        public sealed override string Text
-        {
-            get { return  base.Text; }
-            set { base.Text = value; }
         }
 
         private void UseLatestIE()
@@ -69,31 +55,59 @@ namespace AutoUpdaterDotNET
                     ieValue = 7000;
                     break;
             }
+
             if (ieValue != 0)
             {
-                using (RegistryKey registryKey =
-                    Registry.CurrentUser.OpenSubKey(
-                        @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                try
                 {
-                    registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName), ieValue,
-                        RegistryValueKind.DWord);
+                    using (RegistryKey registryKey =
+                        Registry.CurrentUser.OpenSubKey(
+                            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
+                            true))
+                    {
+                        registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName),
+                            ieValue,
+                            RegistryValueKind.DWord);
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
         }
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            if (!HideReleaseNotes)
+            if (string.IsNullOrEmpty(_args.ChangelogURL))
             {
-                webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                labelReleaseNotes.Hide();
+                webBrowser.Hide();
+                Height -= reduceHeight;
             }
+            else
+            {
+                if (null != AutoUpdater.BasicAuthChangeLog)
+                {
+                    webBrowser.Navigate(_args.ChangelogURL, "", null,
+                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                }
+                else
+                {
+                    webBrowser.Navigate(_args.ChangelogURL);
+                }
+            }
+
+            var labelSize = new Size(Width - 110, 0);
+            labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
         }
 
         private void ButtonUpdateClick(object sender, EventArgs e)
         {
             if (AutoUpdater.OpenDownloadPage)
             {
-                var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
+                var processStartInfo = new ProcessStartInfo(_args.DownloadURL);
 
                 Process.Start(processStartInfo);
 
@@ -101,7 +115,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (AutoUpdater.DownloadUpdate())
+                if (AutoUpdater.DownloadUpdate(_args))
                 {
                     DialogResult = DialogResult.OK;
                 }
@@ -111,8 +125,8 @@ namespace AutoUpdaterDotNET
         private void ButtonSkipClick(object sender, EventArgs e)
         {
             // Update the persisted state. Indicate that user wants to ignore the current application version.
-            // This method makes the persistance handling independent from the storage method.
-            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion( true, AutoUpdater.CurrentVersion.ToString() );
+            // This method makes the persistence handling independent from the storage method.
+            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion(true, _args.CurrentVersion);
         }
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
@@ -140,8 +154,8 @@ namespace AutoUpdaterDotNET
             }
 
             // Update the persisted state. It no longer makes sense to have this flags set as we are working on a newer application version.
-            // This method makes the persistance handling independent from the storage method.
-            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion( false, AutoUpdater.CurrentVersion.ToString() );
+            // This method makes the persistence handling independent from the storage method.
+            AutoUpdater.PersistenceProvider.SetSkippedApplicationVersion(false, _args.CurrentVersion);
 
             DateTime remindLaterDateTime = DateTime.Now;
             switch (AutoUpdater.RemindLaterTimeSpan)
@@ -158,7 +172,7 @@ namespace AutoUpdaterDotNET
 
             }
 
-            AutoUpdater.PersistenceProvider.SetRemaindLater( remindLaterDateTime );
+            AutoUpdater.PersistenceProvider.SetRemindLater( remindLaterDateTime );
             AutoUpdater.SetTimer( remindLaterDateTime );
 
             DialogResult = DialogResult.Cancel;

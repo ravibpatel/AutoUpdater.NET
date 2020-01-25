@@ -130,7 +130,7 @@
     <value>Güncelle</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} versiyonu hazır. Blgisayarınızda  {2} versiyonu kurulu. Güncellemeyi kurmak istediğinize emin misiniz?</value>
+    <value>{0} {1} versiyonu hazır. Bilgisayarınızda  {2} versiyonu kurulu. Güncellemeyi kurmak istediğinize emin misiniz?</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Sürüm Notları:</value>

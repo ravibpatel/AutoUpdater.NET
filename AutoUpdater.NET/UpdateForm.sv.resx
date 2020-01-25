@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="buttonSkip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 28</value>
+  </data>
   <data name="labelUpdate.Text" xml:space="preserve">
     <value>En ny version av {0} är tillgänglig!</value>
   </data>
