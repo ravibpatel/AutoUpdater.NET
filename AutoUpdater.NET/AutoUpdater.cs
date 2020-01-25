@@ -64,8 +64,6 @@ namespace AutoUpdaterDotNET
     {
         private static System.Timers.Timer _remindLaterTimer;
 
-        internal static String RegistryLocation;
-
         internal static bool IsWinFormsApplication;
 
         internal static Uri BaseUri;
@@ -387,9 +385,14 @@ namespace AutoUpdaterDotNET
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
-            RegistryLocation = !string.IsNullOrEmpty(appCompany)
+            string registryLocation = !string.IsNullOrEmpty(appCompany)
                 ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
                 : $@"Software\{AppTitle}\AutoUpdater";
+
+            if (PersistenceProvider == null)
+            {
+                PersistenceProvider = new RegistryPersistenceProvider(registryLocation);
+            }
 
             BaseUri = new Uri(AppCastURL);
 

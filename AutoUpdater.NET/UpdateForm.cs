@@ -161,19 +161,18 @@ namespace AutoUpdaterDotNET
             switch (AutoUpdater.RemindLaterTimeSpan)
             {
                 case RemindLaterFormat.Days:
-                remindLaterDateTime = DateTime.Now + TimeSpan.FromDays( AutoUpdater.RemindLaterAt );
-                break;
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
+                    break;
                 case RemindLaterFormat.Hours:
-                remindLaterDateTime = DateTime.Now + TimeSpan.FromHours( AutoUpdater.RemindLaterAt );
-                break;
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
+                    break;
                 case RemindLaterFormat.Minutes:
-                remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes( AutoUpdater.RemindLaterAt );
-                break;
-
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
+                    break;
             }
 
-            AutoUpdater.PersistenceProvider.SetRemindLater( remindLaterDateTime );
-            AutoUpdater.SetTimer( remindLaterDateTime );
+            AutoUpdater.PersistenceProvider.SetRemindLater(remindLaterDateTime);
+            AutoUpdater.SetTimer(remindLaterDateTime);
 
             DialogResult = DialogResult.Cancel;
         }
