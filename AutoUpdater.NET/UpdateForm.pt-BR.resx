@@ -118,42 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="$this.Text" xml:space="preserve">
-    <value>Recordar-me mais tarde</value>
+    <value>Versão {1} disponível</value>
   </data>
-  <data name="buttonOK.Text" xml:space="preserve">
-    <value>OK</value>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Lembrar mais tarde</value>
   </data>
-  <data name="comboBoxRemindLater.Items" xml:space="preserve">
-    <value>Daqui a 30 minutos</value>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Ignorar esta versão</value>
   </data>
-  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
-    <value>Daqui a 12 horas</value>
-  </data>
-  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
-    <value>Daqui a 1 dia</value>
-  </data>
-  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
-    <value>Daqui a 2 dias</value>
-  </data>
-  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
-    <value>Daqui a 4 dias</value>
-  </data>
-  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
-    <value>Daqui a 8 dias</value>
-  </data>
-  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
-    <value>Daqui a 10 dias</value>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Atualizar</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Deverá transferir a atualização agora. Dependendo da sua ligação à internet, demora apenas alguns minutos e assegura que tem a última versão da aplicação</value>
+    <value>Versão {1} de {0} está disponível. A versão instalada atualmente é a {2}. Deseja atualizar agora?</value>
   </data>
-  <data name="labelTitle.Text" xml:space="preserve">
-    <value>Deseja transferir a atualização mais tarde?</value>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Notas sobre a versão</value>
   </data>
-  <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>Não</value>
-  </data>
-  <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Sim</value>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>Nova versão de {0} disponível para download</value>
   </data>
 </root>
