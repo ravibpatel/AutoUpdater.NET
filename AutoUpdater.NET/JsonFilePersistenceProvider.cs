@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
@@ -84,13 +83,7 @@ namespace AutoUpdaterDotNET
         /// <inheritdoc />
         public DateTime? GetRemindLater()
         {
-            if (!string.IsNullOrEmpty(PersistedValues.RemindLater))
-            {
-                return Convert.ToDateTime(PersistedValues.RemindLater,
-                    CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
-            }
-
-            return null;
+            return PersistedValues.RemindLaterAt;
         }
 
         /// <inheritdoc />
@@ -101,10 +94,9 @@ namespace AutoUpdaterDotNET
         }
 
         /// <inheritdoc />
-        public void SetRemindLater(DateTime remindLater)
+        public void SetRemindLater(DateTime? remindLaterAt)
         {
-            PersistedValues.RemindLater =
-                remindLater.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
+            PersistedValues.RemindLaterAt = remindLaterAt;
             Save();
         }
     }
@@ -126,6 +118,6 @@ namespace AutoUpdaterDotNET
         /// Date and time at which the user must be given again the possibility to upgrade the application.
         /// </summary>
         [DataMember]
-        public string RemindLater { get; set; }
+        public DateTime? RemindLaterAt { get; set; }
     }
 }

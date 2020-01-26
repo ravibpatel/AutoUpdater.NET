@@ -14,6 +14,10 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public string RegistryLocation { get; }
 
+        private const string RemindLaterValueName = "RemindLaterAt";
+
+        private const string SkippedVersionValueName = "SkippedVersion";
+
         /// <summary>
         /// Initializes a new instance of the RegistryPersistenceProvider class indicating the path for the Windows registry key to use for storing the data.
         /// </summary>
@@ -30,11 +34,11 @@ namespace AutoUpdaterDotNET
             {
                 using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
                 {
-                    object versionValue = updateKey?.GetValue("version");
+                    object skippedVersionValue = updateKey?.GetValue(SkippedVersionValueName);
 
-                    if (versionValue != null)
+                    if (skippedVersionValue != null)
                     {
-                        return new Version(versionValue.ToString());
+                        return new Version(skippedVersionValue.ToString());
                     }
                 }
             }
@@ -52,7 +56,7 @@ namespace AutoUpdaterDotNET
         {
             using (RegistryKey updateKey = Registry.CurrentUser.OpenSubKey(RegistryLocation))
             {
-                object remindLaterValue = updateKey?.GetValue("remindlater");
+                object remindLaterValue = updateKey?.GetValue(RemindLaterValueName);
 
                 if (remindLaterValue != null)
                 {
@@ -69,17 +73,19 @@ namespace AutoUpdaterDotNET
         {
             using (RegistryKey autoUpdaterKey = Registry.CurrentUser.CreateSubKey(RegistryLocation))
             {
-                autoUpdaterKey?.SetValue("version", version != null ? version.ToString() : string.Empty);
+                autoUpdaterKey?.SetValue(SkippedVersionValueName, version != null ? version.ToString() : string.Empty);
             }
         }
 
         /// <inheritdoc />
-        public void SetRemindLater(DateTime remindLater)
+        public void SetRemindLater(DateTime? remindLaterAt)
         {
             using (RegistryKey autoUpdaterKey = Registry.CurrentUser.CreateSubKey(RegistryLocation))
             {
-                autoUpdaterKey?.SetValue("remindlater",
-                    remindLater.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
+                autoUpdaterKey?.SetValue(RemindLaterValueName,
+                    remindLaterAt != null
+                        ? remindLaterAt.Value.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat)
+                        : string.Empty);
             }
         }
     }

@@ -131,23 +131,24 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.LetUserSelectRemindLater)
             {
-                var remindLaterForm = new RemindLaterForm();
+                using (var remindLaterForm = new RemindLaterForm())
+                {
+                    var dialogResult = remindLaterForm.ShowDialog();
 
-                var dialogResult = remindLaterForm.ShowDialog();
-
-                if (dialogResult.Equals(DialogResult.OK))
-                {
-                    AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
-                    AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
-                }
-                else if (dialogResult.Equals(DialogResult.Abort))
-                {
-                    ButtonUpdateClick(sender, e);
-                    return;
-                }
-                else
-                {
-                    return;
+                    if (dialogResult.Equals(DialogResult.OK))
+                    {
+                        AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
+                        AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
+                    }
+                    else if (dialogResult.Equals(DialogResult.Abort))
+                    {
+                        ButtonUpdateClick(sender, e);
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
 

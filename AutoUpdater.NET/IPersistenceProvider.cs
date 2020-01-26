@@ -28,7 +28,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         /// Sets the date and time at which the user must be given again the possibility to upgrade the application.
         /// </summary>
-        /// <param name="remindLater">Date and time at which the user must be given again the possibility to upgrade the application.</param>
-        void SetRemindLater(DateTime remindLater);
+        /// <param name="remindLaterAt">Date and time at which the user must be given again the possibility to upgrade the application.</param>
+        void SetRemindLater(DateTime? remindLaterAt);
     }
 }

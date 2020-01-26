@@ -88,17 +88,12 @@
         <Reference Include="System.Xaml" />
       </ItemGroup>
     </When>
-	<When Condition=" '$(TargetFrameworkVersion)' != 'v2.0' ">
-		<ItemGroup>
-			<Reference Include="System.Runtime.Serialization" />
-			<Compile Include="JsonFilePersistenceProvider.cs" />
-		</ItemGroup>
-	</When>
   </Choose>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+	<Reference Include="System.Runtime.Serialization" Condition=" '$(TargetFrameworkVersion)' != 'v2.0' "/>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -114,6 +109,7 @@
     </Compile>
     <Compile Include="IAuthentication.cs" />
     <Compile Include="IPersistenceProvider.cs" />
+	<Compile Include="JsonFilePersistenceProvider.cs" Condition=" '$(TargetFrameworkVersion)' != 'v2.0' "/>
     <Compile Include="MyWebClient.cs">
       <SubType>Component</SubType>
     </Compile>

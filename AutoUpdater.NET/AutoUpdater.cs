@@ -364,15 +364,17 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static void ShowUpdateForm(UpdateInfoEventArgs args)
         {
-            var updateForm = new UpdateForm(args);
-            if (UpdateFormSize.HasValue)
+            using (var updateForm = new UpdateForm(args))
             {
-                updateForm.Size = UpdateFormSize.Value;
-            }
+                if (UpdateFormSize.HasValue)
+                {
+                    updateForm.Size = UpdateFormSize.Value;
+                }
 
-            if (updateForm.ShowDialog().Equals(DialogResult.OK))
-            {
-                Exit();
+                if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                {
+                    Exit();
+                }
             }
         }
 
@@ -455,14 +457,14 @@ namespace AutoUpdaterDotNET
                     }
                 }
 
-                var remindLater = PersistenceProvider.GetRemindLater();
-                if (remindLater != null)
+                var remindLaterAt = PersistenceProvider.GetRemindLater();
+                if (remindLaterAt != null)
                 {
-                    int compareResult = DateTime.Compare(DateTime.Now, remindLater.Value);
+                    int compareResult = DateTime.Compare(DateTime.Now, remindLaterAt.Value);
 
                     if (compareResult < 0)
                     {
-                        e.Result = remindLater;
+                        e.Result = remindLaterAt.Value;
                         return;
                     }
                 }
@@ -592,14 +594,15 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool DownloadUpdate(UpdateInfoEventArgs args)
         {
-            var downloadDialog = new DownloadUpdateDialog(args);
-
-            try
+            using (var downloadDialog = new DownloadUpdateDialog(args))
             {
-                return downloadDialog.ShowDialog().Equals(DialogResult.OK);
-            }
-            catch (TargetInvocationException)
-            {
+                try
+                {
+                    return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+                }
+                catch (TargetInvocationException)
+                {
+                }
             }
 
             return false;
