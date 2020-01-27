@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -106,7 +107,8 @@ namespace AutoUpdaterTest
             //Uncomment following if you want to update using FTP.
             //AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
 
-            //AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider("F:/test.json");
+            //string jsonPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
+            //AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
 
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }

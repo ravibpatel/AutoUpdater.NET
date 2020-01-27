@@ -6,7 +6,9 @@ AutoUpdater.NET is a class library that allows .NET developers to easily add aut
 
 # The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
 
-    PM> Install-Package Autoupdater.NET.Official
+````powershell
+PM> Install-Package Autoupdater.NET.Official
+````
 
 ## How it works
 
@@ -62,7 +64,7 @@ AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
 
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.
 
-    AutoUpdater.Start should be called from UI thread.
+> AutoUpdater.Start should be called from UI thread.
 
 ### Current version detection
 
@@ -133,7 +135,7 @@ AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = AutoUpdater.BasicAuth
 ````
 
 ### Set User-Agent for http web requests
-	
+
 Set the User-Agent string to be used for HTTP web requests so you can differentiate them in your web server request logs.
 
 ````csharp
@@ -205,6 +207,19 @@ You can specify the size of the update form by using below code.
 ````csharp
 AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 ````
+
+### Change storage method of Remind Later and Skip options
+
+You can change how AutoUpdater.NET saves the Remind Later and Skip values by assigning the PersistenceProvider. If you don't provide a PersistenceProvider then it will save the values in Windows registy.
+
+If you are using .NET 4.0 or above then you can use JsonFilePersistenceProvider instead of default RegistryPersistenceProvider as shown below.
+
+````csharp
+string jsonPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
+AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
+````
+
+You can create your own PersistenceProvider by implementing [IPersistenceProvider](https://github.com/ravibpatel/AutoUpdater.NET/blob/master/AutoUpdater.NET/IPersistenceProvider.cs) interface.
 
 ## Check updates frequently
 
@@ -285,7 +300,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
             }
 
             // Uncomment the following line if you want to show standard update dialog instead.
-            // AutoUpdater.ShowUpdateForm();
+            // AutoUpdater.ShowUpdateForm(args);
 
             if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
             {
