@@ -77,9 +77,9 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public string HashingAlgorithm { get; set; }
 
-        internal static string GetURL(Uri baseUri, String url)
+        internal static string GetURL(Uri baseUri, string url)
         {
-            if (!String.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Relative))
+            if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Relative))
             {
                 Uri uri = new Uri(baseUri, url);
 

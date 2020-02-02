@@ -144,8 +144,17 @@ namespace AutoUpdaterDotNET
 
                     File.WriteAllBytes(installerPath, Resources.ZipExtractor);
 
+                    string executablePath = Process.GetCurrentProcess().MainModule.FileName;
+                    string extractionPath = Path.GetDirectoryName(executablePath);
+
+                    if (!string.IsNullOrEmpty(AutoUpdater.InstallationPath) &&
+                        Directory.Exists(AutoUpdater.InstallationPath))
+                    {
+                        extractionPath = AutoUpdater.InstallationPath;
+                    }
+
                     StringBuilder arguments =
-                        new StringBuilder($"\"{tempPath}\" \"{Process.GetCurrentProcess().MainModule.FileName}\"");
+                        new StringBuilder($"\"{tempPath}\" \"{extractionPath}\" \"{executablePath}\"");
                     string[] args = Environment.GetCommandLineArgs();
                     for (int i = 1; i < args.Length; i++)
                     {
@@ -204,7 +213,7 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        private static String BytesToString(long byteCount)
+        private static string BytesToString(long byteCount)
         {
             string[] suf = {"B", "KB", "MB", "GB", "TB", "PB", "EB"};
             if (byteCount == 0)
@@ -226,7 +235,7 @@ namespace AutoUpdaterDotNET
                     if (hashAlgorithm != null)
                     {
                         var hash = hashAlgorithm.ComputeHash(stream);
-                        var fileChecksum = BitConverter.ToString(hash).Replace("-", String.Empty).ToLowerInvariant();
+                        var fileChecksum = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
 
                         if (fileChecksum == checksum.Text.ToLower()) return;
 

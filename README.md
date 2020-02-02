@@ -200,6 +200,18 @@ You can specify where you want to download the update file by assigning Download
 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
 ````
 
+### Specify where to extract zip file containing updated files
+
+If you are using a zip file as an update file then you can set this value to path where your app is installed. This is only necessary when your installation directory differs from your executable path.
+
+````csharp
+var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+if (currentDirectory.Parent != null)
+{
+    AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
+}
+````
+
 ### Specify size of the UpdateForm
 
 You can specify the size of the update form by using below code.

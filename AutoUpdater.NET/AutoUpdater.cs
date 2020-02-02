@@ -73,17 +73,22 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
-        public static String DownloadPath;
+        public static string DownloadPath;
+        
+        /// <summary>
+        ///     If you are using a zip file as an update file then you can set this value to path where your app is installed. This is only necessary when your installation directory differs from your executable path.
+        /// </summary>
+        public static string InstallationPath;
 
         /// <summary>
         ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
         /// </summary>
-        public static String AppTitle;
+        public static string AppTitle;
 
         /// <summary>
         ///     URL of the xml file that contains information about latest version of the application.
         /// </summary>
-        public static String AppCastURL;
+        public static string AppCastURL;
 
         /// <summary>
         /// Login/password/domain for FTP-request
@@ -118,18 +123,18 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     If this is true users can see the skip button.
         /// </summary>
-        public static Boolean ShowSkipButton = true;
+        public static bool ShowSkipButton = true;
 
         /// <summary>
         ///     If this is true users can see the Remind Later button.
         /// </summary>
-        public static Boolean ShowRemindLaterButton = true;
+        public static bool ShowRemindLaterButton = true;
 
         /// <summary>
         ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
         ///     RemindLaterAt and RemindLaterTimeSpan fields.
         /// </summary>
-        public static Boolean LetUserSelectRemindLater = true;
+        public static bool LetUserSelectRemindLater = true;
 
         /// <summary>
         ///     Remind Later interval after user should be reminded of update.
@@ -223,7 +228,7 @@ namespace AutoUpdaterDotNET
         /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
-        public static void Start(String appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
+        public static void Start(string appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
         {
             FtpCredentials = ftpCredentials;
             Start(appCast, myAssembly);
@@ -234,7 +239,7 @@ namespace AutoUpdaterDotNET
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
-        public static void Start(String appCast, Assembly myAssembly = null)
+        public static void Start(string appCast, Assembly myAssembly = null)
         {
             try
             {
