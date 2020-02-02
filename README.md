@@ -202,7 +202,7 @@ AutoUpdater.DownloadPath = Environment.CurrentDirectory;
 
 ### Specify where to extract zip file containing updated files
 
-If you are using a zip file as an update file then you can set this value to path where your app is installed. This is only necessary when your installation directory differs from your executable path.
+If you are using a zip file as an update file then you can set the "InstallationPath" equal to the path where your app is installed. This is only necessary when your installation directory differs from your executable path.
 
 ````csharp
 var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
