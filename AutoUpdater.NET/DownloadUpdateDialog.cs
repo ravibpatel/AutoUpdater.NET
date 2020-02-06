@@ -237,7 +237,7 @@ namespace AutoUpdaterDotNET
                         var hash = hashAlgorithm.ComputeHash(stream);
                         var fileChecksum = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
 
-                        if (fileChecksum == checksum.Text.ToLower()) return;
+                        if (fileChecksum == checksum.Value.ToLower()) return;
 
                         throw new Exception(Resources.FileIntegrityCheckFailedMessage);
                     }

@@ -74,7 +74,7 @@ namespace AutoUpdaterDotNET
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
         public static string DownloadPath;
-        
+
         /// <summary>
         ///     If you are using a zip file as an update file then you can set this value to path where your app is installed. This is only necessary when your installation directory differs from your executable path.
         /// </summary>
@@ -430,8 +430,8 @@ namespace AutoUpdaterDotNET
 
             if (!Mandatory)
             {
-                Mandatory = args.Mandatory;
-                UpdateMode = args.UpdateMode;
+                Mandatory = args.Mandatory.Value;
+                UpdateMode = args.Mandatory.UpdateMode;
             }
 
             if (string.IsNullOrEmpty(args.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))

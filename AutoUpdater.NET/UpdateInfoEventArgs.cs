@@ -52,13 +52,7 @@ namespace AutoUpdaterDotNET
         ///     Shows if the update is required or optional.
         /// </summary>
         [XmlElement("mandatory")]
-        public bool Mandatory { get; set; }
-
-        /// <summary>
-        ///     Defines how the Mandatory flag should work.
-        /// </summary>
-        [XmlElement("mode")]
-        public Mode UpdateMode { get; set; }
+        public Mandatory Mandatory { get; set; }
 
         /// <summary>
         ///     Command line arguments used by Installer.
@@ -94,6 +88,24 @@ namespace AutoUpdaterDotNET
     }
 
     /// <summary>
+    ///     Mandatory class to fetch the XML values related to Mandatory field.
+    /// </summary>
+    public class Mandatory
+    {
+        /// <summary>
+        ///     Value of the Mandatory field.
+        /// </summary>
+        [XmlText]
+        public bool Value { get; set; }
+
+        /// <summary>
+        ///     Mode that should be used for this update.
+        /// </summary>
+        [XmlAttribute("mode")]
+        public Mode UpdateMode { get; set; }
+    }
+
+    /// <summary>
     ///     Checksum class to fetch the XML values for checksum.
     /// </summary>
     public class CheckSum
@@ -102,7 +114,7 @@ namespace AutoUpdaterDotNET
         ///     Hash of the file.
         /// </summary>
         [XmlText]
-        public string Text { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         ///     Hash algorithm that generated the hash.
