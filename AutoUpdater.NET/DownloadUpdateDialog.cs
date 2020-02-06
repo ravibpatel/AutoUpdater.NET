@@ -62,7 +62,7 @@ namespace AutoUpdaterDotNET
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            if (_startedAt == default(DateTime))
+            if (_startedAt == default)
             {
                 _startedAt = DateTime.Now;
             }

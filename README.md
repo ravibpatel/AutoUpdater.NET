@@ -292,7 +292,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         if (args.IsUpdateAvailable)
         {
             DialogResult dialogResult;
-            if (args.Mandatory)
+            if (args.Mandatory.Value)
             {
                 dialogResult =
                     MessageBox.Show(
