@@ -112,11 +112,11 @@ namespace AutoUpdaterTest
             //AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
 
             //Uncomment following line if you want to set the zip extraction path.
-            var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
-            if (currentDirectory.Parent != null)
-            {
-                AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
-            }
+            //var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+            //if (currentDirectory.Parent != null)
+            //{
+            //    AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
+            //}
 
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }

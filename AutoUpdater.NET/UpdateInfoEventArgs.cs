@@ -12,6 +12,12 @@ namespace AutoUpdaterDotNET
         private string _changelogURL;
         private string _downloadURL;
 
+        /// <inheritdoc />
+        public UpdateInfoEventArgs()
+        {
+            Mandatory = new Mandatory();
+        }
+
         /// <summary>
         ///     If new update is available then returns true otherwise false.
         /// </summary>
