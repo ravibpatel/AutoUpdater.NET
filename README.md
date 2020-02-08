@@ -352,7 +352,7 @@ When you do this it will execute the code in above event when AutoUpdater.Start 
 * ChangelogURL (string) : URL of the webpage specifying changes in the new update.
 * CurrentVersion (Version) : Newest version of the application available to download.
 * InstalledVersion (Version) : Version of the application currently installed on the user's PC.
-* Mandatory (bool) : Shows if the update is required or optional.
+* Mandatory (Mandatory) : Shows if the update is required or optional.
 
 ## Handling parsing logic manually
 
@@ -369,8 +369,17 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
     {
         CurrentVersion = json.version,
         ChangelogURL = json.changelog,
-        Mandatory = json.mandatory,
-        DownloadURL = json.url
+        DownloadURL = json.url,
+        Mandatory = new Mandatory
+        {
+            Value = json.mandatory.value,
+            UpdateMode = json.mandatory.mode
+        },
+        CheckSum = new CheckSum
+        {
+            Value = json.checksum.value,
+            HashingAlgorithm = json.checksum.hashingAlgorithm
+        }
     };
 }
 ````
@@ -378,10 +387,17 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 ### JSON file used in the Example above
 
 ````json
-{
-    "version":"2.0.0.0", 
-    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
-    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
-    "mandatory":true
+{ 
+   "version":"2.0.0.0",
+   "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
+   "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
+   "mandatory":{ 
+      "value":true,
+      "mode":1
+   },
+   "checksum":{ 
+      "value":"E5F59E50FC91A9E52634FFCB11F32BD37FE0E2F1",
+      "hashingAlgorithm":"SHA1"
+   }
 }
 ````

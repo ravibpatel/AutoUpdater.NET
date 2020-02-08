@@ -136,8 +136,17 @@ namespace AutoUpdaterTest
             {
                 CurrentVersion = json.version,
                 ChangelogURL = json.changelog,
-                Mandatory = json.mandatory,
-                DownloadURL = json.url
+                DownloadURL = json.url,
+                Mandatory = new Mandatory
+                {
+                    Value = json.mandatory.value,
+                    UpdateMode = json.mandatory.mode
+                },
+                CheckSum = new CheckSum
+                {
+                    Value = json.checksum.value,
+                    HashingAlgorithm = json.checksum.hashingAlgorithm
+                }
             };
         }
 

@@ -198,8 +198,14 @@ namespace AutoUpdaterDotNET
                 }
                 catch (Win32Exception exception)
                 {
-                    if (exception.NativeErrorCode != 1223)
+                    if (exception.NativeErrorCode == 1223)
+                    {
+                        _webClient = null;
+                    }
+                    else
+                    {
                         throw;
+                    }
                 }
             }
             catch (Exception e)
