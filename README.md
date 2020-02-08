@@ -356,7 +356,7 @@ When you do this it will execute the code in above event when AutoUpdater.Start 
 
 ## Handling parsing logic manually
 
-If you want to use other format instead of XML as a AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
+If you want to use other format instead of XML as an AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
 
 ````csharp
 AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
