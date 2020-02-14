@@ -45,7 +45,7 @@ There are two things you need to provide in XML file as you can see above.
   * minVersion (Attribute, Optional): You can also prvoide minVersion attribute on mandatory element. When you provide it Mandatory option will be triggered only if the installed version of the app is less than the mininum version you specified here.
 
    ````xml
-   <mandatory mode="2">true</mandatory>
+   <mandatory minVersion="1.2.0.0">true</mandatory>
    ````
 
 * args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
