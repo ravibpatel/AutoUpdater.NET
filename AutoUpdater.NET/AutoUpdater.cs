@@ -44,20 +44,17 @@ namespace AutoUpdaterDotNET
         /// <summary>
         /// In this mode, it ignores Remind Later and Skip values set previously and hide both buttons.
         /// </summary>
-        [XmlEnum("0")]
-        Normal,
+        [XmlEnum("0")] Normal,
 
         /// <summary>
         /// In this mode, it won't show close button in addition to Normal mode behaviour.
         /// </summary>
-        [XmlEnum("1")]
-        Forced,
+        [XmlEnum("1")] Forced,
 
         /// <summary>
         /// In this mode, it will start downloading and applying update without showing standard update dialog in addition to Forced mode behaviour.
         /// </summary>
-        [XmlEnum("2")]
-        ForcedDownload
+        [XmlEnum("2")] ForcedDownload
     }
 
     /// <summary>
@@ -154,6 +151,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool RunUpdateAsAdmin = true;
 
+        /// <summary>
+        ///     Set this to true if you want to run update check synchronously.
+        /// </summary>
+        public static bool Synchronous = false;
+
         ///<summary>
         ///     Set this to true if you want to ignore previously assigned Remind Later and Skip settings. It will also hide Remind Later and Skip buttons.
         /// </summary>
@@ -217,7 +219,7 @@ namespace AutoUpdaterDotNET
         public static Size? UpdateFormSize = null;
 
         /// <summary>
-        ///     Start checking for new version of application and display dialog to the user if update is available.
+        ///     Start checking for new version of application and display a dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
         public static void Start(Assembly myAssembly = null)
@@ -226,7 +228,7 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        ///     Start checking for new version of application via FTP and display dialog to the user if update is available.
+        ///     Start checking for new version of application via FTP and display a dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
@@ -238,7 +240,7 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        ///     Start checking for new version of application and display dialog to the user if update is available.
+        ///     Start checking for new version of application and display a dialog to the user if update is available.
         /// </summary>
         /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
@@ -268,128 +270,60 @@ namespace AutoUpdaterDotNET
 
                 IsWinFormsApplication = Application.MessageLoop;
 
-                var backgroundWorker = new BackgroundWorker();
+                Assembly assembly = myAssembly ?? Assembly.GetEntryAssembly();
 
-                backgroundWorker.DoWork += BackgroundWorkerDoWork;
-
-                backgroundWorker.RunWorkerCompleted += BackgroundWorkerOnRunWorkerCompleted;
-
-                backgroundWorker.RunWorkerAsync(myAssembly ?? Assembly.GetEntryAssembly());
-            }
-        }
-
-        private static void BackgroundWorkerOnRunWorkerCompleted(object sender,
-            RunWorkerCompletedEventArgs runWorkerCompletedEventArgs)
-        {
-            if (runWorkerCompletedEventArgs.Error != null)
-            {
-                if (ReportErrors)
+                if (Synchronous)
                 {
-                    if (runWorkerCompletedEventArgs.Error is WebException)
+                    try
                     {
-                        MessageBox.Show(
-                            Resources.UpdateCheckFailedMessage,
-                            Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        var result = CheckUpdate(assembly);
+
+                        Running = StartUpdate(result);
                     }
-                    else
+                    catch (Exception exception)
                     {
-                        MessageBox.Show(runWorkerCompletedEventArgs.Error.ToString(),
-                            runWorkerCompletedEventArgs.GetType().ToString(), MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        ShowError(exception);
                     }
                 }
-            }
-            else
-            {
-                if (!runWorkerCompletedEventArgs.Cancelled)
+                else
                 {
-                    if (runWorkerCompletedEventArgs.Result is DateTime time)
+                    using (var backgroundWorker = new BackgroundWorker())
                     {
-                        SetTimer(time);
-                    }
-                    else
-                    {
-                        if (runWorkerCompletedEventArgs.Result is UpdateInfoEventArgs args)
+                        backgroundWorker.DoWork += (sender, args) =>
                         {
-                            if (CheckForUpdateEvent != null)
+                            Assembly mainAssembly = args.Argument as Assembly;
+
+                            args.Result = CheckUpdate(mainAssembly);
+                        };
+
+                        backgroundWorker.RunWorkerCompleted += (sender, args) =>
+                        {
+                            if (args.Error != null)
                             {
-                                CheckForUpdateEvent(args);
+                                ShowError(args.Error);
                             }
                             else
                             {
-                                if (args.IsUpdateAvailable)
+                                if (!args.Cancelled)
                                 {
-                                    if (!IsWinFormsApplication)
+                                    if (StartUpdate(args.Result))
                                     {
-                                        Application.EnableVisualStyles();
+                                        return;
                                     }
-
-                                    if (Mandatory && UpdateMode == Mode.ForcedDownload)
-                                    {
-                                        DownloadUpdate(args);
-                                        Exit();
-                                    }
-                                    else
-                                    {
-                                        if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
-                                        {
-                                            ShowUpdateForm(args);
-                                        }
-                                        else
-                                        {
-                                            Thread thread = new Thread(new ThreadStart(delegate
-                                            {
-                                                ShowUpdateForm(args);
-                                            }));
-                                            thread.CurrentCulture =
-                                                thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                            thread.SetApartmentState(ApartmentState.STA);
-                                            thread.Start();
-                                            thread.Join();
-                                        }
-                                    }
-
-                                    return;
-                                }
-
-                                if (ReportErrors)
-                                {
-                                    MessageBox.Show(Resources.UpdateUnavailableMessage,
-                                        Resources.UpdateUnavailableCaption,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
-                        }
+
+                            Running = false;
+                        };
+
+                        backgroundWorker.RunWorkerAsync(assembly);
                     }
                 }
             }
-
-            Running = false;
         }
 
-        /// <summary>
-        /// Shows standard update dialog.
-        /// </summary>
-        public static void ShowUpdateForm(UpdateInfoEventArgs args)
+        private static object CheckUpdate(Assembly mainAssembly)
         {
-            using (var updateForm = new UpdateForm(args))
-            {
-                if (UpdateFormSize.HasValue)
-                {
-                    updateForm.Size = UpdateFormSize.Value;
-                }
-
-                if (updateForm.ShowDialog().Equals(DialogResult.OK))
-                {
-                    Exit();
-                }
-            }
-        }
-
-        private static void BackgroundWorkerDoWork(object sender, DoWorkEventArgs e)
-        {
-            Assembly mainAssembly = e.Argument as Assembly;
-
             var companyAttribute =
                 (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
             string appCompany = companyAttribute != null ? companyAttribute.Company : "";
@@ -431,15 +365,22 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            if (!Mandatory)
-            {
-                Mandatory = args.Mandatory.Value;
-                UpdateMode = args.Mandatory.UpdateMode;
-            }
-
             if (string.IsNullOrEmpty(args.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))
             {
                 throw new MissingFieldException();
+            }
+
+            args.InstalledVersion = mainAssembly.GetName().Version;
+            args.IsUpdateAvailable = new Version(args.CurrentVersion) > mainAssembly.GetName().Version;
+
+            if (!Mandatory)
+            {
+                if (string.IsNullOrEmpty(args.Mandatory.MinimumVersion) ||
+                    args.InstalledVersion < new Version(args.Mandatory.MinimumVersion))
+                {
+                    Mandatory = args.Mandatory.Value;
+                    UpdateMode = args.Mandatory.UpdateMode;
+                }
             }
 
             if (Mandatory)
@@ -456,7 +397,7 @@ namespace AutoUpdaterDotNET
                 {
                     var currentVersion = new Version(args.CurrentVersion);
                     if (currentVersion <= skippedVersion)
-                        return;
+                        return null;
 
                     if (currentVersion > skippedVersion)
                     {
@@ -472,16 +413,92 @@ namespace AutoUpdaterDotNET
 
                     if (compareResult < 0)
                     {
-                        e.Result = remindLaterAt.Value;
-                        return;
+                        return remindLaterAt.Value;
                     }
                 }
             }
 
-            args.InstalledVersion = mainAssembly.GetName().Version;
-            args.IsUpdateAvailable = new Version(args.CurrentVersion) > mainAssembly.GetName().Version;
+            return args;
+        }
 
-            e.Result = args;
+        private static bool StartUpdate(object result)
+        {
+            if (result is DateTime time)
+            {
+                SetTimer(time);
+            }
+            else
+            {
+                if (result is UpdateInfoEventArgs args)
+                {
+                    if (CheckForUpdateEvent != null)
+                    {
+                        CheckForUpdateEvent(args);
+                    }
+                    else
+                    {
+                        if (args.IsUpdateAvailable)
+                        {
+                            if (!IsWinFormsApplication)
+                            {
+                                Application.EnableVisualStyles();
+                            }
+
+                            if (Mandatory && UpdateMode == Mode.ForcedDownload)
+                            {
+                                DownloadUpdate(args);
+                                Exit();
+                            }
+                            else
+                            {
+                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
+                                {
+                                    ShowUpdateForm(args);
+                                }
+                                else
+                                {
+                                    Thread thread = new Thread(new ThreadStart(delegate { ShowUpdateForm(args); }));
+                                    thread.CurrentCulture =
+                                        thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                    thread.SetApartmentState(ApartmentState.STA);
+                                    thread.Start();
+                                    thread.Join();
+                                }
+                            }
+
+                            return true;
+                        }
+
+                        if (ReportErrors)
+                        {
+                            MessageBox.Show(Resources.UpdateUnavailableMessage,
+                                Resources.UpdateUnavailableCaption,
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static void ShowError(Exception exception)
+        {
+            if (ReportErrors)
+            {
+                if (exception is WebException)
+                {
+                    MessageBox.Show(
+                        Resources.UpdateCheckFailedMessage,
+                        Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(exception.ToString(),
+                        exception.GetType().ToString(), MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
         }
 
         /// <summary>
@@ -614,6 +631,25 @@ namespace AutoUpdaterDotNET
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Shows standard update dialog.
+        /// </summary>
+        public static void ShowUpdateForm(UpdateInfoEventArgs args)
+        {
+            using (var updateForm = new UpdateForm(args))
+            {
+                if (UpdateFormSize.HasValue)
+                {
+                    updateForm.Size = UpdateFormSize.Value;
+                }
+
+                if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                {
+                    Exit();
+                }
+            }
         }
 
         internal static MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)

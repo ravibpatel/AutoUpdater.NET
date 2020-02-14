@@ -118,6 +118,9 @@ namespace AutoUpdaterTest
             //    AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
             //}
 
+            //Uncomment following line if you want to check for update synchronously.
+            //AutoUpdater.Synchronous = true;
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
