@@ -71,6 +71,12 @@ namespace AutoUpdaterDotNET
         internal static bool Running;
 
         /// <summary>
+        /// Set it to use custom update form specified by the type. The custom update form must 
+        /// implement <see cref="IUpdateForm"/>.
+        /// </summary>
+        public static Type UpdateFormType;
+
+        /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
         public static string DownloadPath;
@@ -579,7 +585,7 @@ namespace AutoUpdaterDotNET
             return string.IsNullOrEmpty(HttpUserAgent) ? $"AutoUpdater.NET" : HttpUserAgent;
         }
 
-        internal static void SetTimer(DateTime remindLater)
+        public static void SetTimer(DateTime remindLater)
         {
             TimeSpan timeSpan = remindLater - DateTime.Now;
 
@@ -638,17 +644,33 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static void ShowUpdateForm(UpdateInfoEventArgs args)
         {
-            using (var updateForm = new UpdateForm(args))
+            if (UpdateFormType == null)
             {
-                if (UpdateFormSize.HasValue)
+                using (var updateForm = new UpdateForm(args))
                 {
-                    updateForm.Size = UpdateFormSize.Value;
-                }
+                    if (UpdateFormSize.HasValue)
+                    {
+                        updateForm.Size = UpdateFormSize.Value;
+                    }
 
-                if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                    if (updateForm.ShowDialog().Equals(DialogResult.OK))
+                    {
+                        Exit();
+                    }
+                }
+            }
+            else
+            {
+                var form = (IUpdateForm)Activator.CreateInstance(UpdateFormType, args);
+                var ret = form.ShowDialog();
+
+                if (ret.HasValue && 
+                    ret.Value == true)
                 {
                     Exit();
                 }
+
+                Running = false;
             }
         }
 
