@@ -5,14 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoUpdaterTestWPF"
         mc:Ignorable="d"
-        Title="AutoUpdaterTestWPF" Height="111.048" Width="195.822" ResizeMode="NoResize">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="46*"/>
-            <ColumnDefinition Width="31*"/>
-        </Grid.ColumnDefinitions>
-        <Button x:Name="ButtonCheckForUpdate" Content="Check for Update" HorizontalAlignment="Left" Margin="10,43,0,0" VerticalAlignment="Top" Width="170" Grid.ColumnSpan="2" Height="29" Click="ButtonCheckForUpdate_Click"/>
-        <Label x:Name="LabelVersion" Content="Current Version : 1.0.0.0" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.49,0.176" Grid.ColumnSpan="2" Width="170"/>
-
-    </Grid>
+        Title="AutoUpdaterTestWPF" Width="190" Height="122" ResizeMode="NoResize">
+    <StackPanel Margin="6">
+        <Label x:Name="LabelVersion" Content="Current Version : 1.0.0.0" Margin="4" VerticalAlignment="Center"/>
+        <Button x:Name="ButtonCheckForUpdate" Content="Check for Update" Margin="4" VerticalAlignment="Center"
+                Height="30" Click="ButtonCheckForUpdate_Click"/>
+    </StackPanel>
 </Window>
