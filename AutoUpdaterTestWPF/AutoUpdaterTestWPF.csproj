@@ -56,12 +56,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DownloadUpdateDialog.xaml.cs">
+      <DependentUpon>DownloadUpdateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RemindLaterForm.xaml.cs">
       <DependentUpon>RemindLaterForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="UpdateForm.xaml.cs">
       <DependentUpon>UpdateForm.xaml</DependentUpon>
     </Compile>
+    <Page Include="DownloadUpdateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\photo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ZipExtractor.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

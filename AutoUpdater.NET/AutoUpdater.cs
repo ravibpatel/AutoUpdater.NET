@@ -77,6 +77,12 @@ namespace AutoUpdaterDotNET
         public static Type UpdateFormType;
 
         /// <summary>
+        /// Set it to use custom download update dialog specified by the type. The custom download update dialog 
+        /// must implement <see cref="IForm"/>.
+        /// </summary>
+        public static Type DownloadUpdateDialogType;
+
+        /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
         public static string DownloadPath;
@@ -625,18 +631,37 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool DownloadUpdate(UpdateInfoEventArgs args)
         {
-            using (var downloadDialog = new DownloadUpdateDialog(args))
+            if (DownloadUpdateDialogType == null)
             {
+                using (var downloadDialog = new DownloadUpdateDialog(args))
+                {
+                    try
+                    {
+                        return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+                    }
+                    catch (TargetInvocationException)
+                    {
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                var form = (IForm)Activator.CreateInstance(DownloadUpdateDialogType, args);
+
                 try
                 {
-                    return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+                    var ret = form.ShowDialog();
+
+                    return ret.HasValue && ret.Value == true;
                 }
                 catch (TargetInvocationException)
                 {
                 }
-            }
 
-            return false;
+                return false;
+            }
         }
 
         /// <summary>
@@ -674,7 +699,13 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        internal static MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
+        /// <summary>
+        /// Get the web client.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <param name="basicAuthentication"></param>
+        /// <returns></returns>
+        public static MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
         {
             MyWebClient webClient = new MyWebClient
             {

@@ -124,6 +124,9 @@ namespace AutoUpdaterTest
             // Uncomment following to use custom update form.
             //AutoUpdater.UpdateFormType = typeof(UpdateForm);
 
+            // Uncomment following to use custom download update dialog.
+            //AutoUpdater.DownloadUpdateDialogType = typeof(DownloadUpdateDialog);
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 
