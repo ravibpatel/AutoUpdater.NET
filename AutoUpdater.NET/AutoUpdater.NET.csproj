@@ -108,7 +108,7 @@
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="IAuthentication.cs" />
-    <Compile Include="Interfaces\IUpdateForm.cs" />
+    <Compile Include="Interfaces\IForm.cs" />
     <Compile Include="IPersistenceProvider.cs" />
     <Compile Include="JsonFilePersistenceProvider.cs" Condition=" '$(WPFSupported)' And '$(TargetFrameworkVersion)' != 'v3.5' " />
     <Compile Include="MyWebClient.cs">

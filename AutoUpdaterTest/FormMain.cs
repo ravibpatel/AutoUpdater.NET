@@ -121,6 +121,9 @@ namespace AutoUpdaterTest
             //Uncomment following line if you want to check for update synchronously.
             //AutoUpdater.Synchronous = true;
 
+            // Uncomment following to use custom update form.
+            //AutoUpdater.UpdateFormType = typeof(UpdateForm);
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 

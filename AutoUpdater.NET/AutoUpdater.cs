@@ -72,7 +72,7 @@ namespace AutoUpdaterDotNET
 
         /// <summary>
         /// Set it to use custom update form specified by the type. The custom update form must 
-        /// implement <see cref="IUpdateForm"/>.
+        /// implement <see cref="IForm"/>.
         /// </summary>
         public static Type UpdateFormType;
 
@@ -661,7 +661,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                var form = (IUpdateForm)Activator.CreateInstance(UpdateFormType, args);
+                var form = (IForm)Activator.CreateInstance(UpdateFormType, args);
                 var ret = form.ShowDialog();
 
                 if (ret.HasValue && 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AutoUpdaterDotNET
 {
-    public interface IUpdateForm
+    public interface IForm
     {
         bool? ShowDialog();
     }

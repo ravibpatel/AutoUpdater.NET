@@ -1,0 +1,39 @@
+﻿<Window x:Class="AutoUpdaterTestWPF.RemindLaterForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdaterTestWPF"
+        mc:Ignorable="d"
+        Title="Remind me later for update" Height="200" Width="500">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <Image Source="Resources\Images\photo.png" Width="100" VerticalAlignment="Top" DockPanel.Dock="Left"/>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock Text="Do you want to download updates later?" FontWeight="Bold"/>
+                <TextBlock Text="You should download updates now. This only takes few minutes depending on your internet connection and ensures you have the latest version of the application." 
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+            <Button Content="OK" DockPanel.Dock="Bottom" Click="ButtonOkClick" HorizontalAlignment="Right"/>
+            <StackPanel Margin="4">
+                <DockPanel>
+                    <ComboBox x:Name="comboBoxRemindLater" DockPanel.Dock="Right" SelectedIndex="0" Width="100"/>
+                    <RadioButton x:Name="radioButtonYes" GroupName="option" IsChecked="True"
+                                 Content="Yes, please remind me later:"/>
+                </DockPanel>
+                <RadioButton GroupName="option" Content="No, download updates now (recommended)" FontWeight="Bold"/>
+            </StackPanel>
+        </DockPanel>
+    </DockPanel>
+</Window>
