@@ -117,8 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>Nowa wersja programu {0} jest dostępna!</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Program {0} {1} jest już dostępny. Masz zainstalowaną wersję {2}. Chcesz ją ściągnąć?</value>
+  </data>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Aktualizacja</value>
+  </data>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Przypomnij mi później</value>
+  </data>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Pominąć tę wersję</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Aktualizacja programu {0} {1} jest dostępna!</value>
+  </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Release Uwagi:</value>
   </data>
 </root>

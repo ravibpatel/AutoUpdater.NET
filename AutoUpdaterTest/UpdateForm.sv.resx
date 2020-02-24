@@ -112,13 +112,33 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonSkip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 28</value>
+  </data>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>En ny version av {0} är tillgänglig!</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>{0} {1} är nu tillgänglig. Du har version {2} installerad. Vill du ladda ner den nu?</value>
+  </data>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Påminn mig senare</value>
+  </data>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Hoppa över den här versionen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>{0} {1} är tillgänglig!</value>
+  </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Release Anmärkningar:</value>
   </data>
 </root>

@@ -112,13 +112,48 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Recordar-me mais tarde</value>
+  </data>
+  <data name="buttonOK.Text" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="comboBoxRemindLater.Items" xml:space="preserve">
+    <value>Daqui a 30 minutos</value>
+  </data>
+  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
+    <value>Daqui a 12 horas</value>
+  </data>
+  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
+    <value>Daqui a 1 dia</value>
+  </data>
+  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
+    <value>Daqui a 2 dias</value>
+  </data>
+  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
+    <value>Daqui a 4 dias</value>
+  </data>
+  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
+    <value>Daqui a 8 dias</value>
+  </data>
+  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
+    <value>Daqui a 10 dias</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Deverá transferir a atualização agora. Dependendo da sua ligação à internet, demora apenas alguns minutos e assegura que tem a última versão da aplicação</value>
+  </data>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>Deseja transferir a atualização mais tarde?</value>
+  </data>
+  <data name="radioButtonNo.Text" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="radioButtonYes.Text" xml:space="preserve">
+    <value>Sim</value>
   </data>
 </root>

@@ -112,13 +112,45 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Напомнить об обновлении позднее</value>
+  </data>
+  <data name="comboBoxRemindLater.Items" xml:space="preserve">
+    <value>Через 30 минут</value>
+  </data>
+  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
+    <value>Через 12 часов</value>
+  </data>
+  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
+    <value>Через 1 день</value>
+  </data>
+  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
+    <value>Через 2 дня</value>
+  </data>
+  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
+    <value>Через 4 дня</value>
+  </data>
+  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
+    <value>Через 8 дней</value>
+  </data>
+  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
+    <value>Через 10 дней</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Рекомендуем загрузить обновление сейчас. Это займет всего несколько минут, в зависимости от скорости локальной сети и Вашего компьютера.</value>
+  </data>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>Отложить загрузку новой версии?</value>
+  </data>
+  <data name="radioButtonNo.Text" xml:space="preserve">
+    <value>Нет, загрузить обновление сейчас (рекоммендуется)</value>
+  </data>
+  <data name="radioButtonYes.Text" xml:space="preserve">
+    <value>Да, напомнить позднее:</value>
   </data>
 </root>

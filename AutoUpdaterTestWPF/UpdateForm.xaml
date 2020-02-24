@@ -1,0 +1,39 @@
+﻿<Window x:Class="AutoUpdaterTestWPF.UpdateForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoUpdaterTestWPF"
+        mc:Ignorable="d"
+        Title="Application x.x.x is available" Height="700" Width="600"
+        Loaded="UpdateFormLoad">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="4"/>
+        </Style>
+    </Window.Resources>
+    
+    <DockPanel>
+        <Image Source="Resources\Images\photo.png" Width="100" VerticalAlignment="Top" DockPanel.Dock="Left"/>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock x:Name="labelUpdate" Text="A new version of the application is available!" FontWeight="Bold"/>
+                <TextBlock x:Name="labelDescription" Text="Version x.x.x is available. Would you like to update now?"/>
+                <TextBlock x:Name="labelReleaseNotes" Text="Change log:" FontWeight="Bold"/>
+            </StackPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button x:Name="buttonSkip" Content="Skip this version" DockPanel.Dock="Left" Click="ButtonSkipClick"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="buttonRemindLater" Content="Remind me later" Click="ButtonRemindLaterClick"/>
+                    <Button Content="Update" Click="ButtonUpdateClick"/>
+                </StackPanel>
+            </DockPanel>
+            <WebBrowser x:Name="webBrowser" Margin="4"/>
+        </DockPanel>
+    </DockPanel>
+</Window>

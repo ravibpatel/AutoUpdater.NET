@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,8 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>{0} {1} 已經發行</value>
+  </data>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>稍後再提醒</value>
+  </data>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>忽略</value>
+  </data>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>{0} {1} 已經發行。本機目前的版本是 {2}。是否立即進行更新？</value>
+  </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>發行事項：</value>
+  </data>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>新版 {0} 已經發行！</value>
   </data>
 </root>

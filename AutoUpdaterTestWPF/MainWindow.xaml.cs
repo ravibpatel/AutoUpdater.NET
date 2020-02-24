@@ -19,7 +19,9 @@ namespace AutoUpdaterTestWPF
             Assembly assembly = Assembly.GetEntryAssembly();
             LabelVersion.Content = $"Current Version : {assembly.GetName().Version}";
             Thread.CurrentThread.CurrentCulture =
-                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("fr");
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en");
+            AutoUpdater.UpdateFormType = typeof(UpdateForm);
+            AutoUpdater.DownloadUpdateDialogType = typeof(DownloadUpdateDialog);
             AutoUpdater.LetUserSelectRemindLater = true;
             AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Minutes;
             AutoUpdater.RemindLaterAt = 1;

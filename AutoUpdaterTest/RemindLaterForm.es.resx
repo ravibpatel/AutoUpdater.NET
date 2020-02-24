@@ -112,13 +112,45 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>¿Quieres descargar las actualizaciones más tarde?</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Usted debe descargar las actualizaciones ahora. Esto sólo toma unos minutos dependiendo de su conexión a internet y asegura que posee la última versión de la aplicación.</value>
+  </data>
+  <data name="radioButtonYes.Text" xml:space="preserve">
+    <value>Sí , por favor, me recuerdan más tarde:</value>
+  </data>
+  <data name="radioButtonNo.Text" xml:space="preserve">
+    <value>No, descargar actualizaciones ahora (recomendado)</value>
+  </data>
+  <data name="comboBoxRemindLater.Items" xml:space="preserve">
+    <value>Después de 30 minutos</value>
+  </data>
+  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
+    <value>Después de 12 horas</value>
+  </data>
+  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
+    <value>Después de 1 día</value>
+  </data>
+  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
+    <value>Después de 2 días</value>
+  </data>
+  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
+    <value>Después de 4 días</value>
+  </data>
+  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
+    <value>Después de 8 días</value>
+  </data>
+  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
+    <value>Después de 10 días</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Recordar más tarde para la actualización</value>
   </data>
 </root>

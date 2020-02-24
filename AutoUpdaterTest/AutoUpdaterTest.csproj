@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DownloadUpdateDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DownloadUpdateDialog.Designer.cs">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +64,79 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemindLaterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RemindLaterForm.Designer.cs">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UpdateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateForm.Designer.cs">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DownloadUpdateDialog.ar.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.da.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.de.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.es.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.fr.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.it.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.ja-JP.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.ko.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.nl.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.pl.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.pt-BR.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.pt.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.ru.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.sk.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.sv.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.th.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.tr.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.zh-tw.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.zh.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -71,6 +150,129 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RemindLaterForm.ar.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.da.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.de.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.es.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.fr.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.it.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.ja-JP.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.ko.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.nl.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.pl.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.pt-BR.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.pt.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.ru.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.sk.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.sv.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.th.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.tr.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.zh-tw.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.zh.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.ar.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.da.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.de.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.es.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.fr.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.it.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.ja-JP.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.ko.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.nl.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.pl.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.pt-BR.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.pt.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.ru.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.sk.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.sv.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.th.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.tr.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.zh-tw.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.zh.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="packages.config" />
@@ -89,6 +291,12 @@
       <Project>{fb9e7e6b-b19f-4f37-a708-2996190cef13}</Project>
       <Name>AutoUpdater.NET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\photo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ZipExtractor.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -112,13 +112,45 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Påmind mig senere</value>
+  </data>
+  <data name="comboBoxRemindLater.Items" xml:space="preserve">
+    <value>om 30 minutter</value>
+  </data>
+  <data name="comboBoxRemindLater.Items1" xml:space="preserve">
+    <value>om 12 timer</value>
+  </data>
+  <data name="comboBoxRemindLater.Items2" xml:space="preserve">
+    <value>om 1 dag</value>
+  </data>
+  <data name="comboBoxRemindLater.Items3" xml:space="preserve">
+    <value>om 2 dage</value>
+  </data>
+  <data name="comboBoxRemindLater.Items4" xml:space="preserve">
+    <value>om 4 dage</value>
+  </data>
+  <data name="comboBoxRemindLater.Items5" xml:space="preserve">
+    <value>om 8 dage</value>
+  </data>
+  <data name="comboBoxRemindLater.Items6" xml:space="preserve">
+    <value>om 10 dage</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>Du burde opdatere nu. Det tager kun kort tid (afhængig af din internet forbindelse) og sikrer at du har den seneste version af programmet.</value>
+  </data>
+  <data name="labelTitle.Text" xml:space="preserve">
+    <value>Ønsker du at opdatere senere?</value>
+  </data>
+  <data name="radioButtonNo.Text" xml:space="preserve">
+    <value>Nej, download opdateringer nu (anbefales)</value>
+  </data>
+  <data name="radioButtonYes.Text" xml:space="preserve">
+    <value>Ja, påmind mig senere :</value>
   </data>
 </root>

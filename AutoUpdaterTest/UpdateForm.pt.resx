@@ -117,8 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ZipExtractor.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>{0} {1} está disponível!</value>
+  </data>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
+    <value>Lembrar-me mais tarde</value>
+  </data>
+  <data name="buttonSkip.Text" xml:space="preserve">
+    <value>Ignorar esta versão</value>
+  </data>
+  <data name="buttonUpdate.Text" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="labelDescription.Text" xml:space="preserve">
+    <value>{0} {1} está disponível. A versão instalada é a {2}. Deseja atualizar agora?</value>
+  </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Notas sobre a versão</value>
+  </data>
+  <data name="labelUpdate.Text" xml:space="preserve">
+    <value>Está disponível uma nova versão do {0}!</value>
   </data>
 </root>
