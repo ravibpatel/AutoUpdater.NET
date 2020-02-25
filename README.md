@@ -1,10 +1,10 @@
-![AutoUpdater.NET](Logo/Horizontal.png)
+# ![AutoUpdater.NET](Logo/Horizontal.png)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net)
 
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
-# The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
+## The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
 
 ````powershell
 PM> Install-Package Autoupdater.NET.Official
@@ -35,14 +35,14 @@ There are two things you need to provide in XML file as you can see above.
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file or zip file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
-* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog. 
+* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
   * mode (Attribute, Optional): You can provide mode attribute on mandatory element to change the behaviour of the mandatory flag. If you provide "1" as the value of mode attribute then it will also hide the Close button on update dialog. If you provide "2" as the value of mode attribute then it will skip the update dialog and start downloading and updating application automatically.
 
    ````xml
    <mandatory mode="2">true</mandatory>
    ````
 
-  * minVersion (Attribute, Optional): You can also prvoide minVersion attribute on mandatory element. When you provide it Mandatory option will be triggered only if the installed version of the app is less than the mininum version you specified here.
+  * minVersion (Attribute, Optional): You can also prvoide minVersion attribute on mandatory element. When you provide it, Mandatory option will be triggered only if the installed version of the app is less than the mininum version you specified here.
 
    ````xml
    <mandatory minVersion="1.2.0.0">true</mandatory>
@@ -200,7 +200,7 @@ In above example when user press Remind Later button of update dialog, It will r
 If your XML and Update file can only be used from certain Proxy Server then you can use following settings to tell AutoUpdater.NET to use that proxy. Currently, if your Changelog URL is also restricted to Proxy server then you should omit changelog tag from XML file cause it is not supported using Proxy Server.
 
 ````csharp
-var proxy = new WebProxy("ProxyIP:ProxyPort", true) 
+var proxy = new WebProxy("ProxyIP:ProxyPort", true)
 {
     Credentials = new NetworkCredential("ProxyUserName", "ProxyPassword")
 };
@@ -360,7 +360,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
 }
 ````
 
-When you do this it will execute the code in above event when AutoUpdater.Start method is called instead of showing the update dialog. 
+When you do this it will execute the code in above event when AutoUpdater.Start method is called instead of showing the update dialog.
 
 * IsUpdateAvailable (bool) :  If update is available then returns true otherwise false.
 * DownloadURL (string) : Download URL of the update file..
@@ -388,7 +388,8 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         Mandatory = new Mandatory
         {
             Value = json.mandatory.value,
-            UpdateMode = json.mandatory.mode
+            UpdateMode = json.mandatory.mode,
+            MinimumVersion = json.mandatory.minVersion
         },
         CheckSum = new CheckSum
         {
@@ -402,15 +403,16 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 ### JSON file used in the Example above
 
 ````json
-{ 
+{
    "version":"2.0.0.0",
    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
-   "mandatory":{ 
+   "mandatory":{
       "value":true,
+      "minVersion": "2.0.0.0",
       "mode":1
    },
-   "checksum":{ 
+   "checksum":{
       "value":"E5F59E50FC91A9E52634FFCB11F32BD37FE0E2F1",
       "hashingAlgorithm":"SHA1"
    }
