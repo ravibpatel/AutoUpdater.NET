@@ -270,6 +270,11 @@ namespace AutoUpdaterDotNET
 
                 IsWinFormsApplication = Application.MessageLoop;
 
+                if (!IsWinFormsApplication)
+                {
+                    Application.EnableVisualStyles();
+                }
+
                 Assembly assembly = myAssembly ?? Assembly.GetEntryAssembly();
 
                 if (Synchronous)
@@ -439,11 +444,6 @@ namespace AutoUpdaterDotNET
                     {
                         if (args.IsUpdateAvailable)
                         {
-                            if (!IsWinFormsApplication)
-                            {
-                                Application.EnableVisualStyles();
-                            }
-
                             if (Mandatory && UpdateMode == Mode.ForcedDownload)
                             {
                                 DownloadUpdate(args);
