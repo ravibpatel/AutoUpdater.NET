@@ -10,7 +10,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("RBSoft")]
 [assembly: AssemblyProduct("AutoUpdaterTest")]
-[assembly: AssemblyCopyright("Copyright © 2012-2019 RBSoft")]
+[assembly: AssemblyCopyright("Copyright © 2012-2020 RBSoft")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -135,4 +135,7 @@
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>忽略这个版本</value>
   </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>{0} {1} 现在可用</value>
+  </data>
 </root>

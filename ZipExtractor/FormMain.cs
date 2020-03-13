@@ -35,8 +35,10 @@ namespace ZipExtractor
 
             _logBuilder.AppendLine();
 
-            if (args.Length >= 3)
+            if (args.Length >= 4)
             {
+                string executablePath = args[3];
+
                 // Extract all the files.
                 _backgroundWorker = new BackgroundWorker
                 {
@@ -50,7 +52,7 @@ namespace ZipExtractor
                     {
                         try
                         {
-                            if (process.MainModule.FileName.Equals(args[2]))
+                            if (process.MainModule.FileName.Equals(executablePath))
                             {
                                 _logBuilder.AppendLine("Waiting for application process to Exit...");
 
@@ -66,7 +68,7 @@ namespace ZipExtractor
 
                     _logBuilder.AppendLine("BackgroundWorker started successfully.");
 
-                    var path = Path.GetDirectoryName(args[2]);
+                    var path = args[2];
 
                     // Open an existing zip file for reading.
                     ZipStorer zip = ZipStorer.Open(args[1], FileAccess.Read);
@@ -117,10 +119,10 @@ namespace ZipExtractor
                             labelInformation.Text = @"Finished";
                             try
                             {
-                                ProcessStartInfo processStartInfo = new ProcessStartInfo(args[2]);
-                                if (args.Length > 3)
+                                ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);
+                                if (args.Length > 4)
                                 {
-                                    processStartInfo.Arguments = args[3];
+                                    processStartInfo.Arguments = args[4];
                                 }
 
                                 Process.Start(processStartInfo);
@@ -160,7 +162,8 @@ namespace ZipExtractor
             _backgroundWorker?.CancelAsync();
 
             _logBuilder.AppendLine();
-            File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "ZipExtractor.log"), _logBuilder.ToString());
+            File.AppendAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ZipExtractor.log"),
+                _logBuilder.ToString());
         }
     }
 }

@@ -1,6 +1,6 @@
-version: 1.5.1.{build}
+version: 1.6.0.{build}
 environment:
-  my_version: 1.5.1
+  my_version: 1.6.0
   my_secret:
     secure: vbPRaZLQYpGPr4BrZZ4p6TofpSZMud+FKtlpqjgO8aA=
 skip_branch_with_pr: true
@@ -40,7 +40,7 @@ deploy:
 
 - provider: NuGet
   api_key:
-    secure: f061iyHEh8+Fz3+iV/c+3stBhQuyndcJMP719Eny9w6sbRfMgD1yJe+aVAYW1PJD
+    secure: LzLwDiKGUZvNI6CmSFpyjba1mpKYeb6o8SDBejNO0EHY1SgC8xNTuh2nzBWkY7EV
   skip_symbols: false
   artifact: Autoupdater.NET.Official.%my_version%.nupkg
   on:

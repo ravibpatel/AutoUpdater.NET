@@ -117,31 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="UpdateUnavailableMessage" xml:space="preserve">
-    <value>Non è disponibile alcun aggiornamento. Per favore riprova più tardi.</value>
+    <value>ยังไม่มีอัปเดตใหม่ในขณะนี้ กรุณาลองใหม่ภายหลัง</value>
   </data>
   <data name="UpdateUnavailableCaption" xml:space="preserve">
-    <value>Aggiornamento non disponibile</value>
+    <value>ไม่มีอัปเดตใหม่</value>
   </data>
   <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Si è verificato un problema nel contattare il server degli aggiornamenti. Controlla la tua connessione a Internet o riprova più tardi.</value>
+    <value>ไม่สามารถตรวจสอบการอัปเดตได้ กรุณาตรวจสอบการเชื่อมต่อของคุณและลองอีกครั้ง</value>
   </data>
   <data name="UpdateCheckFailedCaption" xml:space="preserve">
-    <value>Controllo degli aggiornamenti non riuscito</value>
-  </data>
-  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
-    <value>Checksum differente</value>
-  </data>
-  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
-    <value>La verifica dell' integrità dei file non è riuscita e ha segnalato alcuni errori.</value>
-  </data>
-  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
-    <value>Algoritmo Hash non supportato</value>
+    <value>ตรวจาอบล้มเหลว</value>
   </data>
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>L' algoritmo Hash fornito nel file XML non è supportato.</value>
+    <value>ไม่รองรับรูปแบบค่าแฮชที่ระบุไว้ในไฟล์ XML</value>
+  </data>
+  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+    <value>ไม่รองรับรูปแบบค่าแฮช</value>
+  </data>
+  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+    <value>การตรวจสอบไฟล์ล้มเหลว ตรวจพบข้อผิดพลาด</value>
+  </data>
+  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+    <value>ไฟล์เสียหาย</value>
   </data>
   <data name="DownloadSpeedMessage" xml:space="preserve">
-    <value>Download in {0}/s</value>
+    <value>กำลังดาวน์โหลด ด้วยความเร็ว {0}/s</value>
   </data>
 </root>

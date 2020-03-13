@@ -93,17 +93,28 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+	<Reference Include="System.Runtime.Serialization" Condition=" '$(WPFSupported)' And '$(TargetFrameworkVersion)' != 'v3.5' "/>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoUpdater.cs" />
+    <Compile Include="BasicAuthentication.cs" />
+    <Compile Include="CustomAuthentication.cs" />
     <Compile Include="DownloadUpdateDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DownloadUpdateDialog.Designer.cs">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="IAuthentication.cs" />
+    <Compile Include="IPersistenceProvider.cs" />
+	<Compile Include="JsonFilePersistenceProvider.cs" Condition=" '$(WPFSupported)' And '$(TargetFrameworkVersion)' != 'v3.5' "/>
+    <Compile Include="MyWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ParseUpdateInfoEventArgs.cs" />
+    <Compile Include="RegistryPersistenceProvider.cs" />
     <Compile Include="RemindLaterForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +133,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="UpdateInfoEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DownloadUpdateDialog.ar.resx">
@@ -157,6 +169,9 @@
     <EmbeddedResource Include="DownloadUpdateDialog.pt.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.pt-BR.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DownloadUpdateDialog.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,6 +193,10 @@
     <EmbeddedResource Include="DownloadUpdateDialog.zh-tw.resx">
       <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DownloadUpdateDialog.th.resx">
+      <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ar.resx" />
     <EmbeddedResource Include="Properties\Resources.ja-JP.resx" />
     <EmbeddedResource Include="Properties\Resources.da.resx" />
@@ -188,9 +207,15 @@
     <EmbeddedResource Include="Properties\Resources.ko.resx" />
     <EmbeddedResource Include="Properties\Resources.nl.resx" />
     <EmbeddedResource Include="Properties\Resources.pl.resx" />
+    <EmbeddedResource Include="Properties\Resources.pt-BR.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ru.resx" />
     <EmbeddedResource Include="Properties\Resources.sk.resx" />
     <EmbeddedResource Include="Properties\Resources.sv.resx" />
+    <EmbeddedResource Include="Properties\Resources.th.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.zh.resx" />
     <EmbeddedResource Include="Properties\Resources.zh-tw.resx" />
     <EmbeddedResource Include="RemindLaterForm.ar.resx">
@@ -226,6 +251,9 @@
     <EmbeddedResource Include="RemindLaterForm.pt.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.pt-BR.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -246,6 +274,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RemindLaterForm.zh-tw.resx">
       <DependentUpon>RemindLaterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RemindLaterForm.th.resx">
+      <DependentUpon>RemindLaterForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.ar.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
@@ -280,6 +312,9 @@
     <EmbeddedResource Include="UpdateForm.pt.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.pt-BR.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -306,6 +341,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UpdateForm.zh-tw.resx">
       <DependentUpon>UpdateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UpdateForm.th.resx">
+      <DependentUpon>UpdateForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -340,12 +379,12 @@
     <None Include="Resources\ZipExtractor.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets" Condition="Exists('..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets') And '$(WPFSupported)' And '$(TargetFrameworkVersion)' != 'v3.5' " />
+  <Import Project="..\packages\Resource.Embedder.1.2.8\build\Resource.Embedder.targets" Condition="Exists('..\packages\Resource.Embedder.1.2.8\build\Resource.Embedder.targets') And '$(WPFSupported)' And '$(TargetFrameworkVersion)' != 'v3.5'" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Resource.Embedder.1.2.6\build\Resource.Embedder.targets'))" />
+    <Error Condition="!Exists('..\packages\Resource.Embedder.1.2.8\build\Resource.Embedder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Resource.Embedder.1.2.8\build\Resource.Embedder.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

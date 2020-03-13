@@ -112,36 +112,15 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UpdateUnavailableMessage" xml:space="preserve">
-    <value>Non è disponibile alcun aggiornamento. Per favore riprova più tardi.</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Atualização de software</value>
   </data>
-  <data name="UpdateUnavailableCaption" xml:space="preserve">
-    <value>Aggiornamento non disponibile</value>
-  </data>
-  <data name="UpdateCheckFailedMessage" xml:space="preserve">
-    <value>Si è verificato un problema nel contattare il server degli aggiornamenti. Controlla la tua connessione a Internet o riprova più tardi.</value>
-  </data>
-  <data name="UpdateCheckFailedCaption" xml:space="preserve">
-    <value>Controllo degli aggiornamenti non riuscito</value>
-  </data>
-  <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
-    <value>Checksum differente</value>
-  </data>
-  <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
-    <value>La verifica dell' integrità dei file non è riuscita e ha segnalato alcuni errori.</value>
-  </data>
-  <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
-    <value>Algoritmo Hash non supportato</value>
-  </data>
-  <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>L' algoritmo Hash fornito nel file XML non è supportato.</value>
-  </data>
-  <data name="DownloadSpeedMessage" xml:space="preserve">
-    <value>Download in {0}/s</value>
+  <data name="labelinformation.Text" xml:space="preserve">
+    <value>Baixando a atualização...</value>
   </data>
 </root>

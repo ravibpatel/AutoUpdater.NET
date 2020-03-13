@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading;
@@ -89,7 +90,7 @@ namespace AutoUpdaterTest
             //};
             //timer.Start();
 
-            //Uncomment following lines to provide basic authentication credetials to use.
+            //Uncomment following lines to provide basic authentication credentials to use.
 
             //BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
             //AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
@@ -99,9 +100,26 @@ namespace AutoUpdaterTest
             //AutoUpdater.Mandatory = true;
             //AutoUpdater.UpdateMode = Mode.Forced;
 
-			//Want to change update form size then uncomment below line.
+            //Want to change update form size then uncomment below line.
 
-			//AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
+            //AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
+
+            //Uncomment following if you want to update using FTP.
+            //AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
+
+            //Uncomment following lines if you want to persist Remind Later and Skip values in a json file.
+            //string jsonPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
+            //AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
+
+            //Uncomment following line if you want to set the zip extraction path.
+            //var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+            //if (currentDirectory.Parent != null)
+            //{
+            //    AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
+            //}
+
+            //Uncomment following line if you want to check for update synchronously.
+            //AutoUpdater.Synchronous = true;
 
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
@@ -121,8 +139,18 @@ namespace AutoUpdaterTest
             {
                 CurrentVersion = json.version,
                 ChangelogURL = json.changelog,
-                Mandatory = json.mandatory,
-                DownloadURL = json.url
+                DownloadURL = json.url,
+                Mandatory = new Mandatory
+                {
+                    Value = json.mandatory.value,
+                    UpdateMode = json.mandatory.mode,
+                    MinimumVersion = json.mandatory.minVersion
+                },
+                CheckSum = new CheckSum
+                {
+                    Value = json.checksum.value,
+                    HashingAlgorithm = json.checksum.hashingAlgorithm
+                }
             };
         }
 
@@ -133,7 +161,7 @@ namespace AutoUpdaterTest
                 if (args.IsUpdateAvailable)
                 {
                     DialogResult dialogResult;
-                    if (args.Mandatory)
+                    if (args.Mandatory.Value)
                     {
                         dialogResult =
                             MessageBox.Show(
@@ -162,7 +190,7 @@ namespace AutoUpdaterTest
                         {
                             //You can use Download Update dialog used by AutoUpdater.NET to download the update.
 
-                            if (AutoUpdater.DownloadUpdate())
+                            if (AutoUpdater.DownloadUpdate(args))
                             {
                                 Application.Exit();
                             }

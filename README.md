@@ -1,12 +1,14 @@
-![AutoUpdater.NET](Logo/Horizontal.png)
+# ![AutoUpdater.NET](Logo/Horizontal.png)
 
-[![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net) [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/rbsoft)
+[![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net)
 
 AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.
 
-# The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
+## The NuGet Package  [![NuGet](https://img.shields.io/nuget/v/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/) [![NuGet](https://img.shields.io/nuget/dt/Autoupdater.NET.Official.svg)](https://www.nuget.org/packages/Autoupdater.NET.Official/)
 
-    PM> Install-Package Autoupdater.NET.Official
+````powershell
+PM> Install-Package Autoupdater.NET.Official
+````
 
 ## How it works
 
@@ -33,11 +35,18 @@ There are two things you need to provide in XML file as you can see above.
 * version (Required) : You need to provide latest version of the application between version tags. Version should be in X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file or zip file between url tags. AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you don't provide the URL of the changelog then update dialog won't show the change log.
-* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog. You can provide mode attribute to change the behaviour of the mandatory flag. If you provide "1" as the value of mode attribute then it will also hide the Close button on update dialog. If you provide "2" as the value of mode attribute then it will skip the update dialog and start downloading and updating application automatically.
+* mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind Later and Skip options and hide both Skip and Remind Later button on update dialog.
+  * mode (Attribute, Optional): You can provide mode attribute on mandatory element to change the behaviour of the mandatory flag. If you provide "1" as the value of mode attribute then it will also hide the Close button on update dialog. If you provide "2" as the value of mode attribute then it will skip the update dialog and start downloading and updating application automatically.
 
-````xml
-<mandatory mode="2">true</mandatory>
-````
+   ````xml
+   <mandatory mode="2">true</mandatory>
+   ````
+
+  * minVersion (Attribute, Optional): You can also prvoide minVersion attribute on mandatory element. When you provide it, Mandatory option will be triggered only if the installed version of the app is less than the mininum version you specified here.
+
+   ````xml
+   <mandatory minVersion="1.2.0.0">true</mandatory>
+   ````
 
 * args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
 * checksum (Optional): You can provide the checksum for the update file between this tag. If you do this AutoUpdater.NET will compare the checksum of the downloaded file before executing the update process to check the integrity of the file. You can provide algorithm attribute in the checksum tag to specify which algorithm should be used to generate the checksum of the downloaded file. Currently, MD5, SHA1, SHA256, SHA384, and SHA512 are supported.
@@ -62,11 +71,11 @@ AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
 
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.
 
-    AutoUpdater.Start should be called from UI thread.
+> AutoUpdater.Start should be called from UI thread.
 
 ### Current version detection
 
-AutoUpdater.NET uses Assembly version to determine the current verison of the application. You can update it by going to Properties of the project as shown in following screenshot.
+AutoUpdater.NET uses Assembly version to determine the current version of the application. You can update it by going to Properties of the project as shown in following screenshot.
 
 ![How to change assembly version of your .NET application?](https://rbsoft.org/images/assembly-version.png)
 
@@ -79,6 +88,24 @@ AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml", myAssembly);
 ````
 
 ## Configuration Options
+
+### Download Update file and XML using FTP
+
+If you like to use ftp XML URL to check for updates or download the update file then you can provide you FTP credentials in alternative Start method as shown below.
+
+````csharp
+AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
+````
+
+If you are using FTP download URL in the XML file then credentials provided here will be used to authenticate the request.
+
+### Check for updates synchronously
+
+If you want to check for updates synchronously then set Synchronous to true before starting the update as shown below.
+
+````csharp
+AutoUpdater.Synchronous = true;
+````
 
 ### Disable Skip Button
 
@@ -106,7 +133,7 @@ AutoUpdater.Mandatory = true;
 
 ### Forced updates
 
-You can enable forced updates by setting Mandatory property to true and setting UpdateMode to value of "Forced" or "ForceDownload". "Forced" option will hide Remind Later, Skip and Close buttons on the standard update dialog. "ForceDownload" option will skip the standard update dialog and start downloading and updating the application without user interaction. "ForceDownload" option will also ignore value of OpenDownloadPage flag.
+You can enable forced updates by setting Mandatory property to true and setting UpdateMode to value of `Mode.Forced` or `Mode.ForcedDownload`. `Mode.Forced` option will hide Remind Later, Skip and Close buttons on the standard update dialog. `Mode.ForcedDownload` option will skip the standard update dialog and start downloading and updating the application without user interaction. `Mode.ForceDownload` option will also ignore value of OpenDownloadPage flag.
 
 ````csharp
 AutoUpdater.Mandatory = true;
@@ -115,11 +142,19 @@ AutoUpdater.UpdateMode = Mode.Forced;
 
 ### Basic Authetication
 
-You can provide Basic Authetication for XML and Update file as shown in below code.
+You can provide Basic Authetication for XML, Update file and Change Log as shown in below code.
 
 ````csharp
 BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
-AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = basicAuthentication;
+AutoUpdater.BasicAuthXML = AutoUpdater.BasicAuthDownload = AutoUpdater.BasicAuthChangeLog = basicAuthentication;
+````
+
+### Set User-Agent for http web requests
+
+Set the User-Agent string to be used for HTTP web requests so you can differentiate them in your web server request logs.
+
+````csharp
+AutoUpdater.HttpUserAgent = "AutoUpdater";
 ````
 
 ### Enable Error Reporting
@@ -165,7 +200,7 @@ In above example when user press Remind Later button of update dialog, It will r
 If your XML and Update file can only be used from certain Proxy Server then you can use following settings to tell AutoUpdater.NET to use that proxy. Currently, if your Changelog URL is also restricted to Proxy server then you should omit changelog tag from XML file cause it is not supported using Proxy Server.
 
 ````csharp
-var proxy = new WebProxy("ProxyIP:ProxyPort", true) 
+var proxy = new WebProxy("ProxyIP:ProxyPort", true)
 {
     Credentials = new NetworkCredential("ProxyUserName", "ProxyPassword")
 };
@@ -180,6 +215,18 @@ You can specify where you want to download the update file by assigning Download
 AutoUpdater.DownloadPath = Environment.CurrentDirectory;
 ````
 
+### Specify where to extract zip file containing updated files
+
+If you are using a zip file as an update file then you can set the "InstallationPath" equal to the path where your app is installed. This is only necessary when your installation directory differs from your executable path.
+
+````csharp
+var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+if (currentDirectory.Parent != null)
+{
+    AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
+}
+````
+
 ### Specify size of the UpdateForm
 
 You can specify the size of the update form by using below code.
@@ -187,6 +234,19 @@ You can specify the size of the update form by using below code.
 ````csharp
 AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 ````
+
+### Change storage method of Remind Later and Skip options
+
+You can change how AutoUpdater.NET saves the Remind Later and Skip values by assigning the PersistenceProvider. If you don't provide a PersistenceProvider then it will save the values in Windows registy.
+
+If you are using .NET 4.0 or above then you can use JsonFilePersistenceProvider instead of default RegistryPersistenceProvider as shown below.
+
+````csharp
+string jsonPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
+AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
+````
+
+You can create your own PersistenceProvider by implementing [IPersistenceProvider](https://github.com/ravibpatel/AutoUpdater.NET/blob/master/AutoUpdater.NET/IPersistenceProvider.cs) interface.
 
 ## Check updates frequently
 
@@ -220,7 +280,7 @@ timer.Start();
 
 ## Handling Application exit logic manually
 
-If you like to handle Application exit logic yourself then you can use ApplicationExiEvent like below. This is very useful if you like to do something before closing the application.
+If you like to handle Application exit logic yourself then you can use ApplicationExitEvent like below. This is very useful if you like to do something before closing the application.
 
 ````csharp
 AutoUpdater.ApplicationExitEvent += AutoUpdater_ApplicationExitEvent;
@@ -247,7 +307,7 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         if (args.IsUpdateAvailable)
         {
             DialogResult dialogResult;
-            if (args.Mandatory)
+            if (args.Mandatory.Value)
             {
                 dialogResult =
                     MessageBox.Show(
@@ -267,13 +327,13 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
             }
 
             // Uncomment the following line if you want to show standard update dialog instead.
-            // AutoUpdater.ShowUpdateForm();
+            // AutoUpdater.ShowUpdateForm(args);
 
-            if (dialogResult.Equals(DialogResult.Yes))
+            if (dialogResult.Equals(DialogResult.Yes) || dialogResult.Equals(DialogResult.OK))
             {
                 try
                 {
-                    if (AutoUpdater.DownloadUpdate())
+                    if (AutoUpdater.DownloadUpdate(args))
                     {
                         Application.Exit();
                     }
@@ -300,18 +360,18 @@ private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
 }
 ````
 
-When you do this it will execute the code in above event when AutoUpdater.Start method is called instead of showing the update dialog. UpdateInfoEventArgs object carries all the information you need about the update. If its null then it means AutoUpdater.NET can't reach the XML file on your server. UpdateInfoEventArgs has following information about the update.
+When you do this it will execute the code in above event when AutoUpdater.Start method is called instead of showing the update dialog.
 
 * IsUpdateAvailable (bool) :  If update is available then returns true otherwise false.
 * DownloadURL (string) : Download URL of the update file..
 * ChangelogURL (string) : URL of the webpage specifying changes in the new update.
 * CurrentVersion (Version) : Newest version of the application available to download.
 * InstalledVersion (Version) : Version of the application currently installed on the user's PC.
-* Mandatory (bool) : Shows if the update is required or optional.
+* Mandatory (Mandatory) : Shows if the update is required or optional.
 
 ## Handling parsing logic manually
 
-If you want to use other format instead of XML as a AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
+If you want to use other format instead of XML as an AppCast file then you need to handle the parsing logic by subscribing to ParseUpdateInfoEvent. You can do it as follows.
 
 ````csharp
 AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
@@ -324,8 +384,18 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
     {
         CurrentVersion = json.version,
         ChangelogURL = json.changelog,
-        Mandatory = json.mandatory,
-        DownloadURL = json.url
+        DownloadURL = json.url,
+        Mandatory = new Mandatory
+        {
+            Value = json.mandatory.value,
+            UpdateMode = json.mandatory.mode,
+            MinimumVersion = json.mandatory.minVersion
+        },
+        CheckSum = new CheckSum
+        {
+            Value = json.checksum.value,
+            HashingAlgorithm = json.checksum.hashingAlgorithm
+        }
     };
 }
 ````
@@ -334,9 +404,17 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 
 ````json
 {
-    "version":"2.0.0.0", 
-    "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
-    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
-    "mandatory":true
+   "version":"2.0.0.0",
+   "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
+   "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
+   "mandatory":{
+      "value":true,
+      "minVersion": "2.0.0.0",
+      "mode":1
+   },
+   "checksum":{
+      "value":"E5F59E50FC91A9E52634FFCB11F32BD37FE0E2F1",
+      "hashingAlgorithm":"SHA1"
+   }
 }
 ````

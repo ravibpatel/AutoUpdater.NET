@@ -10,31 +10,28 @@ namespace AutoUpdaterDotNET
 {
     internal partial class UpdateForm : Form
     {
-        public UpdateForm()
+        private readonly UpdateInfoEventArgs _args;
+
+        public UpdateForm(UpdateInfoEventArgs args)
         {
+            _args = args;
             InitializeComponent();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
             Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
-                AutoUpdater.AppTitle, AutoUpdater.CurrentVersion);
+                AutoUpdater.AppTitle, _args.CurrentVersion);
             labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
                 AutoUpdater.AppTitle);
             labelDescription.Text =
                 string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
-                    AutoUpdater.AppTitle, AutoUpdater.CurrentVersion, AutoUpdater.InstalledVersion);
+                    AutoUpdater.AppTitle, _args.CurrentVersion, _args.InstalledVersion);
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
                 ControlBox = false;
             }
-        }
-
-        public sealed override string Text
-        {
-            get { return base.Text; }
-            set { base.Text = value; }
         }
 
         private void UseLatestIE()
@@ -61,19 +58,28 @@ namespace AutoUpdaterDotNET
 
             if (ieValue != 0)
             {
-                using (RegistryKey registryKey =
-                    Registry.CurrentUser.OpenSubKey(
-                        @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION", true))
+                try
                 {
-                    registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName), ieValue,
-                        RegistryValueKind.DWord);
+                    using (RegistryKey registryKey =
+                        Registry.CurrentUser.OpenSubKey(
+                            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
+                            true))
+                    {
+                        registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName),
+                            ieValue,
+                            RegistryValueKind.DWord);
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
         }
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(AutoUpdater.ChangelogURL))
+            if (string.IsNullOrEmpty(_args.ChangelogURL))
             {
                 var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
                 labelReleaseNotes.Hide();
@@ -82,7 +88,15 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                webBrowser.Navigate(AutoUpdater.ChangelogURL);
+                if (null != AutoUpdater.BasicAuthChangeLog)
+                {
+                    webBrowser.Navigate(_args.ChangelogURL, "", null,
+                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                }
+                else
+                {
+                    webBrowser.Navigate(_args.ChangelogURL);
+                }
             }
 
             var labelSize = new Size(Width - 110, 0);
@@ -93,7 +107,7 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.OpenDownloadPage)
             {
-                var processStartInfo = new ProcessStartInfo(AutoUpdater.DownloadURL);
+                var processStartInfo = new ProcessStartInfo(_args.DownloadURL);
 
                 Process.Start(processStartInfo);
 
@@ -101,7 +115,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (AutoUpdater.DownloadUpdate())
+                if (AutoUpdater.DownloadUpdate(_args))
                 {
                     DialogResult = DialogResult.OK;
                 }
@@ -110,65 +124,52 @@ namespace AutoUpdaterDotNET
 
         private void ButtonSkipClick(object sender, EventArgs e)
         {
-            using (RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation))
-            {
-                if (updateKey != null)
-                {
-                    updateKey.SetValue("version", AutoUpdater.CurrentVersion.ToString());
-                    updateKey.SetValue("skip", 1);
-                }
-            }
+            AutoUpdater.PersistenceProvider.SetSkippedVersion(new Version(_args.CurrentVersion));
         }
 
         private void ButtonRemindLaterClick(object sender, EventArgs e)
         {
             if (AutoUpdater.LetUserSelectRemindLater)
             {
-                var remindLaterForm = new RemindLaterForm();
+                using (var remindLaterForm = new RemindLaterForm())
+                {
+                    var dialogResult = remindLaterForm.ShowDialog();
 
-                var dialogResult = remindLaterForm.ShowDialog();
-
-                if (dialogResult.Equals(DialogResult.OK))
-                {
-                    AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
-                    AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
-                }
-                else if (dialogResult.Equals(DialogResult.Abort))
-                {
-                    ButtonUpdateClick(sender, e);
-                    return;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            using (RegistryKey updateKey = Registry.CurrentUser.CreateSubKey(AutoUpdater.RegistryLocation))
-            {
-                if (updateKey != null)
-                {
-                    updateKey.SetValue("version", AutoUpdater.CurrentVersion);
-                    updateKey.SetValue("skip", 0);
-                    DateTime remindLaterDateTime = DateTime.Now;
-                    switch (AutoUpdater.RemindLaterTimeSpan)
+                    if (dialogResult.Equals(DialogResult.OK))
                     {
-                        case RemindLaterFormat.Days:
-                            remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
-                            break;
-                        case RemindLaterFormat.Hours:
-                            remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
-                            break;
-                        case RemindLaterFormat.Minutes:
-                            remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
-                            break;
+                        AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
+                        AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
                     }
-
-                    updateKey.SetValue("remindlater",
-                        remindLaterDateTime.ToString(CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat));
-                    AutoUpdater.SetTimer(remindLaterDateTime);
+                    else if (dialogResult.Equals(DialogResult.Abort))
+                    {
+                        ButtonUpdateClick(sender, e);
+                        return;
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
+
+            AutoUpdater.PersistenceProvider.SetSkippedVersion(null);
+
+            DateTime remindLaterDateTime = DateTime.Now;
+            switch (AutoUpdater.RemindLaterTimeSpan)
+            {
+                case RemindLaterFormat.Days:
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
+                    break;
+                case RemindLaterFormat.Hours:
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
+                    break;
+                case RemindLaterFormat.Minutes:
+                    remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
+                    break;
+            }
+
+            AutoUpdater.PersistenceProvider.SetRemindLater(remindLaterDateTime);
+            AutoUpdater.SetTimer(remindLaterDateTime);
 
             DialogResult = DialogResult.Cancel;
         }
