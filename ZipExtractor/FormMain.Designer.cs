@@ -36,7 +36,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar.Location = new System.Drawing.Point(96, 44);
             this.progressBar.Margin = new System.Windows.Forms.Padding(5);
@@ -64,7 +64,7 @@
             this.labelInformation.Location = new System.Drawing.Point(93, 14);
             this.labelInformation.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(68, 15);
+            this.labelInformation.Size = new System.Drawing.Size(69, 15);
             this.labelInformation.TabIndex = 3;
             this.labelInformation.Text = "Extracting...";
             // 
