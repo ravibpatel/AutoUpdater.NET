@@ -54,9 +54,9 @@ namespace ZipExtractor
                         {
                             if (process.MainModule.FileName.Equals(executablePath))
                             {
-                                _logBuilder.AppendLine("Waiting for application process to Exit...");
+                                _logBuilder.AppendLine("Waiting for application process to exit...");
 
-                                _backgroundWorker.ReportProgress(0, "Waiting for application to Exit...");
+                                _backgroundWorker.ReportProgress(0, "Waiting for application to exit...");
                                 process.WaitForExit();
                             }
                         }
@@ -102,7 +102,9 @@ namespace ZipExtractor
                 _backgroundWorker.ProgressChanged += (o, eventArgs) =>
                 {
                     progressBar.Value = eventArgs.ProgressPercentage;
-                    labelInformation.Text = eventArgs.UserState.ToString();
+                    textBoxInformation.Text = eventArgs.UserState.ToString();
+                    textBoxInformation.SelectionStart = textBoxInformation.Text.Length;
+                    textBoxInformation.SelectionLength = 0;
                 };
 
                 _backgroundWorker.RunWorkerCompleted += (o, eventArgs) =>
@@ -116,7 +118,7 @@ namespace ZipExtractor
 
                         if (!eventArgs.Cancelled)
                         {
-                            labelInformation.Text = @"Finished";
+                            textBoxInformation.Text = @"Finished";
                             try
                             {
                                 ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);

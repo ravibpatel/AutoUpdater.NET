@@ -30,7 +30,7 @@
         {
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
-            this.labelInformation = new System.Windows.Forms.Label();
+            this.textBoxInformation = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,7 +41,7 @@
             this.progressBar.Location = new System.Drawing.Point(96, 44);
             this.progressBar.Margin = new System.Windows.Forms.Padding(5);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(396, 35);
+            this.progressBar.Size = new System.Drawing.Size(514, 35);
             this.progressBar.TabIndex = 0;
             // 
             // pictureBoxIcon
@@ -57,24 +57,23 @@
             this.pictureBoxIcon.TabIndex = 2;
             this.pictureBoxIcon.TabStop = false;
             // 
-            // labelInformation
+            // textBoxInformation
             // 
-            this.labelInformation.AutoSize = true;
-            this.labelInformation.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelInformation.Location = new System.Drawing.Point(93, 14);
-            this.labelInformation.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.labelInformation.Name = "labelInformation";
-            this.labelInformation.Size = new System.Drawing.Size(69, 15);
-            this.labelInformation.TabIndex = 3;
-            this.labelInformation.Text = "Extracting...";
+            this.textBoxInformation.BackColor = System.Drawing.SystemColors.Control;
+            this.textBoxInformation.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxInformation.Location = new System.Drawing.Point(96, 20);
+            this.textBoxInformation.Name = "textBoxInformation";
+            this.textBoxInformation.Size = new System.Drawing.Size(514, 16);
+            this.textBoxInformation.TabIndex = 4;
+            this.textBoxInformation.Text = "Extracting...";
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(506, 100);
-            this.Controls.Add(this.labelInformation);
+            this.ClientSize = new System.Drawing.Size(624, 100);
+            this.Controls.Add(this.textBoxInformation);
             this.Controls.Add(this.pictureBoxIcon);
             this.Controls.Add(this.progressBar);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -98,7 +97,7 @@
 
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
-        private System.Windows.Forms.Label labelInformation;
+        private System.Windows.Forms.TextBox textBoxInformation;
     }
 }
 
