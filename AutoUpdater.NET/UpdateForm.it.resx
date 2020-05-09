@@ -136,7 +136,7 @@
     <value>Aggiorna</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>{0} {1} è ora disponibile. Hai insallato la versione {2}. Vuoi scaricare l'aggiornamento ora?</value>
+    <value>{0} {1} è ora disponibile. Hai installato la versione {2}. Vuoi scaricare l'aggiornamento ora?</value>
   </data>
   <data name="labelReleaseNotes.Text" xml:space="preserve">
     <value>Note di rilascio:</value>
