@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
@@ -672,7 +673,15 @@ namespace AutoUpdaterDotNET
             {
                 if (basicAuthentication != null)
                 {
-                    webClient.Headers[HttpRequestHeader.Authorization] = basicAuthentication.ToString();
+                    if (basicAuthentication.GetType().GetInterfaces().Contains(typeof(ICredentials)))
+                    {
+                        var credentials = basicAuthentication as ICredentials;
+                        webClient.Credentials = credentials.GetCredential(uri, null);
+                    }
+                    else
+                    {
+                        webClient.Headers[HttpRequestHeader.Authorization] = basicAuthentication.ToString();
+                    }
                 }
 
                 webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
