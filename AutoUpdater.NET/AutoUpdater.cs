@@ -71,6 +71,10 @@ namespace AutoUpdaterDotNET
         internal static bool Running;
 
         /// <summary>
+        ///     You can set this field to your current version if you don't want to determine the version from the assembly.
+        /// </summary>
+        public static Version InstalledVersion;
+        /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
         public static string DownloadPath;
@@ -375,8 +379,8 @@ namespace AutoUpdaterDotNET
                 throw new MissingFieldException();
             }
 
-            args.InstalledVersion = mainAssembly.GetName().Version;
-            args.IsUpdateAvailable = new Version(args.CurrentVersion) > mainAssembly.GetName().Version;
+            args.InstalledVersion = InstalledVersion != null ? InstalledVersion : mainAssembly.GetName().Version;
+            args.IsUpdateAvailable = new Version(args.CurrentVersion) > args.InstalledVersion;
 
             if (!Mandatory)
             {

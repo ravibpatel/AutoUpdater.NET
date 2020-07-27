@@ -121,6 +121,9 @@ namespace AutoUpdaterTest
             //Uncomment following line if you want to check for update synchronously.
             //AutoUpdater.Synchronous = true;
 
+            //Uncomment following line if you don't want the library to determine the installed version from assembly.
+            //AutoUpdater.InstalledVersion = new Version("2.0.0.1");
+
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
 

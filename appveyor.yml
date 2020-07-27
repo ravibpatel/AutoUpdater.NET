@@ -1,6 +1,6 @@
-version: 1.6.0.{build}
+version: 1.6.1.{build}
 environment:
-  my_version: 1.6.0
+  my_version: 1.6.1
   my_secret:
     secure: vbPRaZLQYpGPr4BrZZ4p6TofpSZMud+FKtlpqjgO8aA=
 skip_branch_with_pr: true
