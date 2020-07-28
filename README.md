@@ -12,7 +12,7 @@ PM> Install-Package Autoupdater.NET.Official
 
 ## How it works
 
-AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If latest version of the software is greater then current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory.
+AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If the latest version of the software is greater than the current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory.
 
 ## Using the code
 
@@ -148,9 +148,9 @@ AutoUpdater.Mandatory = true;
 AutoUpdater.UpdateMode = Mode.Forced;
 ````
 
-### Basic Authetication
+### Basic Authentication
 
-You can provide Basic Authetication for XML, Update file and Change Log as shown in below code.
+You can provide Basic Authentication for XML, Update file and Change Log as shown in below code.
 
 ````csharp
 BasicAuthentication basicAuthentication = new BasicAuthentication("myUserName", "myPassword");
@@ -245,7 +245,7 @@ AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 
 ### Change storage method of Remind Later and Skip options
 
-You can change how AutoUpdater.NET saves the Remind Later and Skip values by assigning the PersistenceProvider. If you don't provide a PersistenceProvider then it will save the values in Windows registy.
+You can change how AutoUpdater.NET saves the Remind Later and Skip values by assigning the PersistenceProvider. If you don't provide a PersistenceProvider then it will save the values in Windows registry.
 
 If you are using .NET 4.0 or above then you can use JsonFilePersistenceProvider instead of default RegistryPersistenceProvider as shown below.
 
