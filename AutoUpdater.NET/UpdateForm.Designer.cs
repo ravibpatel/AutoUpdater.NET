@@ -112,6 +112,7 @@ namespace AutoUpdaterDotNET
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UpdateForm_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UpdateForm_FormClosed);
             this.Load += new System.EventHandler(this.UpdateFormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();

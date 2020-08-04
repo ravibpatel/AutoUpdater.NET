@@ -215,6 +215,8 @@ namespace AutoUpdaterDotNET
             }
             finally
             {
+                DialogResult = _webClient == null ? DialogResult.Cancel : DialogResult.OK;
+                FormClosing -= DownloadUpdateDialog_FormClosing;
                 Close();
             }
         }
@@ -255,18 +257,18 @@ namespace AutoUpdaterDotNET
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (_webClient == null)
+            if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {
-                DialogResult = DialogResult.Cancel;
+                if (e.CloseReason == CloseReason.UserClosing)
+                {
+                    e.Cancel = true;
+                    return;
+                }
             }
-            else if (_webClient.IsBusy)
+            if (_webClient != null && _webClient.IsBusy)
             {
                 _webClient.CancelAsync();
                 DialogResult = DialogResult.Cancel;
-            }
-            else
-            {
-                DialogResult = DialogResult.OK;
             }
         }
     }
