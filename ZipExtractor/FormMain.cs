@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using ZipExtractor.Properties;
 
@@ -12,6 +13,7 @@ namespace ZipExtractor
 {
     public partial class FormMain : Form
     {
+        private const int _maxRetries = 2;
         private BackgroundWorker _backgroundWorker;
         readonly StringBuilder _logBuilder = new StringBuilder();
 
@@ -88,8 +90,26 @@ namespace ZipExtractor
                         }
 
                         ZipStorer.ZipFileEntry entry = dir[index];
-                        zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
                         string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip);
+                        int retries = 0;
+                        bool notCopied = true;
+                        while (notCopied)
+                        {
+                            try
+                            {
+                                zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
+                                notCopied = false;
+                            }
+                            catch (IOException)
+                            {
+                                Thread.Sleep(5000);
+                                retries++;
+                                if (retries > _maxRetries)
+                                {
+                                    throw;
+                                }
+                            }
+                        }
                         int progress = (index + 1) * 100 / dir.Count;
                         _backgroundWorker.ReportProgress(progress, currentFile);
 
