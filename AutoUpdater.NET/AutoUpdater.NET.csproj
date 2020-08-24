@@ -17,6 +17,17 @@
         <DebugType>embedded</DebugType>
         <DebugSymbols>true</DebugSymbols>
         <NeutralLanguage>en</NeutralLanguage>
+        <PackageId>Autoupdater.NET.Official</PackageId>
+        <IncludeSymbols>true</IncludeSymbols>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageVersion>1.6.1</PackageVersion>
+        <Title>AutoUpdater.NET</Title>
+        <Authors>rbsoft</Authors>
+        <Description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</Description>
+        <PackageProjectUrl>https://github.com/ravibpatel/AutoUpdater.NET</PackageProjectUrl>
+        <PackageTags>autoupdate updater c# vb wpf winforms</PackageTags>
+        <PackageReleaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</PackageReleaseNotes>
+        <PackageOutputPath>build</PackageOutputPath>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputPath>build\lib</OutputPath>
@@ -39,7 +50,9 @@
         <Compile Remove="JsonFilePersistenceProvider.cs" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net40' OR '$(TargetFramework)' == 'net45' ">
-        <PackageReference Include="Resource.Embedder" Version="1.2.8" />
+        <PackageReference Include="Resource.Embedder" Version="1.2.8">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
         <Reference Include="System.Xaml" />
         <Reference Include="System.Runtime.Serialization" />
     </ItemGroup>

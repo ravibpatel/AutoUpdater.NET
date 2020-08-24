@@ -29,7 +29,9 @@
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
         <PackageReference Include="ZipStorer" Version="3.6.0" />
-        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1" />
+        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1">
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
         <Reference Include="System.IO.Compression" />
