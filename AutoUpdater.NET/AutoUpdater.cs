@@ -64,7 +64,7 @@ namespace AutoUpdaterDotNET
     {
         private static System.Timers.Timer _remindLaterTimer;
 
-        internal static bool IsWinFormsApplication;
+        private static bool _isWinFormsApplication;
 
         internal static Uri BaseUri;
 
@@ -272,9 +272,9 @@ namespace AutoUpdaterDotNET
 
                 AppCastURL = appCast;
 
-                IsWinFormsApplication = Application.MessageLoop;
+                _isWinFormsApplication = Application.MessageLoop;
 
-                if (!IsWinFormsApplication)
+                if (!_isWinFormsApplication)
                 {
                     Application.EnableVisualStyles();
                 }
@@ -522,7 +522,7 @@ namespace AutoUpdaterDotNET
                     string processPath;
                     try
                     {
-                        processPath = process.MainModule.FileName;
+                        processPath = process.MainModule?.FileName;
                     }
                     catch (Win32Exception)
                     {
@@ -531,8 +531,8 @@ namespace AutoUpdaterDotNET
                         continue;
                     }
 
-                    if (process.Id != currentProcess.Id &&
-                        currentProcess.MainModule.FileName == processPath
+                    if (process.Id != currentProcess.Id && !string.IsNullOrEmpty(processPath) && 
+                        currentProcess.MainModule?.FileName == processPath
                     ) //get all instances of assembly except current
                     {
                         if (process.CloseMainWindow())
@@ -548,7 +548,7 @@ namespace AutoUpdaterDotNET
                     }
                 }
 
-                if (IsWinFormsApplication)
+                if (_isWinFormsApplication)
                 {
                     MethodInvoker methodInvoker = Application.Exit;
                     methodInvoker.Invoke();
@@ -638,7 +638,7 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        /// Shows standard update dialog.
+        ///     Shows standard update dialog.
         /// </summary>
         public static void ShowUpdateForm(UpdateInfoEventArgs args)
         {
