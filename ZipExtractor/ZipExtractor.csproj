@@ -5,7 +5,6 @@
         <OutputType>WinExe</OutputType>
         <TargetFrameworks>net20;net35;net40;net45</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AssemblyTitle>ZipExtractor</AssemblyTitle>
         <Company>RBSoft</Company>
         <Product>ZipExtractor</Product>
@@ -23,15 +22,14 @@
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputPath>..\AutoUpdater.NET\Resources</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
         <DefineConstants>NET45</DefineConstants>
     </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1" />
-    </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
         <PackageReference Include="ZipStorer" Version="3.6.0" />
+        <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1" />
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
         <Reference Include="System.IO.Compression" />
