@@ -4,7 +4,7 @@ using System.Net;
 namespace AutoUpdaterDotNET
 {
     /// <summary>
-    ///     Provides credentials for Network Authentication
+    ///     Provides credentials for Network Authentication.
     /// </summary>
     public class NetworkAuthentication : IAuthentication
     {
