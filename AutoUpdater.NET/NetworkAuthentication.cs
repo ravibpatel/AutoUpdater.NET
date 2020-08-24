@@ -13,7 +13,7 @@ namespace AutoUpdaterDotNET
         private string Password { get; }
 
         /// <summary>
-        /// Initializes credentials for Network Authentication.
+        ///     Initializes credentials for Network Authentication.
         /// </summary>
         /// <param name="username">Username to use for Network Authentication</param>
         /// <param name="password">Password to use for Network Authentication</param>
