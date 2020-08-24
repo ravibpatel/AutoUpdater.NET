@@ -674,10 +674,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (basicAuthentication != null)
-                {
-                    webClient.Headers[HttpRequestHeader.Authorization] = basicAuthentication.ToString();
-                }
+                basicAuthentication?.Apply(ref webClient);
 
                 webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
             }
