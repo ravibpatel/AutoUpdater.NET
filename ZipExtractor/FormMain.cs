@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using ZipExtractor.Properties;
 
@@ -12,8 +13,9 @@ namespace ZipExtractor
 {
     public partial class FormMain : Form
     {
+        private const int MaxRetries = 2;
         private BackgroundWorker _backgroundWorker;
-        readonly StringBuilder _logBuilder = new StringBuilder();
+        private readonly StringBuilder _logBuilder = new StringBuilder();
 
         public FormMain()
         {
@@ -52,7 +54,7 @@ namespace ZipExtractor
                     {
                         try
                         {
-                            if (process.MainModule.FileName.Equals(executablePath))
+                            if (process.MainModule != null && process.MainModule.FileName.Equals(executablePath))
                             {
                                 _logBuilder.AppendLine("Waiting for application process to exit...");
 
@@ -69,34 +71,93 @@ namespace ZipExtractor
                     _logBuilder.AppendLine("BackgroundWorker started successfully.");
 
                     var path = args[2];
+                    
+                    // Ensures that the last character on the extraction path
+                    // is the directory separator char.
+                    // Without this, a malicious zip file could try to traverse outside of the expected
+                    // extraction path.
+                    if (!path.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                        path += Path.DirectorySeparatorChar;
 
+#if NET45
+                    var archive = ZipFile.OpenRead(args[1]);
+                    
+                    var entries = archive.Entries;
+#else
                     // Open an existing zip file for reading.
-                    ZipStorer zip = ZipStorer.Open(args[1], FileAccess.Read);
+                    var zip = ZipStorer.Open(args[1], FileAccess.Read);
 
                     // Read the central directory collection.
-                    List<ZipStorer.ZipFileEntry> dir = zip.ReadCentralDir();
+                    var entries = zip.ReadCentralDir();
+#endif
 
-                    _logBuilder.AppendLine($"Found total of {dir.Count} files and folders inside the zip file.");
+                    _logBuilder.AppendLine($"Found total of {entries.Count} files and folders inside the zip file.");
 
-                    for (var index = 0; index < dir.Count; index++)
+                    try
                     {
-                        if (_backgroundWorker.CancellationPending)
+                        for (var index = 0; index < entries.Count; index++)
                         {
-                            eventArgs.Cancel = true;
-                            zip.Close();
-                            return;
+                            if (_backgroundWorker.CancellationPending)
+                            {
+                                eventArgs.Cancel = true;
+                                break;
+                            }
+
+                            var entry = entries[index];
+
+#if NET45
+                            string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FullName);
+#else
+                            string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip);
+#endif
+                            int retries = 0;
+                            bool notCopied = true;
+                            while (notCopied)
+                            {
+                                try
+                                {
+#if NET45
+                                    entry.ExtractToFile(Path.Combine(path, entry.FullName));
+#else
+                                    zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
+#endif
+                                    notCopied = false;
+                                }
+                                catch (IOException exception)
+                                {
+                                    const int errorSharingViolation = 0x20;
+                                    const int errorLockViolation = 0x21;
+                                    var errorCode = Marshal.GetHRForException(exception) & 0x0000FFFF;
+                                    if (errorCode == errorSharingViolation || errorCode == errorLockViolation)
+                                    {
+                                        Thread.Sleep(5000);
+                                        retries++;
+                                        if (retries > MaxRetries)
+                                        {
+                                            throw;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw;
+                                    }
+                                }
+                            }
+
+                            int progress = (index + 1) * 100 / entries.Count;
+                            _backgroundWorker.ReportProgress(progress, currentFile);
+
+                            _logBuilder.AppendLine($"{currentFile} [{progress}%]");
                         }
-
-                        ZipStorer.ZipFileEntry entry = dir[index];
-                        zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
-                        string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip);
-                        int progress = (index + 1) * 100 / dir.Count;
-                        _backgroundWorker.ReportProgress(progress, currentFile);
-
-                        _logBuilder.AppendLine($"{currentFile} [{progress}%]");
                     }
-
-                    zip.Close();
+                    finally
+                    {
+#if NET45
+                        archive.Dispose();
+#else
+                        zip.Close();
+#endif
+                    }
                 };
 
                 _backgroundWorker.ProgressChanged += (o, eventArgs) =>

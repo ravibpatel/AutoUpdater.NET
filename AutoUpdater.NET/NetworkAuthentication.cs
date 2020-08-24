@@ -6,7 +6,7 @@ namespace AutoUpdaterDotNET
     /// <summary>
     ///     Provides credentials for Network Authentication
     /// </summary>
-    public class NetworkAuthentication : IAuthentication, ICredentials
+    public class NetworkAuthentication : IAuthentication
     {
         private string Username { get; }
 
@@ -23,9 +23,9 @@ namespace AutoUpdaterDotNET
             Password = password;
         }
 
-        /// <summary>
-        /// Provides network credentials
-        /// </summary>
-        public NetworkCredential GetCredential(Uri uri, string authType) => new NetworkCredential(Username, Password);
+        public void Apply(ref MyWebClient webClient)
+        {
+            webClient.Credentials = new NetworkCredential(Username, Password);
+        }
     }
 }

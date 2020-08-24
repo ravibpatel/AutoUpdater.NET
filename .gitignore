@@ -251,5 +251,4 @@ paket-files/
 .idea/
 *.sln.iml
 *.snk
-/AutoUpdater.NET/lib
-/AutoUpdater.NET/build/lib/net40
+/AutoUpdater.NET/build/lib/

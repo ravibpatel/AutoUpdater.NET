@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Net;
 
 namespace AutoUpdaterDotNET
 {
@@ -12,18 +10,24 @@ namespace AutoUpdaterDotNET
         private string HttpRequestHeaderAuthorizationValue { get; }
 
         /// <summary>
-        /// Initializes authorization header value for Custom Authentication
+        ///     Initializes authorization header value for Custom Authentication
         /// </summary>
         /// <param name="httpRequestHeaderAuthorizationValue">Value to use as http request header authorization value</param>
         public CustomAuthentication(string httpRequestHeaderAuthorizationValue)
         {
             HttpRequestHeaderAuthorizationValue = httpRequestHeaderAuthorizationValue;
         }
-
+        
         /// <inheritdoc />
         public override string ToString()
         {
             return HttpRequestHeaderAuthorizationValue;
+        }
+
+        /// <inheritdoc />
+        public void Apply(ref MyWebClient webClient)
+        {
+            webClient.Headers[HttpRequestHeader.Authorization] = ToString();
         }
     }
 }

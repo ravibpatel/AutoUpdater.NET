@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Text;
 
 namespace AutoUpdaterDotNET
@@ -13,7 +14,7 @@ namespace AutoUpdaterDotNET
         private string Password { get; }
 
         /// <summary>
-        /// Initializes credentials for Basic Authentication.
+        ///     Initializes credentials for Basic Authentication.
         /// </summary>
         /// <param name="username">Username to use for Basic Authentication</param>
         /// <param name="password">Password to use for Basic Authentication</param>
@@ -28,6 +29,12 @@ namespace AutoUpdaterDotNET
         {
             var token = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{Username}:{Password}"));
             return $"Basic {token}";
+        }
+        
+        /// <inheritdoc />
+        public void Apply(ref MyWebClient webClient)
+        {
+            webClient.Headers[HttpRequestHeader.Authorization] = ToString();
         }
     }
 }

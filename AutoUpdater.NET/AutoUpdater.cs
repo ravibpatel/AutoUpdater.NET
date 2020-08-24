@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
@@ -65,12 +64,16 @@ namespace AutoUpdaterDotNET
     {
         private static System.Timers.Timer _remindLaterTimer;
 
-        internal static bool IsWinFormsApplication;
+        private static bool _isWinFormsApplication;
 
         internal static Uri BaseUri;
 
         internal static bool Running;
 
+        /// <summary>
+        ///     You can set this field to your current version if you don't want to determine the version from the assembly.
+        /// </summary>
+        public static Version InstalledVersion;
         /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
@@ -269,9 +272,9 @@ namespace AutoUpdaterDotNET
 
                 AppCastURL = appCast;
 
-                IsWinFormsApplication = Application.MessageLoop;
+                _isWinFormsApplication = Application.MessageLoop;
 
-                if (!IsWinFormsApplication)
+                if (!_isWinFormsApplication)
                 {
                     Application.EnableVisualStyles();
                 }
@@ -376,8 +379,8 @@ namespace AutoUpdaterDotNET
                 throw new MissingFieldException();
             }
 
-            args.InstalledVersion = mainAssembly.GetName().Version;
-            args.IsUpdateAvailable = new Version(args.CurrentVersion) > mainAssembly.GetName().Version;
+            args.InstalledVersion = InstalledVersion != null ? InstalledVersion : mainAssembly.GetName().Version;
+            args.IsUpdateAvailable = new Version(args.CurrentVersion) > args.InstalledVersion;
 
             if (!Mandatory)
             {
@@ -519,7 +522,7 @@ namespace AutoUpdaterDotNET
                     string processPath;
                     try
                     {
-                        processPath = process.MainModule.FileName;
+                        processPath = process.MainModule?.FileName;
                     }
                     catch (Win32Exception)
                     {
@@ -528,8 +531,8 @@ namespace AutoUpdaterDotNET
                         continue;
                     }
 
-                    if (process.Id != currentProcess.Id &&
-                        currentProcess.MainModule.FileName == processPath
+                    if (process.Id != currentProcess.Id && !string.IsNullOrEmpty(processPath) && 
+                        currentProcess.MainModule?.FileName == processPath
                     ) //get all instances of assembly except current
                     {
                         if (process.CloseMainWindow())
@@ -545,7 +548,7 @@ namespace AutoUpdaterDotNET
                     }
                 }
 
-                if (IsWinFormsApplication)
+                if (_isWinFormsApplication)
                 {
                     MethodInvoker methodInvoker = Application.Exit;
                     methodInvoker.Invoke();
@@ -635,7 +638,7 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        /// Shows standard update dialog.
+        ///     Shows standard update dialog.
         /// </summary>
         public static void ShowUpdateForm(UpdateInfoEventArgs args)
         {
@@ -671,18 +674,7 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (basicAuthentication != null)
-                {
-                    if (basicAuthentication.GetType().GetInterfaces().Contains(typeof(ICredentials)))
-                    {
-                        var credentials = basicAuthentication as ICredentials;
-                        webClient.Credentials = credentials.GetCredential(uri, null);
-                    }
-                    else
-                    {
-                        webClient.Headers[HttpRequestHeader.Authorization] = basicAuthentication.ToString();
-                    }
-                }
+                basicAuthentication?.Apply(ref webClient);
 
                 webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
             }
