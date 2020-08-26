@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -86,7 +87,7 @@ namespace ZipExtractor
 #else
                     // Open an existing zip file for reading.
                     var zip = ZipStorer.Open(args[1], FileAccess.Read);
-
+                    
                     // Read the central directory collection.
                     var entries = zip.ReadCentralDir();
 #endif
@@ -116,12 +117,15 @@ namespace ZipExtractor
                             bool notCopied = true;
                             while (notCopied)
                             {
+                                string filePath = String.Empty;
                                 try
                                 {
 #if NET45
-                                    entry.ExtractToFile(Path.Combine(path, entry.FullName), true);
+                                    filePath = Path.Combine(path, entry.FullName);
+                                    entry.ExtractToFile(filePath, true);
 #else
-                                    zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
+                                    filePath = Path.Combine(path, entry.FilenameInZip);
+                                    zip.ExtractFile(entry, filePath);
 #endif
                                     notCopied = false;
                                 }
@@ -132,11 +136,43 @@ namespace ZipExtractor
                                     var errorCode = Marshal.GetHRForException(exception) & 0x0000FFFF;
                                     if (errorCode == errorSharingViolation || errorCode == errorLockViolation)
                                     {
-                                        Thread.Sleep(5000);
                                         retries++;
                                         if (retries > MaxRetries)
                                         {
                                             throw;
+                                        }
+
+                                        List<Process> lockingProcesses = null;
+                                        if (Environment.OSVersion.Version.Major >= 6 && retries >= 2)
+                                        {
+                                            try
+                                            {
+                                                lockingProcesses = FileUtil.WhoIsLocking(filePath);
+                                            }
+                                            catch (Exception)
+                                            {
+                                                // ignored
+                                            }
+                                        }
+
+                                        if (lockingProcesses == null)
+                                        {
+                                            Thread.Sleep(5000);
+                                        }
+                                        else
+                                        {
+                                            foreach (var lockingProcess in lockingProcesses)
+                                            {
+                                                var dialogResult = MessageBox.Show(
+                                                    string.Format(Resources.FileStillInUseMessage,
+                                                        lockingProcess.ProcessName, filePath),
+                                                    Resources.FileStillInUseCaption,
+                                                    MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                                if (dialogResult == DialogResult.Cancel)
+                                                {
+                                                    throw;
+                                                }
+                                            }
                                         }
                                     }
                                     else

@@ -68,7 +68,29 @@ namespace ZipExtractor.Properties {
                 return ResourceManager.GetString("CurrentFileExtracting", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is still open and it is using "{1}". Please close the process manually and press Retry..
+        /// </summary>
+        internal static string FileStillInUseMessage
+        {
+            get
+            {
+                return ResourceManager.GetString("FileStillInUseMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update the file!.
+        /// </summary>
+        internal static string FileStillInUseCaption
+        {
+            get
+            {
+                return ResourceManager.GetString("FileStillInUseCaption", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
