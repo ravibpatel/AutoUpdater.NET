@@ -14,8 +14,6 @@
         <FileVersion>1.6.1.0</FileVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
-        <DebugType>embedded</DebugType>
-        <DebugSymbols>true</DebugSymbols>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageId>Autoupdater.NET.Official</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
@@ -28,9 +26,14 @@
         <PackageTags>autoupdate updater c# vb wpf winforms</PackageTags>
         <PackageReleaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</PackageReleaseNotes>
         <PackageOutputPath>build</PackageOutputPath>
+        <DocumentationFile>$(OutputPath)\$(Configuration)\AutoUpdater.NET.xml</DocumentationFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputPath>build\lib</OutputPath>
+        <DebugType>pdbonly</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DebugType>full</DebugType>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(TargetFramework)' != 'net20' ">
         <DefineConstants>NETWPF</DefineConstants>

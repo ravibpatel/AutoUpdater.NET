@@ -95,6 +95,7 @@ namespace ZipExtractor
 
                     try
                     {
+                        int progress = 0;
                         for (var index = 0; index < entries.Count; index++)
                         {
                             if (_backgroundWorker.CancellationPending)
@@ -110,6 +111,7 @@ namespace ZipExtractor
 #else
                             string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip);
 #endif
+                            _backgroundWorker.ReportProgress(progress, currentFile);
                             int retries = 0;
                             bool notCopied = true;
                             while (notCopied)
@@ -117,7 +119,7 @@ namespace ZipExtractor
                                 try
                                 {
 #if NET45
-                                    entry.ExtractToFile(Path.Combine(path, entry.FullName));
+                                    entry.ExtractToFile(Path.Combine(path, entry.FullName), true);
 #else
                                     zip.ExtractFile(entry, Path.Combine(path, entry.FilenameInZip));
 #endif
@@ -144,7 +146,7 @@ namespace ZipExtractor
                                 }
                             }
 
-                            int progress = (index + 1) * 100 / entries.Count;
+                            progress = (index + 1) * 100 / entries.Count;
                             _backgroundWorker.ReportProgress(progress, currentFile);
 
                             _logBuilder.AppendLine($"{currentFile} [{progress}%]");

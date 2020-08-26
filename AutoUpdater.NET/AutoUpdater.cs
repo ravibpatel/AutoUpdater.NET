@@ -506,48 +506,47 @@ namespace AutoUpdaterDotNET
         }
 
         /// <summary>
-        /// Detects and exits all instances of running assembly, including current.
+        ///     Detects and exits all instances of running assembly, including current.
         /// </summary>
         private static void Exit()
         {
+            var currentProcess = Process.GetCurrentProcess();
+            foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
+            {
+                string processPath;
+                try
+                {
+                    processPath = process.MainModule?.FileName;
+                }
+                catch (Win32Exception)
+                {
+                    // Current process should be same as processes created by other instances of the application so it should be able to access modules of other instances. 
+                    // This means this is not the process we are looking for so we can safely skip this.
+                    continue;
+                }
+
+                //get all instances of assembly except current
+                if (process.Id != currentProcess.Id && currentProcess.MainModule?.FileName == processPath)
+                {
+                    if (process.CloseMainWindow())
+                    {
+                        process.WaitForExit((int) TimeSpan.FromSeconds(10)
+                            .TotalMilliseconds); //give some time to process message
+                    }
+
+                    if (!process.HasExited)
+                    {
+                        process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
+                    }
+                }
+            }
+            
             if (ApplicationExitEvent != null)
             {
                 ApplicationExitEvent();
             }
             else
             {
-                var currentProcess = Process.GetCurrentProcess();
-                foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))
-                {
-                    string processPath;
-                    try
-                    {
-                        processPath = process.MainModule?.FileName;
-                    }
-                    catch (Win32Exception)
-                    {
-                        // Current process should be same as processes created by other instances of the application so it should be able to access modules of other instances. 
-                        // This means this is not the process we are looking for so we can safely skip this.
-                        continue;
-                    }
-
-                    if (process.Id != currentProcess.Id && !string.IsNullOrEmpty(processPath) && 
-                        currentProcess.MainModule?.FileName == processPath
-                    ) //get all instances of assembly except current
-                    {
-                        if (process.CloseMainWindow())
-                        {
-                            process.WaitForExit((int) TimeSpan.FromSeconds(10)
-                                .TotalMilliseconds); //give some time to process message
-                        }
-
-                        if (!process.HasExited)
-                        {
-                            process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
-                        }
-                    }
-                }
-
                 if (_isWinFormsApplication)
                 {
                     MethodInvoker methodInvoker = Application.Exit;

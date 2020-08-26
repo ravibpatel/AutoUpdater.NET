@@ -23,6 +23,7 @@ namespace AutoUpdaterDotNET
             Password = password;
         }
 
+        /// <inheritdoc />
         public void Apply(ref MyWebClient webClient)
         {
             webClient.Credentials = new NetworkCredential(Username, Password);

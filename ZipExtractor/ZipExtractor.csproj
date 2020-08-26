@@ -15,7 +15,6 @@
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <SignAssembly>true</SignAssembly>
-        <OutputPath>..\AutoUpdater.NET\Resources</OutputPath>
         <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <DebugType>none</DebugType>
