@@ -122,7 +122,15 @@ namespace ZipExtractor
                                 {
 #if NET45
                                     filePath = Path.Combine(path, entry.FullName);
-                                    entry.ExtractToFile(filePath, true);
+                                    if (!entry.IsDirectory())
+                                    {
+                                        var parentDirectory = Path.GetDirectoryName(filePath);
+                                        if (!Directory.Exists(parentDirectory))
+                                        {
+                                            Directory.CreateDirectory(parentDirectory);
+                                        }
+                                        entry.ExtractToFile(filePath, true);
+                                    }
 #else
                                     filePath = Path.Combine(path, entry.FilenameInZip);
                                     zip.ExtractFile(entry, filePath);

@@ -9,35 +9,41 @@
         <Company>RBSoft</Company>
         <Product>ZipExtractor</Product>
         <Copyright>Copyright © 2012-2020 RBSoft</Copyright>
-        <AssemblyVersion>1.2.0.0</AssemblyVersion>
-        <FileVersion>1.2.0.0</FileVersion>
-        <ApplicationVersion>1.2.0.0</ApplicationVersion>
+        <AssemblyVersion>1.2.1.0</AssemblyVersion>
+        <FileVersion>1.2.1.0</FileVersion>
+        <ApplicationVersion>1.2.1.0</ApplicationVersion>
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
-        <DebugType>none</DebugType>
+        <Version>1.2.1</Version>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputPath>..\AutoUpdater.NET\Resources</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <DebugType>none</DebugType>
+        <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
         <DefineConstants>NET45</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
-        <PackageReference Include="ZipStorer" Version="3.6.0" />
+        <PackageReference Include="ZipStorer" Version="3.6.0"/>
         <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-        <Reference Include="System.IO.Compression" />
-        <Reference Include="System.IO.Compression.FileSystem" />
+        <Reference Include="System.IO.Compression"/>
+        <Reference Include="System.IO.Compression.FileSystem"/>
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.Windows.Forms"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Properties\Settings.Designer.cs">
