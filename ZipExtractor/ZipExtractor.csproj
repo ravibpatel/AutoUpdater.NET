@@ -15,7 +15,7 @@
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>ZipExtractorFork.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <Version>1.2.1</Version>
     </PropertyGroup>
@@ -33,17 +33,17 @@
         <DefineConstants>NET45</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
-        <PackageReference Include="ZipStorer" Version="3.6.0"/>
+        <PackageReference Include="ZipStorer" Version="3.6.0" />
         <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-        <Reference Include="System.IO.Compression"/>
-        <Reference Include="System.IO.Compression.FileSystem"/>
+        <Reference Include="System.IO.Compression" />
+        <Reference Include="System.IO.Compression.FileSystem" />
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="System.Windows.Forms"/>
+        <Reference Include="System.Windows.Forms" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Properties\Settings.Designer.cs">
