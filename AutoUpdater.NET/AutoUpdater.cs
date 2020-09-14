@@ -223,6 +223,21 @@ namespace AutoUpdaterDotNET
         public static Size? UpdateFormSize = null;
 
         /// <summary>
+        ///     Set if you want the default update form to have a different main icon.
+        /// </summary>
+        public static Bitmap MainIcon = null;
+
+        /// <summary>
+        ///     Set if you want the MainIcon to have a different size.
+        /// </summary>
+        public static Size MainIconSize;
+
+        /// <summary>
+        ///     Set if you want the default update form to have a different small icon.
+        /// </summary>
+        public static Icon SmallIcon = null;
+
+        /// <summary>
         ///     Start checking for new version of application and display a dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
@@ -643,6 +658,12 @@ namespace AutoUpdaterDotNET
         {
             using (var updateForm = new UpdateForm(args))
             {
+                if (MainIcon != null)
+                    updateForm.SetMainUpdaterIcon(MainIcon, MainIconSize);
+
+                if (SmallIcon != null)
+                    updateForm.SetUpdaterIcon(SmallIcon);
+
                 if (UpdateFormSize.HasValue)
                 {
                     updateForm.Size = UpdateFormSize.Value;

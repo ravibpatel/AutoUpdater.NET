@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -123,6 +124,13 @@ namespace AutoUpdaterTest
 
             //Uncomment following line if you don't want the library to determine the installed version from assembly.
             //AutoUpdater.InstalledVersion = new Version("2.0.0.1");
+            //using (var client = new WebClient())
+            //{
+            //    using (var stream = client.OpenRead("https://img.icons8.com/nolan/64/approve-and-update.png"))
+            //    {
+            //        AutoUpdater.MainIcon = new Bitmap(stream);
+            //    }
+            //}
 
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
