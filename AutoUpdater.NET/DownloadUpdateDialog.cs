@@ -25,8 +25,12 @@ namespace AutoUpdaterDotNET
         public DownloadUpdateDialog(UpdateInfoEventArgs args)
         {
             InitializeComponent();
-
             _args = args;
+            var icon = AutoUpdater.SmallIcon;
+            if (icon != null) Icon = icon;
+
+            var dlImg = AutoUpdater.DownloadImage;
+            if (dlImg != null) pictureBoxIcon.Image = dlImg;
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {

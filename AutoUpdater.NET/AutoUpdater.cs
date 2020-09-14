@@ -238,6 +238,11 @@ namespace AutoUpdaterDotNET
         public static Icon SmallIcon = null;
 
         /// <summary>
+        ///     Set if you want the default downloader to have a different download image.
+        /// </summary>
+        public static Bitmap DownloadImage = null;
+
+        /// <summary>
         ///     Start checking for new version of application and display a dialog to the user if update is available.
         /// </summary>
         /// <param name="myAssembly">Assembly to use for version checking.</param>
