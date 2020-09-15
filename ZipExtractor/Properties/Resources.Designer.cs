@@ -19,7 +19,7 @@ namespace ZipExtractor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -68,29 +68,25 @@ namespace ZipExtractor.Properties {
                 return ResourceManager.GetString("CurrentFileExtracting", resourceCulture);
             }
         }
-
-        /// <summary>
-        ///   Looks up a localized string similar to {0} is still open and it is using "{1}". Please close the process manually and press Retry..
-        /// </summary>
-        internal static string FileStillInUseMessage
-        {
-            get
-            {
-                return ResourceManager.GetString("FileStillInUseMessage", resourceCulture);
-            }
-        }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Unable to update the file!.
         /// </summary>
-        internal static string FileStillInUseCaption
-        {
-            get
-            {
+        internal static string FileStillInUseCaption {
+            get {
                 return ResourceManager.GetString("FileStillInUseCaption", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is still open and it is using &quot;{1}&quot;. Please close the process manually and press Retry..
+        /// </summary>
+        internal static string FileStillInUseMessage {
+            get {
+                return ResourceManager.GetString("FileStillInUseMessage", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>

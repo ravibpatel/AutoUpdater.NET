@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
@@ -33,6 +34,16 @@ namespace AutoUpdaterDotNET
                 ControlBox = false;
             }
         }
+
+        public void SetMainUpdaterIcon(Bitmap icon, Size iconSize)
+        {
+            if (iconSize.Width == 0) // check if no iconSize was provided.
+                iconSize = new Size(64, 64);
+            pictureBoxIcon.Image = new Bitmap(icon, iconSize);
+        }
+
+        public void SetUpdaterIcon(Icon smallIconUrl) => Icon = smallIconUrl;
+        
 
         private void UseLatestIE()
         {
