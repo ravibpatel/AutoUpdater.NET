@@ -51,7 +51,7 @@ namespace ZipExtractor
 
                 _backgroundWorker.DoWork += (o, eventArgs) =>
                 {
-                    foreach (var process in Process.GetProcesses())
+                    foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executablePath)))
                     {
                         try
                         {
