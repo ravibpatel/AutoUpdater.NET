@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Autoupdater.NET.Official</id>
-    <version>1.6.2</version>
+    <version>1.6.3</version>
     <title>AutoUpdater.NET</title>
     <authors>rbsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
