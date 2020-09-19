@@ -132,7 +132,7 @@ namespace AutoUpdaterTest
             //    }
             //}
 
-            AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+            AutoUpdater.Start("https://mesh.imfast.io/autest.xml");
         }
 
         private void AutoUpdater_ApplicationExitEvent()

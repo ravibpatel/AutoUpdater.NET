@@ -189,6 +189,9 @@ namespace AutoUpdaterDotNET
                     {
                         processStartInfo.Arguments += " " + installerArgs;
                     }
+                } else if (extension.Equals(".exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    processStartInfo.Arguments += "/silent";
                 }
 
                 if (AutoUpdater.RunUpdateAsAdmin)
