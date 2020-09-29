@@ -139,7 +139,7 @@
     <value>Nepodporovaný hashovací algoritmus</value>
   </data>
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>Hashovací algoritmus uvedený v XMLnie je podporovaný.</value>
+    <value>Hashovací algoritmus uvedený v XML nie je podporovaný.</value>
   </data>
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>Sťahovanie na {0}/s</value>
