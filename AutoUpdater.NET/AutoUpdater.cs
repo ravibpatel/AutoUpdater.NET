@@ -74,6 +74,7 @@ namespace AutoUpdaterDotNET
         ///     You can set this field to your current version if you don't want to determine the version from the assembly.
         /// </summary>
         public static Version InstalledVersion;
+
         /// <summary>
         ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
         /// </summary>
@@ -359,7 +360,7 @@ namespace AutoUpdaterDotNET
             using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
             {
                 string xml = client.DownloadString(BaseUri);
-
+                
                 if (ParseUpdateInfoEvent == null)
                 {
                     XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
@@ -488,19 +489,26 @@ namespace AutoUpdaterDotNET
 
         private static void ShowError(Exception exception)
         {
-            if (ReportErrors)
+            if (CheckForUpdateEvent != null)
             {
-                if (exception is WebException)
+                CheckForUpdateEvent(new UpdateInfoEventArgs {Error = exception});
+            }
+            else
+            {
+                if (ReportErrors)
                 {
-                    MessageBox.Show(
-                        Resources.UpdateCheckFailedMessage,
-                        Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                else
-                {
-                    MessageBox.Show(exception.ToString(),
-                        exception.GetType().ToString(), MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    if (exception is WebException)
+                    {
+                        MessageBox.Show(
+                            Resources.UpdateCheckFailedMessage,
+                            Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show(exception.Message,
+                            exception.GetType().ToString(), MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }
                 }
             }
         }
@@ -540,7 +548,7 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
-            
+
             if (ApplicationExitEvent != null)
             {
                 ApplicationExitEvent();

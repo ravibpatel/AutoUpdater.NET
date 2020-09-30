@@ -159,7 +159,7 @@ namespace AutoUpdaterTest
 
         private void AutoUpdaterOnCheckForUpdateEvent(UpdateInfoEventArgs args)
         {
-            if (args != null)
+            if (args.Error == null)
             {
                 if (args.IsUpdateAvailable)
                 {
@@ -213,9 +213,18 @@ namespace AutoUpdaterTest
             }
             else
             {
-                MessageBox.Show(
-                    @"There is a problem reaching update server. Please check your internet connection and try again later.",
-                    @"Update Check Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (args.Error is WebException)
+                {
+                    MessageBox.Show(
+                        @"There is a problem reaching update server. Please check your internet connection and try again later.",
+                        @"Update Check Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    MessageBox.Show(args.Error.Message,
+                        args.Error.GetType().ToString(), MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
             }
         }
 

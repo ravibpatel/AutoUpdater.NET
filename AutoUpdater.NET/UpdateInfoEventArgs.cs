@@ -22,6 +22,12 @@ namespace AutoUpdaterDotNET
         ///     If new update is available then returns true otherwise false.
         /// </summary>
         public bool IsUpdateAvailable { get; set; }
+        
+        /// <summary>
+        ///     If there is an error while checking for update then this property won't be null.
+        /// </summary>
+        [XmlIgnore]
+        public Exception Error { get; set; }
 
         /// <summary>
         ///     Download URL of the update file.
@@ -71,11 +77,6 @@ namespace AutoUpdaterDotNET
         /// </summary>
         [XmlElement("checksum")]
         public CheckSum CheckSum { get; set; }
-
-        /// <summary>
-        ///     Hash algorithm that generated the checksum provided in the XML file.
-        /// </summary>
-        public string HashingAlgorithm { get; set; }
 
         internal static string GetURL(Uri baseUri, string url)
         {
