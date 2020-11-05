@@ -10,15 +10,15 @@
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
         <Copyright>Copyright © 2012-2020 RBSoft</Copyright>
-        <AssemblyVersion>1.6.3.0</AssemblyVersion>
-        <FileVersion>1.6.3.0</FileVersion>
+        <AssemblyVersion>1.6.4.0</AssemblyVersion>
+        <FileVersion>1.6.4.0</FileVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageId>Autoupdater.NET.Official</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.6.3</PackageVersion>
+        <PackageVersion>1.6.4</PackageVersion>
         <Title>AutoUpdater.NET</Title>
         <Authors>rbsoft</Authors>
         <Description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</Description>
