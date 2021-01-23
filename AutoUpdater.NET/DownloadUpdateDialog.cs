@@ -259,7 +259,7 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {
-                if (e.CloseReason == CloseReason.UserClosing)
+                if (ModifierKeys == Keys.Alt || ModifierKeys == Keys.F4)
                 {
                     e.Cancel = true;
                     return;

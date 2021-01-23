@@ -183,7 +183,7 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
-                e.Cancel = e.CloseReason == CloseReason.UserClosing;
+                e.Cancel = ModifierKeys == Keys.Alt || ModifierKeys == Keys.F4;
             }
         }
     }
