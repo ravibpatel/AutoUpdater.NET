@@ -9,9 +9,9 @@
         <AssemblyTitle>AutoUpdater.NET</AssemblyTitle>
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
-        <Copyright>Copyright © 2012-2020 RBSoft</Copyright>
-        <AssemblyVersion>1.6.4.0</AssemblyVersion>
-        <FileVersion>1.6.4.0</FileVersion>
+        <Copyright>Copyright © 2012-2021 RBSoft</Copyright>
+        <AssemblyVersion>1.6.5.0</AssemblyVersion>
+        <FileVersion>1.6.5.0</FileVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>

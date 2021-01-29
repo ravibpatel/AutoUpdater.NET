@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Autoupdater.NET.Official</id>
-    <version>1.6.4</version>
+    <version>1.6.5</version>
     <title>AutoUpdater.NET</title>
     <authors>rbsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/ravibpatel/AutoUpdater.NET</projectUrl>
     <description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</description>
     <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
-    <copyright>Copyright © 2012-2020 RBSoft</copyright>
+    <copyright>Copyright © 2012-2021 RBSoft</copyright>
     <tags>autoupdate updater c# vb wpf winforms</tags>
     <dependencies>
       <group targetFramework=".NETFramework2.0" />
