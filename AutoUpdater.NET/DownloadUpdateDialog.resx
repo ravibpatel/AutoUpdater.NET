@@ -205,7 +205,7 @@
     <value>1</value>
   </data>
   <data name="labelSize.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Right</value>
+    <value>Left, Right</value>
   </data>
   <data name="labelSize.Location" type="System.Drawing.Point, System.Drawing">
     <value>265, 14</value>
