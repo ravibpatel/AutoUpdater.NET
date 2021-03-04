@@ -3,7 +3,7 @@
     <PropertyGroup>
         <ProjectGuid>{91DE558C-6DB8-429B-A069-C0491DCFF15B}</ProjectGuid>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net20;net35;net40;net45</TargetFrameworks>
+        <TargetFrameworks>net20;net35;net40;net45;net5.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <AssemblyTitle>ZipExtractor</AssemblyTitle>
         <Company>RBSoft</Company>
@@ -19,6 +19,13 @@
         <NeutralLanguage>en</NeutralLanguage>
         <Version>1.2.2</Version>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0-windows' ">
+        <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <PublishTrimmed>true</PublishTrimmed>
+        <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <DebugType>full</DebugType>
         <DebugSymbols>true</DebugSymbols>
@@ -29,10 +36,10 @@
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'net5.0-windows' ">
         <DefineConstants>NET45</DefineConstants>
     </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' != 'net45' ">
+    <ItemGroup Condition=" '$(TargetFramework)' != 'net45' AND '$(TargetFramework)' != 'net5.0-windows' ">
         <PackageReference Include="ZipStorer" Version="3.6.0"/>
         <PackageReference Include="ILRepack.Lib.MSBuild.Task" Version="2.0.18.1">
             <PrivateAssets>all</PrivateAssets>
@@ -42,7 +49,7 @@
         <Reference Include="System.IO.Compression"/>
         <Reference Include="System.IO.Compression.FileSystem"/>
     </ItemGroup>
-    <ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' != 'net5.0-windows' ">
         <Reference Include="System.Windows.Forms"/>
     </ItemGroup>
     <ItemGroup>

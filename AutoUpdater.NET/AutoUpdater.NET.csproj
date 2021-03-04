@@ -3,7 +3,7 @@
     <PropertyGroup>
         <ProjectGuid>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</ProjectGuid>
         <OutputType>library</OutputType>
-        <TargetFrameworks>net20;net35;net40;net45</TargetFrameworks>
+        <TargetFrameworks>net20;net35;net40;net45;net5.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <RootNamespace>AutoUpdaterDotNET</RootNamespace>
         <AssemblyTitle>AutoUpdater.NET</AssemblyTitle>
@@ -18,7 +18,7 @@
         <PackageId>Autoupdater.NET.Official</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.6.4</PackageVersion>
+        <PackageVersion>1.6.5</PackageVersion>
         <Title>AutoUpdater.NET</Title>
         <Authors>rbsoft</Authors>
         <Description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</Description>
@@ -35,17 +35,17 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <DebugType>full</DebugType>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' != 'net20' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' != 'net20' AND '$(TargetFramework)' != 'net5.0-windows' ">
         <DefineConstants>NETWPF</DefineConstants>
     </PropertyGroup>
-    <ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' != 'net5.0-windows' ">
         <Reference Include="System" />
         <Reference Include="System.Data" />
         <Reference Include="System.Drawing" />
         <Reference Include="System.Windows.Forms" />
         <Reference Include="System.Xml" />
     </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' != 'net20' ">
+    <ItemGroup Condition=" '$(TargetFramework)' != 'net20' AND '$(TargetFramework)' != 'net5.0-windows' ">
         <Reference Include="WindowsBase" />
         <Reference Include="PresentationFramework" />
     </ItemGroup>
@@ -58,9 +58,6 @@
         </PackageReference>
         <Reference Include="System.Xaml" />
         <Reference Include="System.Runtime.Serialization" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="build\lib" />
     </ItemGroup>
     
 </Project>
