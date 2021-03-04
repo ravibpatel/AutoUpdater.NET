@@ -18,6 +18,7 @@
       <group targetFramework=".NETFramework3.5" />
       <group targetFramework=".NETFramework4.0" />
       <group targetFramework=".NETFramework4.5" />
+      <group targetFramework="net5.0-windows" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Data" targetFramework=".NETFramework2.0, .NETFramework3.5, .NETFramework4.0, .NETFramework4.5" />
