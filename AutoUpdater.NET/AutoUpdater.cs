@@ -218,6 +218,15 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
+
+        /// <summary>
+        /// Returns True to continue installing and false to cancel
+        /// </summary>
+        public delegate bool BeforeInstallingEventHandler();
+
+        public static event BeforeInstallingEventHandler BeforeInstallingEvent;
+
+
         /// <summary>
         ///     Set if you want the default update form to have a different size.
         /// </summary>
@@ -451,8 +460,16 @@ namespace AutoUpdaterDotNET
                         {
                             if (Mandatory && UpdateMode == Mode.ForcedDownload)
                             {
-                                DownloadUpdate(args);
-                                Exit();
+                                if (BeforeInstallingEvent != null)
+                                {
+                                    DownloadUpdate(args, BeforeInstallingEvent);
+                                    Exit();
+                                }
+                                else
+                                {
+                                    DownloadUpdate(args);
+                                    Exit();
+                                }
                             }
                             else
                             {
@@ -628,9 +645,9 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Opens the Download window that download the update and execute the installer when download completes.
         /// </summary>
-        public static bool DownloadUpdate(UpdateInfoEventArgs args)
+        public static bool DownloadUpdate(UpdateInfoEventArgs args, BeforeInstallingEventHandler beforeInstallingEvent = null)
         {
-            using (var downloadDialog = new DownloadUpdateDialog(args))
+            using (var downloadDialog = new DownloadUpdateDialog(args, beforeInstallingEvent))
             {
                 try
                 {

@@ -22,11 +22,15 @@ namespace AutoUpdaterDotNET
 
         private DateTime _startedAt;
 
-        public DownloadUpdateDialog(UpdateInfoEventArgs args)
+        private AutoUpdater.BeforeInstallingEventHandler BeforeInstallingEvent;
+
+        public DownloadUpdateDialog(UpdateInfoEventArgs args, AutoUpdater.BeforeInstallingEventHandler beforeInstallingEvent = null)
         {
             InitializeComponent();
 
             _args = args;
+
+            BeforeInstallingEvent = beforeInstallingEvent;
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {
@@ -89,6 +93,27 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
+            if (BeforeInstallingEvent != null)
+            {
+                if (BeforeInstallingEvent())
+                {
+                    InstallUpdate(asyncCompletedEventArgs);
+                }
+                else
+                {
+                    DialogResult = DialogResult.Cancel ;
+                    FormClosing -= DownloadUpdateDialog_FormClosing;
+                    Close();
+                }
+            }
+            else
+            {
+                InstallUpdate(asyncCompletedEventArgs);
+            }
+        }
+
+        public void InstallUpdate(AsyncCompletedEventArgs asyncCompletedEventArgs)
+        {
             try
             {
                 if (asyncCompletedEventArgs.Error != null)
