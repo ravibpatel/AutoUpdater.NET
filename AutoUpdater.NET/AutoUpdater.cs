@@ -460,16 +460,8 @@ namespace AutoUpdaterDotNET
                         {
                             if (Mandatory && UpdateMode == Mode.ForcedDownload)
                             {
-                                if (BeforeInstallingEvent != null)
-                                {
-                                    DownloadUpdate(args, BeforeInstallingEvent);
-                                    Exit();
-                                }
-                                else
-                                {
-                                    DownloadUpdate(args);
-                                    Exit();
-                                }
+                                DownloadUpdate(args);
+                                Exit();
                             }
                             else
                             {
@@ -645,9 +637,9 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Opens the Download window that download the update and execute the installer when download completes.
         /// </summary>
-        public static bool DownloadUpdate(UpdateInfoEventArgs args, BeforeInstallingEventHandler beforeInstallingEvent = null)
+        public static bool DownloadUpdate(UpdateInfoEventArgs args)
         {
-            using (var downloadDialog = new DownloadUpdateDialog(args, beforeInstallingEvent))
+            using (var downloadDialog = new DownloadUpdateDialog(args, BeforeInstallingEvent))
             {
                 try
                 {

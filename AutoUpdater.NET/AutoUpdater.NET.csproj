@@ -7,20 +7,20 @@
         <UseWindowsForms>true</UseWindowsForms>
         <RootNamespace>AutoUpdaterDotNET</RootNamespace>
         <AssemblyTitle>AutoUpdater.NET</AssemblyTitle>
-        <Company>RBSoft</Company>
+        <Company>Technica Engineering GmbH</Company>
         <Product>AutoUpdater.NET</Product>
-        <Copyright>Copyright © 2012-2021 RBSoft</Copyright>
+        <Copyright>Copyright © 2012-2021</Copyright>
         <AssemblyVersion>1.6.5.0</AssemblyVersion>
         <FileVersion>1.6.5.0</FileVersion>
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
-        <PackageId>Autoupdater.NET.Official</PackageId>
+        <PackageId>Technica.Autoupdater</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.6.4</PackageVersion>
+        <PackageVersion>1.6.4.3</PackageVersion>
         <Title>AutoUpdater.NET</Title>
-        <Authors>rbsoft</Authors>
+        <Authors>Technica Engineering GmbH</Authors>
         <Description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</Description>
         <PackageProjectUrl>https://github.com/ravibpatel/AutoUpdater.NET</PackageProjectUrl>
         <PackageTags>autoupdate updater c# vb wpf winforms</PackageTags>
@@ -29,6 +29,8 @@
         <DocumentationFile>$(OutputPath)\$(Configuration)\AutoUpdater.NET.xml</DocumentationFile>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <AssemblyName>Technica.AutoUpdater.NET</AssemblyName>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>1.6.4.3</Version>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputPath>build\lib</OutputPath>
