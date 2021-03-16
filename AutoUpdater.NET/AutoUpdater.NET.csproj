@@ -15,7 +15,7 @@
         <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
-        <PackageId>Technica.Autoupdater</PackageId>
+        <PackageId>Technica.Autoupdater.NET</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageVersion>1.6.4.3</PackageVersion>
