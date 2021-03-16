@@ -28,7 +28,6 @@
         <PackageOutputPath>build</PackageOutputPath>
         <DocumentationFile>$(OutputPath)\$(Configuration)\AutoUpdater.NET.xml</DocumentationFile>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-        <AssemblyName>Technica.AutoUpdater.NET</AssemblyName>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>1.6.4.3</Version>
     </PropertyGroup>
