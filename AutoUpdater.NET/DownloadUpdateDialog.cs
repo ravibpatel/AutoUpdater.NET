@@ -95,21 +95,10 @@ namespace AutoUpdaterDotNET
 
             if (BeforeInstallingEvent != null)
             {
-                if (BeforeInstallingEvent())
-                {
-                    InstallUpdate(asyncCompletedEventArgs);
-                }
-                else
-                {
-                    DialogResult = DialogResult.Cancel ;
-                    FormClosing -= DownloadUpdateDialog_FormClosing;
-                    Close();
-                }
+                BeforeInstallingEvent();
             }
-            else
-            {
-                InstallUpdate(asyncCompletedEventArgs);
-            }
+
+            InstallUpdate(asyncCompletedEventArgs);
         }
 
         public void InstallUpdate(AsyncCompletedEventArgs asyncCompletedEventArgs)

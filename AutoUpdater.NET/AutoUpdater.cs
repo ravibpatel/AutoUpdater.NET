@@ -218,11 +218,7 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
-
-        /// <summary>
-        /// Returns True to continue installing and false to cancel
-        /// </summary>
-        public delegate bool BeforeInstallingEventHandler();
+        public delegate void BeforeInstallingEventHandler();
 
         public static event BeforeInstallingEventHandler BeforeInstallingEvent;
 
