@@ -222,7 +222,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         /// Returns True to continue installing and false to cancel
         /// </summary>
-        public delegate bool BeforeInstallingEventHandler();
+        public delegate void BeforeInstallingEventHandler();
 
         public static event BeforeInstallingEventHandler BeforeInstallingEvent;
 
