@@ -93,10 +93,7 @@ namespace AutoUpdaterDotNET
                 return;
             }
 
-            if (BeforeInstallingEvent != null)
-            {
-                BeforeInstallingEvent();
-            }
+ 	            BeforeInstallingEvent?.Invoke();
 
             InstallUpdate(asyncCompletedEventArgs);
         }
