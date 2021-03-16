@@ -95,11 +95,6 @@ namespace AutoUpdaterDotNET
 
  	        BeforeInstallingEvent?.Invoke();
 
-            InstallUpdate(asyncCompletedEventArgs);
-        }
-
-        public void InstallUpdate(AsyncCompletedEventArgs asyncCompletedEventArgs)
-        {
             try
             {
                 if (asyncCompletedEventArgs.Error != null)
