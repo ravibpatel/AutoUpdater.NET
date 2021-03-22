@@ -216,7 +216,7 @@ namespace AutoUpdaterDotNET
             catch (Exception e)
             {
                 MessageBox.Show("There is a problem reaching update server." +
-                "Please check your network connection or your firewall and try again later", "Update Download Failed.", 
+                " Please check your network connection or your firewall and try again later.", "Update Download Failed", 
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _webClient = null;
             }
