@@ -92,15 +92,14 @@ namespace AutoUpdaterDotNET
             {
                 return;
             }
-
- 	        BeforeInstallingEvent?.Invoke();
-
             try
             {
                 if (asyncCompletedEventArgs.Error != null)
                 {
                     throw asyncCompletedEventArgs.Error;
                 }
+
+                BeforeInstallingEvent?.Invoke();
 
                 if (_args.CheckSum != null)
                 {
@@ -216,7 +215,9 @@ namespace AutoUpdaterDotNET
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There is a problem reaching update server." +
+                "Please check your network connection or your firewall and try again later", "Update Download Failed.", 
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _webClient = null;
             }
             finally
