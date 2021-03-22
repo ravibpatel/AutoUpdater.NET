@@ -18,7 +18,7 @@
         <PackageId>Technica.Autoupdater.NET</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.6.4.4</PackageVersion>
+        <PackageVersion>1.6.5.2</PackageVersion>
         <Title>AutoUpdater.NET</Title>
         <Authors>rbsoft</Authors>
         <Description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</Description>
