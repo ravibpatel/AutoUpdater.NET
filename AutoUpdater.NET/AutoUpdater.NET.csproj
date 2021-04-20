@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-    
+
     <PropertyGroup>
         <ProjectGuid>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</ProjectGuid>
         <OutputType>library</OutputType>
         <TargetFrameworks>net20;net35;net40;net45;net5.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
+        <UseWpf>true</UseWpf>
         <RootNamespace>AutoUpdaterDotNET</RootNamespace>
         <AssemblyTitle>AutoUpdater.NET</AssemblyTitle>
         <Company>RBSoft</Company>
@@ -33,31 +34,31 @@
         <DebugType>pdbonly</DebugType>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-      <DebugType>full</DebugType>
+        <DebugType>full</DebugType>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' != 'net20' AND '$(TargetFramework)' != 'net5.0-windows' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' != 'net20' ">
         <DefineConstants>NETWPF</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'net5.0-windows' ">
-        <Reference Include="System" />
-        <Reference Include="System.Data" />
-        <Reference Include="System.Drawing" />
-        <Reference Include="System.Windows.Forms" />
-        <Reference Include="System.Xml" />
+        <Reference Include="System"/>
+        <Reference Include="System.Data"/>
+        <Reference Include="System.Drawing"/>
+        <Reference Include="System.Windows.Forms"/>
+        <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' != 'net20' AND '$(TargetFramework)' != 'net5.0-windows' ">
-        <Reference Include="WindowsBase" />
-        <Reference Include="PresentationFramework" />
+        <Reference Include="WindowsBase"/>
+        <Reference Include="PresentationFramework"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net20' OR '$(TargetFramework)' == 'net35' ">
-        <Compile Remove="JsonFilePersistenceProvider.cs" />
+        <Compile Remove="JsonFilePersistenceProvider.cs"/>
     </ItemGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net40' OR '$(TargetFramework)' == 'net45' ">
         <PackageReference Include="Resource.Embedder" Version="1.2.8">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <Reference Include="System.Xaml" />
-        <Reference Include="System.Runtime.Serialization" />
+        <Reference Include="System.Xaml"/>
+        <Reference Include="System.Runtime.Serialization"/>
     </ItemGroup>
-    
+
 </Project>
