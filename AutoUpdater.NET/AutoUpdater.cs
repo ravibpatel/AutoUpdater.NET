@@ -101,6 +101,11 @@ namespace AutoUpdaterDotNET
         public static NetworkCredential FtpCredentials;
 
         /// <summary>
+        /// Login/password/domain for FTP-request
+        /// </summary>
+        public static NetworkCredential HttpCredentials;
+
+        /// <summary>
         ///     Opens the download URL in default browser if true. Very usefull if you have portable application.
         /// </summary>
         public static bool OpenDownloadPage;
@@ -681,8 +686,14 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                basicAuthentication?.Apply(ref webClient);
-
+                if (HttpCredentials != null)
+                {
+                    webClient.Credentials = HttpCredentials;
+                }
+                else
+                {
+                    basicAuthentication?.Apply(ref webClient);
+                }
                 webClient.Headers[HttpRequestHeader.UserAgent] = HttpUserAgent;
             }
 
