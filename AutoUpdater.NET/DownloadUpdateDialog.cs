@@ -102,7 +102,7 @@ namespace AutoUpdaterDotNET
                 }
 
                 ContentDisposition contentDisposition = null;
-                if (_webClient.ResponseHeaders?["Content-Disposition"] != null)
+                if (!String.IsNullOrWhiteSpace(_webClient.ResponseHeaders?["Content-Disposition"]))
                 {
                     contentDisposition = new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
                 }
