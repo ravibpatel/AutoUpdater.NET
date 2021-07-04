@@ -9,17 +9,17 @@
         <Company>RBSoft</Company>
         <Product>ZipExtractor</Product>
         <Copyright>Copyright © 2012-2021 RBSoft</Copyright>
-        <AssemblyVersion>1.3</AssemblyVersion>
-        <FileVersion>1.3</FileVersion>
-        <ApplicationVersion>1.2.2.0</ApplicationVersion>
+        <Version>1.3.0.0</Version>
+        <AssemblyVersion>1.3.0.0</AssemblyVersion>
+        <FileVersion>1.3.0.0</FileVersion>
+        <ApplicationVersion>1.3.0.0</ApplicationVersion>
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
-        <Version>1.3</Version>
         <LangVersion>default</LangVersion>
-        <PackageVersion>1.3</PackageVersion>
+        <PackageVersion>1.3.0.0</PackageVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0-windows' ">
         <RuntimeIdentifier>win-x86</RuntimeIdentifier>
