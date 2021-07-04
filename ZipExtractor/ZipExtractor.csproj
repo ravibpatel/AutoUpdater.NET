@@ -21,7 +21,7 @@
         <LangVersion>default</LangVersion>
         <PackageVersion>1.3.0.0</PackageVersion>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'net5.0-windows' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' != 'net45' ">
         <RuntimeIdentifier>win-x86</RuntimeIdentifier>
         <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>false</SelfContained>
@@ -38,7 +38,7 @@
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' != 'net5.0-windows' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
         <Reference Include="System.IO.Compression" />
         <Reference Include="System.IO.Compression.FileSystem" />
         <Reference Include="System.Windows.Forms" />

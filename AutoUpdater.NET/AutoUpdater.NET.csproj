@@ -38,7 +38,7 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <DebugType>full</DebugType>
     </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' != 'net5.0-windows' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
         <Reference Include="System" />
         <Reference Include="System.Data" />
         <Reference Include="System.Drawing" />
