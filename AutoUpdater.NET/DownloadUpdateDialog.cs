@@ -102,7 +102,7 @@ namespace AutoUpdaterDotNET
                 }
 
                 ContentDisposition contentDisposition = null;
-                if (!String.IsNullOrWhiteSpace(_webClient.ResponseHeaders["Content-Disposition"]))
+                if (!String.IsNullOrWhiteSpace(_webClient.ResponseHeaders?["Content-Disposition"]))
                 {
                     contentDisposition = new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
                 }
@@ -127,24 +127,24 @@ namespace AutoUpdaterDotNET
                 if (!string.IsNullOrEmpty(_args.InstallerArgs))
                 {
                     installerArgs = _args.InstallerArgs.Replace("%path%",
-                        Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
+                        Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName));
                 }
 
                 var processStartInfo = new ProcessStartInfo
                 {
                     FileName = tempPath,
                     UseShellExecute = true,
-                    Arguments = installerArgs
+                    Arguments = installerArgs ?? string.Empty
                 };
 
                 var extension = Path.GetExtension(tempPath);
                 if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                 {
-                    string installerPath = Path.Combine(Path.GetDirectoryName(tempPath), "ZipExtractor.exe");
+                    string installerPath = Path.Combine(Path.GetDirectoryName(tempPath) ?? throw new InvalidOperationException(), "ZipExtractor.exe");
 
                     File.WriteAllBytes(installerPath, Resources.ZipExtractor);
 
-                    string executablePath = Process.GetCurrentProcess().MainModule.FileName;
+                    string executablePath = Process.GetCurrentProcess().MainModule?.FileName;
                     string extractionPath = Path.GetDirectoryName(executablePath);
 
                     if (!string.IsNullOrEmpty(AutoUpdater.InstallationPath) &&
@@ -265,7 +265,7 @@ namespace AutoUpdaterDotNET
                     return;
                 }
             }
-            if (_webClient != null && _webClient.IsBusy)
+            if (_webClient is {IsBusy: true})
             {
                 _webClient.CancelAsync();
                 DialogResult = DialogResult.Cancel;

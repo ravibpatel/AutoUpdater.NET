@@ -14,12 +14,12 @@ namespace AutoUpdaterDotNET
         /// <summary>
         /// Path for the Json formatted file.
         /// </summary>
-        public string FileName { get; set; }
+        private string FileName { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public PersistedValues PersistedValues { get; set; }
+        private PersistedValues PersistedValues { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the JsonFilePersistenceProvider class.
@@ -57,7 +57,7 @@ namespace AutoUpdaterDotNET
         /// Reads a Json formatted file and returns an initialized instance of the class PersistedValues.
         /// </summary>
         /// <remarks>The function creates a new instance, initialized with default parameters, in case the file does not exist.</remarks>
-        public void ReadFile()
+        private void ReadFile()
         {
             PersistedValues jsonFile = null;
 
