@@ -6,6 +6,7 @@ environment:
 skip_branch_with_pr: true
 image: Visual Studio 2019
 clone_folder: c:\projects\AutoUpdater.NET
+build: off
 install:
 - nuget install secure-file -ExcludeVersion
 - cmd: nuget restore
