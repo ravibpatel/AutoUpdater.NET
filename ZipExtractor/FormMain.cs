@@ -49,13 +49,13 @@ namespace ZipExtractor
                     WorkerSupportsCancellation = true
                 };
 
-                _backgroundWorker.DoWork += (o, eventArgs) =>
+                _backgroundWorker.DoWork += (_, eventArgs) =>
                 {
                     foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executablePath)))
                     {
                         try
                         {
-                            if (process.MainModule != null && process.MainModule.FileName.Equals(executablePath))
+                            if (process.MainModule is {FileName: { }} && process.MainModule.FileName.Equals(executablePath))
                             {
                                 _logBuilder.AppendLine("Waiting for application process to exit...");
 
@@ -78,19 +78,12 @@ namespace ZipExtractor
                     // Without this, a malicious zip file could try to traverse outside of the expected
                     // extraction path.
                     if (!path.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                    {
                         path += Path.DirectorySeparatorChar;
-
-#if NET45
+                    }
                     var archive = ZipFile.OpenRead(args[1]);
                     
                     var entries = archive.Entries;
-#else
-                    // Open an existing zip file for reading.
-                    var zip = ZipStorer.Open(args[1], FileAccess.Read);
-                    
-                    // Read the central directory collection.
-                    var entries = zip.ReadCentralDir();
-#endif
 
                     _logBuilder.AppendLine($"Found total of {entries.Count} files and folders inside the zip file.");
 
@@ -106,12 +99,8 @@ namespace ZipExtractor
                             }
 
                             var entry = entries[index];
-
-#if NET45
+                        
                             string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FullName);
-#else
-                            string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FilenameInZip);
-#endif
                             _backgroundWorker.ReportProgress(progress, currentFile);
                             int retries = 0;
                             bool notCopied = true;
@@ -120,7 +109,6 @@ namespace ZipExtractor
                                 string filePath = String.Empty;
                                 try
                                 {
-#if NET45
                                     filePath = Path.Combine(path, entry.FullName);
                                     if (!entry.IsDirectory())
                                     {
@@ -131,10 +119,6 @@ namespace ZipExtractor
                                         }
                                         entry.ExtractToFile(filePath, true);
                                     }
-#else
-                                    filePath = Path.Combine(path, entry.FilenameInZip);
-                                    zip.ExtractFile(entry, filePath);
-#endif
                                     notCopied = false;
                                 }
                                 catch (IOException exception)
@@ -198,23 +182,22 @@ namespace ZipExtractor
                     }
                     finally
                     {
-#if NET45
                         archive.Dispose();
-#else
-                        zip.Close();
-#endif
                     }
                 };
 
-                _backgroundWorker.ProgressChanged += (o, eventArgs) =>
+                _backgroundWorker.ProgressChanged += (_, eventArgs) =>
                 {
                     progressBar.Value = eventArgs.ProgressPercentage;
-                    textBoxInformation.Text = eventArgs.UserState.ToString();
-                    textBoxInformation.SelectionStart = textBoxInformation.Text.Length;
-                    textBoxInformation.SelectionLength = 0;
+                    textBoxInformation.Text = eventArgs.UserState?.ToString();
+                    if (textBoxInformation.Text != null)
+                    {
+                        textBoxInformation.SelectionStart = textBoxInformation.Text.Length;
+                        textBoxInformation.SelectionLength = 0;
+                    }
                 };
 
-                _backgroundWorker.RunWorkerCompleted += (o, eventArgs) =>
+                _backgroundWorker.RunWorkerCompleted += (_, eventArgs) =>
                 {
                     try
                     {

@@ -12,7 +12,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         /// Gets/sets the path for the Windows Registry key that will contain the data.
         /// </summary>
-        public string RegistryLocation { get; }
+        private string RegistryLocation { get; }
 
         private const string RemindLaterValueName = "RemindLaterAt";
 

@@ -299,14 +299,14 @@ namespace AutoUpdaterDotNET
                 {
                     using (var backgroundWorker = new BackgroundWorker())
                     {
-                        backgroundWorker.DoWork += (sender, args) =>
+                        backgroundWorker.DoWork += (_, args) =>
                         {
                             Assembly mainAssembly = args.Argument as Assembly;
 
                             args.Result = CheckUpdate(mainAssembly);
                         };
 
-                        backgroundWorker.RunWorkerCompleted += (sender, args) =>
+                        backgroundWorker.RunWorkerCompleted += (_, args) =>
                         {
                             if (args.Error != null)
                             {
@@ -349,10 +349,7 @@ namespace AutoUpdaterDotNET
                 ? $@"Software\{appCompany}\{AppTitle}\AutoUpdater"
                 : $@"Software\{AppTitle}\AutoUpdater";
 
-            if (PersistenceProvider == null)
-            {
-                PersistenceProvider = new RegistryPersistenceProvider(registryLocation);
-            }
+            PersistenceProvider ??= new RegistryPersistenceProvider(registryLocation);
 
             BaseUri = new Uri(AppCastURL);
 
@@ -375,7 +372,7 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            if (string.IsNullOrEmpty(args.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))
+            if (string.IsNullOrEmpty(args?.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))
             {
                 throw new MissingFieldException();
             }
@@ -560,13 +557,11 @@ namespace AutoUpdaterDotNET
                     MethodInvoker methodInvoker = Application.Exit;
                     methodInvoker.Invoke();
                 }
-#if NETWPF
                 else if (System.Windows.Application.Current != null)
                 {
                     System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         System.Windows.Application.Current.Shutdown()));
                 }
-#endif
                 else
                 {
                     Environment.Exit(0);
@@ -609,7 +604,7 @@ namespace AutoUpdaterDotNET
                 {
                     try
                     {
-                        context.Send(state => Start(), null);
+                        context.Send(_ => Start(), null);
                     }
                     catch (InvalidAsynchronousStateException)
                     {
