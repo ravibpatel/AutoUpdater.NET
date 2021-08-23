@@ -513,7 +513,7 @@ namespace AutoUpdaterDotNET
         /// <summary>
         ///     Detects and exits all instances of running assembly, including current.
         /// </summary>
-        private static void Exit()
+        internal static void Exit()
         {
             var currentProcess = Process.GetCurrentProcess();
             foreach (var process in Process.GetProcessesByName(currentProcess.ProcessName))

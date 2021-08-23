@@ -179,7 +179,7 @@ namespace AutoUpdaterDotNET
                     processStartInfo = new ProcessStartInfo
                     {
                         FileName = "msiexec",
-                        Arguments = $"/i \"{tempPath}\""
+                        Arguments = $"/i \"{tempPath}\"",
                     };
                     if (!string.IsNullOrEmpty(installerArgs))
                     {
@@ -259,11 +259,8 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {
-                if (ModifierKeys == Keys.Alt || ModifierKeys == Keys.F4)
-                {
-                    e.Cancel = true;
-                    return;
-                }
+                AutoUpdater.Exit();
+                return;
             }
             if (_webClient is {IsBusy: true})
             {

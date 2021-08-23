@@ -10,6 +10,12 @@ AutoUpdater.NET is a class library that allows .NET developers to easily add aut
 PM> Install-Package Autoupdater.NET.Official
 ````
 
+## Supported .NET versions
+
+* .NET Framework 4.5 or above
+* .NET Core 3.1
+* .NET 5.0 or above
+
 ## How it works
 
 AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If the latest version of the software is greater than the current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory.
@@ -220,7 +226,7 @@ AutoUpdater.Proxy = proxy;
 You can specify where you want to download the update file by assigning DownloadPath field as shown below. It will be used for ZipExtractor too.
 
 ````csharp
-AutoUpdater.DownloadPath = Environment.CurrentDirectory;
+AutoUpdater.DownloadPath = Application.StartupPath;
 ````
 
 ### Specify where to extract zip file containing updated files
@@ -228,7 +234,7 @@ AutoUpdater.DownloadPath = Environment.CurrentDirectory;
 If you are using a zip file as an update file then you can set the "InstallationPath" equal to the path where your app is installed. This is only necessary when your installation directory differs from your executable path.
 
 ````csharp
-var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
+var currentDirectory = new DirectoryInfo(Application.StartupPath);
 if (currentDirectory.Parent != null)
 {
     AutoUpdater.InstallationPath = currentDirectory.Parent.FullName;
