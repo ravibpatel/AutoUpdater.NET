@@ -130,7 +130,7 @@
     <value>Herinner me later</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
-    <value>Sla deze versie</value>
+    <value>Sla over</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>{0} {1} is beschikbaar!</value>
