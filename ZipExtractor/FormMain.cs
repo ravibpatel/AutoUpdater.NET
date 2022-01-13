@@ -16,7 +16,7 @@ namespace ZipExtractor
     {
         private const int MaxRetries = 2;
         private BackgroundWorker _backgroundWorker;
-        private readonly StringBuilder _logBuilder = new StringBuilder();
+        private readonly StringBuilder _logBuilder = new();
 
         public FormMain()
         {
@@ -40,7 +40,11 @@ namespace ZipExtractor
 
             if (args.Length >= 4)
             {
+                string zipPath = args[1];
+                string extractionPath = args[2];
                 string executablePath = args[3];
+                bool clearAppDirectory = args.Length > 4 && args[4] == "-c";
+                string commandLineArgs = args.Length > 5 ? args[5] : string.Empty;
 
                 // Extract all the files.
                 _backgroundWorker = new BackgroundWorker
@@ -70,26 +74,44 @@ namespace ZipExtractor
                     }
 
                     _logBuilder.AppendLine("BackgroundWorker started successfully.");
-
-                    var path = args[2];
                     
                     // Ensures that the last character on the extraction path
                     // is the directory separator char.
                     // Without this, a malicious zip file could try to traverse outside of the expected
                     // extraction path.
-                    if (!path.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                    if (!extractionPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
                     {
-                        path += Path.DirectorySeparatorChar;
+                        extractionPath += Path.DirectorySeparatorChar;
                     }
-                    var archive = ZipFile.OpenRead(args[1]);
+                    var archive = ZipFile.OpenRead(zipPath);
                     
                     var entries = archive.Entries;
-
-                    _logBuilder.AppendLine($"Found total of {entries.Count} files and folders inside the zip file.");
 
                     try
                     {
                         int progress = 0;
+                        
+                        if (clearAppDirectory)
+                        {
+                            _logBuilder.AppendLine($"Removing all files and folders from {extractionPath}.");
+                            DirectoryInfo directoryInfo = new DirectoryInfo(extractionPath);
+
+                            foreach (FileInfo file in directoryInfo.GetFiles())
+                            {
+                                _logBuilder.AppendLine($"Removing a file located at {file.FullName}.");
+                                _backgroundWorker.ReportProgress(0, string.Format(Resources.Removing, file.FullName));
+                                file.Delete(); 
+                            }
+                            foreach (DirectoryInfo directory in directoryInfo.GetDirectories())
+                            {
+                                _logBuilder.AppendLine($"Removing a directory located at {directory.FullName} and all its contents.");
+                                _backgroundWorker.ReportProgress(0, string.Format(Resources.Removing, directory.FullName));
+                                directory.Delete(true); 
+                            }
+                        }
+
+                        _logBuilder.AppendLine($"Found total of {entries.Count} files and folders inside the zip file.");
+                        
                         for (var index = 0; index < entries.Count; index++)
                         {
                             if (_backgroundWorker.CancellationPending)
@@ -109,7 +131,7 @@ namespace ZipExtractor
                                 string filePath = String.Empty;
                                 try
                                 {
-                                    filePath = Path.Combine(path, entry.FullName);
+                                    filePath = Path.Combine(extractionPath, entry.FullName);
                                     if (!entry.IsDirectory())
                                     {
                                         var parentDirectory = Path.GetDirectoryName(filePath);
@@ -126,7 +148,7 @@ namespace ZipExtractor
                                     const int errorSharingViolation = 0x20;
                                     const int errorLockViolation = 0x21;
                                     var errorCode = Marshal.GetHRForException(exception) & 0x0000FFFF;
-                                    if (errorCode == errorSharingViolation || errorCode == errorLockViolation)
+                                    if (errorCode is errorSharingViolation or errorLockViolation)
                                     {
                                         retries++;
                                         if (retries > MaxRetries)
@@ -212,9 +234,9 @@ namespace ZipExtractor
                             try
                             {
                                 ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);
-                                if (args.Length > 4)
+                                if (!string.IsNullOrEmpty(commandLineArgs))
                                 {
-                                    processStartInfo.Arguments = args[4];
+                                    processStartInfo.Arguments = commandLineArgs;
                                 }
 
                                 Process.Start(processStartInfo);

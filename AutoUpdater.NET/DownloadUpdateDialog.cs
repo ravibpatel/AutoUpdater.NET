@@ -155,6 +155,12 @@ namespace AutoUpdaterDotNET
 
                     StringBuilder arguments =
                         new StringBuilder($"\"{tempPath}\" \"{extractionPath}\" \"{executablePath}\"");
+
+                    if (AutoUpdater.ClearAppDirectory)
+                    {
+                        arguments.Append(" -c");
+                    }
+                    
                     string[] args = Environment.GetCommandLineArgs();
                     for (int i = 1; i < args.Length; i++)
                     {

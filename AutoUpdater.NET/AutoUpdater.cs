@@ -161,6 +161,11 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool Synchronous = false;
 
+        /// <summary>
+        ///     Set this to true if you want to clear application directory before extracting update.
+        /// </summary>
+        public static bool ClearAppDirectory = false;
+
         ///<summary>
         ///     Set this to true if you want to ignore previously assigned Remind Later and Skip settings. It will also hide Remind Later and Skip buttons.
         /// </summary>

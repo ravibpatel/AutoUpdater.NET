@@ -16,6 +16,8 @@ PM> Install-Package Autoupdater.NET.Official
 * .NET Core 3.1
 * .NET 5.0 or above
 
+This library only works for WinForms or WPF application projects.
+
 ## How it works
 
 AutoUpdater.NET downloads the XML file containing update information from your server. It uses this XML file to get the information about the latest version of the software. If the latest version of the software is greater than the current version of the software installed on User's PC then AutoUpdater.NET shows update dialog to the user. If user press the update button to update the software then It downloads the update file (Installer) from URL provided in XML file and executes the installer file it just downloaded. It is a job of installer after this point to carry out the update. If you provide zip file URL instead of installer then AutoUpdater.NET will extract the contents of zip file to application directory.
@@ -29,10 +31,10 @@ AutoUpdater.NET uses XML file located on a server to get the release information
 ````xml
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>2.0.0.0</version>
-    <url>http://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
-    <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
-    <mandatory>false</mandatory>
+  <version>2.0.0.0</version>
+  <url>https://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
+  <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
+  <mandatory>false</mandatory>
 </item>
 ````
 
@@ -48,7 +50,7 @@ There are two things you need to provide in XML file as you can see above.
    <mandatory mode="2">true</mandatory>
    ````
 
-  * minVersion (Attribute, Optional): You can also prvoide minVersion attribute on mandatory element. When you provide it, Mandatory option will be triggered only if the installed version of the app is less than the mininum version you specified here.
+  * minVersion (Attribute, Optional): You can also provide minVersion attribute on mandatory element. When you provide it, Mandatory option will be triggered only if the installed version of the app is less than the minimum version you specified here.
 
    ````xml
    <mandatory minVersion="1.2.0.0">true</mandatory>
@@ -72,7 +74,7 @@ using AutoUpdaterDotNET;
 Now you just need to add following line to your main form constructor or in Form_Load event. You can add this line anywhere you like. If you don't like to check for update when application starts then you can create a Check for update button and add this line to Button_Click event.
 
 ````csharp
-AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
+AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
 ````
 
 Start method of AutoUpdater class takes URL of the XML file you uploaded to server as a parameter.
@@ -90,7 +92,7 @@ Version specified in XML file should be higher than Assembly version to trigger 
 If you want to provide your own Assembly then you can do it by providing second argument of Start method as shown below.
 
 ````csharp
-AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml", myAssembly);
+AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml", myAssembly);
 ````
 
 ## Configuration Options
@@ -241,6 +243,14 @@ if (currentDirectory.Parent != null)
 }
 ````
 
+### Clear application directory before extracting update file
+
+Sometimes it is necessary to clear previous version files before doing an update. In this case, you can specify whether to clear the application directory before extracting the update file using the below code.
+
+````csharp
+AutoUpdater.ClearAppDirectory = true;
+````
+
 ### Specify size of the UpdateForm
 
 You can specify the size of the update form by using below code.
@@ -276,7 +286,7 @@ System.Timers.Timer timer = new System.Timers.Timer
 };
 timer.Elapsed += delegate
 {
-    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.xml");
+    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
 };
 timer.Start();
 ````
@@ -287,7 +297,7 @@ timer.Start();
 DispatcherTimer timer = new DispatcherTimer {Interval = TimeSpan.FromMinutes(2)};
 timer.Tick += delegate
 {
-    AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
+    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTestWPF.xml");
 };
 timer.Start();
 ````
@@ -398,7 +408,7 @@ If you want to use other format instead of XML as an AppCast file then you need 
 
 ````csharp
 AutoUpdater.ParseUpdateInfoEvent += AutoUpdaterOnParseUpdateInfoEvent;
-AutoUpdater.Start("http://rbsoft.org/updates/AutoUpdaterTest.json");
+AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.json");
 
 private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 {
@@ -428,7 +438,7 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 ````json
 {
    "version":"2.0.0.0",
-   "url":"http://rbsoft.org/downloads/AutoUpdaterTest.zip",
+   "url":"https://rbsoft.org/downloads/AutoUpdaterTest.zip",
    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
    "mandatory":{
       "value":true,

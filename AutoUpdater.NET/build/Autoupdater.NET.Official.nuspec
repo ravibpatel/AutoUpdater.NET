@@ -2,21 +2,21 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Autoupdater.NET.Official</id>
-    <version>1.7.0.0</version>
+    <version>1.7.1.0</version>
     <title>AutoUpdater.NET</title>
     <authors>rbsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://github.com/ravibpatel/AutoUpdater.NET</projectUrl>
-    <description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their classic desktop application projects.</description>
+    <description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their WinForms or WPF application projects.</description>
     <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
-    <copyright>Copyright © 2012-2021 RBSoft</copyright>
+    <copyright>Copyright © 2012-2022 RBSoft</copyright>
     <tags>autoupdate updater c# vb wpf winforms</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5" />
       <group targetFramework=".NETCoreApp3.1" />
-      <group targetFramework="net5.0-windows" />
+      <group targetFramework="net5.0-windows7.0" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="System.Data" targetFramework=".NETFramework4.5" />
