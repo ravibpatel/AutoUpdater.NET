@@ -598,7 +598,7 @@ namespace AutoUpdaterDotNET
 
             _remindLaterTimer = new System.Timers.Timer
             {
-                Interval = (int) timeSpan.TotalMilliseconds,
+                Interval = Math.Max(1, timeSpan.TotalMilliseconds),
                 AutoReset = false
             };
 
