@@ -99,7 +99,7 @@ namespace AutoUpdaterDotNET
                 }
             }
 
-            var labelSize = new Size(Width - 110, 0);
+            var labelSize = new Size(webBrowser.Width, 0);
             labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
         }
 
