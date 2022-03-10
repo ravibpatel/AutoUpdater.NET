@@ -192,6 +192,11 @@ namespace AutoUpdaterDotNET
         public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
         /// <summary>
+        /// Set if we need to use cookies for the WebClient.
+        /// </summary>
+        public static bool UseCookies = false;
+
+        /// <summary>
         ///     A delegate type to handle how to exit the application after update is downloaded.
         /// </summary>
         public delegate void ApplicationExitEventHandler();
@@ -665,7 +670,7 @@ namespace AutoUpdaterDotNET
 
         internal static MyWebClient GetWebClient(Uri uri, IAuthentication basicAuthentication)
         {
-            MyWebClient webClient = new MyWebClient
+            MyWebClient webClient = new MyWebClient(useCookies: UseCookies)
             {
                 CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
             };
