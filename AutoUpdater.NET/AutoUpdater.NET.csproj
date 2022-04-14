@@ -3,7 +3,7 @@
     <PropertyGroup>
         <ProjectGuid>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</ProjectGuid>
         <OutputType>library</OutputType>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+        <TargetFrameworks>net451;netcoreapp3.1;net5.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWpf>true</UseWpf>
         <RootNamespace>AutoUpdaterDotNET</RootNamespace>
@@ -14,7 +14,7 @@
         <Version>1.7.1.0</Version>
         <AssemblyVersion>1.7.1.0</AssemblyVersion>
         <FileVersion>1.7.1.0</FileVersion>
-        <SignAssembly>true</SignAssembly>
+        <SignAssembly>False</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageId>Autoupdater.NET.Official</PackageId>
@@ -38,7 +38,7 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <DebugType>full</DebugType>
     </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
         <Reference Include="System" />
         <Reference Include="System.Data" />
         <Reference Include="System.Drawing" />
@@ -51,5 +51,9 @@
         <PackageReference Include="Resource.Embedder" Version="1.2.8">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Resources\ICSharpCode.SharpZipLib.dll" />
+      <None Remove="Resources\ZipExtractor.exe" />
     </ItemGroup>
 </Project>

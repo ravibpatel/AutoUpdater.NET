@@ -169,4 +169,13 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>Downloading at {0}/s</value>
   </data>
+  <data name="7z_x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\7z_x64.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="7z_x86" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\7z_x86.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SevenZipExtractor" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SevenZipExtractor.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

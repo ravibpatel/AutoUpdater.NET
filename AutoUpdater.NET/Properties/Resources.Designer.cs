@@ -220,5 +220,39 @@ namespace AutoUpdaterDotNET.Properties {
                 return ((byte[])(obj));
             }
         }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] File_7z_x86
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("7z_x86", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] File_7z_x64
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("7z_x64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] SevenZipExtractor
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("SevenZipExtractor", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
     }
 }

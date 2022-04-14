@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SevenZipExtractor;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -83,10 +84,10 @@ namespace ZipExtractor
                     {
                         extractionPath += Path.DirectorySeparatorChar;
                     }
-                    var archive = ZipFile.OpenRead(zipPath);
-                    
-                    var entries = archive.Entries;
+                    //var archive = ZipFile.OpenRead(zipPath);
 
+                    //var entries = archive.Entries;
+                  
                     try
                     {
                         int progress = 0;
@@ -109,102 +110,105 @@ namespace ZipExtractor
                                 directory.Delete(true); 
                             }
                         }
-
-                        _logBuilder.AppendLine($"Found total of {entries.Count} files and folders inside the zip file.");
-                        
-                        for (var index = 0; index < entries.Count; index++)
+                        using (ArchiveFile archiveFile = new ArchiveFile(zipPath))
                         {
-                            if (_backgroundWorker.CancellationPending)
+                            var allcount = archiveFile.Entries.Count;
+                            _logBuilder.AppendLine($"Found total of { allcount} files and folders inside the zip file.");
+                            var entryindex = 0;
+                            foreach (Entry entry in archiveFile.Entries)
                             {
-                                eventArgs.Cancel = true;
-                                break;
-                            }
-
-                            var entry = entries[index];
-                        
-                            string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FullName);
-                            _backgroundWorker.ReportProgress(progress, currentFile);
-                            int retries = 0;
-                            bool notCopied = true;
-                            while (notCopied)
-                            {
-                                string filePath = String.Empty;
-                                try
+                                if (_backgroundWorker.CancellationPending)
                                 {
-                                    filePath = Path.Combine(extractionPath, entry.FullName);
-                                    if (!entry.IsDirectory())
-                                    {
-                                        var parentDirectory = Path.GetDirectoryName(filePath);
-                                        if (!Directory.Exists(parentDirectory))
-                                        {
-                                            Directory.CreateDirectory(parentDirectory);
-                                        }
-                                        entry.ExtractToFile(filePath, true);
-                                    }
-                                    notCopied = false;
+                                    eventArgs.Cancel = true;
+                                    break;
                                 }
-                                catch (IOException exception)
+
+                                string currentFile = string.Format(Resources.CurrentFileExtracting, entry.FileName);
+                                _backgroundWorker.ReportProgress(progress, currentFile);
+                                int retries = 0;
+                                bool notCopied = true;
+                                while (notCopied)
                                 {
-                                    const int errorSharingViolation = 0x20;
-                                    const int errorLockViolation = 0x21;
-                                    var errorCode = Marshal.GetHRForException(exception) & 0x0000FFFF;
-                                    if (errorCode is errorSharingViolation or errorLockViolation)
+                                    string filePath = String.Empty;
+                                    try
                                     {
-                                        retries++;
-                                        if (retries > MaxRetries)
+                                        filePath = Path.Combine(extractionPath, entry.FileName);
+                                        if (!entry.IsFolder)
                                         {
-                                            throw;
-                                        }
-
-                                        List<Process> lockingProcesses = null;
-                                        if (Environment.OSVersion.Version.Major >= 6 && retries >= 2)
-                                        {
-                                            try
+                                            var parentDirectory = Path.GetDirectoryName(filePath);
+                                            if (!Directory.Exists(parentDirectory))
                                             {
-                                                lockingProcesses = FileUtil.WhoIsLocking(filePath);
+                                                Directory.CreateDirectory(parentDirectory);
                                             }
-                                            catch (Exception)
+                                            // extract to file
+                                            entry.Extract(entry.FileName, true);
+                                        }
+                                        notCopied = false;
+                                    }
+                                    catch (IOException exception)
+                                    {
+                                        const int errorSharingViolation = 0x20;
+                                        const int errorLockViolation = 0x21;
+                                        var errorCode = Marshal.GetHRForException(exception) & 0x0000FFFF;
+                                        if (errorCode is errorSharingViolation or errorLockViolation)
+                                        {
+                                            retries++;
+                                            if (retries > MaxRetries)
                                             {
-                                                // ignored
+                                                throw;
                                             }
-                                        }
 
-                                        if (lockingProcesses == null)
-                                        {
-                                            Thread.Sleep(5000);
-                                        }
-                                        else
-                                        {
-                                            foreach (var lockingProcess in lockingProcesses)
+                                            List<Process> lockingProcesses = null;
+                                            if (Environment.OSVersion.Version.Major >= 6 && retries >= 2)
                                             {
-                                                var dialogResult = MessageBox.Show(
-                                                    string.Format(Resources.FileStillInUseMessage,
-                                                        lockingProcess.ProcessName, filePath),
-                                                    Resources.FileStillInUseCaption,
-                                                    MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                                                if (dialogResult == DialogResult.Cancel)
+                                                try
                                                 {
-                                                    throw;
+                                                    lockingProcesses = FileUtil.WhoIsLocking(filePath);
+                                                }
+                                                catch (Exception)
+                                                {
+                                                    // ignored
+                                                }
+                                            }
+
+                                            if (lockingProcesses == null)
+                                            {
+                                                Thread.Sleep(5000);
+                                            }
+                                            else
+                                            {
+                                                foreach (var lockingProcess in lockingProcesses)
+                                                {
+                                                    var dialogResult = MessageBox.Show(
+                                                        string.Format(Resources.FileStillInUseMessage,
+                                                            lockingProcess.ProcessName, filePath),
+                                                        Resources.FileStillInUseCaption,
+                                                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                                    if (dialogResult == DialogResult.Cancel)
+                                                    {
+                                                        throw;
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                    else
-                                    {
-                                        throw;
+                                        else
+                                        {
+                                            throw;
+                                        }
                                     }
                                 }
+
+                                progress = (entryindex + 1) * 100 / allcount;
+                                _backgroundWorker.ReportProgress(progress, currentFile);
+
+                                _logBuilder.AppendLine($"{currentFile} [{progress}%]");
+                                entryindex++;
                             }
-
-                            progress = (index + 1) * 100 / entries.Count;
-                            _backgroundWorker.ReportProgress(progress, currentFile);
-
-                            _logBuilder.AppendLine($"{currentFile} [{progress}%]");
                         }
                     }
                     finally
                     {
-                        archive.Dispose();
+                        //archive.Dispose();
                     }
                 };
 
