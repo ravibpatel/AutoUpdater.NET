@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -385,7 +385,31 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonSkip.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <value>6</value>
+  </data>
+  <data name="webBrowserNew.Location" type="System.Drawing.Point, System.Drawing">
+    <value>95, 120</value>
+  </data>
+  <data name="webBrowserNew.Size" type="System.Drawing.Size, System.Drawing">
+    <value>536, 432</value>
+  </data>
+  <data name="webBrowserNew.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="webBrowserNew.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;webBrowserNew.Name" xml:space="preserve">
+    <value>webBrowserNew</value>
+  </data>
+  <data name="&gt;&gt;webBrowserNew.Type" xml:space="preserve">
+    <value>Microsoft.Web.WebView2.WinForms.WebView2, Microsoft.Web.WebView2.WinForms, Culture=neutral, PublicKeyToken=2a8ab48044d2601e</value>
+  </data>
+  <data name="&gt;&gt;webBrowserNew.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;webBrowserNew.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
@@ -16,6 +17,7 @@ namespace AutoUpdaterDotNET
         {
             _args = args;
             InitializeComponent();
+            InitNewBrowserControl();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
@@ -32,6 +34,22 @@ namespace AutoUpdaterDotNET
             {
                 ControlBox = false;
             }
+        }
+
+        private void InitNewBrowserControl()
+        {
+            if (!AutoUpdater.UseModernBrowserControl) return;
+            webBrowserNew.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
+            webBrowserNew.EnsureCoreWebView2Async();
+        }
+
+        private void WebView_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
+        {
+            webBrowserNew.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+            webBrowserNew.CoreWebView2.Settings.IsStatusBarEnabled = false;
+            webBrowserNew.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
+            webBrowserNew.Show();
+            webBrowserNew.BringToFront();
         }
 
         private void UseLatestIE()
@@ -79,23 +97,44 @@ namespace AutoUpdaterDotNET
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
+            if (AutoUpdater.UseModernBrowserControl)
+            {
+                webBrowser.Hide();
+                webBrowserNew.Show();
+            }
             if (string.IsNullOrEmpty(_args.ChangelogURL))
             {
                 var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
                 labelReleaseNotes.Hide();
                 webBrowser.Hide();
+                webBrowserNew.Hide();
                 Height -= reduceHeight;
             }
             else
             {
                 if (null != AutoUpdater.BasicAuthChangeLog)
                 {
-                    webBrowser.Navigate(_args.ChangelogURL, "", null,
-                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    if (AutoUpdater.UseModernBrowserControl)
+                    {
+                        var resourceRequest = webBrowserNew.CoreWebView2.Environment.CreateWebResourceRequest(_args.ChangelogURL, "GET", Stream.Null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                        webBrowserNew.CoreWebView2.NavigateWithWebResourceRequest(resourceRequest);
+                    }
+                    else
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL, "", null,
+                            $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    }
                 }
                 else
                 {
-                    webBrowser.Navigate(_args.ChangelogURL);
+                    if (AutoUpdater.UseModernBrowserControl)
+                    {
+                        webBrowserNew.CoreWebView2.Navigate(_args.ChangelogURL);
+                    }
+                    else
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL);
+                    }
                 }
             }
 

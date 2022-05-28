@@ -172,6 +172,11 @@ namespace AutoUpdaterDotNET
         public static bool Mandatory;
 
         /// <summary>
+        ///     Set this to false if you want to use the legacy Internet Explorer based web browser control.
+        /// </summary>
+        public static bool UseModernBrowserControl = true;
+
+        /// <summary>
         ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
         /// </summary>
         public static Mode UpdateMode;
