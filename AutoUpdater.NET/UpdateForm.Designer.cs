@@ -39,7 +39,9 @@ namespace AutoUpdaterDotNET
             this.buttonRemindLater = new System.Windows.Forms.Button();
             this.pictureBoxIcon = new System.Windows.Forms.PictureBox();
             this.buttonSkip = new System.Windows.Forms.Button();
+            this.webView2 = new Microsoft.Web.WebView2.WinForms.WebView2();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.webView2)).BeginInit();
             this.SuspendLayout();
             // 
             // webBrowser
@@ -95,6 +97,15 @@ namespace AutoUpdaterDotNET
             this.buttonSkip.UseVisualStyleBackColor = true;
             this.buttonSkip.Click += new System.EventHandler(this.ButtonSkipClick);
             // 
+            // webView2
+            // 
+            this.webView2.AllowExternalDrop = true;
+            this.webView2.CreationProperties = null;
+            this.webView2.DefaultBackgroundColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.webView2, "webView2");
+            this.webView2.Name = "webView2";
+            this.webView2.ZoomFactor = 1D;
+            // 
             // UpdateForm
             // 
             this.AcceptButton = this.buttonUpdate;
@@ -104,10 +115,11 @@ namespace AutoUpdaterDotNET
             this.Controls.Add(this.labelReleaseNotes);
             this.Controls.Add(this.labelDescription);
             this.Controls.Add(this.labelUpdate);
-            this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.buttonSkip);
             this.Controls.Add(this.buttonRemindLater);
+            this.Controls.Add(this.webView2);
+            this.Controls.Add(this.webBrowser);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -116,6 +128,7 @@ namespace AutoUpdaterDotNET
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.UpdateForm_FormClosed);
             this.Load += new System.EventHandler(this.UpdateFormLoad);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxIcon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.webView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,6 +144,6 @@ namespace AutoUpdaterDotNET
         private System.Windows.Forms.Label labelDescription;
         private System.Windows.Forms.Label labelReleaseNotes;
         private System.Windows.Forms.PictureBox pictureBoxIcon;
-
+        private Microsoft.Web.WebView2.WinForms.WebView2 webView2;
     }
 }

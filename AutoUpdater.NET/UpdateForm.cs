@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
@@ -16,6 +17,7 @@ namespace AutoUpdaterDotNET
         {
             _args = args;
             InitializeComponent();
+            InitializeBrowserControl();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
@@ -31,6 +33,57 @@ namespace AutoUpdaterDotNET
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
             {
                 ControlBox = false;
+            }
+        }
+
+        private void InitializeBrowserControl()
+        {
+            if (string.IsNullOrEmpty(_args.ChangelogURL))
+            {
+                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                labelReleaseNotes.Hide();
+                webBrowser.Hide();
+                webView2.Hide();
+                Height -= reduceHeight;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(CoreWebView2Environment.GetAvailableBrowserVersionString()))
+                {
+                    if (null != AutoUpdater.BasicAuthChangeLog)
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL, "", null,
+                            $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    }
+                    else
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL);
+                    }
+                }
+                else
+                {
+                    webBrowser.Hide();
+                    webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
+                    webView2.EnsureCoreWebView2Async();
+                }
+            }
+        }
+
+        private void WebView_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
+        {
+            webView2.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+            webView2.CoreWebView2.Settings.IsStatusBarEnabled = false;
+            webView2.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
+            webView2.Show();
+            webView2.BringToFront();
+            if (null != AutoUpdater.BasicAuthChangeLog)
+            {
+                var resourceRequest = webView2.CoreWebView2.Environment.CreateWebResourceRequest(_args.ChangelogURL, "GET", Stream.Null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                webView2.CoreWebView2.NavigateWithWebResourceRequest(resourceRequest);
+            }
+            else
+            {
+                webView2.CoreWebView2.Navigate(_args.ChangelogURL);
             }
         }
 
@@ -79,26 +132,6 @@ namespace AutoUpdaterDotNET
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(_args.ChangelogURL))
-            {
-                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
-                labelReleaseNotes.Hide();
-                webBrowser.Hide();
-                Height -= reduceHeight;
-            }
-            else
-            {
-                if (null != AutoUpdater.BasicAuthChangeLog)
-                {
-                    webBrowser.Navigate(_args.ChangelogURL, "", null,
-                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
-                }
-                else
-                {
-                    webBrowser.Navigate(_args.ChangelogURL);
-                }
-            }
-
             var labelSize = new Size(webBrowser.Width, 0);
             labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
         }

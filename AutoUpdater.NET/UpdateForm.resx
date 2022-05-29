@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -136,7 +136,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="webBrowser.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;webBrowser.Name" xml:space="preserve">
     <value>webBrowser</value>
@@ -148,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;webBrowser.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="labelUpdate.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -262,7 +262,7 @@
     <value>153, 28</value>
   </data>
   <data name="buttonUpdate.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="buttonUpdate.Text" xml:space="preserve">
     <value>Update</value>
@@ -283,7 +283,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonUpdate.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="buttonRemindLater.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
@@ -301,7 +301,7 @@
     <value>153, 28</value>
   </data>
   <data name="buttonRemindLater.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
     <value>Remind me later</value>
@@ -322,7 +322,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonRemindLater.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>6</value>
   </data>
   <data name="pictureBoxIcon.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 14</value>
@@ -364,7 +364,7 @@
     <value>153, 28</value>
   </data>
   <data name="buttonSkip.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
     <value>Skip this version</value>
@@ -385,7 +385,31 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;buttonSkip.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>5</value>
+  </data>
+  <data name="webView2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>95, 120</value>
+  </data>
+  <data name="webView2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>536, 432</value>
+  </data>
+  <data name="webView2.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="webView2.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;webView2.Name" xml:space="preserve">
+    <value>webView2</value>
+  </data>
+  <data name="&gt;&gt;webView2.Type" xml:space="preserve">
+    <value>Microsoft.Web.WebView2.WinForms.WebView2, Microsoft.Web.WebView2.WinForms, Version=1.0.1210.39, Culture=neutral, PublicKeyToken=2a8ab48044d2601e</value>
+  </data>
+  <data name="&gt;&gt;webView2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;webView2.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
