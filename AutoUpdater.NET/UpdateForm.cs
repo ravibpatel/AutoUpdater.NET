@@ -48,7 +48,28 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (string.IsNullOrEmpty(CoreWebView2Environment.GetAvailableBrowserVersionString()))
+                bool webView2RuntimeFound = false;
+                try
+                {
+                    string availableBrowserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
+                    string requiredMinBrowserVersion = "86.0.616.0";
+                    if (!string.IsNullOrEmpty(availableBrowserVersion)
+                        && CoreWebView2Environment.CompareBrowserVersions(availableBrowserVersion, requiredMinBrowserVersion) >= 0)
+                    {
+                        webView2RuntimeFound = true;
+                    }
+                }
+                catch (WebView2RuntimeNotFoundException)
+                {
+                    // ignored
+                }
+                if (webView2RuntimeFound)
+                {
+                    webBrowser.Hide();
+                    webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
+                    webView2.EnsureCoreWebView2Async();
+                }
+                else
                 {
                     if (null != AutoUpdater.BasicAuthChangeLog)
                     {
@@ -59,12 +80,6 @@ namespace AutoUpdaterDotNET
                     {
                         webBrowser.Navigate(_args.ChangelogURL);
                     }
-                }
-                else
-                {
-                    webBrowser.Hide();
-                    webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
-                    webView2.EnsureCoreWebView2Async();
                 }
             }
         }
