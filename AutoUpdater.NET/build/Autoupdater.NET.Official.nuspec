@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Autoupdater.NET.Official</id>
     <version>1.7.1.0</version>
@@ -14,20 +14,35 @@
     <copyright>Copyright © 2012-2022 RBSoft</copyright>
     <tags>autoupdate updater c# vb wpf winforms</tags>
     <dependencies>
-      <group targetFramework=".NETFramework4.5" />
-      <group targetFramework=".NETCoreApp3.1" />
-      <group targetFramework="net5.0-windows7.0" />
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1210.39" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETCoreApp3.1">
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1210.39" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net5.0-windows7.0">
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1210.39" exclude="Build,Analyzers" />
+      </group>
     </dependencies>
+    <frameworkReferences>
+      <group targetFramework=".NETCoreApp3.1">
+        <frameworkReference name="Microsoft.WindowsDesktop.App" />
+      </group>
+      <group targetFramework="net5.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App" />
+      </group>
+      <group targetFramework=".NETFramework4.5" />
+    </frameworkReferences>
     <frameworkAssemblies>
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Data" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Xml" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.5" />
       <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="System.Xml" targetFramework=".NETFramework4.5" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
     </frameworkAssemblies>
   </metadata>
 </package>
