@@ -17,7 +17,7 @@ namespace AutoUpdaterDotNET
         {
             _args = args;
             InitializeComponent();
-            InitNewBrowserControl();
+            InitializeBrowserControl();
             UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
@@ -36,20 +36,55 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        private void InitNewBrowserControl()
+        private void InitializeBrowserControl()
         {
-            if (!AutoUpdater.UseModernBrowserControl) return;
-            webBrowserNew.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
-            webBrowserNew.EnsureCoreWebView2Async();
+            if (string.IsNullOrEmpty(_args.ChangelogURL))
+            {
+                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                labelReleaseNotes.Hide();
+                webBrowser.Hide();
+                webView2.Hide();
+                Height -= reduceHeight;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(CoreWebView2Environment.GetAvailableBrowserVersionString()))
+                {
+                    if (null != AutoUpdater.BasicAuthChangeLog)
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL, "", null,
+                            $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    }
+                    else
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL);
+                    }
+                }
+                else
+                {
+                    webBrowser.Hide();
+                    webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
+                    webView2.EnsureCoreWebView2Async();
+                }
+            }
         }
 
         private void WebView_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
         {
-            webBrowserNew.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-            webBrowserNew.CoreWebView2.Settings.IsStatusBarEnabled = false;
-            webBrowserNew.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
-            webBrowserNew.Show();
-            webBrowserNew.BringToFront();
+            webView2.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+            webView2.CoreWebView2.Settings.IsStatusBarEnabled = false;
+            webView2.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
+            webView2.Show();
+            webView2.BringToFront();
+            if (null != AutoUpdater.BasicAuthChangeLog)
+            {
+                var resourceRequest = webView2.CoreWebView2.Environment.CreateWebResourceRequest(_args.ChangelogURL, "GET", Stream.Null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                webView2.CoreWebView2.NavigateWithWebResourceRequest(resourceRequest);
+            }
+            else
+            {
+                webView2.CoreWebView2.Navigate(_args.ChangelogURL);
+            }
         }
 
         private void UseLatestIE()
@@ -97,47 +132,6 @@ namespace AutoUpdaterDotNET
 
         private void UpdateFormLoad(object sender, EventArgs e)
         {
-            if (AutoUpdater.UseModernBrowserControl)
-            {
-                webBrowser.Hide();
-                webBrowserNew.Show();
-            }
-            if (string.IsNullOrEmpty(_args.ChangelogURL))
-            {
-                var reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
-                labelReleaseNotes.Hide();
-                webBrowser.Hide();
-                webBrowserNew.Hide();
-                Height -= reduceHeight;
-            }
-            else
-            {
-                if (null != AutoUpdater.BasicAuthChangeLog)
-                {
-                    if (AutoUpdater.UseModernBrowserControl)
-                    {
-                        var resourceRequest = webBrowserNew.CoreWebView2.Environment.CreateWebResourceRequest(_args.ChangelogURL, "GET", Stream.Null, $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
-                        webBrowserNew.CoreWebView2.NavigateWithWebResourceRequest(resourceRequest);
-                    }
-                    else
-                    {
-                        webBrowser.Navigate(_args.ChangelogURL, "", null,
-                            $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
-                    }
-                }
-                else
-                {
-                    if (AutoUpdater.UseModernBrowserControl)
-                    {
-                        webBrowserNew.CoreWebView2.Navigate(_args.ChangelogURL);
-                    }
-                    else
-                    {
-                        webBrowser.Navigate(_args.ChangelogURL);
-                    }
-                }
-            }
-
             var labelSize = new Size(webBrowser.Width, 0);
             labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
         }
