@@ -293,7 +293,12 @@ namespace AutoUpdaterDotNET
                     {
                         var result = CheckUpdate(assembly);
 
-                        Running = StartUpdate(result);
+                        if (StartUpdate(result))
+                        {
+                            return;
+                        }
+
+                        Running = false;
                     }
                     catch (Exception exception)
                     {
