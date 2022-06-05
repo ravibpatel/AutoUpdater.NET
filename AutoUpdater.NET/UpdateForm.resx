@@ -387,8 +387,17 @@
   <data name="&gt;&gt;buttonSkip.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="webView2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <data name="webView2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>95, 120</value>
+    <value>94, 120</value>
+  </data>
+  <data name="webView2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="webView2.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>23, 23</value>
   </data>
   <data name="webView2.Size" type="System.Drawing.Size, System.Drawing">
     <value>536, 432</value>
