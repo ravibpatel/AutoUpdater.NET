@@ -9,9 +9,9 @@ namespace AutoUpdaterDotNET
     /// </summary>
     public class BasicAuthentication : IAuthentication
     {
-        private string Username { get; }
+        public string Username { get; }
 
-        private string Password { get; }
+        public string Password { get; }
 
         /// <summary>
         ///     Initializes credentials for Basic Authentication.
