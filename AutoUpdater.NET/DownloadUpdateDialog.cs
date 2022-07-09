@@ -154,11 +154,11 @@ namespace AutoUpdaterDotNET
                     }
 
                     StringBuilder arguments =
-                        new StringBuilder($"\"{tempPath}\" \"{extractionPath}\" \"{executablePath}\"");
+                        new StringBuilder($"--input \"{tempPath}\" --output \"{extractionPath}\" --executable \"{executablePath}\"");
 
                     if (AutoUpdater.ClearAppDirectory)
                     {
-                        arguments.Append(" -c");
+                        arguments.Append(" --clear");
                     }
                     
                     string[] args = Environment.GetCommandLineArgs();
@@ -166,7 +166,7 @@ namespace AutoUpdaterDotNET
                     {
                         if (i.Equals(1))
                         {
-                            arguments.Append(" \"");
+                            arguments.Append(" --args \"");
                         }
 
                         arguments.Append(args[i]);

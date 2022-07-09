@@ -127,7 +127,9 @@ namespace AutoUpdaterTest
             //Uncomment following line if you want to clear application directory before update zip is extracted.
             //AutoUpdater.ClearAppDirectory = true;
 
-            AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+            //AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+
+            MessageBox.Show(string.Join(Environment.NewLine, Environment.GetCommandLineArgs()));
         }
 
         private void AutoUpdater_ApplicationExitEvent()
@@ -243,7 +245,7 @@ namespace AutoUpdaterTest
             //    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
             //}
 
-            AutoUpdater.Mandatory = true;
+            AutoUpdater.ClearAppDirectory = false;
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
     }
