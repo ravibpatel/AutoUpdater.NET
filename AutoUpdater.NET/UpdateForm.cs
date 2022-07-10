@@ -89,6 +89,8 @@ namespace AutoUpdaterDotNET
             webView2.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
             webView2.CoreWebView2.Settings.IsStatusBarEnabled = false;
             webView2.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
+            webView2.CoreWebView2.Settings.UserAgent = AutoUpdater.GetUserAgent();
+            webView2.CoreWebView2.Profile.ClearBrowsingDataAsync();
             webView2.Show();
             webView2.BringToFront();
             if (null != AutoUpdater.BasicAuthChangeLog)
