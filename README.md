@@ -451,3 +451,25 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
    }
 }
 ````
+
+## Steps to build it for further development
+
+You can follow below steps to build the project on your local development environment.
+
+* Disable signing from project properties of both AutoUpdater.NET and ZipExtractor. 
+* Edit both .csproj file of AutoUpdater.NET and ZipExtractor and change following line. Use .NET version you prefer.
+
+  Before
+
+  ```xml
+  <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+  ```
+
+  After
+
+  ```xml
+  <TargetFramework>net5.0-windows</TargetFramework>
+  ```
+
+* Build ZipExtractor project in "Release" configuration to create the executable in Resources folder.
+* VS2022 doesn't allow building .NET Framework 4.5 by default, so if you are using it then you can just change it to any supported .NET version, or you have to follow steps from [here](https://stackoverflow.com/a/70109092/1273550) to use .NET Framework 4.5. 
