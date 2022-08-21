@@ -169,7 +169,7 @@ namespace AutoUpdaterDotNET
                             arguments.Append(" --args \"");
                         }
 
-                        arguments.Append(args[i]);
+                        arguments.Append($"\"{args[i]}\"");
                         arguments.Append(i.Equals(args.Length - 1) ? "\"" : " ");
                     }
 
