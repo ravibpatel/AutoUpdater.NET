@@ -121,21 +121,21 @@
     <value>Nowa wersja programu {0} jest dostępna!</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Program {0} {1} jest już dostępny. Masz zainstalowaną wersję {2}. Chcesz ją ściągnąć?</value>
+    <value>Program {0} jest dostępny w wersji {1} (obecnie masz wersję {2}). Czy chcesz teraz pobrać nową wersję?</value>
+  </data>
+  <data name="labelReleaseNotes.Text" xml:space="preserve">
+    <value>Informacje o wersji:</value>
   </data>
   <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>Aktualizacja</value>
+    <value>Zainstaluj aktualizację</value>
   </data>
   <data name="buttonRemindLater.Text" xml:space="preserve">
     <value>Przypomnij mi później</value>
   </data>
   <data name="buttonSkip.Text" xml:space="preserve">
-    <value>Pominąć tę wersję</value>
+    <value>Pomiń tę wersję</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Aktualizacja programu {0} {1} jest dostępna!</value>
-  </data>
-  <data name="labelReleaseNotes.Text" xml:space="preserve">
-    <value>Release Uwagi:</value>
+    <value>{0} {1} już jest!</value>
   </data>
 </root>

@@ -112,45 +112,48 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="radioButtonNo.Text" xml:space="preserve">
-    <value>Nie, Pobierz aktualizacje teraz (zalecane)</value>
+    <value>Nie, pobierz aktualizacje teraz (zalecane)</value>
   </data>
   <data name="comboBoxRemindLater.Items" xml:space="preserve">
-    <value>Po 30 minutach</value>
+    <value>30 minut</value>
   </data>
   <data name="comboBoxRemindLater.Items1" xml:space="preserve">
-    <value>Po 12 godzinach</value>
+    <value>12 godzin</value>
   </data>
   <data name="comboBoxRemindLater.Items2" xml:space="preserve">
-    <value>Po 1 dniu</value>
+    <value>1 dzień</value>
   </data>
   <data name="comboBoxRemindLater.Items3" xml:space="preserve">
-    <value>Po 2 dniach</value>
+    <value>2 dni</value>
   </data>
   <data name="comboBoxRemindLater.Items4" xml:space="preserve">
-    <value>Po 4 dniach</value>
+    <value>4 dni</value>
   </data>
   <data name="comboBoxRemindLater.Items5" xml:space="preserve">
-    <value>Po 8 dniach</value>
+    <value>8 dni</value>
   </data>
   <data name="comboBoxRemindLater.Items6" xml:space="preserve">
-    <value>Po 10 dniach</value>
+    <value>10 dni</value>
   </data>
   <data name="radioButtonYes.Text" xml:space="preserve">
-    <value>Tak, proszę przypomnij mi później:</value>
+    <value>Tak, przypomnij mi za:</value>
   </data>
   <data name="labelDescription.Text" xml:space="preserve">
-    <value>Należy pobrać aktualizacje teraz. To zajmuje tylko kilka minut, w zależności od połączenia internetowego i zapewnia, masz najnowszą wersję aplikacji.</value>
+    <value>Zaleca się pobranie aktualizacji już teraz. Ten proces może potrwać kilka minut, w zależności od szybkości połączenia internetowego, i zapewnia, że masz najnowszą wersję programu.</value>
+  </data>
+  <data name="buttonOK.Text" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="labelTitle.Text" xml:space="preserve">
     <value>Czy chcesz pobrać aktualizacje później?</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Przypomnij mi później do aktualizacji</value>
+    <value>Przypomnij mi później</value>
   </data>
 </root>
