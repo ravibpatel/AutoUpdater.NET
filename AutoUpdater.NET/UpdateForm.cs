@@ -18,7 +18,6 @@ namespace AutoUpdaterDotNET
             _args = args;
             InitializeComponent();
             InitializeBrowserControl();
-            UseLatestIE();
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
@@ -36,7 +35,7 @@ namespace AutoUpdaterDotNET
             }
         }
 
-        private void InitializeBrowserControl()
+        private async void InitializeBrowserControl()
         {
             if (string.IsNullOrEmpty(_args.ChangelogURL))
             {
@@ -67,10 +66,11 @@ namespace AutoUpdaterDotNET
                 {
                     webBrowser.Hide();
                     webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
-                    webView2.EnsureCoreWebView2Async();
+                    await webView2.EnsureCoreWebView2Async(await CoreWebView2Environment.CreateAsync(null, Path.GetTempPath()));
                 }
                 else
                 {
+                    UseLatestIE();
                     if (null != AutoUpdater.BasicAuthChangeLog)
                     {
                         webBrowser.Navigate(_args.ChangelogURL, "", null,
@@ -86,6 +86,15 @@ namespace AutoUpdaterDotNET
 
         private void WebView_CoreWebView2InitializationCompleted(object sender, CoreWebView2InitializationCompletedEventArgs e)
         {
+            if (!e.IsSuccess)
+            {
+                if (AutoUpdater.ReportErrors)
+                {
+                    MessageBox.Show(e.InitializationException.Message, e.InitializationException.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                return;
+            }
+
             webView2.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
             webView2.CoreWebView2.Settings.IsStatusBarEnabled = false;
             webView2.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
