@@ -149,7 +149,7 @@ namespace ZipExtractor
                         bool notCopied = true;
                         while (notCopied)
                         {
-                            string filePath = String.Empty;
+                            string filePath = string.Empty;
                             try
                             {
                                 filePath = Path.Combine(extractionPath, entry.FullName);

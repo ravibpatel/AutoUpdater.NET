@@ -251,4 +251,12 @@ paket-files/
 .idea/
 *.sln.iml
 *.snk
+
+# AutoUpdater.NET
 /AutoUpdater.NET/build/lib/
+/AutoUpdater.NET/Resources/ZipExtractor.exe
+/AutoUpdater.NET/Resources/ZipExtractor.exe.config
+/AutoUpdater.NET/Resources/ZipExtractor.runtimeconfig.json
+/AutoUpdater.NET/Resources/ZipExtractor.runtimeconfig.dev.json
+/AutoUpdater.NET/Resources/ZipExtractor.dll
+/AutoUpdater.NET/Resources/ZipExtractor.deps.json

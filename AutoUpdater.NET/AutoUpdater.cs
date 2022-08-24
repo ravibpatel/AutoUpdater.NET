@@ -387,7 +387,7 @@ namespace AutoUpdaterDotNET
                 throw new MissingFieldException();
             }
 
-            args.InstalledVersion = InstalledVersion != null ? InstalledVersion : mainAssembly.GetName().Version;
+            args.InstalledVersion = InstalledVersion ?? mainAssembly.GetName().Version;
             args.IsUpdateAvailable = new Version(args.CurrentVersion) > args.InstalledVersion;
 
             if (!Mandatory)
