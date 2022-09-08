@@ -331,9 +331,9 @@ namespace AutoUpdaterDotNET
                                         return;
                                     }
                                 }
-                            }
 
-                            Running = false;
+                                Running = false;
+                            }
                         };
 
                         backgroundWorker.RunWorkerAsync(assembly);
@@ -518,6 +518,8 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
+
+            Running = false;
         }
 
         /// <summary>
