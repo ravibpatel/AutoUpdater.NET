@@ -4,7 +4,7 @@ environment:
   my_secret:
     secure: vbPRaZLQYpGPr4BrZZ4p6TofpSZMud+FKtlpqjgO8aA=
 skip_branch_with_pr: true
-image: Visual Studio 2019
+image: Visual Studio 2022
 clone_folder: c:\projects\AutoUpdater.NET
 build: off
 install:
