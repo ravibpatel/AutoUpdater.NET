@@ -60,8 +60,15 @@ namespace AutoUpdaterDotNET
 
                 if (remindLaterValue != null)
                 {
-                    return Convert.ToDateTime(remindLaterValue.ToString(),
-                        CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
+                    try
+                    {
+                        return Convert.ToDateTime(remindLaterValue.ToString(),
+                            CultureInfo.CreateSpecificCulture("en-US").DateTimeFormat);
+                    }
+                    catch (FormatException)
+                    {
+                        // ignored
+                    }
                 }
 
                 return null;
