@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Autoupdater.NET.Official</id>
-    <version>1.7.5.0</version>
+    <version>1.7.6.0</version>
     <title>AutoUpdater.NET</title>
     <authors>rbsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -15,13 +15,16 @@
     <tags>autoupdate updater c# vb wpf winforms</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1293.44" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1293.44" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net5.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1293.44" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net6.0-windows7.0">
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
       </group>
     </dependencies>
     <frameworkReferences>
@@ -29,6 +32,9 @@
         <frameworkReference name="Microsoft.WindowsDesktop.App" />
       </group>
       <group targetFramework="net5.0-windows7.0">
+        <frameworkReference name="Microsoft.WindowsDesktop.App" />
+      </group>
+      <group targetFramework="net6.0-windows7.0">
         <frameworkReference name="Microsoft.WindowsDesktop.App" />
       </group>
       <group targetFramework=".NETFramework4.5" />
