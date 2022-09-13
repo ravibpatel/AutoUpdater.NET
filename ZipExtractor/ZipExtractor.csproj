@@ -15,7 +15,7 @@
         <ApplicationVersion>1.3.2.0</ApplicationVersion>
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <SignAssembly>true</SignAssembly>
+        <SignAssembly>false</SignAssembly>
         <AssemblyOriginatorKeyFile>ZipExtractor.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <LangVersion>default</LangVersion>

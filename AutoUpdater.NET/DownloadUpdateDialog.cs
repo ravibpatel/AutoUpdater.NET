@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -22,11 +22,15 @@ namespace AutoUpdaterDotNET
 
         private DateTime _startedAt;
 
-        public DownloadUpdateDialog(UpdateInfoEventArgs args)
+        private AutoUpdater.BeforeInstallingEventHandler BeforeInstallingEvent;
+
+        public DownloadUpdateDialog(UpdateInfoEventArgs args, AutoUpdater.BeforeInstallingEventHandler beforeInstallingEvent = null)
         {
             InitializeComponent();
 
             _args = args;
+
+            BeforeInstallingEvent = beforeInstallingEvent;
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.ForcedDownload)
             {
@@ -88,13 +92,14 @@ namespace AutoUpdaterDotNET
             {
                 return;
             }
-
             try
             {
                 if (asyncCompletedEventArgs.Error != null)
                 {
                     throw asyncCompletedEventArgs.Error;
                 }
+
+                BeforeInstallingEvent?.Invoke();
 
                 if (_args.CheckSum != null)
                 {
@@ -216,7 +221,9 @@ namespace AutoUpdaterDotNET
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There is a problem reaching update server." +
+                " Please check your network connection or your firewall and try again later.", "Update Download Failed", 
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 _webClient = null;
             }
             finally
