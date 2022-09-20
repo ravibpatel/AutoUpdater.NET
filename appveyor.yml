@@ -1,10 +1,10 @@
-version: 1.7.6.{build}
+version: 1.7.5.{build}
 environment:
-  my_version: 1.7.6
+  my_version: 1.7.5
   my_secret:
     secure: vbPRaZLQYpGPr4BrZZ4p6TofpSZMud+FKtlpqjgO8aA=
 skip_branch_with_pr: true
-image: Visual Studio 2022
+image: Visual Studio 2019
 clone_folder: c:\projects\AutoUpdater.NET
 build: off
 install:
@@ -18,8 +18,6 @@ install:
 - dotnet publish --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\netcoreapp3.1"
 - dotnet publish --framework net5.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
 - dotnet publish --framework net5.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net5.0-windows7.0"
-- dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
-- dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net6.0-windows7.0"
 - cmd: 7z a AutoUpdater.NET-%my_version%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\build\lib\*
 - ps: Remove-Item -path c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\* -include runtimes,Microsoft.Web.WebView2*,AutoUpdater.NET.deps.json -Recurse
 - nuget pack "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\Autoupdater.NET.Official.nuspec"
