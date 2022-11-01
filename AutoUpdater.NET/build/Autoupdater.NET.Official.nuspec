@@ -15,16 +15,16 @@
     <tags>autoupdate updater c# vb wpf winforms</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net5.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net6.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1343.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
       </group>
     </dependencies>
     <frameworkReferences>
