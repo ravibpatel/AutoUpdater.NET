@@ -14,7 +14,7 @@
         <Version>1.7.6.0</Version>
         <AssemblyVersion>1.7.6.0</AssemblyVersion>
         <FileVersion>1.7.6.0</FileVersion>
-        <SignAssembly>true</SignAssembly>
+        <SignAssembly>False</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageId>Autoupdater.NET.Official</PackageId>
