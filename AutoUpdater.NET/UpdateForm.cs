@@ -58,7 +58,7 @@ namespace AutoUpdaterDotNET
                         webView2RuntimeFound = true;
                     }
                 }
-                catch (WebView2RuntimeNotFoundException)
+                catch (Exception)
                 {
                     // ignored
                 }

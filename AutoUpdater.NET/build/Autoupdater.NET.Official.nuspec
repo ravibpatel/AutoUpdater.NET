@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>Autoupdater.NET.Official</id>
-    <version>1.7.6.0</version>
+    <version>1.7.7.0</version>
     <title>AutoUpdater.NET</title>
     <authors>rbsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,20 +11,20 @@
     <projectUrl>https://github.com/ravibpatel/AutoUpdater.NET</projectUrl>
     <description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their WinForms or WPF application projects.</description>
     <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
-    <copyright>Copyright © 2012-2022 RBSoft</copyright>
+    <copyright>Copyright © 2012-2023 RBSoft</copyright>
     <tags>autoupdate updater c# vb wpf winforms</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1587.40" exclude="Build,Analyzers" />
       </group>
       <group targetFramework=".NETCoreApp3.1">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1587.40" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net5.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1587.40" exclude="Build,Analyzers" />
       </group>
       <group targetFramework="net6.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1418.22" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Web.WebView2" version="1.0.1587.40" exclude="Build,Analyzers" />
       </group>
     </dependencies>
     <frameworkReferences>

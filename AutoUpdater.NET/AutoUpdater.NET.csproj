@@ -10,17 +10,17 @@
         <AssemblyTitle>AutoUpdater.NET</AssemblyTitle>
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
-        <Copyright>Copyright © 2012-2022 RBSoft</Copyright>
-        <Version>1.7.6.0</Version>
-        <AssemblyVersion>1.7.6.0</AssemblyVersion>
-        <FileVersion>1.7.6.0</FileVersion>
+        <Copyright>Copyright © 2012-2023 RBSoft</Copyright>
+        <Version>1.7.7.0</Version>
+        <AssemblyVersion>1.7.7.0</AssemblyVersion>
+        <FileVersion>1.7.7.0</FileVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageId>Autoupdater.NET.Official</PackageId>
         <IncludeSymbols>true</IncludeSymbols>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageVersion>1.7.6.0</PackageVersion>
+        <PackageVersion>1.7.7.0</PackageVersion>
         <Title>AutoUpdater.NET</Title>
         <Authors>rbsoft</Authors>
         <Description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their WinForms or WPF application projects.</Description>
@@ -51,6 +51,6 @@
         <PackageReference Include="Resource.Embedder" Version="1.2.8" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1418.22" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1587.40" />
     </ItemGroup>
 </Project>
