@@ -115,6 +115,14 @@ AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCre
 
 If you are using FTP download URL in the XML file then credentials provided here will be used to authenticate the request.
 
+### Download Update file and XML using SFTP (FTP over SSH)
+
+Using an SFTP server for your XML file is also supported. Simply provide the URL to your SFTP server along with the credentials required to access it securely as shown below.
+
+````csharp
+AutoUpdater.Start("sftp://securefiles.rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("SftpUserName", "SftpPassword"));
+````
+
 ### Check for updates synchronously
 
 If you want to check for updates synchronously then set Synchronous to true before starting the update as shown below.
