@@ -28,22 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonCheckForUpdate = new System.Windows.Forms.Button();
+            this.buttonCheckForUpdateViaHttp = new System.Windows.Forms.Button();
             this.labelVersion = new System.Windows.Forms.Label();
+            this.buttonCheckForUpdateViaSftp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // buttonCheckForUpdate
+            // buttonCheckForUpdateViaHttp
             // 
-            this.buttonCheckForUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.buttonCheckForUpdateViaHttp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonCheckForUpdate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonCheckForUpdate.Location = new System.Drawing.Point(12, 54);
-            this.buttonCheckForUpdate.Name = "buttonCheckForUpdate";
-            this.buttonCheckForUpdate.Size = new System.Drawing.Size(196, 40);
-            this.buttonCheckForUpdate.TabIndex = 0;
-            this.buttonCheckForUpdate.Text = "Check for update";
-            this.buttonCheckForUpdate.UseVisualStyleBackColor = true;
-            this.buttonCheckForUpdate.Click += new System.EventHandler(this.ButtonCheckForUpdate_Click);
+            this.buttonCheckForUpdateViaHttp.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCheckForUpdateViaHttp.Location = new System.Drawing.Point(12, 54);
+            this.buttonCheckForUpdateViaHttp.Name = "buttonCheckForUpdateViaHttp";
+            this.buttonCheckForUpdateViaHttp.Size = new System.Drawing.Size(161, 40);
+            this.buttonCheckForUpdateViaHttp.TabIndex = 0;
+            this.buttonCheckForUpdateViaHttp.Text = "Check for update via HTTP";
+            this.buttonCheckForUpdateViaHttp.UseVisualStyleBackColor = true;
+            this.buttonCheckForUpdateViaHttp.Click += new System.EventHandler(this.ButtonCheckForUpdateViaHttp_Click);
             // 
             // labelVersion
             // 
@@ -55,13 +56,27 @@
             this.labelVersion.TabIndex = 1;
             this.labelVersion.Text = "Current version : 1.0.0.0";
             // 
+            // buttonCheckForUpdateViaSftp
+            // 
+            this.buttonCheckForUpdateViaSftp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCheckForUpdateViaSftp.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonCheckForUpdateViaSftp.Location = new System.Drawing.Point(203, 54);
+            this.buttonCheckForUpdateViaSftp.Name = "buttonCheckForUpdateViaSftp";
+            this.buttonCheckForUpdateViaSftp.Size = new System.Drawing.Size(161, 40);
+            this.buttonCheckForUpdateViaSftp.TabIndex = 2;
+            this.buttonCheckForUpdateViaSftp.Text = "Check for update via SFTP";
+            this.buttonCheckForUpdateViaSftp.UseVisualStyleBackColor = true;
+            this.buttonCheckForUpdateViaSftp.Click += new System.EventHandler(this.buttonCheckForUpdateViaSftp_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(220, 106);
+            this.ClientSize = new System.Drawing.Size(376, 106);
+            this.Controls.Add(this.buttonCheckForUpdateViaSftp);
             this.Controls.Add(this.labelVersion);
-            this.Controls.Add(this.buttonCheckForUpdate);
+            this.Controls.Add(this.buttonCheckForUpdateViaHttp);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -77,7 +92,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button buttonCheckForUpdate;
+        private System.Windows.Forms.Button buttonCheckForUpdateViaHttp;
         private System.Windows.Forms.Label labelVersion;
+        private System.Windows.Forms.Button buttonCheckForUpdateViaSftp;
     }
 }

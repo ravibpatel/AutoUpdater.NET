@@ -14,7 +14,7 @@
         <Version>1.7.7.0</Version>
         <AssemblyVersion>1.7.7.0</AssemblyVersion>
         <FileVersion>1.7.7.0</FileVersion>
-        <SignAssembly>true</SignAssembly>
+        <SignAssembly>False</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
         <PackageId>Autoupdater.NET.Official</PackageId>
@@ -51,6 +51,11 @@
         <PackageReference Include="Resource.Embedder" Version="1.2.8" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1587.40" />
+        <PackageReference Include="SSH.NET" Version="2020.0.2" />
     </ItemGroup>
 </Project>
