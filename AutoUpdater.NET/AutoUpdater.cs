@@ -151,6 +151,12 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool ReportErrors = false;
 
+        ///<summary>
+        ///     AutoUpdater.NET will not show the 'No Update Available' dialog if 
+        ///     no update is available and this is true.
+        /// </summary>
+        public static bool SilentOnNoUpdate = false;
+
         /// <summary>
         ///     Set this to false if your application doesn't need administrator privileges to replace the old version.
         /// </summary>
@@ -258,8 +264,8 @@ namespace AutoUpdaterDotNET
         {
             try
             {
-                ServicePointManager.SecurityProtocol |= (SecurityProtocolType) 192 |
-                                                        (SecurityProtocolType) 768 | (SecurityProtocolType) 3072;
+                ServicePointManager.SecurityProtocol |= (SecurityProtocolType)192 |
+                                                        (SecurityProtocolType)768 | (SecurityProtocolType)3072;
             }
             catch (NotSupportedException)
             {
@@ -331,9 +337,9 @@ namespace AutoUpdaterDotNET
                                         return;
                                     }
                                 }
-
-                                Running = false;
                             }
+
+                            Running = false;
                         };
 
                         backgroundWorker.RunWorkerAsync(assembly);
@@ -345,13 +351,13 @@ namespace AutoUpdaterDotNET
         private static object CheckUpdate(Assembly mainAssembly)
         {
             var companyAttribute =
-                (AssemblyCompanyAttribute) GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
+            (AssemblyCompanyAttribute)GetAttribute(mainAssembly, typeof(AssemblyCompanyAttribute));
             string appCompany = companyAttribute != null ? companyAttribute.Company : "";
 
             if (string.IsNullOrEmpty(AppTitle))
             {
                 var titleAttribute =
-                    (AssemblyTitleAttribute) GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
+                    (AssemblyTitleAttribute)GetAttribute(mainAssembly, typeof(AssemblyTitleAttribute));
                 AppTitle = titleAttribute != null ? titleAttribute.Title : mainAssembly.GetName().Name;
             }
 
@@ -362,24 +368,32 @@ namespace AutoUpdaterDotNET
             PersistenceProvider ??= new RegistryPersistenceProvider(registryLocation);
 
             BaseUri = new Uri(AppCastURL);
+            string xml = string.Empty;
+
+            switch (BaseUri.Scheme.ToLower())
+            {
+                case "sftp":
+                    xml = GetUpdateXmlBySSHClient();
+                    break;
+
+                default:
+                    xml = GetUpdateXmlByWebClient();
+                    break;
+            }
 
             UpdateInfoEventArgs args;
-            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
+
+            if (ParseUpdateInfoEvent == null)
             {
-                string xml = client.DownloadString(BaseUri);
-                
-                if (ParseUpdateInfoEvent == null)
-                {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
-                    XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) {XmlResolver = null};
-                    args = (UpdateInfoEventArgs) xmlSerializer.Deserialize(xmlTextReader);
-                }
-                else
-                {
-                    ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
-                    ParseUpdateInfoEvent(parseArgs);
-                    args = parseArgs.UpdateInfo;
-                }
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
+                XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
+                args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
+            }
+            else
+            {
+                ParseUpdateInfoEventArgs parseArgs = new ParseUpdateInfoEventArgs(xml);
+                ParseUpdateInfoEvent(parseArgs);
+                args = parseArgs.UpdateInfo;
             }
 
             if (string.IsNullOrEmpty(args?.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))
@@ -387,7 +401,7 @@ namespace AutoUpdaterDotNET
                 throw new MissingFieldException();
             }
 
-            args.InstalledVersion = InstalledVersion ?? mainAssembly.GetName().Version;
+            args.InstalledVersion = InstalledVersion != null ? InstalledVersion : mainAssembly.GetName().Version;
             args.IsUpdateAvailable = new Version(args.CurrentVersion) > args.InstalledVersion;
 
             if (!Mandatory)
@@ -434,10 +448,34 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
-
             return args;
         }
 
+        private static string GetUpdateXmlBySSHClient()
+        {
+            string xml = string.Empty;
+            string host = BaseUri.Host;
+
+            MySSHClient client = new MySSHClient(
+                host: host, userName: FtpCredentials.UserName,
+                password: FtpCredentials.Password);
+
+            xml = client.GetFileContentAsString(BaseUri.AbsolutePath);
+
+            return xml;
+        }
+
+        private static string GetUpdateXmlByWebClient()
+        {
+            string xml = string.Empty;
+
+            using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
+            {
+                xml = client.DownloadString(BaseUri);
+            }
+
+            return xml;
+        }
         private static bool StartUpdate(object result)
         {
             if (result is DateTime time)
@@ -481,7 +519,7 @@ namespace AutoUpdaterDotNET
                             return true;
                         }
 
-                        if (ReportErrors)
+                        if (ReportErrors && !SilentOnNoUpdate)
                         {
                             MessageBox.Show(Resources.UpdateUnavailableMessage,
                                 Resources.UpdateUnavailableCaption,
@@ -498,7 +536,7 @@ namespace AutoUpdaterDotNET
         {
             if (CheckForUpdateEvent != null)
             {
-                CheckForUpdateEvent(new UpdateInfoEventArgs {Error = exception});
+                CheckForUpdateEvent(new UpdateInfoEventArgs { Error = exception });
             }
             else
             {
@@ -518,8 +556,6 @@ namespace AutoUpdaterDotNET
                     }
                 }
             }
-
-            Running = false;
         }
 
         /// <summary>
@@ -547,7 +583,7 @@ namespace AutoUpdaterDotNET
                 {
                     if (process.CloseMainWindow())
                     {
-                        process.WaitForExit((int) TimeSpan.FromSeconds(10)
+                        process.WaitForExit((int)TimeSpan.FromSeconds(10)
                             .TotalMilliseconds); //give some time to process message
                     }
 
@@ -589,7 +625,7 @@ namespace AutoUpdaterDotNET
                 return null;
             }
 
-            return (Attribute) attributes[0];
+            return (Attribute)attributes[0];
         }
 
         internal static string GetUserAgent()
@@ -694,6 +730,16 @@ namespace AutoUpdaterDotNET
             }
 
             return webClient;
+        }
+
+        internal static MySSHClient GetSSHClient(Uri uri, IAuthentication basicAuthentication)
+        {
+            MySSHClient sshClient = new MySSHClient(
+                host: uri.Host,
+                userName: FtpCredentials.UserName,
+                password: FtpCredentials.Password);
+
+            return sshClient;
         }
     }
 }
