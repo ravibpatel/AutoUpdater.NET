@@ -63,6 +63,8 @@ There are two things you need to provide in XML file as you can see above.
 <checksum algorithm="MD5">Update file Checksum</checksum>
 ````
 
+You can also use the XML creator tool created by one of the user to create the XML file. You can download it from [here](https://github.com/DwainSnickles/AutoUpdater.NET.XML-Creator-master/blob/master/AutoUpdaterXML.zip).
+
 ### Adding one line to make it work
 
 After you done creating and uploading XML file, It is very easy to add a auto update functionality to your application. First you need to add following line at the top of your form.

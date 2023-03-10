@@ -160,7 +160,15 @@ namespace ZipExtractor
                                     {
                                         Directory.CreateDirectory(parentDirectory);
                                     }
-                                    entry.ExtractToFile(filePath, true);
+                                    using (Stream destination = File.Open(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
+                                    {
+                                        using Stream stream = entry.Open();
+                                        stream.CopyTo(destination);
+                                        stream.Flush();
+                                        destination.SetLength(destination.Position);
+                                    }
+
+                                    File.SetLastWriteTime(filePath, entry.LastWriteTime.DateTime);
                                 }
                                 notCopied = false;
                             }
