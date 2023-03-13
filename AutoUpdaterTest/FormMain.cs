@@ -233,7 +233,7 @@ namespace AutoUpdaterTest
             }
         }
 
-        private void ButtonCheckForUpdate_Click(object sender, EventArgs e)
+        private void ButtonCheckForUpdateViaHttp_Click(object sender, EventArgs e)
         {
             //Uncomment below lines to select download path where update is saved.
 
@@ -247,6 +247,30 @@ namespace AutoUpdaterTest
 
             AutoUpdater.ClearAppDirectory = false;
             AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+        }
+
+        private void buttonCheckForUpdateViaSftp_Click(object sender, EventArgs e)
+        {
+            //Uncomment below lines to select download path where update is saved.
+
+            //FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            //if (folderBrowserDialog.ShowDialog().Equals(DialogResult.OK))
+            //{
+            //    AutoUpdater.DownloadPath = folderBrowserDialog.SelectedPath;
+            //    AutoUpdater.Mandatory = true;
+            //    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+            //}
+
+            AutoUpdater.Mandatory = true;
+            //AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+
+            // SFTP test
+            AutoUpdater.Synchronous = false;
+            AutoUpdater.Start(
+                appCast: "sftp://files.mydomain.com/AutoUpdaterTest.xml",
+                ftpCredentials: new NetworkCredential(
+                    userName: "some-username",
+                    password: "VRF1peB9f^2V6%LCMTToFc"));
         }
     }
 }
