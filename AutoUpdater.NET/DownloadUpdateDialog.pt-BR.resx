@@ -120,7 +120,7 @@
   <data name="$this.Text" xml:space="preserve">
     <value>Atualização de software</value>
   </data>
-  <data name="labelinformation.Text" xml:space="preserve">
+  <data name="labelInformation.Text" xml:space="preserve">
     <value>Baixando a atualização...</value>
   </data>
 </root>

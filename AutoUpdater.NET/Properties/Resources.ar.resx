@@ -144,4 +144,7 @@
   <data name="UpdateUnavailableMessage" xml:space="preserve">
     <value>لا يوجد تحديث متاح. الرجاء معاودة المحاولة في وقت لاحق.</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>تعذر تحديد اسم ملف التحديث!</value>
+  </data>
 </root>

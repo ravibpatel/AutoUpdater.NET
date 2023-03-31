@@ -176,6 +176,15 @@ namespace AutoUpdaterDotNET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to determine the filename of the update file!.
+        /// </summary>
+        internal static string UnableToDetermineFilenameMessage {
+            get {
+                return ResourceManager.GetString("UnableToDetermineFilenameMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Check Failed.
         /// </summary>
         internal static string UpdateCheckFailedCaption {

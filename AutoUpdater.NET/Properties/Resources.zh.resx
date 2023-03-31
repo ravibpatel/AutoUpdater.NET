@@ -144,4 +144,7 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>以{0}/s下载</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>无法确定更新文件的文件名！</value>
+  </data>
 </root>

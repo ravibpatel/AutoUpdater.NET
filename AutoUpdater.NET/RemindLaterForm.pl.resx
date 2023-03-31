@@ -147,9 +147,6 @@
   <data name="labelDescription.Text" xml:space="preserve">
     <value>Zaleca się pobranie aktualizacji już teraz. Ten proces może potrwać kilka minut, w zależności od szybkości połączenia internetowego, i zapewnia, że masz najnowszą wersję programu.</value>
   </data>
-  <data name="buttonOK.Text" xml:space="preserve">
-    <value>OK</value>
-  </data>
   <data name="labelTitle.Text" xml:space="preserve">
     <value>Czy chcesz pobrać aktualizacje później?</value>
   </data>

@@ -144,4 +144,7 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>{0}/s에서 다운로드 중</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>업데이트 파일의 파일 이름을 확인할 수 없습니다!</value>
+  </data>
 </root>

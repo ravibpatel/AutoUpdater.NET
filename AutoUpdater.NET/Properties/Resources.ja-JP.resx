@@ -144,4 +144,7 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>{0}/秒でダウンロード中</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>更新ファイルのファイル名を特定できません!</value>
+  </data>
 </root>

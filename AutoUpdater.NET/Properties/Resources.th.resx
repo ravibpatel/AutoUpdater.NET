@@ -145,4 +145,7 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>กำลังดาวน์โหลด ด้วยความเร็ว {0}/s</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>ไม่สามารถระบุชื่อไฟล์ของไฟล์อัพเดตได้!</value>
+  </data>
 </root>

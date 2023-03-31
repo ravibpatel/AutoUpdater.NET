@@ -131,7 +131,7 @@
     <value>Falha ao verificar atualização</value>
   </data>
   <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
-    <value>Hash algorithm provided in the XML file is not supported.</value>
+    <value>O algoritmo de hash fornecido no arquivo XML não é compatível.</value>
   </data>
   <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
     <value>Algoritmo de hash não suportado.</value>
@@ -144,5 +144,8 @@
   </data>
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>Baixando a {0}/s</value>
+  </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>Não foi possível determinar o nome do arquivo de atualização!</value>
   </data>
 </root>

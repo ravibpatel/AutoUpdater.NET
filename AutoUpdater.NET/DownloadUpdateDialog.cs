@@ -101,24 +101,29 @@ namespace AutoUpdaterDotNET
                     CompareChecksum(_tempFile, _args.CheckSum);
                 }
 
-                // try to parse the content disposition header if it exists
+                // Try to parse the content disposition header if it exists.
                 ContentDisposition contentDisposition = null;
-                try
+                if (!string.IsNullOrWhiteSpace(_webClient.ResponseHeaders?["Content-Disposition"]))
                 {
-                    if (!string.IsNullOrWhiteSpace(_webClient.ResponseHeaders?["Content-Disposition"]))
+                    try
                     {
                         contentDisposition = new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
                     }
-                } 
-                catch (FormatException)
-                {
-                    // ignore content disposition header if it is wrongly formated
-                    contentDisposition = null;
+                    catch (FormatException)
+                    {
+                        // Ignore content disposition header if it is wrongly formatted.
+                        contentDisposition = null;
+                    }
                 }
 
                 var fileName = string.IsNullOrEmpty(contentDisposition?.FileName)
                     ? Path.GetFileName(_webClient.ResponseUri.LocalPath)
                     : contentDisposition.FileName;
+
+                if (string.IsNullOrWhiteSpace(fileName))
+                {
+                    throw new WebException(Resources.UnableToDetermineFilenameMessage);
+                }
 
                 var tempPath =
                     Path.Combine(

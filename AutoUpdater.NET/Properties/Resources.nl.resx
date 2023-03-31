@@ -144,4 +144,7 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>Downloaden op {0}/s</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>Kan de bestandsnaam van het updatebestand niet bepalen!</value>
+  </data>
 </root>

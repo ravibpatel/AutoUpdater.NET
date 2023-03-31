@@ -1,0 +1,44 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DownloadSpeedMessage" xml:space="preserve">
+        <value>Baixando em {0}/s</value>
+    </data>
+    <data name="FileIntegrityCheckFailedCaption" xml:space="preserve">
+        <value>Soma de verificação difere</value>
+    </data>
+    <data name="FileIntegrityCheckFailedMessage" xml:space="preserve">
+        <value>A verificação da integridade do arquivo falhou e relatou alguns erros.</value>
+    </data>
+    <data name="HashAlgorithmNotSupportedCaption" xml:space="preserve">
+        <value>Algoritmo de Hash Não Suportado</value>
+    </data>
+    <data name="HashAlgorithmNotSupportedMessage" xml:space="preserve">
+        <value>O algoritmo de hash fornecido no arquivo XML não é suportado.</value>
+    </data>
+    <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+        <value>Não foi possível determinar o nome do arquivo de atualização!</value>
+    </data>
+    <data name="UpdateCheckFailedCaption" xml:space="preserve">
+        <value>Falha na verificação de atualização</value>
+    </data>
+    <data name="UpdateCheckFailedMessage" xml:space="preserve">
+        <value>Há um problema ao acessar o servidor de atualização. Verifique sua conexão com a Internet e tente novamente mais tarde.</value>
+    </data>
+    <data name="UpdateUnavailableCaption" xml:space="preserve">
+        <value>Atualização indisponível</value>
+    </data>
+    <data name="UpdateUnavailableMessage" xml:space="preserve">
+        <value>Não há atualização disponível. Por favor, tente novamente mais tarde.</value>
+    </data>
+</root>

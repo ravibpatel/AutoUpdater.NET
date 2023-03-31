@@ -144,4 +144,7 @@
   <data name="DownloadSpeedMessage" xml:space="preserve">
     <value>Загрузка на {0}/s</value>
   </data>
+  <data name="UnableToDetermineFilenameMessage" xml:space="preserve">
+    <value>Невозможно определить имя файла обновления!</value>
+  </data>
 </root>
