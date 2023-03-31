@@ -101,10 +101,19 @@ namespace AutoUpdaterDotNET
                     CompareChecksum(_tempFile, _args.CheckSum);
                 }
 
+                // try to parse the content disposition header if it exists
                 ContentDisposition contentDisposition = null;
-                if (!string.IsNullOrWhiteSpace(_webClient.ResponseHeaders?["Content-Disposition"]))
+                try
                 {
-                    contentDisposition = new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
+                    if (!string.IsNullOrWhiteSpace(_webClient.ResponseHeaders?["Content-Disposition"]))
+                    {
+                        contentDisposition = new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
+                    }
+                } 
+                catch (FormatException)
+                {
+                    // ignore content disposition header if it is wrongly formated
+                    contentDisposition = null;
                 }
 
                 var fileName = string.IsNullOrEmpty(contentDisposition?.FileName)
