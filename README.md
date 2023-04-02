@@ -56,6 +56,12 @@ There are two things you need to provide in XML file as you can see above.
    <mandatory minVersion="1.2.0.0">true</mandatory>
    ````
 
+* executable (Optional): You can provide the path of the executable if it was changed in the update. It should be relative to the installation directory of the application. For example, if the new executable is located inside the bin folder of the installation directory, then you should provide it as shown below.
+
+````xml
+<executable>bin\AutoUpdaterTest.exe</executable>
+````
+
 * args (Optional): You can provide command line arguments for Installer between this tag. You can include %path% with your command line arguments, it will be replaced by path of the directory where currently executing application resides.
 * checksum (Optional): You can provide the checksum for the update file between this tag. If you do this AutoUpdater.NET will compare the checksum of the downloaded file before executing the update process to check the integrity of the file. You can provide algorithm attribute in the checksum tag to specify which algorithm should be used to generate the checksum of the downloaded file. Currently, MD5, SHA1, SHA256, SHA384, and SHA512 are supported.
 

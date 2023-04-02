@@ -65,6 +65,12 @@ namespace AutoUpdaterDotNET
         /// </summary>
         [XmlElement("mandatory")]
         public Mandatory Mandatory { get; set; }
+        
+        /// <summary>
+        ///     Executable path of the updated application relative to installation directory.
+        /// </summary>
+        [XmlElement("executable")]
+        public string ExecutablePath { get; set; }
 
         /// <summary>
         ///     Command line arguments used by Installer.

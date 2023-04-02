@@ -27,7 +27,8 @@ namespace ZipExtractor
         {
             string zipPath = null;
             string extractionPath = null;
-            string executablePath = null;
+            string currentExe = null;
+            string updatedExe = null;
             bool clearAppDirectory = false;
             string commandLineArgs = null;
 
@@ -47,8 +48,11 @@ namespace ZipExtractor
                     case "--output":
                         extractionPath = args[index + 1];
                         break;
-                    case "--executable":
-                        executablePath = args[index + 1];
+                    case "--current-exe":
+                        currentExe = args[index + 1];
+                        break;
+                    case "--updated-exe":
+                        updatedExe = args[index + 1];
                         break;
                     case "--clear":
                         clearAppDirectory = true;
@@ -62,7 +66,7 @@ namespace ZipExtractor
 
             _logBuilder.AppendLine();
 
-            if (string.IsNullOrEmpty(zipPath) || string.IsNullOrEmpty(extractionPath) || string.IsNullOrEmpty(executablePath))
+            if (string.IsNullOrEmpty(zipPath) || string.IsNullOrEmpty(extractionPath) || string.IsNullOrEmpty(currentExe))
             {
                 return;
             }
@@ -76,11 +80,11 @@ namespace ZipExtractor
 
             _backgroundWorker.DoWork += (_, eventArgs) =>
             {
-                foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executablePath)))
+                foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentExe)))
                 {
                     try
                     {
-                        if (process.MainModule is { FileName: { } } && process.MainModule.FileName.Equals(executablePath))
+                        if (process.MainModule is { FileName: { } } && process.MainModule.FileName.Equals(currentExe))
                         {
                             _logBuilder.AppendLine("Waiting for application process to exit...");
 
@@ -96,11 +100,11 @@ namespace ZipExtractor
 
                 _logBuilder.AppendLine("BackgroundWorker started successfully.");
 
-                    // Ensures that the last character on the extraction path
-                    // is the directory separator char.
-                    // Without this, a malicious zip file could try to traverse outside of the expected
-                    // extraction path.
-                    if (!extractionPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                // Ensures that the last character on the extraction path
+                // is the directory separator char.
+                // Without this, a malicious zip file could try to traverse outside of the expected
+                // extraction path.
+                if (!extractionPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
                 {
                     extractionPath += Path.DirectorySeparatorChar;
                 }
@@ -156,9 +160,16 @@ namespace ZipExtractor
                                 if (!entry.IsDirectory())
                                 {
                                     var parentDirectory = Path.GetDirectoryName(filePath);
-                                    if (!Directory.Exists(parentDirectory))
+                                    if (parentDirectory != null)
                                     {
-                                        Directory.CreateDirectory(parentDirectory);
+                                        if (!Directory.Exists(parentDirectory))
+                                        {
+                                            Directory.CreateDirectory(parentDirectory);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new ArgumentNullException($"parentDirectory is null for \"{filePath}\"!");
                                     }
                                     using (Stream destination = File.Open(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None))
                                     {
@@ -193,8 +204,8 @@ namespace ZipExtractor
                                         }
                                         catch (Exception)
                                         {
-                                                // ignored
-                                            }
+                                            // ignored
+                                        }
                                     }
 
                                     if (lockingProcesses == null)
@@ -261,6 +272,7 @@ namespace ZipExtractor
                         textBoxInformation.Text = @"Finished";
                         try
                         {
+                            var executablePath = updatedExe != null ? Path.Combine(extractionPath, updatedExe) : currentExe;
                             ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);
                             if (!string.IsNullOrEmpty(commandLineArgs))
                             {

@@ -19,7 +19,7 @@ namespace AutoUpdaterTest
         public FormMain()
         {
             InitializeComponent();
-            labelVersion.Text = string.Format(Resources.CurrentVersion, Assembly.GetEntryAssembly().GetName().Version);
+            labelVersion.Text = string.Format(Resources.CurrentVersion, Assembly.GetEntryAssembly()?.GetName().Version);
         }
 
         private void FormMain_Load(object sender, EventArgs e)
@@ -246,7 +246,7 @@ namespace AutoUpdaterTest
             //}
 
             AutoUpdater.ClearAppDirectory = false;
-            AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
+            AutoUpdater.Start("file://///rudra-pc/share/test.xml");
         }
     }
 }

@@ -158,8 +158,9 @@ namespace AutoUpdaterDotNET
 
                     File.WriteAllBytes(installerPath, Resources.ZipExtractor);
 
-                    string executablePath = Process.GetCurrentProcess().MainModule?.FileName;
-                    string extractionPath = Path.GetDirectoryName(executablePath);
+                    string currentExe = Process.GetCurrentProcess().MainModule?.FileName;
+                    string updatedExe = _args.ExecutablePath;
+                    string extractionPath = Path.GetDirectoryName(currentExe);
 
                     if (!string.IsNullOrEmpty(AutoUpdater.InstallationPath) &&
                         Directory.Exists(AutoUpdater.InstallationPath))
@@ -168,7 +169,7 @@ namespace AutoUpdaterDotNET
                     }
 
                     StringBuilder arguments =
-                        new StringBuilder($"--input \"{tempPath}\" --output \"{extractionPath}\" --executable \"{executablePath}\"");
+                        new StringBuilder($"--input \"{tempPath}\" --output \"{extractionPath}\" --current-exe \"{currentExe}\" --updated-exe \"{updatedExe}\"");
 
                     if (AutoUpdater.ClearAppDirectory)
                     {
