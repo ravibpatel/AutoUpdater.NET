@@ -2,7 +2,7 @@
 
 namespace AutoUpdaterDotNET
 {
-    partial class UpdateForm
+    sealed partial class UpdateForm
     {
         /// <summary>
         /// Required designer variable.

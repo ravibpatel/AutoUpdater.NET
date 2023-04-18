@@ -29,7 +29,7 @@
         <PackageReleaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</PackageReleaseNotes>
         <PackageOutputPath>build</PackageOutputPath>
         <DocumentationFile>$(OutputPath)\$(Configuration)\AutoUpdater.NET.xml</DocumentationFile>
-        <LangVersion>default</LangVersion>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputPath>build\lib</OutputPath>
@@ -51,6 +51,6 @@
         <PackageReference Include="Resource.Embedder" Version="1.2.8" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1661.34" />
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1722.45" />
     </ItemGroup>
 </Project>

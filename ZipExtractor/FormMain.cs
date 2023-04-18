@@ -187,50 +187,47 @@ namespace ZipExtractor
                                 const int errorSharingViolation = 0x20;
                                 const int errorLockViolation = 0x21;
                                 var errorCode = Marshal.GetHRForException(exception) & 0x0000FFFF;
-                                if (errorCode is errorSharingViolation or errorLockViolation)
+                                if (errorCode is not (errorSharingViolation or errorLockViolation))
                                 {
-                                    retries++;
-                                    if (retries > MaxRetries)
+                                    throw;
+                                }
+
+                                retries++;
+                                if (retries > MaxRetries)
+                                {
+                                    throw;
+                                }
+
+                                List<Process> lockingProcesses = null;
+                                if (Environment.OSVersion.Version.Major >= 6 && retries >= 2)
+                                {
+                                    try
+                                    {
+                                        lockingProcesses = FileUtil.WhoIsLocking(filePath);
+                                    }
+                                    catch (Exception)
+                                    {
+                                        // ignored
+                                    }
+                                }
+
+                                if (lockingProcesses == null)
+                                {
+                                    Thread.Sleep(5000);
+                                    continue;
+                                }
+
+                                foreach (var lockingProcess in lockingProcesses)
+                                {
+                                    var dialogResult = MessageBox.Show(
+                                        string.Format(Resources.FileStillInUseMessage,
+                                            lockingProcess.ProcessName, filePath),
+                                        Resources.FileStillInUseCaption,
+                                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                                    if (dialogResult == DialogResult.Cancel)
                                     {
                                         throw;
                                     }
-
-                                    List<Process> lockingProcesses = null;
-                                    if (Environment.OSVersion.Version.Major >= 6 && retries >= 2)
-                                    {
-                                        try
-                                        {
-                                            lockingProcesses = FileUtil.WhoIsLocking(filePath);
-                                        }
-                                        catch (Exception)
-                                        {
-                                            // ignored
-                                        }
-                                    }
-
-                                    if (lockingProcesses == null)
-                                    {
-                                        Thread.Sleep(5000);
-                                    }
-                                    else
-                                    {
-                                        foreach (var lockingProcess in lockingProcesses)
-                                        {
-                                            var dialogResult = MessageBox.Show(
-                                                string.Format(Resources.FileStillInUseMessage,
-                                                    lockingProcess.ProcessName, filePath),
-                                                Resources.FileStillInUseCaption,
-                                                MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                                            if (dialogResult == DialogResult.Cancel)
-                                            {
-                                                throw;
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    throw;
                                 }
                             }
                         }
@@ -267,28 +264,27 @@ namespace ZipExtractor
                         throw eventArgs.Error;
                     }
 
-                    if (!eventArgs.Cancelled)
+                    if (eventArgs.Cancelled) return;
+
+                    textBoxInformation.Text = @"Finished";
+                    try
                     {
-                        textBoxInformation.Text = @"Finished";
-                        try
+                        var executablePath = string.IsNullOrWhiteSpace(updatedExe) ? currentExe : Path.Combine(extractionPath, updatedExe);
+                        ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);
+                        if (!string.IsNullOrEmpty(commandLineArgs))
                         {
-                            var executablePath = updatedExe != null ? Path.Combine(extractionPath, updatedExe) : currentExe;
-                            ProcessStartInfo processStartInfo = new ProcessStartInfo(executablePath);
-                            if (!string.IsNullOrEmpty(commandLineArgs))
-                            {
-                                processStartInfo.Arguments = commandLineArgs;
-                            }
-
-                            Process.Start(processStartInfo);
-
-                            _logBuilder.AppendLine("Successfully launched the updated application.");
+                            processStartInfo.Arguments = commandLineArgs;
                         }
-                        catch (Win32Exception exception)
+
+                        Process.Start(processStartInfo);
+
+                        _logBuilder.AppendLine("Successfully launched the updated application.");
+                    }
+                    catch (Win32Exception exception)
+                    {
+                        if (exception.NativeErrorCode != 1223)
                         {
-                            if (exception.NativeErrorCode != 1223)
-                            {
-                                throw;
-                            }
+                            throw;
                         }
                     }
                 }

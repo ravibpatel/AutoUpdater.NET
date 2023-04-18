@@ -62,7 +62,7 @@ namespace AutoUpdaterDotNET
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            if (_startedAt == default(DateTime))
+            if (_startedAt == default)
             {
                 _startedAt = DateTime.Now;
             }
@@ -84,10 +84,7 @@ namespace AutoUpdaterDotNET
 
         private void WebClientOnDownloadFileCompleted(object sender, AsyncCompletedEventArgs asyncCompletedEventArgs)
         {
-            if (asyncCompletedEventArgs.Cancelled)
-            {
-                return;
-            }
+            if (asyncCompletedEventArgs.Cancelled) return;
 
             try
             {
@@ -107,7 +104,8 @@ namespace AutoUpdaterDotNET
                 {
                     try
                     {
-                        contentDisposition = new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
+                        contentDisposition =
+                            new ContentDisposition(_webClient.ResponseHeaders["Content-Disposition"]);
                     }
                     catch (FormatException)
                     {
@@ -127,7 +125,9 @@ namespace AutoUpdaterDotNET
 
                 var tempPath =
                     Path.Combine(
-                        string.IsNullOrEmpty(AutoUpdater.DownloadPath) ? Path.GetTempPath() : AutoUpdater.DownloadPath,
+                        string.IsNullOrEmpty(AutoUpdater.DownloadPath)
+                            ? Path.GetTempPath()
+                            : AutoUpdater.DownloadPath,
                         fileName);
 
                 if (File.Exists(tempPath))
@@ -154,7 +154,9 @@ namespace AutoUpdaterDotNET
                 var extension = Path.GetExtension(tempPath);
                 if (extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                 {
-                    string installerPath = Path.Combine(Path.GetDirectoryName(tempPath) ?? throw new InvalidOperationException(), "ZipExtractor.exe");
+                    string installerPath =
+                        Path.Combine(Path.GetDirectoryName(tempPath) ?? throw new InvalidOperationException(),
+                            "ZipExtractor.exe");
 
                     File.WriteAllBytes(installerPath, Resources.ZipExtractor);
 
@@ -162,20 +164,32 @@ namespace AutoUpdaterDotNET
                     string updatedExe = _args.ExecutablePath;
                     string extractionPath = Path.GetDirectoryName(currentExe);
 
-                    if (!string.IsNullOrEmpty(AutoUpdater.InstallationPath) &&
+                    if (string.IsNullOrWhiteSpace(updatedExe) &&
+                        !string.IsNullOrWhiteSpace(AutoUpdater.ExecutablePath))
+                    {
+                        updatedExe = AutoUpdater.ExecutablePath;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(AutoUpdater.InstallationPath) &&
                         Directory.Exists(AutoUpdater.InstallationPath))
                     {
                         extractionPath = AutoUpdater.InstallationPath;
                     }
 
                     StringBuilder arguments =
-                        new StringBuilder($"--input \"{tempPath}\" --output \"{extractionPath}\" --current-exe \"{currentExe}\" --updated-exe \"{updatedExe}\"");
+                        new StringBuilder(
+                            $"--input \"{tempPath}\" --output \"{extractionPath}\" --current-exe \"{currentExe}\"");
+
+                    if (!string.IsNullOrWhiteSpace(updatedExe))
+                    {
+                        arguments.Append($" --updated-exe \"{updatedExe}\"");
+                    }
 
                     if (AutoUpdater.ClearAppDirectory)
                     {
                         arguments.Append(" --clear");
                     }
-                    
+
                     string[] args = Environment.GetCommandLineArgs();
                     for (int i = 1; i < args.Length; i++)
                     {
@@ -255,25 +269,19 @@ namespace AutoUpdaterDotNET
 
         private static void CompareChecksum(string fileName, CheckSum checksum)
         {
-            using (var hashAlgorithm =
+            using var hashAlgorithm =
                 HashAlgorithm.Create(
-                    string.IsNullOrEmpty(checksum.HashingAlgorithm) ? "MD5" : checksum.HashingAlgorithm))
-            {
-                using (var stream = File.OpenRead(fileName))
-                {
-                    if (hashAlgorithm != null)
-                    {
-                        var hash = hashAlgorithm.ComputeHash(stream);
-                        var fileChecksum = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
+                    string.IsNullOrEmpty(checksum.HashingAlgorithm) ? "MD5" : checksum.HashingAlgorithm);
+            using var stream = File.OpenRead(fileName);
 
-                        if (fileChecksum == checksum.Value.ToLower()) return;
+            if (hashAlgorithm == null) throw new Exception(Resources.HashAlgorithmNotSupportedMessage);
 
-                        throw new Exception(Resources.FileIntegrityCheckFailedMessage);
-                    }
+            var hash = hashAlgorithm.ComputeHash(stream);
+            var fileChecksum = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
 
-                    throw new Exception(Resources.HashAlgorithmNotSupportedMessage);
-                }
-            }
+            if (fileChecksum == checksum.Value.ToLower()) return;
+
+            throw new Exception(Resources.FileIntegrityCheckFailedMessage);
         }
 
         private void DownloadUpdateDialog_FormClosing(object sender, FormClosingEventArgs e)

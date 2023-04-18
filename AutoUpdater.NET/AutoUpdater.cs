@@ -86,6 +86,11 @@ namespace AutoUpdaterDotNET
         public static string InstallationPath;
 
         /// <summary>
+        ///     If you are using a zip file as an update file, then you can set this value to a new executable path relative to the installation directory.
+        /// </summary>
+        public static string ExecutablePath;
+
+        /// <summary>
         ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set this property if you like to give custom Title.
         /// </summary>
         public static string AppTitle;
@@ -272,73 +277,71 @@ namespace AutoUpdaterDotNET
                 _remindLaterTimer = null;
             }
 
-            if (!Running && _remindLaterTimer == null)
+            if (Running || _remindLaterTimer != null) return;
+
+            Running = true;
+
+            AppCastURL = appCast;
+
+            _isWinFormsApplication = Application.MessageLoop;
+
+            if (!_isWinFormsApplication)
             {
-                Running = true;
+                Application.EnableVisualStyles();
+            }
 
-                AppCastURL = appCast;
+            Assembly assembly = myAssembly ?? Assembly.GetEntryAssembly();
 
-                _isWinFormsApplication = Application.MessageLoop;
-
-                if (!_isWinFormsApplication)
+            if (Synchronous)
+            {
+                try
                 {
-                    Application.EnableVisualStyles();
-                }
+                    var result = CheckUpdate(assembly);
 
-                Assembly assembly = myAssembly ?? Assembly.GetEntryAssembly();
-
-                if (Synchronous)
-                {
-                    try
+                    if (StartUpdate(result))
                     {
-                        var result = CheckUpdate(assembly);
+                        return;
+                    }
 
-                        if (StartUpdate(result))
+                    Running = false;
+                }
+                catch (Exception exception)
+                {
+                    ShowError(exception);
+                }
+            }
+            else
+            {
+                using var backgroundWorker = new BackgroundWorker();
+
+                backgroundWorker.DoWork += (_, args) =>
+                {
+                    Assembly mainAssembly = args.Argument as Assembly;
+
+                    args.Result = CheckUpdate(mainAssembly);
+                };
+
+                backgroundWorker.RunWorkerCompleted += (_, args) =>
+                {
+                    if (args.Error != null)
+                    {
+                        ShowError(args.Error);
+                    }
+                    else
+                    {
+                        if (!args.Cancelled)
                         {
-                            return;
+                            if (StartUpdate(args.Result))
+                            {
+                                return;
+                            }
                         }
 
                         Running = false;
                     }
-                    catch (Exception exception)
-                    {
-                        ShowError(exception);
-                    }
-                }
-                else
-                {
-                    using (var backgroundWorker = new BackgroundWorker())
-                    {
-                        backgroundWorker.DoWork += (_, args) =>
-                        {
-                            Assembly mainAssembly = args.Argument as Assembly;
+                };
 
-                            args.Result = CheckUpdate(mainAssembly);
-                        };
-
-                        backgroundWorker.RunWorkerCompleted += (_, args) =>
-                        {
-                            if (args.Error != null)
-                            {
-                                ShowError(args.Error);
-                            }
-                            else
-                            {
-                                if (!args.Cancelled)
-                                {
-                                    if (StartUpdate(args.Result))
-                                    {
-                                        return;
-                                    }
-                                }
-
-                                Running = false;
-                            }
-                        };
-
-                        backgroundWorker.RunWorkerAsync(assembly);
-                    }
-                }
+                backgroundWorker.RunWorkerAsync(assembly);
             }
         }
 
@@ -446,47 +449,46 @@ namespace AutoUpdaterDotNET
             }
             else
             {
-                if (result is UpdateInfoEventArgs args)
+                if (result is not UpdateInfoEventArgs args) return false;
+                
+                if (CheckForUpdateEvent != null)
                 {
-                    if (CheckForUpdateEvent != null)
+                    CheckForUpdateEvent(args);
+                }
+                else
+                {
+                    if (args.IsUpdateAvailable)
                     {
-                        CheckForUpdateEvent(args);
-                    }
-                    else
-                    {
-                        if (args.IsUpdateAvailable)
+                        if (Mandatory && UpdateMode == Mode.ForcedDownload)
                         {
-                            if (Mandatory && UpdateMode == Mode.ForcedDownload)
+                            DownloadUpdate(args);
+                            Exit();
+                        }
+                        else
+                        {
+                            if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
                             {
-                                DownloadUpdate(args);
-                                Exit();
+                                ShowUpdateForm(args);
                             }
                             else
                             {
-                                if (Thread.CurrentThread.GetApartmentState().Equals(ApartmentState.STA))
-                                {
-                                    ShowUpdateForm(args);
-                                }
-                                else
-                                {
-                                    Thread thread = new Thread(new ThreadStart(delegate { ShowUpdateForm(args); }));
-                                    thread.CurrentCulture =
-                                        thread.CurrentUICulture = CultureInfo.CurrentCulture;
-                                    thread.SetApartmentState(ApartmentState.STA);
-                                    thread.Start();
-                                    thread.Join();
-                                }
+                                Thread thread = new Thread(new ThreadStart(delegate { ShowUpdateForm(args); }));
+                                thread.CurrentCulture =
+                                    thread.CurrentUICulture = CultureInfo.CurrentCulture;
+                                thread.SetApartmentState(ApartmentState.STA);
+                                thread.Start();
+                                thread.Join();
                             }
-
-                            return true;
                         }
 
-                        if (ReportErrors)
-                        {
-                            MessageBox.Show(Resources.UpdateUnavailableMessage,
-                                Resources.UpdateUnavailableCaption,
-                                MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
+                        return true;
+                    }
+
+                    if (ReportErrors)
+                    {
+                        MessageBox.Show(Resources.UpdateUnavailableMessage,
+                            Resources.UpdateUnavailableCaption,
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
@@ -553,7 +555,7 @@ namespace AutoUpdaterDotNET
 
                     if (!process.HasExited)
                     {
-                        process.Kill(); //TODO show UI message asking user to close program himself instead of silently killing it
+                        process.Kill(); //TODO: Show UI message asking user to close program himself instead of silently killing it
                     }
                 }
             }
@@ -637,15 +639,14 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static bool DownloadUpdate(UpdateInfoEventArgs args)
         {
-            using (var downloadDialog = new DownloadUpdateDialog(args))
+            using var downloadDialog = new DownloadUpdateDialog(args);
+
+            try
             {
-                try
-                {
-                    return downloadDialog.ShowDialog().Equals(DialogResult.OK);
-                }
-                catch (TargetInvocationException)
-                {
-                }
+                return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+            }
+            catch (TargetInvocationException)
+            {
             }
 
             return false;
@@ -656,17 +657,16 @@ namespace AutoUpdaterDotNET
         /// </summary>
         public static void ShowUpdateForm(UpdateInfoEventArgs args)
         {
-            using (var updateForm = new UpdateForm(args))
-            {
-                if (UpdateFormSize.HasValue)
-                {
-                    updateForm.Size = UpdateFormSize.Value;
-                }
+            using var updateForm = new UpdateForm(args);
 
-                if (updateForm.ShowDialog().Equals(DialogResult.OK))
-                {
-                    Exit();
-                }
+            if (UpdateFormSize.HasValue)
+            {
+                updateForm.Size = UpdateFormSize.Value;
+            }
+
+            if (updateForm.ShowDialog().Equals(DialogResult.OK))
+            {
+                Exit();
             }
         }
 

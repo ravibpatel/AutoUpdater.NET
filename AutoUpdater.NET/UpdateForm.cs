@@ -9,7 +9,7 @@ using Microsoft.Win32;
 
 namespace AutoUpdaterDotNET
 {
-    internal partial class UpdateForm : Form
+    internal sealed partial class UpdateForm : Form
     {
         private readonly UpdateInfoEventArgs _args;
 
@@ -21,12 +21,12 @@ namespace AutoUpdaterDotNET
             buttonSkip.Visible = AutoUpdater.ShowSkipButton;
             buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
             var resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateForm));
-            Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture),
+            Text = string.Format(resources.GetString("$this.Text", CultureInfo.CurrentCulture)!,
                 AutoUpdater.AppTitle, _args.CurrentVersion);
-            labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture),
+            labelUpdate.Text = string.Format(resources.GetString("labelUpdate.Text", CultureInfo.CurrentCulture)!,
                 AutoUpdater.AppTitle);
             labelDescription.Text =
-                string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture),
+                string.Format(resources.GetString("labelDescription.Text", CultureInfo.CurrentCulture)!,
                     AutoUpdater.AppTitle, _args.CurrentVersion, _args.InstalledVersion);
 
             if (AutoUpdater.Mandatory && AutoUpdater.UpdateMode == Mode.Forced)
@@ -117,44 +117,33 @@ namespace AutoUpdaterDotNET
 
         private void UseLatestIE()
         {
-            int ieValue = 0;
-            switch (webBrowser.Version.Major)
+            int ieValue = webBrowser.Version.Major switch
             {
-                case 11:
-                    ieValue = 11001;
-                    break;
-                case 10:
-                    ieValue = 10001;
-                    break;
-                case 9:
-                    ieValue = 9999;
-                    break;
-                case 8:
-                    ieValue = 8888;
-                    break;
-                case 7:
-                    ieValue = 7000;
-                    break;
-            }
+                11 => 11001,
+                10 => 10001,
+                9 => 9999,
+                8 => 8888,
+                7 => 7000,
+                _ => 0
+            };
 
-            if (ieValue != 0)
+            if (ieValue == 0) return;
+
+            try
             {
-                try
+                using (RegistryKey registryKey =
+                       Registry.CurrentUser.OpenSubKey(
+                           @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
+                           true))
                 {
-                    using (RegistryKey registryKey =
-                        Registry.CurrentUser.OpenSubKey(
-                            @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
-                            true))
-                    {
-                        registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName),
-                            ieValue,
-                            RegistryValueKind.DWord);
-                    }
+                    registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName),
+                        ieValue,
+                        RegistryValueKind.DWord);
                 }
-                catch (Exception)
-                {
-                    // ignored
-                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
         }
 
@@ -192,42 +181,32 @@ namespace AutoUpdaterDotNET
         {
             if (AutoUpdater.LetUserSelectRemindLater)
             {
-                using (var remindLaterForm = new RemindLaterForm())
-                {
-                    var dialogResult = remindLaterForm.ShowDialog();
+                using var remindLaterForm = new RemindLaterForm();
+                var dialogResult = remindLaterForm.ShowDialog();
 
-                    if (dialogResult.Equals(DialogResult.OK))
-                    {
+                switch (dialogResult)
+                {
+                    case DialogResult.OK:
                         AutoUpdater.RemindLaterTimeSpan = remindLaterForm.RemindLaterFormat;
                         AutoUpdater.RemindLaterAt = remindLaterForm.RemindLaterAt;
-                    }
-                    else if (dialogResult.Equals(DialogResult.Abort))
-                    {
+                        break;
+                    case DialogResult.Abort:
                         ButtonUpdateClick(sender, e);
                         return;
-                    }
-                    else
-                    {
+                    default:
                         return;
-                    }
                 }
             }
 
             AutoUpdater.PersistenceProvider.SetSkippedVersion(null);
 
-            DateTime remindLaterDateTime = DateTime.Now;
-            switch (AutoUpdater.RemindLaterTimeSpan)
+            DateTime remindLaterDateTime = AutoUpdater.RemindLaterTimeSpan switch
             {
-                case RemindLaterFormat.Days:
-                    remindLaterDateTime = DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt);
-                    break;
-                case RemindLaterFormat.Hours:
-                    remindLaterDateTime = DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt);
-                    break;
-                case RemindLaterFormat.Minutes:
-                    remindLaterDateTime = DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt);
-                    break;
-            }
+                RemindLaterFormat.Days => DateTime.Now + TimeSpan.FromDays(AutoUpdater.RemindLaterAt),
+                RemindLaterFormat.Hours => DateTime.Now + TimeSpan.FromHours(AutoUpdater.RemindLaterAt),
+                RemindLaterFormat.Minutes => DateTime.Now + TimeSpan.FromMinutes(AutoUpdater.RemindLaterAt),
+                _ => DateTime.Now
+            };
 
             AutoUpdater.PersistenceProvider.SetRemindLater(remindLaterDateTime);
             AutoUpdater.SetTimer(remindLaterDateTime);

@@ -35,7 +35,7 @@ namespace AutoUpdaterTest
 
             //Uncomment below line to see russian version
 
-            //Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("ru");
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("hi");
 
             //If you want to open download page when user click on download button uncomment below line.
 
@@ -245,8 +245,9 @@ namespace AutoUpdaterTest
             //    AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
             //}
 
-            AutoUpdater.ClearAppDirectory = false;
-            AutoUpdater.Start("file://///rudra-pc/share/test.xml");
+            AutoUpdater.ExecutablePath = "bin/AutoUpdaterTest.exe";
+            AutoUpdater.ClearAppDirectory = true;
+            AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
         }
     }
 }
