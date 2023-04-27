@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows.Forms;
 using AutoUpdaterDotNET;
 using AutoUpdaterTest.Properties;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace AutoUpdaterTest
 {
@@ -35,7 +31,8 @@ namespace AutoUpdaterTest
 
             //Uncomment below line to see russian version
 
-            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("hi");
+            Thread.CurrentThread.CurrentCulture =
+                Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("hi");
 
             //If you want to open download page when user click on download button uncomment below line.
 

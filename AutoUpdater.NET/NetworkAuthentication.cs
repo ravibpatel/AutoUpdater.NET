@@ -1,32 +1,30 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 
-namespace AutoUpdaterDotNET
+namespace AutoUpdaterDotNET;
+
+/// <summary>
+///     Provides credentials for Network Authentication.
+/// </summary>
+public class NetworkAuthentication : IAuthentication
 {
     /// <summary>
-    ///     Provides credentials for Network Authentication.
+    ///     Initializes credentials for Network Authentication.
     /// </summary>
-    public class NetworkAuthentication : IAuthentication
+    /// <param name="username">Username to use for Network Authentication</param>
+    /// <param name="password">Password to use for Network Authentication</param>
+    public NetworkAuthentication(string username, string password)
     {
-        private string Username { get; }
+        Username = username;
+        Password = password;
+    }
 
-        private string Password { get; }
+    private string Username { get; }
 
-        /// <summary>
-        ///     Initializes credentials for Network Authentication.
-        /// </summary>
-        /// <param name="username">Username to use for Network Authentication</param>
-        /// <param name="password">Password to use for Network Authentication</param>
-        public NetworkAuthentication(string username, string password)
-        {
-            Username = username;
-            Password = password;
-        }
+    private string Password { get; }
 
-        /// <inheritdoc />
-        public void Apply(ref MyWebClient webClient)
-        {
-            webClient.Credentials = new NetworkCredential(Username, Password);
-        }
+    /// <inheritdoc />
+    public void Apply(ref MyWebClient webClient)
+    {
+        webClient.Credentials = new NetworkCredential(Username, Password);
     }
 }

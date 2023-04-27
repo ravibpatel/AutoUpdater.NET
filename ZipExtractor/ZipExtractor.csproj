@@ -40,9 +40,9 @@
         <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
     <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
-        <Reference Include="System.IO.Compression" />
-        <Reference Include="System.IO.Compression.FileSystem" />
-        <Reference Include="System.Windows.Forms" />
+        <Reference Include="System.IO.Compression"/>
+        <Reference Include="System.IO.Compression.FileSystem"/>
+        <Reference Include="System.Windows.Forms"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Update="Properties\Settings.Designer.cs">

@@ -300,8 +300,8 @@ if (currentDirectory.Parent != null)
 
 ### Specify relative path to executable you want to execute after update
 
-If you are using a zip file as an update file, then you can set "ExecutablePath" equal to a new executable path relative to
-the installation directory. This is only necessary if your new executable path differs from current executable path.
+If you are using a zip file as an update file, then you can set "ExecutablePath" equal to a new executable path relative
+to the installation directory. This is only necessary if your new executable path differs from current executable path.
 The "executable" value defined in XML takes precedence over this value.
 
 ````csharp

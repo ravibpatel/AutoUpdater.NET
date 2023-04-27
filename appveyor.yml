@@ -1,6 +1,6 @@
-version: 1.8.0.{build}
+version: 1.8.1.{build}
 environment:
-  my_version: 1.8.0
+  my_version: 1.8.1
   my_secret:
     secure: vbPRaZLQYpGPr4BrZZ4p6TofpSZMud+FKtlpqjgO8aA=
 skip_branch_with_pr: true
@@ -8,44 +8,44 @@ image: Visual Studio 2022
 clone_folder: c:\projects\AutoUpdater.NET
 build: off
 install:
-- nuget install secure-file -ExcludeVersion
-- cmd: nuget restore
-- secure-file\tools\secure-file -decrypt "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.snk.enc" -secret %my_secret%
-- secure-file\tools\secure-file -decrypt "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.snk.enc" -secret %my_secret%
-- msbuild "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-- msbuild "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-- dotnet publish --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
-- dotnet publish --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\netcoreapp3.1"
-- dotnet publish --framework net5.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
-- dotnet publish --framework net5.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net5.0-windows7.0"
-- dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
-- dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net6.0-windows7.0"
-- cmd: 7z a AutoUpdater.NET-%my_version%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\build\lib\*
-- ps: Remove-Item -path c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\* -include runtimes,Microsoft.Web.WebView2*,AutoUpdater.NET.deps.json -Recurse
-- nuget pack "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\Autoupdater.NET.Official.nuspec"
+  - nuget install secure-file -ExcludeVersion
+  - cmd: nuget restore
+  - secure-file\tools\secure-file -decrypt "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.snk.enc" -secret %my_secret%
+  - secure-file\tools\secure-file -decrypt "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.snk.enc" -secret %my_secret%
+  - msbuild "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - dotnet publish --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
+  - dotnet publish --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\netcoreapp3.1"
+  - dotnet publish --framework net5.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
+  - dotnet publish --framework net5.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net5.0-windows7.0"
+  - dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\Resources"
+  - dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net6.0-windows7.0"
+  - cmd: 7z a AutoUpdater.NET-%my_version%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\build\lib\*
+  - ps: Remove-Item -path c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\* -include runtimes,Microsoft.Web.WebView2*,AutoUpdater.NET.deps.json -Recurse
+  - nuget pack "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\Autoupdater.NET.Official.nuspec"
 
 artifacts:
-- path: AutoUpdater.NET-%my_version%.zip
-- path: Autoupdater.NET.Official.%my_version%.nupkg
+  - path: AutoUpdater.NET-%my_version%.zip
+  - path: Autoupdater.NET.Official.%my_version%.nupkg
 
 deploy:
-- provider: GitHub
-  release: $(APPVEYOR_REPO_TAG_NAME)
-  description: '// TODO: Write Release Notes'
-  artifact: AutoUpdater.NET-%my_version%.zip
-  auth_token:
-    secure: 7mWsHdYoJjOZChmTq6NVAycMaurs/tAoHZUG6nBmdNKHLtqJ4c58mItRuSKUMJua
-  draft: false
-  prerelease: false
-  on:
-    branch: master                 # release from master branch only
-    appveyor_repo_tag: true        # deploy on tag push only
+  - provider: GitHub
+    release: $(APPVEYOR_REPO_TAG_NAME)
+    description: '// TODO: Write Release Notes'
+    artifact: AutoUpdater.NET-%my_version%.zip
+    auth_token:
+      secure: 7mWsHdYoJjOZChmTq6NVAycMaurs/tAoHZUG6nBmdNKHLtqJ4c58mItRuSKUMJua
+    draft: false
+    prerelease: false
+    on:
+      branch: master                 # release from master branch only
+      appveyor_repo_tag: true        # deploy on tag push only
 
-- provider: NuGet
-  api_key:
-    secure: EA3GtBMLgZneFXYFhyTQ+8ppC0bvjJl3CwE9sQ31gLQUI/4cpETFgPt6ql7uYD9/
-  skip_symbols: false
-  artifact: Autoupdater.NET.Official.%my_version%.nupkg
-  on:
-    branch: master                 # release from master branch only
-    appveyor_repo_tag: true        # deploy on tag push only
+  - provider: NuGet
+    api_key:
+      secure: EA3GtBMLgZneFXYFhyTQ+8ppC0bvjJl3CwE9sQ31gLQUI/4cpETFgPt6ql7uYD9/
+    skip_symbols: false
+    artifact: Autoupdater.NET.Official.%my_version%.nupkg
+    on:
+      branch: master                 # release from master branch only
+      appveyor_repo_tag: true        # deploy on tag push only

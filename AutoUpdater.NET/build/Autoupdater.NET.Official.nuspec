@@ -1,54 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
-  <metadata>
-    <id>Autoupdater.NET.Official</id>
-    <version>1.8.0.0</version>
-    <title>AutoUpdater.NET</title>
-    <authors>rbsoft</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <license type="expression">MIT</license>
-    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
-    <projectUrl>https://github.com/ravibpatel/AutoUpdater.NET</projectUrl>
-    <description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update functionality to their WinForms or WPF application projects.</description>
-    <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
-    <copyright>Copyright © 2012-2023 RBSoft</copyright>
-    <tags>autoupdate updater c# vb wpf winforms</tags>
-    <dependencies>
-      <group targetFramework=".NETFramework4.5">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework=".NETCoreApp3.1">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework="net5.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers" />
-      </group>
-      <group targetFramework="net6.0-windows7.0">
-        <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers" />
-      </group>
-    </dependencies>
-    <frameworkReferences>
-      <group targetFramework=".NETCoreApp3.1">
-        <frameworkReference name="Microsoft.WindowsDesktop.App" />
-      </group>
-      <group targetFramework="net5.0-windows7.0">
-        <frameworkReference name="Microsoft.WindowsDesktop.App" />
-      </group>
-      <group targetFramework="net6.0-windows7.0">
-        <frameworkReference name="Microsoft.WindowsDesktop.App" />
-      </group>
-      <group targetFramework=".NETFramework4.5" />
-    </frameworkReferences>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="System.Xml" targetFramework=".NETFramework4.5" />
-      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5" />
-    </frameworkAssemblies>
-  </metadata>
+    <metadata>
+        <id>Autoupdater.NET.Official</id>
+        <version>1.8.1.0</version>
+        <title>AutoUpdater.NET</title>
+        <authors>rbsoft</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+        <projectUrl>https://github.com/ravibpatel/AutoUpdater.NET</projectUrl>
+        <description>AutoUpdater.NET is a class library that allows .NET developers to easily add auto update
+            functionality to their WinForms or WPF application projects.
+        </description>
+        <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
+        <copyright>Copyright © 2012-2023 RBSoft</copyright>
+        <tags>autoupdate updater c# vb wpf winforms</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework=".NETCoreApp3.1">
+                <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net5.0-windows7.0">
+                <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net6.0-windows7.0">
+                <dependency id="Microsoft.Web.WebView2" version="1.0.1722.45" exclude="Build,Analyzers"/>
+            </group>
+        </dependencies>
+        <frameworkReferences>
+            <group targetFramework=".NETCoreApp3.1">
+                <frameworkReference name="Microsoft.WindowsDesktop.App"/>
+            </group>
+            <group targetFramework="net5.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App"/>
+            </group>
+            <group targetFramework="net6.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App"/>
+            </group>
+            <group targetFramework=".NETFramework4.5"/>
+        </frameworkReferences>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System.Data" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System.Runtime.Serialization" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="System.Xml" targetFramework=".NETFramework4.5"/>
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.5"/>
+        </frameworkAssemblies>
+    </metadata>
 </package>
