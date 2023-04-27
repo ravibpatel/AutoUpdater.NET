@@ -203,7 +203,7 @@ namespace AutoUpdaterDotNET
                     string[] args = Environment.GetCommandLineArgs();
                     if (args.Length > 0)
                     {
-                        var arguments = string.Join(" ", args.Skip(1).Select(arg => $"\"arg\""));
+                        var arguments = string.Join(" ", args.Skip(1).Select(arg => $"\"{arg}\""));
                         processStartInfo.ArgumentList.Add("--args");
                         processStartInfo.ArgumentList.Add(arguments);
 
