@@ -3,10 +3,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 using AutoUpdaterDotNET.Properties;
 
@@ -69,7 +69,7 @@ namespace AutoUpdaterDotNET
             else
             {
                 var timeSpan = DateTime.Now - _startedAt;
-                long totalSeconds = (long) timeSpan.TotalSeconds;
+                long totalSeconds = (long)timeSpan.TotalSeconds;
                 if (totalSeconds > 0)
                 {
                     var bytesPerSecond = e.BytesReceived / totalSeconds;
@@ -176,49 +176,50 @@ namespace AutoUpdaterDotNET
                         extractionPath = AutoUpdater.InstallationPath;
                     }
 
-                    StringBuilder arguments =
-                        new StringBuilder(
-                            $"--input \"{tempPath}\" --output \"{extractionPath}\" --current-exe \"{currentExe}\"");
+                    processStartInfo = new ProcessStartInfo
+                    {
+                        FileName = installerPath,
+                        UseShellExecute = true
+                    };
+
+                    processStartInfo.ArgumentList.Add("--input");
+                    processStartInfo.ArgumentList.Add(tempPath);
+                    processStartInfo.ArgumentList.Add("--output");
+                    processStartInfo.ArgumentList.Add(extractionPath);
+                    processStartInfo.ArgumentList.Add("--current-exe");
+                    processStartInfo.ArgumentList.Add(currentExe);
 
                     if (!string.IsNullOrWhiteSpace(updatedExe))
                     {
-                        arguments.Append($" --updated-exe \"{updatedExe}\"");
+                        processStartInfo.ArgumentList.Add("--updated-exe");
+                        processStartInfo.ArgumentList.Add(updatedExe);
                     }
 
                     if (AutoUpdater.ClearAppDirectory)
                     {
-                        arguments.Append(" --clear");
+                        processStartInfo.ArgumentList.Add("--clear");
                     }
 
                     string[] args = Environment.GetCommandLineArgs();
-                    for (int i = 1; i < args.Length; i++)
+                    if (args.Length > 0)
                     {
-                        if (i.Equals(1))
-                        {
-                            arguments.Append(" --args \"");
-                        }
+                        var arguments = string.Join(" ", args.Skip(1).Select(arg => $"\"{arg}\""));
+                        processStartInfo.ArgumentList.Add("--args");
+                        processStartInfo.ArgumentList.Add(arguments);
 
-                        arguments.Append($"\"{args[i]}\"");
-                        arguments.Append(i.Equals(args.Length - 1) ? "\"" : " ");
                     }
-
-                    processStartInfo = new ProcessStartInfo
-                    {
-                        FileName = installerPath,
-                        UseShellExecute = true,
-                        Arguments = arguments.ToString()
-                    };
                 }
                 else if (extension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
                 {
                     processStartInfo = new ProcessStartInfo
                     {
-                        FileName = "msiexec",
-                        Arguments = $"/i \"{tempPath}\"",
+                        FileName = "msiexec"
                     };
+                    processStartInfo.ArgumentList.Add($"/i");
+                    processStartInfo.ArgumentList.Add(tempPath);
                     if (!string.IsNullOrEmpty(installerArgs))
                     {
-                        processStartInfo.Arguments += " " + installerArgs;
+                        processStartInfo.ArgumentList.Add(installerArgs);
                     }
                 }
 
@@ -258,7 +259,7 @@ namespace AutoUpdaterDotNET
 
         private static string BytesToString(long byteCount)
         {
-            string[] suf = {"B", "KB", "MB", "GB", "TB", "PB", "EB"};
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
             if (byteCount == 0)
                 return "0" + suf[0];
             long bytes = Math.Abs(byteCount);
@@ -291,7 +292,7 @@ namespace AutoUpdaterDotNET
                 AutoUpdater.Exit();
                 return;
             }
-            if (_webClient is {IsBusy: true})
+            if (_webClient is { IsBusy: true })
             {
                 _webClient.CancelAsync();
                 DialogResult = DialogResult.Cancel;
