@@ -84,9 +84,9 @@ public static class AutoUpdater
     /// <param name="args">An object containing the AppCast file received from server.</param>
     public delegate void ParseUpdateInfoHandler(ParseUpdateInfoEventArgs args);
 
-    private static Timer _remindLaterTimer;
-
     private static bool _isWinFormsApplication;
+
+    private static Timer _remindLaterTimer;
 
     internal static Uri BaseUri;
 

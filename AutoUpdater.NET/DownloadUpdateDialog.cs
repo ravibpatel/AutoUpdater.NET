@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -7,7 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 using AutoUpdaterDotNET.Properties;
 
@@ -187,24 +187,35 @@ internal partial class DownloadUpdateDialog : Form
                 };
 
 #if NETFRAMEWORK
-                var arguments =
-                    new StringBuilder(
-                        $"--input \"{tempPath}\" --output \"{extractionPath}\" --current-exe \"{currentExe}\"");
+                var arguments = new Collection<string>
+                {
+                    "--input",
+                    tempPath,
+                    "--output",
+                    extractionPath,
+                    "--current-exe",
+                    currentExe
+                };
 
                 if (!string.IsNullOrWhiteSpace(updatedExe))
                 {
-                    arguments.Append($" --updated-exe \"{updatedExe}\"");
+                    arguments.Add("--updated-exe");
+                    arguments.Add(updatedExe);
                 }
 
                 if (AutoUpdater.ClearAppDirectory)
                 {
-                    arguments.Append(" --clear");
+                    arguments.Add(" --clear");
                 }
 
-                string args = string.Join(" ", Environment.GetCommandLineArgs().Skip(1).Select(arg => $"\"{arg}\""));
-                arguments.Append($" --args \"{args}\"");
+                string[] args = Environment.GetCommandLineArgs();
+                if (args.Length > 0)
+                {
+                    arguments.Add("--args");
+                    arguments.Add(string.Join(" ", args.Skip(1).Select(arg => $"\"{arg}\"")));
+                }
 
-                processStartInfo.Arguments = arguments.ToString().Replace("\\\"", "\\\\\"");
+                processStartInfo.Arguments = Utils.BuildArguments(arguments);
 #else
                 processStartInfo.ArgumentList.Add("--input");
                 processStartInfo.ArgumentList.Add(tempPath);

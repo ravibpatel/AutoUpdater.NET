@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
+using static System.Reflection.Assembly;
 
 namespace AutoUpdaterDotNET;
 
@@ -146,7 +147,9 @@ internal sealed partial class UpdateForm : Form
                 Registry.CurrentUser.OpenSubKey(
                     @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
                     true);
-            registryKey?.SetValue(Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName),
+            registryKey?.SetValue(
+                Path.GetFileName(Process.GetCurrentProcess().MainModule?.FileName ??
+                                 GetEntryAssembly()?.Location ?? Application.ExecutablePath),
                 ieValue,
                 RegistryValueKind.DWord);
         }
