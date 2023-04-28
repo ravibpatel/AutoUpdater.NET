@@ -52,13 +52,13 @@ public partial class MainWindow : Window
         // };
         // AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.json");
 
-        // Uncomment following line to run update process using non administrator account.
+        // Uncomment following line to run update process without admin privileges.
         // AutoUpdater.RunUpdateAsAdmin = false;
 
         // Uncomment following line if you want to open download page instead of downloading update file when user click on download button.
         // AutoUpdater.OpenDownloadPage = true;
 
-        // Uncomment following lines if you don't want user to select remind later time in AutoUpdater notification window..
+        // Uncomment following lines if you don't want user to select remind later time in AutoUpdater notification window.
         // AutoUpdater.LetUserSelectRemindLater = false;
         // AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
         // AutoUpdater.RemindLaterAt = 2;
@@ -72,10 +72,10 @@ public partial class MainWindow : Window
         // Uncomment following line to show custom application title in AutoUpdater notification window.
         // AutoUpdater.AppTitle = "My Custom Application Title";
 
-        // Uncomment following link if you want to show errors.
+        // Uncomment following line if you want to show errors.
         // AutoUpdater.ReportErrors = true;
 
-        // Uncomment following lines if you want to handle how your application will exit when application finishes downloading.
+        // Uncomment following lines if you want to handle how your application will exit when application finishes downloading the update.
         // AutoUpdater.ApplicationExitEvent += () =>
         // {
         //     Title = @"Closing application...";
@@ -83,7 +83,7 @@ public partial class MainWindow : Window
         //     Application.Current.Shutdown();
         // };
 
-        // Uncomment following line to handle update logic yourself.
+        // Uncomment following lines to handle update logic yourself.
         // AutoUpdater.CheckForUpdateEvent += args =>
         // {
         //     switch (args.Error)
@@ -168,11 +168,11 @@ public partial class MainWindow : Window
         // Uncomment following line if you your XML file can only be accessed through FTP.
         // AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
 
-        // Uncomment following lines if you want to persist Remind Later and Skip values in a json file.
+        // Uncomment following lines if you want to persist Remind Later and Skip values in a json file instead of registry.
         // string jsonPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
         // AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
 
-        // Uncomment following line if you want to change the update zip extraction path. This only works when you use zip file as an update file.
+        // Uncomment following lines if you want to change the update zip extraction path. This only works when you use zip file as an update file.
         // var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
         // if (currentDirectory.Parent != null)
         // {
@@ -188,7 +188,7 @@ public partial class MainWindow : Window
         // Uncomment following line if you want to clear application directory before update zip is extracted. This only works when you use zip file as an update file.
         // AutoUpdater.ClearAppDirectory = true;
 
-        // Uncomment following line if your don't want to execute different executable after the update. This only works when you use zip file as an update file.
+        // Uncomment following line if you want to execute different executable after the update. This only works when you use zip file as an update file.
         AutoUpdater.ExecutablePath = "bin/AutoUpdaterTest.exe";
 
         AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
