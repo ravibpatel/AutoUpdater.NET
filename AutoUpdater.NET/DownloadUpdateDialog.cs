@@ -208,7 +208,7 @@ internal partial class DownloadUpdateDialog : Form
                 }
 
                 string[] args = Environment.GetCommandLineArgs();
-                if (args.Length > 0)
+                if (args.Length > 1)
                 {
                     arguments.Add("--args");
                     arguments.Add(string.Join(" ", args.Skip(1).Select(arg => $"\"{arg}\"")));
