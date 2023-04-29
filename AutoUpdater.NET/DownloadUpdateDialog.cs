@@ -186,7 +186,6 @@ internal partial class DownloadUpdateDialog : Form
                     UseShellExecute = true
                 };
 
-#if NETFRAMEWORK
                 var arguments = new Collection<string>
                 {
                     "--input",
@@ -216,33 +215,6 @@ internal partial class DownloadUpdateDialog : Form
                 }
 
                 processStartInfo.Arguments = Utils.BuildArguments(arguments);
-#else
-                processStartInfo.ArgumentList.Add("--input");
-                processStartInfo.ArgumentList.Add(tempPath);
-                processStartInfo.ArgumentList.Add("--output");
-                processStartInfo.ArgumentList.Add(extractionPath);
-                processStartInfo.ArgumentList.Add("--current-exe");
-                processStartInfo.ArgumentList.Add(currentExe);
-
-                if (!string.IsNullOrWhiteSpace(updatedExe))
-                {
-                    processStartInfo.ArgumentList.Add("--updated-exe");
-                    processStartInfo.ArgumentList.Add(updatedExe);
-                }
-
-                if (AutoUpdater.ClearAppDirectory)
-                {
-                    processStartInfo.ArgumentList.Add("--clear");
-                }
-
-                string[] args = Environment.GetCommandLineArgs();
-                if (args.Length > 0)
-                {
-                    string arguments = string.Join(" ", args.Skip(1).Select(arg => $"\"{arg}\""));
-                    processStartInfo.ArgumentList.Add("--args");
-                    processStartInfo.ArgumentList.Add(arguments);
-                }
-#endif
             }
             else if (extension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
             {
@@ -250,20 +222,19 @@ internal partial class DownloadUpdateDialog : Form
                 {
                     FileName = "msiexec"
                 };
-#if NETFRAMEWORK
-                processStartInfo.Arguments = $"/i \"{tempPath}\"";
+
+                var arguments = new Collection<string>
+                {
+                    "/i",
+                    tempPath
+                };
+
                 if (!string.IsNullOrEmpty(installerArgs))
                 {
-                    processStartInfo.Arguments += $" {installerArgs}";
+                    arguments.Add(installerArgs);
                 }
-#else
-                processStartInfo.ArgumentList.Add("/i");
-                processStartInfo.ArgumentList.Add(tempPath);
-                if (!string.IsNullOrEmpty(installerArgs))
-                {
-                    processStartInfo.ArgumentList.Add(installerArgs);
-                }
-#endif
+
+                processStartInfo.Arguments = Utils.BuildArguments(arguments);
             }
 
             if (AutoUpdater.RunUpdateAsAdmin)
