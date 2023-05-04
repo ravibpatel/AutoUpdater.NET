@@ -243,6 +243,26 @@ public static class AutoUpdater
     /// </summary>
     public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
+    private static IWin32Window Owner = null;
+
+    /// <summary>
+    ///     Set the owner window for all dialogs.
+    /// </summary>
+    /// <param name="form">Windows Form to be used as owner for all dialogs.</param>
+    public static void SetOwner(Form form)
+    {
+        Owner = form;
+    }
+
+    /// <summary>
+    ///     Set the owner window for all dialogs.
+    /// </summary>
+    /// <param name="wpfWindow">WPF Window to be used as owner for all dialogs.</param>
+    public static void SetOwner(System.Windows.Window wpfWindow)
+    {
+        Owner = new Wpf32Window(wpfWindow);
+    }
+
     /// <summary>
     ///     Start checking for new version of application and display a dialog to the user if update is available.
     /// </summary>
@@ -503,7 +523,8 @@ public static class AutoUpdater
 
                 if (ReportErrors)
                 {
-                    MessageBox.Show(Resources.UpdateUnavailableMessage,
+                    MessageBox.Show(Owner,
+                        Resources.UpdateUnavailableMessage,
                         Resources.UpdateUnavailableCaption,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -525,15 +546,17 @@ public static class AutoUpdater
             {
                 if (exception is WebException)
                 {
-                    MessageBox.Show(
+                    MessageBox.Show(Owner,
                         Resources.UpdateCheckFailedMessage,
-                        Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Resources.UpdateCheckFailedCaption,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show(exception.Message,
-                        exception.GetType().ToString(), MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show(Owner,
+                        exception.Message,
+                        exception.GetType().ToString(),
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -662,7 +685,7 @@ public static class AutoUpdater
 
         try
         {
-            return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+            return downloadDialog.ShowDialog(Owner).Equals(DialogResult.OK);
         }
         catch (TargetInvocationException)
         {
@@ -684,7 +707,7 @@ public static class AutoUpdater
             updateForm.Size = UpdateFormSize.Value;
         }
 
-        if (updateForm.ShowDialog().Equals(DialogResult.OK))
+        if (updateForm.ShowDialog(Owner).Equals(DialogResult.OK))
         {
             Exit();
         }
