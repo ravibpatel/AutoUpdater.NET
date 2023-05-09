@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Interop;
+using IWin32Window = System.Windows.Forms.IWin32Window;
 
-namespace AutoUpdaterDotNET
+namespace AutoUpdaterDotNET;
+
+internal class Wpf32Window : IWin32Window
 {
-    internal class Wpf32Window : System.Windows.Forms.IWin32Window
+    public Wpf32Window(Window wpfWindow)
     {
-        public IntPtr Handle { get; private set; }
-
-        public Wpf32Window(Window wpfWindow)
-        {
-            Handle = new WindowInteropHelper(wpfWindow).Handle;
-        }
+        Handle = new WindowInteropHelper(wpfWindow).EnsureHandle();
     }
+
+    public IntPtr Handle { get; }
 }

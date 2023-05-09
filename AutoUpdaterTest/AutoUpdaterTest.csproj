@@ -10,11 +10,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AutoUpdater.NET\AutoUpdater.NET.csproj" />
+        <ProjectReference Include="..\AutoUpdater.NET\AutoUpdater.NET.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
 
 </Project>

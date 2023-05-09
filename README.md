@@ -327,8 +327,9 @@ AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 
 ### Set the owner Form / Window
 
-To ensure the dialogs showed by the auto updater are visible and focussed always correctly related to an
-application Form or Window it may is necessary to set an owner. A Form or WPF Window can be set therefore like shown below.
+To ensure the dialogs showed by the auto updater are visible and always focussed correctly related to an application
+Form or Window, it may be necessary to set an owner. You can assign a Form or WPF Window as the owner by following the
+example below.
 
 ````csharp
 AutoUpdater.SetOwner(yourMainFormOrWpfWindow);

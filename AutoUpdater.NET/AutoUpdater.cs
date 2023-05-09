@@ -1,17 +1,20 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoUpdaterDotNET.Properties;
+using Application = System.Windows.Forms.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
+using Size = System.Drawing.Size;
 using Timer = System.Timers.Timer;
 
 namespace AutoUpdaterDotNET;
@@ -85,6 +88,8 @@ public static class AutoUpdater
     public delegate void ParseUpdateInfoHandler(ParseUpdateInfoEventArgs args);
 
     private static bool _isWinFormsApplication;
+
+    private static IWin32Window _owner;
 
     private static Timer _remindLaterTimer;
 
@@ -243,24 +248,18 @@ public static class AutoUpdater
     /// </summary>
     public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
 
-    private static IWin32Window Owner = null;
-
     /// <summary>
-    ///     Set the owner window for all dialogs.
+    ///     Set the owner for all dialogs.
     /// </summary>
-    /// <param name="form">Windows Form to be used as owner for all dialogs.</param>
-    public static void SetOwner(Form form)
+    /// <param name="obj">WPF Window or Windows Form object to be used as owner for all dialogs.</param>
+    public static void SetOwner(object obj)
     {
-        Owner = form;
-    }
-
-    /// <summary>
-    ///     Set the owner window for all dialogs.
-    /// </summary>
-    /// <param name="wpfWindow">WPF Window to be used as owner for all dialogs.</param>
-    public static void SetOwner(System.Windows.Window wpfWindow)
-    {
-        Owner = new Wpf32Window(wpfWindow);
+        _owner = obj switch
+        {
+            Form form => form,
+            Window window => new Wpf32Window(window),
+            _ => _owner
+        };
     }
 
     /// <summary>
@@ -523,7 +522,7 @@ public static class AutoUpdater
 
                 if (ReportErrors)
                 {
-                    MessageBox.Show(Owner,
+                    MessageBox.Show(_owner,
                         Resources.UpdateUnavailableMessage,
                         Resources.UpdateUnavailableCaption,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -546,14 +545,14 @@ public static class AutoUpdater
             {
                 if (exception is WebException)
                 {
-                    MessageBox.Show(Owner,
+                    MessageBox.Show(_owner,
                         Resources.UpdateCheckFailedMessage,
                         Resources.UpdateCheckFailedCaption,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show(Owner,
+                    MessageBox.Show(_owner,
                         exception.Message,
                         exception.GetType().ToString(),
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -685,7 +684,7 @@ public static class AutoUpdater
 
         try
         {
-            return downloadDialog.ShowDialog(Owner).Equals(DialogResult.OK);
+            return downloadDialog.ShowDialog(_owner).Equals(DialogResult.OK);
         }
         catch (TargetInvocationException)
         {
@@ -707,7 +706,7 @@ public static class AutoUpdater
             updateForm.Size = UpdateFormSize.Value;
         }
 
-        if (updateForm.ShowDialog(Owner).Equals(DialogResult.OK))
+        if (updateForm.ShowDialog(_owner).Equals(DialogResult.OK))
         {
             Exit();
         }
