@@ -225,7 +225,7 @@ public partial class FormMain : Form
 
                             foreach (Process lockingProcess in lockingProcesses)
                             {
-                                DialogResult dialogResult = MessageBox.Show(
+                                DialogResult dialogResult = MessageBox.Show(this,
                                     string.Format(Resources.FileStillInUseMessage,
                                         lockingProcess.ProcessName, filePath),
                                     Resources.FileStillInUseCaption,
@@ -306,7 +306,7 @@ public partial class FormMain : Form
                 _logBuilder.AppendLine();
                 _logBuilder.AppendLine(exception.ToString());
 
-                MessageBox.Show(exception.Message, exception.GetType().ToString(),
+                MessageBox.Show(this, exception.Message, exception.GetType().ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally

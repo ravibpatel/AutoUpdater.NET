@@ -191,6 +191,9 @@ public partial class MainWindow : Window
         // Uncomment following line if you want to execute different executable after the update. This only works when you use zip file as an update file.
         AutoUpdater.ExecutablePath = "bin/AutoUpdaterTest.exe";
 
+        // Uncomment following line to set this window as owner of the all dialogs initiated by AutoUpdater. It is necessary to do this if TopMost is set to true in your form or window.
+        AutoUpdater.SetOwner(this);
+
         AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
     }
 }

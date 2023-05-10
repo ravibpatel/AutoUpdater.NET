@@ -1,17 +1,20 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Cache;
 using System.Reflection;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 using AutoUpdaterDotNET.Properties;
+using Application = System.Windows.Forms.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
+using Size = System.Drawing.Size;
 using Timer = System.Timers.Timer;
 
 namespace AutoUpdaterDotNET;
@@ -85,6 +88,8 @@ public static class AutoUpdater
     public delegate void ParseUpdateInfoHandler(ParseUpdateInfoEventArgs args);
 
     private static bool _isWinFormsApplication;
+
+    private static IWin32Window _owner;
 
     private static Timer _remindLaterTimer;
 
@@ -242,6 +247,20 @@ public static class AutoUpdater
     ///     An event that clients can use to be notified whenever the AppCast file needs parsing.
     /// </summary>
     public static event ParseUpdateInfoHandler ParseUpdateInfoEvent;
+
+    /// <summary>
+    ///     Set the owner for all dialogs.
+    /// </summary>
+    /// <param name="obj">WPF Window or Windows Form object to be used as owner for all dialogs.</param>
+    public static void SetOwner(object obj)
+    {
+        _owner = obj switch
+        {
+            Form form => form,
+            Window window => new Wpf32Window(window),
+            _ => _owner
+        };
+    }
 
     /// <summary>
     ///     Start checking for new version of application and display a dialog to the user if update is available.
@@ -503,7 +522,8 @@ public static class AutoUpdater
 
                 if (ReportErrors)
                 {
-                    MessageBox.Show(Resources.UpdateUnavailableMessage,
+                    MessageBox.Show(_owner,
+                        Resources.UpdateUnavailableMessage,
                         Resources.UpdateUnavailableCaption,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -525,15 +545,17 @@ public static class AutoUpdater
             {
                 if (exception is WebException)
                 {
-                    MessageBox.Show(
+                    MessageBox.Show(_owner,
                         Resources.UpdateCheckFailedMessage,
-                        Resources.UpdateCheckFailedCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Resources.UpdateCheckFailedCaption,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    MessageBox.Show(exception.Message,
-                        exception.GetType().ToString(), MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show(_owner,
+                        exception.Message,
+                        exception.GetType().ToString(),
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -662,7 +684,7 @@ public static class AutoUpdater
 
         try
         {
-            return downloadDialog.ShowDialog().Equals(DialogResult.OK);
+            return downloadDialog.ShowDialog(_owner).Equals(DialogResult.OK);
         }
         catch (TargetInvocationException)
         {
@@ -684,7 +706,7 @@ public static class AutoUpdater
             updateForm.Size = UpdateFormSize.Value;
         }
 
-        if (updateForm.ShowDialog().Equals(DialogResult.OK))
+        if (updateForm.ShowDialog(_owner).Equals(DialogResult.OK))
         {
             Exit();
         }

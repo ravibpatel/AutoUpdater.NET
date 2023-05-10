@@ -96,7 +96,7 @@ internal sealed partial class UpdateForm : Form
         {
             if (AutoUpdater.ReportErrors)
             {
-                MessageBox.Show(e.InitializationException.Message, e.InitializationException.GetType().ToString(),
+                MessageBox.Show(this, e.InitializationException.Message, e.InitializationException.GetType().ToString(),
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
@@ -194,7 +194,7 @@ internal sealed partial class UpdateForm : Form
         if (AutoUpdater.LetUserSelectRemindLater)
         {
             using var remindLaterForm = new RemindLaterForm();
-            DialogResult dialogResult = remindLaterForm.ShowDialog();
+            DialogResult dialogResult = remindLaterForm.ShowDialog(this);
 
             switch (dialogResult)
             {

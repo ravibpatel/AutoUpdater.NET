@@ -260,7 +260,7 @@ internal partial class DownloadUpdateDialog : Form
         }
         catch (Exception e)
         {
-            MessageBox.Show(e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(this, e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
             _webClient = null;
         }
         finally

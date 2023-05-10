@@ -325,6 +325,16 @@ You can specify the size of the update form by using below code.
 AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 ````
 
+### Set the owner Form / Window
+
+To ensure the dialogs showed by the auto updater are visible and always focussed correctly related to an application
+Form or Window, it may be necessary to set an owner. You can assign a Form or WPF Window as the owner by following the
+example below.
+
+````csharp
+AutoUpdater.SetOwner(yourMainFormOrWpfWindow);
+````
+
 ### Change storage method of Remind Later and Skip options
 
 You can change how AutoUpdater.NET saves the Remind Later and Skip values by assigning the PersistenceProvider. If you
