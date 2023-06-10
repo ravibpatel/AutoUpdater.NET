@@ -204,7 +204,7 @@ internal partial class DownloadUpdateDialog : Form
 
                 if (AutoUpdater.ClearAppDirectory)
                 {
-                    arguments.Add(" --clear");
+                    arguments.Add("--clear");
                 }
 
                 string[] args = Environment.GetCommandLineArgs();
