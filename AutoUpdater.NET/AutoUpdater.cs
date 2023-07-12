@@ -229,6 +229,11 @@ public static class AutoUpdater
     public static Size? UpdateFormSize = null;
 
     /// <summary>
+    ///     Set this to modify TopMost property of all dialogs.
+    /// </summary>
+    public static bool TopMost = false;
+
+    /// <summary>
     ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
     /// </summary>
     public static Mode UpdateMode;
