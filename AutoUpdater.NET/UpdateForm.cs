@@ -20,6 +20,7 @@ internal sealed partial class UpdateForm : Form
         _args = args;
         InitializeComponent();
         InitializeBrowserControl();
+        TopMost = AutoUpdater.TopMost;
         buttonSkip.Visible = AutoUpdater.ShowSkipButton;
         buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
         var resources = new ComponentResourceManager(typeof(UpdateForm));

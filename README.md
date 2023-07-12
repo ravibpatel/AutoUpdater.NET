@@ -335,6 +335,14 @@ example below.
 AutoUpdater.SetOwner(yourMainFormOrWpfWindow);
 ````
 
+### Set the TopMost property of all updater dialogs
+
+To ensure that the dialogs displayed by the auto updater are always on top, you can set the "TopMost" to true, as demonstrated in the code snippet below.
+
+````csharp
+AutoUpdater.TopMost = true;
+````
+
 ### Change storage method of Remind Later and Skip options
 
 You can change how AutoUpdater.NET saves the Remind Later and Skip values by assigning the PersistenceProvider. If you

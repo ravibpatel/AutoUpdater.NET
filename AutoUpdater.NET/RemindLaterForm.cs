@@ -8,6 +8,7 @@ internal partial class RemindLaterForm : Form
     public RemindLaterForm()
     {
         InitializeComponent();
+        TopMost = AutoUpdater.TopMost;
     }
 
     public RemindLaterFormat RemindLaterFormat { get; private set; }

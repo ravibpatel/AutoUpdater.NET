@@ -26,6 +26,7 @@ internal partial class DownloadUpdateDialog : Form
     public DownloadUpdateDialog(UpdateInfoEventArgs args)
     {
         InitializeComponent();
+        TopMost = AutoUpdater.TopMost;
 
         _args = args;
 
