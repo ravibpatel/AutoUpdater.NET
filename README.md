@@ -328,7 +328,7 @@ AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 ### Change Icon of the UpdateForm
 
 You can change the icon of the update form by using below code. It assumes that you have an image resource named Icon in
-your project.
+your project. Size of icon file should be 64x64.
 
 ````csharp
 AutoUpdater.Icon = Resources.Icon;
