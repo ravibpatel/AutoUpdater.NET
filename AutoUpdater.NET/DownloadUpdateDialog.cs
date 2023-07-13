@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,11 @@ internal partial class DownloadUpdateDialog : Form
     {
         InitializeComponent();
         TopMost = AutoUpdater.TopMost;
+
+        if (AutoUpdater.Icon != null)
+        {
+            Icon = Icon.FromHandle(AutoUpdater.Icon.GetHicon());
+        }
 
         _args = args;
 

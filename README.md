@@ -325,6 +325,15 @@ You can specify the size of the update form by using below code.
 AutoUpdater.UpdateFormSize = new System.Drawing.Size(800, 600);
 ````
 
+### Change Icon of the UpdateForm
+
+You can change the icon of the update form by using below code. It assumes that you have an image resource named Icon in
+your project.
+
+````csharp
+AutoUpdater.Icon = Resources.Icon;
+````
+
 ### Set the owner Form / Window
 
 To ensure the dialogs showed by the auto updater are visible and always focussed correctly related to an application
@@ -337,7 +346,8 @@ AutoUpdater.SetOwner(yourMainFormOrWpfWindow);
 
 ### Set the TopMost property of all updater dialogs
 
-To ensure that the dialogs displayed by the auto updater are always on top, you can set the "TopMost" to true, as demonstrated in the code snippet below.
+To ensure that the dialogs displayed by the auto updater are always on top, you can set the "TopMost" to true, as
+demonstrated in the code snippet below.
 
 ````csharp
 AutoUpdater.TopMost = true;

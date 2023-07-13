@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -150,6 +151,11 @@ public static class AutoUpdater
     public static string HttpUserAgent;
 
     /// <summary>
+    ///     Set this to change the icon shown on updater dialog.
+    /// </summary>
+    public static Bitmap Icon;
+
+    /// <summary>
     ///     If you are using a zip file as an update file then you can set this value to path where your app is installed. This
     ///     is only necessary when your installation directory differs from your executable path.
     /// </summary>
@@ -224,14 +230,14 @@ public static class AutoUpdater
     public static bool Synchronous = false;
 
     /// <summary>
-    ///     Set if you want the default update form to have a different size.
-    /// </summary>
-    public static Size? UpdateFormSize = null;
-
-    /// <summary>
-    ///     Set this to modify TopMost property of all dialogs.
+    ///     Modify TopMost property of all dialogs.
     /// </summary>
     public static bool TopMost = false;
+
+    /// <summary>
+    ///     Set this if you want the default update form to have a different size.
+    /// </summary>
+    public static Size? UpdateFormSize = null;
 
     /// <summary>
     ///     Set this to any of the available modes to change behaviour of the Mandatory flag.

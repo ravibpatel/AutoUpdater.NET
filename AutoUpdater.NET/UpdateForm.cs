@@ -21,6 +21,13 @@ internal sealed partial class UpdateForm : Form
         InitializeComponent();
         InitializeBrowserControl();
         TopMost = AutoUpdater.TopMost;
+
+        if (AutoUpdater.Icon != null)
+        {
+            pictureBoxIcon.Image = AutoUpdater.Icon;
+            Icon = Icon.FromHandle(AutoUpdater.Icon.GetHicon());
+        }
+
         buttonSkip.Visible = AutoUpdater.ShowSkipButton;
         buttonRemindLater.Visible = AutoUpdater.ShowRemindLaterButton;
         var resources = new ComponentResourceManager(typeof(UpdateForm));
