@@ -193,9 +193,12 @@ public partial class MainWindow : Window
 
         // Uncomment following line to set this window as owner of the all dialogs initiated by AutoUpdater.
         AutoUpdater.SetOwner(this);
-        
+
         // Uncomment following line to set TopMost to true for all updater dialogs. It is necessary to do this if TopMost is set to true in your form or window.
         AutoUpdater.TopMost = true;
+
+        // Uncomment following line to change the Icon shown on the updater dialog.
+        AutoUpdater.Icon = Resource.Icon;
 
         AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
     }
