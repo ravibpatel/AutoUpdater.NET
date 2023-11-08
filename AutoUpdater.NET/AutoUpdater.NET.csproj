@@ -11,10 +11,10 @@
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
         <Copyright>Copyright © 2012-2023 RBSoft</Copyright>
-        <Version>1.8.4.0</Version>
-        <AssemblyVersion>1.8.4.0</AssemblyVersion>
-        <FileVersion>1.8.4.0</FileVersion>
-        <PackageVersion>1.8.4.0</PackageVersion>
+        <Version>1.8.5.0</Version>
+        <AssemblyVersion>1.8.5.0</AssemblyVersion>
+        <FileVersion>1.8.5.0</FileVersion>
+        <PackageVersion>1.8.5.0</PackageVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
@@ -51,6 +51,6 @@
         <PackageReference Include="Resource.Embedder" Version="1.2.8" PrivateAssets="All"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.1823.32"/>
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40"/>
     </ItemGroup>
 </Project>

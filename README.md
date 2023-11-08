@@ -574,7 +574,7 @@ You can follow below steps to build the project on your local development enviro
   <TargetFramework>net5.0-windows</TargetFramework>
   ```
 
-* Build ZipExtractor project in "Release" configuration to create the executable in Resources folder.
+* Build ZipExtractor project in "Release" configuration to create the executable in Resources folder. While compiling it for .NET Core 3.1 or above, you have to use publish command instead of build as shown [here](https://learn.microsoft.com/en-us/dotnet/core/tutorials/publishing-with-visual-studio?pivots=dotnet-7-0) and copy the resulting executable to "AutoUpdater.NET/Resources" folder.
 * VS2022 doesn't allow building .NET Framework 4.5 by default, so if you are using it then you can just change it to any
   supported .NET version, or you have to follow steps from [here](https://stackoverflow.com/a/70109092/1273550) to use
   .NET Framework 4.5. 

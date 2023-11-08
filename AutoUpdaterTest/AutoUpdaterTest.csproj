@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net45</TargetFramework>
+        <TargetFramework>net7.0-windows</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWPF>true</UseWPF>
         <LangVersion>latest</LangVersion>
@@ -36,4 +36,7 @@
         </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+        <Reference Include="System.Core"/>
+    </ItemGroup>
 </Project>
