@@ -3,14 +3,14 @@
     <PropertyGroup>
         <ProjectGuid>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</ProjectGuid>
         <OutputType>library</OutputType>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows</TargetFrameworks>
+        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWpf>true</UseWpf>
         <RootNamespace>AutoUpdaterDotNET</RootNamespace>
         <AssemblyTitle>AutoUpdater.NET</AssemblyTitle>
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
-        <Copyright>Copyright © 2012-2023 RBSoft</Copyright>
+        <Copyright>Copyright © 2012-2024 RBSoft</Copyright>
         <Version>1.8.5.0</Version>
         <AssemblyVersion>1.8.5.0</AssemblyVersion>
         <FileVersion>1.8.5.0</FileVersion>
@@ -51,6 +51,6 @@
         <PackageReference Include="Resource.Embedder" Version="1.2.8" PrivateAssets="All"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2151.40"/>
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2277.86"/>
     </ItemGroup>
 </Project>

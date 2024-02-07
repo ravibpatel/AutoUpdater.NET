@@ -60,7 +60,7 @@ internal sealed partial class UpdateForm : Form
             var webView2RuntimeFound = false;
             try
             {
-                string availableBrowserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString();
+                string availableBrowserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString(null);
                 var requiredMinBrowserVersion = "86.0.616.0";
                 if (!string.IsNullOrEmpty(availableBrowserVersion)
                     && CoreWebView2Environment.CompareBrowserVersions(availableBrowserVersion,

@@ -17,6 +17,7 @@ using Application = System.Windows.Forms.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
 using Size = System.Drawing.Size;
 using Timer = System.Timers.Timer;
+using WinFormsMethodInvoker = System.Windows.Forms.MethodInvoker;
 
 namespace AutoUpdaterDotNET;
 
@@ -620,7 +621,7 @@ public static class AutoUpdater
         {
             if (_isWinFormsApplication)
             {
-                MethodInvoker methodInvoker = Application.Exit;
+                WinFormsMethodInvoker methodInvoker = Application.Exit;
                 methodInvoker.Invoke();
             }
             else if (System.Windows.Application.Current != null)

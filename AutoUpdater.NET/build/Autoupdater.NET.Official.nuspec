@@ -13,23 +13,26 @@
             functionality to their WinForms or WPF application projects.
         </description>
         <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
-        <copyright>Copyright © 2012-2023 RBSoft</copyright>
+        <copyright>Copyright © 2012-2024 RBSoft</copyright>
         <tags>autoupdate updater c# vb wpf winforms</tags>
         <dependencies>
             <group targetFramework=".NETFramework4.5">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2151.40" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2277.86" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework=".NETCoreApp3.1">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2151.40" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2277.86" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net5.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2151.40" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2277.86" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net6.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2151.40" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2277.86" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net7.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2151.40" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2277.86" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net8.0-windows7.0">
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2277.86" exclude="Build,Analyzers"/>
             </group>
         </dependencies>
         <frameworkReferences>
@@ -43,6 +46,9 @@
                 <frameworkReference name="Microsoft.WindowsDesktop.App"/>
             </group>
             <group targetFramework="net7.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App"/>
+            </group>
+            <group targetFramework="net8.0-windows7.0">
                 <frameworkReference name="Microsoft.WindowsDesktop.App"/>
             </group>
             <group targetFramework=".NETFramework4.5"/>

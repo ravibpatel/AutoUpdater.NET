@@ -22,6 +22,8 @@ install:
   - dotnet publish --framework net6.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net6.0-windows7.0"
   - dotnet publish --framework net7.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\Resources"
   - dotnet publish --framework net7.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net7.0-windows7.0"
+  - dotnet publish --framework net8.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\Resources"
+  - dotnet publish --framework net8.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net8.0-windows7.0"
   - cmd: 7z a AutoUpdater.NET-%my_version%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\build\lib\*
   - ps: Remove-Item -path c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\* -include runtimes,Microsoft.Web.WebView2*,AutoUpdater.NET.deps.json -Recurse
   - nuget pack "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\Autoupdater.NET.Official.nuspec"
