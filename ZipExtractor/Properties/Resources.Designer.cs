@@ -101,6 +101,15 @@ namespace ZipExtractor.Properties {
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to Waiting for application to exit….
+        /// </summary>
+        internal static string WaitingForAppToExitMessage {
+            get {
+                return ResourceManager.GetString("WaitingForAppToExitMessage", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap ZipExtractor {

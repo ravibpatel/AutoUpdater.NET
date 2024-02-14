@@ -89,7 +89,7 @@ public partial class FormMain : Form
                     {
                         _logBuilder.AppendLine("Waiting for application process to exit...");
 
-                        _backgroundWorker.ReportProgress(0, "Waiting for application to exit...");
+                        _backgroundWorker.ReportProgress(0, Resources.WaitingForAppToExitMessage);
                         process.WaitForExit();
                     }
                 }

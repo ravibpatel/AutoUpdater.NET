@@ -13,7 +13,7 @@ install:
   - secure-file\tools\secure-file -decrypt "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.snk.enc" -secret %my_secret%
   - secure-file\tools\secure-file -decrypt "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.snk.enc" -secret %my_secret%
   - msbuild "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - msbuild "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" /p:OutputPath=build\lib\net45;TargetFramework=net45;Configuration=Release /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - dotnet publish --configuration Release --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\Resources"
   - dotnet publish --configuration Release --framework netcoreapp3.1 "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\netcoreapp3.1"
   - dotnet publish --configuration Release --framework net5.0-windows "c:\projects\AutoUpdater.NET\ZipExtractor\ZipExtractor.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\Resources"

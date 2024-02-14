@@ -142,4 +142,7 @@
     <data name="Removing" xml:space="preserve">
     <value>Removing {0}</value>
   </data>
+    <data name="WaitingForAppToExitMessage" xml:space="preserve">
+    <value>Waiting for application to exit…</value>
+  </data>
 </root>

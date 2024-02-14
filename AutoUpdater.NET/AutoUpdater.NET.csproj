@@ -28,7 +28,7 @@
         <PackageTags>autoupdate updater c# vb wpf winforms</PackageTags>
         <PackageReleaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</PackageReleaseNotes>
         <PackageOutputPath>build</PackageOutputPath>
-        <DocumentationFile>$(OutputPath)\$(Configuration)\AutoUpdater.NET.xml</DocumentationFile>
+        <DocumentationFile>$(OutDir)\AutoUpdater.NET.xml</DocumentationFile>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
