@@ -1,4 +1,4 @@
-# ![AutoUpdater.NET](Logo/Horizontal.png)
+# ![AutoUpdater.NET](https://raw.githubusercontent.com/ravibpatel/AutoUpdater.NET/b15a8fbf5863902ec28a2adfb04829dd75dba226/Logo/Horizontal.png)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/yng987o7dauk9gqc?svg=true)](https://ci.appveyor.com/project/ravibpatel/autoupdater-net)
 

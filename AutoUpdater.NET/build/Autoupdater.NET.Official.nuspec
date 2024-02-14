@@ -68,5 +68,11 @@
     </metadata>
     <files>
         <file src="..\..\README.md" target="docs\"/>
+        <file src="lib\net45\**\*.*" target="lib\net45\"/>
+        <file src="lib\netcoreapp3.1\**\*.*" target="lib\netcoreapp3.1\"/>
+        <file src="lib\net5.0-windows7.0\**\*.*" target="lib\net5.0-windows7.0\"/>
+        <file src="lib\net6.0-windows7.0\**\*.*" target="lib\net6.0-windows7.0\"/>
+        <file src="lib\net7.0-windows7.0\**\*.*" target="lib\net7.0-windows7.0\"/>
+        <file src="lib\net8.0-windows7.0\**\*.*" target="lib\net8.0-windows7.0\"/>
     </files>
 </package>
