@@ -230,18 +230,11 @@ internal partial class DownloadUpdateDialog : Form
                     FileName = "msiexec"
                 };
 
-                var arguments = new Collection<string>
-                {
-                    "/i",
-                    tempPath
-                };
-
+                processStartInfo.Arguments = $"/i \"{tempPath}\"";
                 if (!string.IsNullOrEmpty(installerArgs))
                 {
-                    arguments.Add(installerArgs);
+                    processStartInfo.Arguments += $" {installerArgs}";
                 }
-
-                processStartInfo.Arguments = Utils.BuildArguments(arguments);
             }
 
             if (AutoUpdater.RunUpdateAsAdmin)
