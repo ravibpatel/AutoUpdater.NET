@@ -84,6 +84,12 @@ public class UpdateInfoEventArgs : EventArgs
     [XmlElement("checksum")]
     public CheckSum CheckSum { get; set; }
 
+    /// <summary>
+    ///     ClearAppDirectory for zip update
+    /// </summary>
+    [XmlElement("cleardir")]
+    public bool ClearDir { get; set; }
+
     internal static string GetURL(Uri baseUri, string url)
     {
         if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Relative))
