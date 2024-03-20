@@ -434,6 +434,8 @@ public static class AutoUpdater
         args.InstalledVersion = InstalledVersion ?? mainAssembly.GetName().Version;
         args.IsUpdateAvailable = new Version(args.CurrentVersion) > args.InstalledVersion;
 
+        ClearAppDirectory = args.ClearDir;
+
         if (!Mandatory)
         {
             if (string.IsNullOrEmpty(args.Mandatory.MinimumVersion) ||
