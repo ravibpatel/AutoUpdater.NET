@@ -177,8 +177,13 @@ internal sealed partial class UpdateForm : Form
     {
         if (AutoUpdater.OpenDownloadPage)
         {
+            
             var processStartInfo = new ProcessStartInfo(_args.DownloadURL);
-
+#if NETCOREAPP
+            // for .NET Core, UseShellExecute must be set to true, otherwise
+            // opening URLs via Process.Start() fails 
+            processStartInfo.UseShellExecute = true;
+#endif
             Process.Start(processStartInfo);
 
             DialogResult = DialogResult.OK;
