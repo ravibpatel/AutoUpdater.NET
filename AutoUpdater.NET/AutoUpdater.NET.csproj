@@ -3,7 +3,7 @@
     <PropertyGroup>
         <ProjectGuid>{FB9E7E6B-B19F-4F37-A708-2996190CEF13}</ProjectGuid>
         <OutputType>library</OutputType>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
+        <TargetFrameworks>net462;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWpf>true</UseWpf>
         <RootNamespace>AutoUpdaterDotNET</RootNamespace>
@@ -11,10 +11,10 @@
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
         <Copyright>Copyright © 2012-2024 RBSoft</Copyright>
-        <Version>1.8.7.0</Version>
-        <AssemblyVersion>1.8.7.0</AssemblyVersion>
-        <FileVersion>1.8.7.0</FileVersion>
-        <PackageVersion>1.8.7.0</PackageVersion>
+        <Version>1.9.0.0</Version>
+        <AssemblyVersion>1.9.0.0</AssemblyVersion>
+        <FileVersion>1.9.0.0</FileVersion>
+        <PackageVersion>1.9.0.0</PackageVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
@@ -37,7 +37,7 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <DebugType>full</DebugType>
     </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
         <Reference Include="System"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Drawing"/>
@@ -47,10 +47,10 @@
         <Reference Include="PresentationFramework"/>
         <Reference Include="System.Xaml"/>
         <Reference Include="System.Runtime.Serialization"/>
-        <PackageReference Include="Resource.Embedder" Version="1.2.8" PrivateAssets="All"/>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2478.35"/>
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2535.41"/>
+        <PackageReference Include="Resource.Embedder" Version="2.2.0"/>
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Update="DownloadUpdateDialog.ar.resx">

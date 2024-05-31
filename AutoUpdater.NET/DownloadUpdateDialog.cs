@@ -227,10 +227,10 @@ internal partial class DownloadUpdateDialog : Form
             {
                 processStartInfo = new ProcessStartInfo
                 {
-                    FileName = "msiexec"
+                    FileName = "msiexec",
+                    Arguments = $"/i \"{tempPath}\""
                 };
 
-                processStartInfo.Arguments = $"/i \"{tempPath}\"";
                 if (!string.IsNullOrEmpty(installerArgs))
                 {
                     processStartInfo.Arguments += $" {installerArgs}";
@@ -287,20 +287,29 @@ internal partial class DownloadUpdateDialog : Form
 
     private static void CompareChecksum(string fileName, CheckSum checksum)
     {
-        using var hashAlgorithm =
-            HashAlgorithm.Create(
-                string.IsNullOrEmpty(checksum.HashingAlgorithm) ? "MD5" : checksum.HashingAlgorithm);
-        using FileStream stream = File.OpenRead(fileName);
-
-        if (hashAlgorithm == null)
+        HashAlgorithm hashAlgorithm;
+        if (string.IsNullOrEmpty(checksum.HashingAlgorithm) || checksum.HashingAlgorithm == "MD5")
         {
-            throw new Exception(Resources.HashAlgorithmNotSupportedMessage);
+            hashAlgorithm = MD5.Create();
         }
+        else
+        {
+            hashAlgorithm = checksum.HashingAlgorithm switch
+            {
+                "SHA1" => SHA1.Create(),
+                "SHA256" => SHA256.Create(),
+                "SHA384" => SHA384.Create(),
+                "SHA512" => SHA512.Create(),
+                _ => throw new NotSupportedException(Resources.HashAlgorithmNotSupportedMessage)
+            };
+        }
+
+        using FileStream stream = File.OpenRead(fileName);
 
         byte[] hash = hashAlgorithm.ComputeHash(stream);
         string fileChecksum = BitConverter.ToString(hash).Replace("-", string.Empty).ToLowerInvariant();
 
-        if (fileChecksum == checksum.Value.ToLower())
+        if (fileChecksum.Equals(checksum.Value, StringComparison.OrdinalIgnoreCase))
         {
             return;
         }

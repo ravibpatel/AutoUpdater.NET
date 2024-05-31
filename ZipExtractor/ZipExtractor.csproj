@@ -3,16 +3,16 @@
     <PropertyGroup>
         <ProjectGuid>{91DE558C-6DB8-429B-A069-C0491DCFF15B}</ProjectGuid>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
+        <TargetFrameworks>net462;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
         <UseWindowsForms>true</UseWindowsForms>
         <AssemblyTitle>ZipExtractor</AssemblyTitle>
         <Company>RBSoft</Company>
         <Product>ZipExtractor</Product>
         <Copyright>Copyright © 2012-2024 RBSoft</Copyright>
-        <Version>1.4.1.0</Version>
-        <AssemblyVersion>1.4.1.0</AssemblyVersion>
-        <FileVersion>1.4.1.0</FileVersion>
-        <ApplicationVersion>1.4.1.0</ApplicationVersion>
+        <Version>1.5.0.0</Version>
+        <AssemblyVersion>1.5.0.0</AssemblyVersion>
+        <FileVersion>1.5.0.0</FileVersion>
+        <ApplicationVersion>1.5.0.0</ApplicationVersion>
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <SignAssembly>true</SignAssembly>
@@ -21,7 +21,7 @@
         <LangVersion>default</LangVersion>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(TargetFramework)' != 'net45' ">
+    <PropertyGroup Condition=" '$(TargetFramework)' != 'net462' ">
         <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
         <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>false</SelfContained>
@@ -39,7 +39,7 @@
         <DebugType>none</DebugType>
         <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
         <Reference Include="System.IO.Compression"/>
         <Reference Include="System.IO.Compression.FileSystem"/>
         <Reference Include="System.Windows.Forms"/>

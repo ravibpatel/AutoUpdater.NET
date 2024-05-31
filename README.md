@@ -13,7 +13,7 @@ PM> Install-Package Autoupdater.NET.Official
 
 ## Supported .NET versions
 
-* .NET Framework 4.5 or above
+* .NET Framework 4.6.2 or above
 * .NET Core 3.1
 * .NET 5.0 or above
 
@@ -565,7 +565,7 @@ You can follow below steps to build the project on your local development enviro
   Before
 
   ```xml
-  <TargetFrameworks>net45;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+  <TargetFrameworks>net462;netcoreapp3.1;net5.0-windows</TargetFrameworks>
   ```
 
   After
@@ -578,6 +578,3 @@ You can follow below steps to build the project on your local development enviro
   for .NET Core 3.1 or above, you have to use publish command instead of build as
   shown [here](https://learn.microsoft.com/en-us/dotnet/core/tutorials/publishing-with-visual-studio?pivots=dotnet-7-0)
   and copy the resulting executable to "AutoUpdater.NET/Resources" folder.
-* VS2022 doesn't allow building .NET Framework 4.5 by default, so if you are using it then you can just change it to any
-  supported .NET version, or you have to follow steps from [here](https://stackoverflow.com/a/70109092/1273550) to use
-  .NET Framework 4.5. 

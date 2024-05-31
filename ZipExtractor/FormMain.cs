@@ -253,7 +253,7 @@ public partial class FormMain : Form
         _backgroundWorker.ProgressChanged += (_, eventArgs) =>
         {
             progressBar.Value = eventArgs.ProgressPercentage;
-            textBoxInformation.Text = eventArgs.UserState?.ToString();
+            textBoxInformation.Text = eventArgs.UserState?.ToString() ?? string.Empty;
             if (textBoxInformation.Text == null)
             {
                 return;

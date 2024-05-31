@@ -36,7 +36,7 @@
         </EmbeddedResource>
     </ItemGroup>
 
-    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
         <Reference Include="System.Core"/>
     </ItemGroup>
 </Project>

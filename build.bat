@@ -1,6 +1,6 @@
-:: .NET Framework 4.5
-msbuild "ZipExtractor\ZipExtractor.csproj" /p:TargetFramework=net45;Configuration=Release /verbosity:minimal
-msbuild "AutoUpdater.NET\AutoUpdater.NET.csproj" /p:OutputPath=build\lib\net45;TargetFramework=net45;Configuration=Release /verbosity:minimal
+:: .NET Framework 4.6.2
+msbuild "ZipExtractor\ZipExtractor.csproj" /p:TargetFramework=net462;Configuration=Release /verbosity:minimal
+msbuild "AutoUpdater.NET\AutoUpdater.NET.csproj" /p:OutputPath=build\lib\net462;TargetFramework=net462;Configuration=Release /verbosity:minimal
 
 :: .NET Core 3.1
 dotnet publish --configuration Release --framework netcoreapp3.1 "ZipExtractor\ZipExtractor.csproj" --output "AutoUpdater.NET\Resources"
