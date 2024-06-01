@@ -583,11 +583,6 @@ public static class AutoUpdater
         var currentProcess = Process.GetCurrentProcess();
         foreach (Process process in Process.GetProcessesByName(currentProcess.ProcessName))
         {
-            if (process.HasExited)
-            {
-                continue;
-            }
-
             try
             {
                 string processPath = process.MainModule?.FileName;
@@ -602,6 +597,11 @@ public static class AutoUpdater
                 {
                     process.WaitForExit((int)TimeSpan.FromSeconds(10)
                         .TotalMilliseconds); // Give some time to process message
+                }
+
+                if (process.HasExited)
+                {
+                    continue;
                 }
 
                 process.Kill(); //TODO: Show UI message asking user to close program himself instead of silently killing it
