@@ -47,7 +47,7 @@ deploy:
 
   - provider: NuGet
     api_key:
-      secure: niHgnyEf7tXImWdR3VEJ38p/3gaV7OiSijx0YUmycHTkh12id6zMKkTS+S2XjF2J
+      secure: nkE/u7bLXRlBGJEKORohjPizTbDTdypw5jeTfJyzNd4scE6W9c6wFfT8f4UXdNKx
     skip_symbols: false
     artifact: Autoupdater.NET.Official.%my_version%.nupkg
     on:
