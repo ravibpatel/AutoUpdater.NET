@@ -11,10 +11,10 @@
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
         <Copyright>Copyright © 2012-2024 RBSoft</Copyright>
-        <Version>1.9.0.0</Version>
-        <AssemblyVersion>1.9.0.0</AssemblyVersion>
-        <FileVersion>1.9.0.0</FileVersion>
-        <PackageVersion>1.9.0.0</PackageVersion>
+        <Version>1.9.1.0</Version>
+        <AssemblyVersion>1.9.1.0</AssemblyVersion>
+        <FileVersion>1.9.1.0</FileVersion>
+        <PackageVersion>1.9.1.0</PackageVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
@@ -53,194 +53,194 @@
         <PackageReference Include="Resource.Embedder" Version="2.2.0"/>
     </ItemGroup>
     <ItemGroup>
-      <EmbeddedResource Update="DownloadUpdateDialog.ar.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.cs.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.da.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.de.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.es.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.fr.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.it.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.ja-JP.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.lv.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.ko.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.nl.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.pl.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.pt.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.pt-BR.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.ru.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.sk.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.sv.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.th.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.tr.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.zh.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="DownloadUpdateDialog.zh-TW.resx">
-        <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.ar.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.cs.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.da.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.de.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.es.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.fr.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.it.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.ja-JP.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.ko.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.lv.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.nl.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.pt.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.pl.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.pt-BR.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.ru.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.sk.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.sv.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.th.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.tr.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.zh.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="RemindLaterForm.zh-TW.resx">
-        <DependentUpon>RemindLaterForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.da.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.de.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.es.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.fr.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.it.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.ja-JP.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.ko.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.lv.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.nl.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.pl.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.pt-BR.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.pt.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.ru.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.sk.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.ar.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.cs.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.th.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.sv.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.tr.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.zh.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
-      <EmbeddedResource Update="UpdateForm.zh-TW.resx">
-        <DependentUpon>UpdateForm.cs</DependentUpon>
-      </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.ar.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.cs.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.da.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.de.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.es.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.fr.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.it.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.ja-JP.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.lv.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.ko.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.nl.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.pl.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.pt.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.pt-BR.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.ru.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.sk.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.sv.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.th.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.tr.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.zh.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="DownloadUpdateDialog.zh-TW.resx">
+            <DependentUpon>DownloadUpdateDialog.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.ar.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.cs.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.da.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.de.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.es.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.fr.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.it.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.ja-JP.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.ko.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.lv.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.nl.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.pt.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.pl.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.pt-BR.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.ru.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.sk.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.sv.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.th.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.tr.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.zh.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="RemindLaterForm.zh-TW.resx">
+            <DependentUpon>RemindLaterForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.da.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.de.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.es.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.fr.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.it.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.ja-JP.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.ko.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.lv.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.nl.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.pl.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.pt-BR.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.pt.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.ru.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.sk.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.ar.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.cs.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.th.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.sv.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.tr.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.zh.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
+        <EmbeddedResource Update="UpdateForm.zh-TW.resx">
+            <DependentUpon>UpdateForm.cs</DependentUpon>
+        </EmbeddedResource>
     </ItemGroup>
 </Project>
