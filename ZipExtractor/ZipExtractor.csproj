@@ -9,10 +9,10 @@
         <Company>RBSoft</Company>
         <Product>ZipExtractor</Product>
         <Copyright>Copyright © 2012-2024 RBSoft</Copyright>
-        <Version>1.5.1.0</Version>
-        <AssemblyVersion>1.5.1.0</AssemblyVersion>
-        <FileVersion>1.5.1.0</FileVersion>
-        <ApplicationVersion>1.5.1.0</ApplicationVersion>
+        <Version>1.5.2.0</Version>
+        <AssemblyVersion>1.5.2.0</AssemblyVersion>
+        <FileVersion>1.5.2.0</FileVersion>
+        <ApplicationVersion>1.5.2.0</ApplicationVersion>
         <ApplicationIcon>ZipExtractor.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <SignAssembly>true</SignAssembly>

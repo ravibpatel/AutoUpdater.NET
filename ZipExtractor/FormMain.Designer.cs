@@ -63,6 +63,7 @@
             this.textBoxInformation.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxInformation.Location = new System.Drawing.Point(96, 20);
             this.textBoxInformation.Name = "textBoxInformation";
+            this.textBoxInformation.ReadOnly = true;
             this.textBoxInformation.Size = new System.Drawing.Size(514, 16);
             this.textBoxInformation.TabIndex = 4;
             this.textBoxInformation.Text = "Extracting...";

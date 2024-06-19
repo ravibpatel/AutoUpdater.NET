@@ -11,10 +11,10 @@
         <Company>RBSoft</Company>
         <Product>AutoUpdater.NET</Product>
         <Copyright>Copyright © 2012-2024 RBSoft</Copyright>
-        <Version>1.9.1.0</Version>
-        <AssemblyVersion>1.9.1.0</AssemblyVersion>
-        <FileVersion>1.9.1.0</FileVersion>
-        <PackageVersion>1.9.1.0</PackageVersion>
+        <Version>1.9.2.0</Version>
+        <AssemblyVersion>1.9.2.0</AssemblyVersion>
+        <FileVersion>1.9.2.0</FileVersion>
+        <PackageVersion>1.9.2.0</PackageVersion>
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
         <NeutralLanguage>en</NeutralLanguage>
