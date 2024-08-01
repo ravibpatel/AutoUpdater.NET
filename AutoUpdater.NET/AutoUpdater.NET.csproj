@@ -47,7 +47,6 @@
         <Reference Include="PresentationFramework"/>
         <Reference Include="System.Xaml"/>
         <Reference Include="System.Runtime.Serialization"/>
-        <PackageReference Include="Resource.Embedder" Version="2.2.0"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2592.51"/>
