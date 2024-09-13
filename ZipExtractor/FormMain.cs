@@ -100,6 +100,8 @@ public partial class FormMain : Form
 
             _logBuilder.AppendLine("BackgroundWorker started successfully.");
 
+            ControlBox = false;
+
             // Ensures that the last character on the extraction path
             // is the directory separator char.
             // Without this, a malicious zip file could try to traverse outside of the expected

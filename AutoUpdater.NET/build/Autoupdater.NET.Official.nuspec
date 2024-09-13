@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>Autoupdater.NET.Official</id>
-        <version>1.9.2.0</version>
+        <version>1.9.3.0</version>
         <title>AutoUpdater.NET</title>
         <authors>rbsoft</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -18,22 +18,22 @@
         <tags>autoupdate updater c# vb wpf winforms</tags>
         <dependencies>
             <group targetFramework=".NETFramework4.6.2">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2592.51" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2739.15" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework=".NETCoreApp3.1">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2592.51" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2739.15" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net5.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2592.51" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2739.15" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net6.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2592.51" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2739.15" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net7.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2592.51" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2739.15" exclude="Build,Analyzers"/>
             </group>
             <group targetFramework="net8.0-windows7.0">
-                <dependency id="Microsoft.Web.WebView2" version="1.0.2592.51" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.2739.15" exclude="Build,Analyzers"/>
             </group>
         </dependencies>
         <frameworkReferences>

@@ -133,9 +133,15 @@
     <value>Notas de la versión :</value>
   </data>
     <data name="buttonUpdate.Text" xml:space="preserve">
-    <value>actualizar</value>
+    <value>Actualizar</value>
   </data>
-    <data name="buttonRemindLater.Text" xml:space="preserve">
+  <data name="buttonRemindLater.Location" type="System.Drawing.Point, System.Drawing">
+    <value>300, 573</value>
+  </data>
+  <data name="buttonRemindLater.Size" type="System.Drawing.Size, System.Drawing">
+    <value>175, 28</value>
+  </data>
+  <data name="buttonRemindLater.Text" xml:space="preserve">
     <value>Recuérdame más tarde</value>
   </data>
     <data name="buttonSkip.Text" xml:space="preserve">

@@ -405,25 +405,32 @@ public static class AutoUpdater
 
         PersistenceProvider ??= new RegistryPersistenceProvider(registryLocation);
 
-        BaseUri = new Uri(AppCastURL);
-
         UpdateInfoEventArgs args;
-        using (MyWebClient client = GetWebClient(BaseUri, BasicAuthXML))
-        {
-            string xml = client.DownloadString(BaseUri);
+        string xml = null;
 
-            if (ParseUpdateInfoEvent == null)
+        if (AppCastURL != null)
+        {
+            BaseUri = new Uri(AppCastURL);
+            using MyWebClient client = GetWebClient(BaseUri, BasicAuthXML);
+            xml = client.DownloadString(BaseUri);
+        }
+
+        if (ParseUpdateInfoEvent == null)
+        {
+            if (string.IsNullOrEmpty(xml))
             {
-                var xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
-                var xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
-                args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
+                throw new Exception("It is required to handle ParseUpdateInfoEvent when XML url is not specified.");
             }
-            else
-            {
-                var parseArgs = new ParseUpdateInfoEventArgs(xml);
-                ParseUpdateInfoEvent(parseArgs);
-                args = parseArgs.UpdateInfo;
-            }
+
+            var xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
+            var xmlTextReader = new XmlTextReader(new StringReader(xml)) { XmlResolver = null };
+            args = (UpdateInfoEventArgs)xmlSerializer.Deserialize(xmlTextReader);
+        }
+        else
+        {
+            var parseArgs = new ParseUpdateInfoEventArgs(xml);
+            ParseUpdateInfoEvent(parseArgs);
+            args = parseArgs.UpdateInfo;
         }
 
         if (string.IsNullOrEmpty(args?.CurrentVersion) || string.IsNullOrEmpty(args.DownloadURL))
