@@ -244,7 +244,14 @@ internal partial class DownloadUpdateDialog : Form
 
             try
             {
-                Process.Start(processStartInfo);
+                if (AutoUpdater.CustomStartup != null)
+                {
+                    AutoUpdater.CustomStartup.Invoke();
+                }
+                else
+                {
+                    Process.Start(processStartInfo);
+                }
             }
             catch (Win32Exception exception)
             {

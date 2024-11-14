@@ -694,6 +694,12 @@ public static class AutoUpdater
     }
 
     /// <summary>
+    /// Custom startup operation, after the new version download is completed, instead of default startup operation.
+    /// For example, you need to delete the old version before launching the new version, or there are some pre-operations, you can use this method.
+    /// </summary>
+    public static Action CustomStartup = null;
+
+    /// <summary>
     ///     Opens the Download window that download the update and execute the installer when download completes.
     /// </summary>
     public static bool DownloadUpdate(UpdateInfoEventArgs args)
