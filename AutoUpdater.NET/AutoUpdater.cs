@@ -246,6 +246,11 @@ public static class AutoUpdater
     public static Mode UpdateMode;
 
     /// <summary>
+    ///     Set the timeout in milliseconds for WebRequest of WebClient, default is 100000ms
+    /// </summary>
+    public static int Timeout = 100000;
+
+    /// <summary>
     ///     An event that developers can use to exit the application gracefully.
     /// </summary>
     public static event ApplicationExitEventHandler ApplicationExitEvent;
@@ -734,7 +739,8 @@ public static class AutoUpdater
     {
         var webClient = new MyWebClient
         {
-            CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore)
+            CachePolicy = new RequestCachePolicy(RequestCacheLevel.NoCacheNoStore),
+            Timeout = AutoUpdater.Timeout
         };
 
         if (Proxy != null)
