@@ -25,33 +25,6 @@ public partial class MainWindow : Window
 
     private void ButtonCheckForUpdate_Click(object sender, RoutedEventArgs e)
     {
-        // Uncomment following lines to handle parsing logic of custom AppCast file.
-        // AutoUpdater.ParseUpdateInfoEvent += args =>
-        // {
-        //     dynamic? json = JsonConvert.DeserializeObject(args.RemoteData);
-        //     if (json != null)
-        //     {
-        //         args.UpdateInfo = new UpdateInfoEventArgs
-        //         {
-        //             CurrentVersion = json.version,
-        //             ChangelogURL = json.changelog,
-        //             DownloadURL = json.url,
-        //             Mandatory = new Mandatory
-        //             {
-        //                 Value = json.mandatory.value,
-        //                 UpdateMode = json.mandatory.mode,
-        //                 MinimumVersion = json.mandatory.minVersion
-        //             },
-        //             CheckSum = new CheckSum
-        //             {
-        //                 Value = json.checksum.value,
-        //                 HashingAlgorithm = json.checksum.hashingAlgorithm
-        //             }
-        //         };
-        //     }
-        // };
-        // AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.json");
-
         // Uncomment following line to run update process without admin privileges.
         // AutoUpdater.RunUpdateAsAdmin = false;
 
@@ -199,6 +172,45 @@ public partial class MainWindow : Window
 
         // Uncomment following line to change the Icon shown on the updater dialog.
         AutoUpdater.Icon = Resource.Icon;
+
+        // Uncomment following line to change the Changelog viewer type.
+        //AutoUpdater.ChangelogViewerType = ChangelogViewerType.RichTextBox;
+
+        // Uncomment following lines to handle parsing logic of custom AppCast file.
+        //AutoUpdater.HttpUserAgent = "AutoUpdaterTest";
+        //AutoUpdater.ParseUpdateInfoEvent += p =>
+        //{
+        //    var json = JsonConvert.DeserializeObject<dynamic>(p.RemoteData);
+        //    if (json == null) return;
+        //    p.UpdateInfo = new UpdateInfoEventArgs();
+        //    p.UpdateInfo.CurrentVersion = json.tag_name.Value.TrimStart('v');
+        //    p.UpdateInfo.ChangelogText = json.body;
+        //    if (AutoUpdater.ChangelogViewerType is ChangelogViewerType.WebBrowser or ChangelogViewerType.WebView2)
+        //    {
+        //        p.UpdateInfo.ChangelogText = json.body.Value.Replace("\r\n", "<br/>").Replace("\n", "<br/>");
+        //        p.UpdateInfo.ChangelogText = $"<html><body style=\"background-color:#f5f2f2;font-size:10pt;\">{p.UpdateInfo.ChangelogText}</body></html>";
+        //    }
+        //    //e.UpdateInfo.ChangelogURL = json.html_url;
+
+        //    foreach (var asset in json.assets)
+        //    {
+        //        // Get the matched runtime & architecture asset
+        //        //var split = asset.name.Value.Split('_');
+        //        //if (split.Length < 4)
+        //        //    continue;
+
+        //        //var arch = split[2].Split('.')[0];
+        //        //var runtime = split[3].Replace(".zip", "");
+
+        //        //if ("NetFW4.8.1" != runtime || arch != "x64")
+        //        //    continue;
+
+        //        var matchedAsset = asset.browser_download_url;
+        //        p.UpdateInfo.DownloadURL = matchedAsset;
+        //        break;
+        //    }
+        //};
+        //AutoUpdater.Start("https://api.github.com/repos/ravibpatel/AutoUpdater.NET/releases/latest");
 
         AutoUpdater.Start("https://rbsoft.org/updates/AutoUpdaterTest.xml");
     }

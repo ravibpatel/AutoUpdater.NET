@@ -1,25 +1,23 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Windows.Forms;
-using Microsoft.Web.WebView2.Core;
-using Microsoft.Win32;
-using static System.Reflection.Assembly;
+using AutoUpdaterDotNET.ChangelogViewers;
 
 namespace AutoUpdaterDotNET;
 
 internal sealed partial class UpdateForm : Form
 {
     private readonly UpdateInfoEventArgs _args;
+    private IChangelogViewer _changelogViewer;
 
     public UpdateForm(UpdateInfoEventArgs args)
     {
         _args = args;
         InitializeComponent();
-        InitializeBrowserControl();
+        InitializeChangelogViewer();
         TopMost = AutoUpdater.TopMost;
 
         if (AutoUpdater.Icon != null)
@@ -45,131 +43,41 @@ internal sealed partial class UpdateForm : Form
         }
     }
 
-    private async void InitializeBrowserControl()
+    private void InitializeChangelogViewer()
     {
-        if (string.IsNullOrEmpty(_args.ChangelogURL))
+        if (string.IsNullOrEmpty(_args.ChangelogURL) && string.IsNullOrEmpty(_args.ChangelogText))
         {
-            int reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+            var reduceHeight = labelReleaseNotes.Height + pnlChangelog.Height;
             labelReleaseNotes.Hide();
-            webBrowser.Hide();
-            webView2.Hide();
             Height -= reduceHeight;
+            return;
+        }
+
+        // Create and configure the new viewer
+        _changelogViewer = ChangelogViewerFactory.Create(AutoUpdater.ChangelogViewerType);
+        var viewerControl = _changelogViewer.Control;
+        viewerControl.Dock = DockStyle.Fill;
+        pnlChangelog.Controls.Add(viewerControl);
+
+        if (!string.IsNullOrEmpty(_args.ChangelogText))
+        {
+            _changelogViewer.LoadContent(_args.ChangelogText);
+        }
+        else if (_changelogViewer.SupportsUrl && !string.IsNullOrEmpty(_args.ChangelogURL))
+        {
+            _changelogViewer.LoadUrl(_args.ChangelogURL);
         }
         else
         {
-            var webView2RuntimeFound = false;
-            try
-            {
-                string availableBrowserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString(null);
-                var requiredMinBrowserVersion = "86.0.616.0";
-                if (!string.IsNullOrEmpty(availableBrowserVersion)
-                    && CoreWebView2Environment.CompareBrowserVersions(availableBrowserVersion,
-                        requiredMinBrowserVersion) >= 0)
-                {
-                    webView2RuntimeFound = true;
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-
-            if (webView2RuntimeFound)
-            {
-                webBrowser.Hide();
-                webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
-                await webView2.EnsureCoreWebView2Async(
-                    await CoreWebView2Environment.CreateAsync(null, Path.GetTempPath()));
-            }
-            else
-            {
-                UseLatestIE();
-                if (null != AutoUpdater.BasicAuthChangeLog)
-                {
-                    webBrowser.Navigate(_args.ChangelogURL, "", null,
-                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
-                }
-                else
-                {
-                    webBrowser.Navigate(_args.ChangelogURL);
-                }
-            }
-        }
-    }
-
-    private void WebView_CoreWebView2InitializationCompleted(object sender,
-        CoreWebView2InitializationCompletedEventArgs e)
-    {
-        if (!e.IsSuccess)
-        {
-            if (AutoUpdater.ReportErrors)
-            {
-                MessageBox.Show(this, e.InitializationException.Message, e.InitializationException.GetType().ToString(),
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            return;
-        }
-
-        webView2.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-        webView2.CoreWebView2.Settings.IsStatusBarEnabled = false;
-        webView2.CoreWebView2.Settings.AreDevToolsEnabled = Debugger.IsAttached;
-        webView2.CoreWebView2.Settings.UserAgent = AutoUpdater.GetUserAgent();
-        webView2.CoreWebView2.Profile.ClearBrowsingDataAsync();
-        webView2.Show();
-        webView2.BringToFront();
-        if (null != AutoUpdater.BasicAuthChangeLog)
-        {
-            webView2.CoreWebView2.BasicAuthenticationRequested += delegate(
-                object _,
-                CoreWebView2BasicAuthenticationRequestedEventArgs args)
-            {
-                args.Response.UserName = ((BasicAuthentication)AutoUpdater.BasicAuthChangeLog).Username;
-                args.Response.Password = ((BasicAuthentication)AutoUpdater.BasicAuthChangeLog).Password;
-            };
-        }
-
-        webView2.CoreWebView2.Navigate(_args.ChangelogURL);
-    }
-
-    private void UseLatestIE()
-    {
-        int ieValue = webBrowser.Version.Major switch
-        {
-            11 => 11001,
-            10 => 10001,
-            9 => 9999,
-            8 => 8888,
-            7 => 7000,
-            _ => 0
-        };
-
-        if (ieValue == 0)
-        {
-            return;
-        }
-
-        try
-        {
-            using RegistryKey registryKey =
-                Registry.CurrentUser.OpenSubKey(
-                    @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION",
-                    true);
-            registryKey?.SetValue(
-                Path.GetFileName(Process.GetCurrentProcess().MainModule?.FileName ??
-                                 GetEntryAssembly()?.Location ?? Application.ExecutablePath),
-                ieValue,
-                RegistryValueKind.DWord);
-        }
-        catch (Exception)
-        {
-            // ignored
+            labelReleaseNotes.Hide();
+            viewerControl.Hide();
+            Height -= (labelReleaseNotes.Height + viewerControl.Height);
         }
     }
 
     private void UpdateFormLoad(object sender, EventArgs e)
     {
-        var labelSize = new Size(webBrowser.Width, 0);
+        var labelSize = new Size(pnlChangelog.Width, 0);
         labelDescription.MaximumSize = labelUpdate.MaximumSize = labelSize;
     }
 
@@ -250,5 +158,15 @@ internal sealed partial class UpdateForm : Form
         {
             AutoUpdater.Exit();
         }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _changelogViewer?.Cleanup();
+            components?.Dispose();
+        }
+        base.Dispose(disposing);
     }
 }

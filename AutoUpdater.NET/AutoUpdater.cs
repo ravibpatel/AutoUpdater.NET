@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using AutoUpdaterDotNET.ChangelogViewers;
 using AutoUpdaterDotNET.Properties;
 using Application = System.Windows.Forms.Application;
 using MessageBox = System.Windows.Forms.MessageBox;
@@ -244,6 +245,11 @@ public static class AutoUpdater
     ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
     /// </summary>
     public static Mode UpdateMode;
+
+    /// <summary>
+    ///     Set this to any of the available types to change the changelog viewer.
+    /// </summary>
+    public static ChangelogViewerType ChangelogViewerType = ChangelogViewerFactory.GetDefaultViewerType();
 
     /// <summary>
     ///     An event that developers can use to exit the application gracefully.
