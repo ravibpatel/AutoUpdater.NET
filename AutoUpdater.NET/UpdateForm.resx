@@ -125,37 +125,37 @@
     </resheader>
     <assembly alias="System.Windows.Forms"
               name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-    <data name="webBrowser.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <data name="pnlChangelog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
         <value>Top, Bottom, Left, Right</value>
     </data>
     <assembly alias="System.Drawing"
               name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
-    <data name="webBrowser.Location" type="System.Drawing.Point, System.Drawing">
+    <data name="pnlChangelog.Location" type="System.Drawing.Point, System.Drawing">
         <value>94, 120</value>
     </data>
-    <data name="webBrowser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <data name="pnlChangelog.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
         <value>2, 2, 2, 2</value>
     </data>
-    <data name="webBrowser.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <data name="pnlChangelog.MinimumSize" type="System.Drawing.Size, System.Drawing">
         <value>23, 23</value>
     </data>
-    <data name="webBrowser.Size" type="System.Drawing.Size, System.Drawing">
+    <data name="pnlChangelog.Size" type="System.Drawing.Size, System.Drawing">
         <value>538, 432</value>
     </data>
     <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
-    <data name="webBrowser.TabIndex" type="System.Int32, mscorlib">
+    <data name="pnlChangelog.TabIndex" type="System.Int32, mscorlib">
         <value>4</value>
     </data>
-    <data name="&gt;&gt;webBrowser.Name" xml:space="preserve">
-    <value>webBrowser</value>
+    <data name="&gt;&gt;pnlChangelog.Name" xml:space="preserve">
+    <value>pnlChangelog</value>
   </data>
-    <data name="&gt;&gt;webBrowser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.WebBrowser, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <data name="&gt;&gt;pnlChangelog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-    <data name="&gt;&gt;webBrowser.Parent" xml:space="preserve">
+    <data name="&gt;&gt;pnlChangelog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-    <data name="&gt;&gt;webBrowser.ZOrder" xml:space="preserve">
+    <data name="&gt;&gt;pnlChangelog.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
     <data name="labelUpdate.AutoSize" type="System.Boolean, mscorlib">
@@ -395,39 +395,6 @@
   </data>
     <data name="&gt;&gt;buttonSkip.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-    <data name="webView2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-        <value>Top, Bottom, Left, Right</value>
-    </data>
-    <data name="webView2.Location" type="System.Drawing.Point, System.Drawing">
-        <value>94, 120</value>
-    </data>
-    <data name="webView2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-        <value>2, 2, 2, 2</value>
-    </data>
-    <data name="webView2.MinimumSize" type="System.Drawing.Size, System.Drawing">
-        <value>23, 23</value>
-    </data>
-    <data name="webView2.Size" type="System.Drawing.Size, System.Drawing">
-        <value>538, 432</value>
-    </data>
-    <data name="webView2.TabIndex" type="System.Int32, mscorlib">
-        <value>3</value>
-    </data>
-    <data name="webView2.Visible" type="System.Boolean, mscorlib">
-        <value>False</value>
-    </data>
-    <data name="&gt;&gt;webView2.Name" xml:space="preserve">
-    <value>webView2</value>
-  </data>
-    <data name="&gt;&gt;webView2.Type" xml:space="preserve">
-    <value>Microsoft.Web.WebView2.WinForms.WebView2, Microsoft.Web.WebView2.WinForms, Version=1.0.1210.39, Culture=neutral, PublicKeyToken=2a8ab48044d2601e</value>
-  </data>
-    <data name="&gt;&gt;webView2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-    <data name="&gt;&gt;webView2.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
     <metadata name="$this.Localizable"
               type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
