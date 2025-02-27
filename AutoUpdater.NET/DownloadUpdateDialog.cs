@@ -125,7 +125,9 @@ internal partial class DownloadUpdateDialog : Form
                 }
             }
 
-            string fileName = string.IsNullOrEmpty(contentDisposition?.FileName)
+            string fileName = !string.IsNullOrEmpty(_args.DownloadFileName) 
+                ? _args.DownloadFileName: 
+                string.IsNullOrEmpty(contentDisposition?.FileName)
                 ? Path.GetFileName(_webClient.ResponseUri.LocalPath)
                 : contentDisposition.FileName;
 

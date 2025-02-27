@@ -19,6 +19,12 @@ public class UpdateInfoEventArgs : EventArgs
     }
 
     /// <summary>
+    ///     It will be prioritized if provided. Used in cases where the download URL does not contain a file name (e.g., Base64) or the header does not include Content-Disposition
+    /// </summary>
+    [XmlElement("filename")]
+    public string DownloadFileName { get; set; }
+
+    /// <summary>
     ///     If new update is available then returns true otherwise false.
     /// </summary>
     public bool IsUpdateAvailable { get; set; }
