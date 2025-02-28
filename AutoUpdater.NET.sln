@@ -5,21 +5,29 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater.NET", "AutoUpdater.NET\AutoUpdater.NET.csproj", "{FB9E7E6B-B19F-4F37-A708-2996190CEF13}"
 	ProjectSection(ProjectDependencies) = postProject
-		{91DE558C-6DB8-429B-A069-C0491DCFF15B} = {91DE558C-6DB8-429B-A069-C0491DCFF15B}
+		{EDB311FC-50D3-468B-AC36-4CDFE04D29A3} = {EDB311FC-50D3-468B-AC36-4CDFE04D29A3}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1DBD2EE1-6C31-4B24-9212-E221404F4ADE}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		appveyor.yml = appveyor.yml
+		build.bat = build.bat
 		LICENSE = LICENSE
 		README.md = README.md
-		build.bat = build.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZipExtractor", "ZipExtractor\ZipExtractor.csproj", "{EDB311FC-50D3-468B-AC36-4CDFE04D29A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdaterTest", "AutoUpdaterTest\AutoUpdaterTest.csproj", "{5C1E186E-2622-425D-8E90-2CC6C25EDE29}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3} = {A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3}
+		{D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A} = {D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater.NET.WebView2", "AutoUpdater.NET.WebView2\AutoUpdater.NET.WebView2.csproj", "{A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater.NET.Markdown", "AutoUpdater.NET.Markdown\AutoUpdater.NET.Markdown.csproj", "{D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +47,14 @@ Global
 		{5C1E186E-2622-425D-8E90-2CC6C25EDE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C1E186E-2622-425D-8E90-2CC6C25EDE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C1E186E-2622-425D-8E90-2CC6C25EDE29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9848B77-2D66-4C5C-9F0F-2F9F3FB6C5A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D93F12ED-BCF8-B6DB-D5AA-B67FAA700F4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

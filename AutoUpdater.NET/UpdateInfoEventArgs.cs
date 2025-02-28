@@ -50,6 +50,12 @@ public class UpdateInfoEventArgs : EventArgs
     }
 
     /// <summary>
+    ///     Returns text specifying changes in the new update.
+    /// </summary>
+    [XmlElement("changelogText")]
+    public string ChangelogText { get; set; }
+
+    /// <summary>
     ///     Returns newest version of the application available to download.
     /// </summary>
     [XmlElement("version")]

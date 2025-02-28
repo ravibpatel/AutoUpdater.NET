@@ -20,9 +20,9 @@ public class BasicAuthentication : IAuthentication
         Password = password;
     }
 
-    internal string Username { get; }
+    public string Username { get; }
 
-    internal string Password { get; }
+    public string Password { get; }
 
     /// <inheritdoc />
     public void Apply(ref MyWebClient webClient)

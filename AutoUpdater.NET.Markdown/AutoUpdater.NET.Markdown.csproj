@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+	<OutputType>library</OutputType>
+	<TargetFrameworks>net462;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
+	<UseWindowsForms>true</UseWindowsForms>
+	<RootNamespace>AutoUpdaterDotNET.Markdown</RootNamespace>
+	<AssemblyTitle>AutoUpdater.NET.Markdown</AssemblyTitle>
+	<Company>RBSoft</Company>
+	<Product>AutoUpdater.NET.Markdown</Product>
+	<Copyright>Copyright © 2012-2025 RBSoft</Copyright>
+	<Version>1.9.5.1</Version>
+<!--	<SignAssembly>true</SignAssembly>-->
+<!--	<AssemblyOriginatorKeyFile>..\AutoUpdater.NET\AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>-->
+	<NeutralLanguage>en</NeutralLanguage>
+	<PackageId>Autoupdater.NET.Markdown</PackageId>
+	<IncludeSymbols>true</IncludeSymbols>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<Title>AutoUpdater.NET Markdown Extension</Title>
+	<Authors>rbsoft</Authors>
+	<Description>Markdown extension for AutoUpdater.NET that provides markdown support.</Description>
+	<PackageProjectUrl>https://github.com/ravibpatel/AutoUpdater.NET</PackageProjectUrl>
+	<PackageTags>autoupdate updater markdown</PackageTags>
+	<PackageReleaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</PackageReleaseNotes>
+	<PackageOutputPath>build</PackageOutputPath>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.40.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoUpdater.NET\AutoUpdater.NET.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>Autoupdater.NET.WebView2</id>
+        <version>1.9.5.1</version>
+        <title>AutoUpdater.NET WebView2 Extension</title>
+        <authors>rbsoft</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <license type="expression">MIT</license>
+        <readme>docs\README.md</readme>
+        <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+        <projectUrl>https://github.com/ravibpatel/AutoUpdater.NET</projectUrl>
+        <description>WebView2 extension for AutoUpdater.NET that provides modern web rendering capabilities for changelogs.</description>
+        <releaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</releaseNotes>
+        <copyright>Copyright 2012-2025 RBSoft</copyright>
+        <tags>autoupdate updater webview2 edge</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.6.2">
+                <dependency id="Autoupdater.NET.Official" version="1.9.5.1" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.3065.39" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework=".NETCoreApp3.1">
+                <dependency id="Autoupdater.NET.Official" version="1.9.5.1" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.3065.39" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net5.0-windows7.0">
+                <dependency id="Autoupdater.NET.Official" version="1.9.5.1" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.3065.39" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net6.0-windows7.0">
+                <dependency id="Autoupdater.NET.Official" version="1.9.5.1" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.3065.39" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net7.0-windows7.0">
+                <dependency id="Autoupdater.NET.Official" version="1.9.5.1" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.3065.39" exclude="Build,Analyzers"/>
+            </group>
+            <group targetFramework="net8.0-windows7.0">
+                <dependency id="Autoupdater.NET.Official" version="1.9.5.1" exclude="Build,Analyzers"/>
+                <dependency id="Microsoft.Web.WebView2" version="1.0.3065.39" exclude="Build,Analyzers"/>
+            </group>
+        </dependencies>
+        <frameworkReferences>
+            <group targetFramework=".NETCoreApp3.1">
+                <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+            </group>
+            <group targetFramework="net5.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+            </group>
+            <group targetFramework="net6.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+            </group>
+            <group targetFramework="net7.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+            </group>
+            <group targetFramework="net8.0-windows7.0">
+                <frameworkReference name="Microsoft.WindowsDesktop.App.WindowsForms" />
+            </group>
+        </frameworkReferences>
+    </metadata>
+    <files>
+        <file src="..\..\README.md" target="docs\"/>
+        <file src="lib\net462\AutoUpdater.NET.WebView2.*" target="lib\net462" exclude="**\*.deps.json"/>
+        <file src="lib\netcoreapp3.1\AutoUpdater.NET.WebView2.*" target="lib\netcoreapp3.1" exclude="**\*.deps.json"/>
+        <file src="lib\net5.0-windows7.0\AutoUpdater.NET.WebView2.*" target="lib\net5.0-windows7.0" exclude="**\*.deps.json"/>
+        <file src="lib\net6.0-windows7.0\AutoUpdater.NET.WebView2.*" target="lib\net6.0-windows7.0" exclude="**\*.deps.json"/>
+        <file src="lib\net7.0-windows7.0\AutoUpdater.NET.WebView2.*" target="lib\net7.0-windows7.0" exclude="**\*.deps.json"/>
+        <file src="lib\net8.0-windows7.0\AutoUpdater.NET.WebView2.*" target="lib\net8.0-windows7.0" exclude="**\*.deps.json"/>
+    </files>
+</package>

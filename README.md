@@ -11,6 +11,14 @@ desktop application projects.
 PM> Install-Package Autoupdater.NET.Official
 ````
 
+````powershell
+PM> Install-Package Autoupdater.NET.Official.Markdown
+````
+
+````powershell
+PM> Install-Package Autoupdater.NET.Official.WebView2
+````
+
 ## Supported .NET versions
 
 * .NET Framework 4.6.2 or above
@@ -47,6 +55,7 @@ software. You need to create XML file like below and then you need to upload it 
 <item>
   <version>2.0.0.0</version>
   <url>https://rbsoft.org/downloads/AutoUpdaterTest.zip</url>
+  <!--  <changelogText>Update to version 2.0.0.0...</changelogText> -->
   <changelog>https://github.com/ravibpatel/AutoUpdater.NET/releases</changelog>
   <mandatory>false</mandatory>
 </item>
@@ -58,6 +67,8 @@ There are two things you need to provide in XML file as you can see above.
   X.X.X.X format.
 * url (Required): You need to provide URL of the latest version installer file or zip file between url tags.
   AutoUpdater.NET downloads the file provided here and install it when user press the Update button.
+* changelogText (Optional): You can provide the change log of your application between changelogText tags. If you 
+  provide changelogText it will take precedence over changelog URL.
 * changelog (Optional): You need to provide URL of the change log of your application between changelog tags. If you
   don't provide the URL of the changelog then update dialog won't show the change log.
 * mandatory (Optional): You can set this to true if you don't want user to skip this version. This will ignore Remind
@@ -376,6 +387,99 @@ You can create your own PersistenceProvider by
 implementing [IPersistenceProvider](https://github.com/ravibpatel/AutoUpdater.NET/blob/master/AutoUpdater.NET/IPersistenceProvider.cs)
 interface.
 
+## Changelog Viewers
+
+AutoUpdater.NET provides multiple options for displaying changelogs:
+
+### Core Package (Autoupdater.NET.Official)
+
+The core package includes two basic changelog viewers:
+* **WebBrowser Viewer** (Default, Priority 1): Uses the default WebBrowser control
+* **RichTextBox Viewer** (Priority 0): Simple text-only viewer, used as a last resort
+
+### Additional Packages
+
+#### Markdown Package (Autoupdater.NET.Official.Markdown)
+
+````powershell
+PM> Install-Package Autoupdater.NET.Official.Markdown
+````
+
+Adds support for rendering Markdown changelogs with:
+* Syntax highlighting
+* Tables
+* Lists
+* And other Markdown features
+* Priority 2 (higher than WebBrowser)
+
+#### WebView2 Package (Autoupdater.NET.Official.WebView2)
+
+````powershell
+PM> Install-Package Autoupdater.NET.Official.WebView2
+````
+
+Adds modern web rendering support using Microsoft Edge WebView2:
+* Better performance
+* Modern web standards support
+* Enhanced security
+* Priority 3 (highest priority when available)
+
+### Priority System
+
+The viewers are selected based on their priority and availability:
+1. WebView2 (Priority 3) - If WebView2 runtime is available
+2. Markdown (Priority 2) - If Markdown package is installed
+3. WebBrowser (Priority 1) - Always available on Windows
+4. RichTextBox (Priority 0) - Fallback option
+
+You can bypass the priority system and use a specific viewer directly:
+````csharp
+// Use RichTextBox viewer regardless of other providers
+AutoUpdater.ChangelogViewerProvider = new RichTextBoxViewerProvider();
+````
+
+### Custom Viewers
+
+You can even implement your own changelog viewer by:
+1. Implementing the `IChangelogViewer` interface
+2. Creating a provider that implements `IChangelogViewerProvider`
+3. Registering your provider using `ChangelogViewerFactory.RegisterProvider`
+
+Example:
+````csharp
+public class CustomViewer : IChangelogViewer 
+{
+    public Control Control => /* your viewer control */;
+    public bool SupportsUrl => true;
+    
+    public void LoadContent(string content) 
+    {
+        // Implementation
+    }
+    
+    public void LoadUrl(string url) 
+    {
+        // Implementation
+    }
+    
+    public void Cleanup() 
+    {
+        // Cleanup resources
+    }
+}
+
+public class CustomViewerProvider : IChangelogViewerProvider 
+{
+    public bool IsAvailable => true;
+    public int Priority => 100; // Higher than built-in viewers
+    
+    public IChangelogViewer CreateViewer() => new CustomViewer();
+}
+
+// Register your custom viewer
+ChangelogViewerFactory.RegisterProvider(new CustomViewerProvider());
+````
+
 ## Check updates frequently
 
 You can call Start method inside Timer to check for updates frequently.
@@ -505,6 +609,7 @@ update dialog.
 
 * IsUpdateAvailable (bool) :  If update is available then returns true otherwise false.
 * DownloadURL (string) : Download URL of the update file..
+* ChangelogText (string) : Text of the changelog.
 * ChangelogURL (string) : URL of the webpage specifying changes in the new update.
 * CurrentVersion (Version) : Newest version of the application available to download.
 * InstalledVersion (Version) : Version of the application currently installed on the user's PC.
@@ -525,6 +630,7 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
     args.UpdateInfo = new UpdateInfoEventArgs
     {
         CurrentVersion = json.version,
+        // ChangelogText = json.changelog,
         ChangelogURL = json.changelog,
         DownloadURL = json.url,
         Mandatory = new Mandatory
@@ -548,6 +654,7 @@ private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
 {
    "version":"2.0.0.0",
    "url":"https://rbsoft.org/downloads/AutoUpdaterTest.zip",
+  //  "changelogText":"Update to version 2.0.0.0...",
    "changelog":"https://github.com/ravibpatel/AutoUpdater.NET/releases",
    "mandatory":{
       "value":true,
@@ -581,7 +688,7 @@ You can follow below steps to build the project on your local development enviro
   ```
 
 * Build ZipExtractor project in "Release" configuration to create the executable in Resources folder. While compiling it
-  for .NET Core 3.1 or above, you have to use publish command instead of build as
+  for .NET Core 3.1 or above then you have to use publish command instead of build as
   shown [here](https://learn.microsoft.com/en-us/dotnet/core/tutorials/publishing-with-visual-studio?pivots=dotnet-7-0)
   and copy the resulting executable to "AutoUpdater.NET/Resources" folder.
 * Visual Studio 2022 doesn't allow building .NET Framework 4.5 by default, so if you are using Visual Studio 2022 then

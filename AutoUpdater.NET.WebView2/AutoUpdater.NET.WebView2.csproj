@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>library</OutputType>
+        <TargetFrameworks>net462;netcoreapp3.1;net5.0-windows;net6.0-windows;net7.0-windows;net8.0-windows</TargetFrameworks>
+        <UseWindowsForms>true</UseWindowsForms>
+        <RootNamespace>AutoUpdaterDotNET.WebView2</RootNamespace>
+        <AssemblyTitle>AutoUpdater.NET.WebView2</AssemblyTitle>
+        <Company>RBSoft</Company>
+        <Product>AutoUpdater.NET.WebView2</Product>
+        <Copyright>Copyright © 2012-2025 RBSoft</Copyright>
+        <Version>1.9.5.1</Version>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\AutoUpdater.NET\AutoUpdater.NET.snk</AssemblyOriginatorKeyFile>
+        <NeutralLanguage>en</NeutralLanguage>
+        <PackageId>Autoupdater.NET.WebView2</PackageId>
+        <IncludeSymbols>true</IncludeSymbols>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <Title>AutoUpdater.NET WebView2 Extension</Title>
+        <Authors>rbsoft</Authors>
+        <Description>WebView2 extension for AutoUpdater.NET that provides modern web rendering capabilities for changelogs.</Description>
+        <PackageProjectUrl>https://github.com/ravibpatel/AutoUpdater.NET</PackageProjectUrl>
+        <PackageTags>autoupdate updater webview2 edge</PackageTags>
+        <PackageReleaseNotes>https://github.com/ravibpatel/AutoUpdater.NET/releases</PackageReleaseNotes>
+        <PackageOutputPath>build</PackageOutputPath>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3065.39" />
+        <ProjectReference Include="..\AutoUpdater.NET\AutoUpdater.NET.csproj" />
+    </ItemGroup>
+</Project>
