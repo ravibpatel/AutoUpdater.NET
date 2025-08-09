@@ -40,6 +40,14 @@ internal partial class DownloadUpdateDialog : Form
         {
             ControlBox = false;
         }
+
+        // Silent mode: hide the dialog
+        if (AutoUpdater.Silent)
+        {
+            WindowState = FormWindowState.Minimized;
+            ShowInTaskbar = false;
+            Visible = false;
+        }
     }
 
     private void DownloadUpdateDialogLoad(object sender, EventArgs e)

@@ -226,6 +226,11 @@ public static class AutoUpdater
     public static bool ShowSkipButton = true;
 
     /// <summary>
+    ///     Set this to true if you want to hide the download dialog (silent mode).
+    /// </summary>
+    public static bool Silent = false;
+
+    /// <summary>
     ///     Set this to true if you want to run update check synchronously.
     /// </summary>
     public static bool Synchronous = false;
