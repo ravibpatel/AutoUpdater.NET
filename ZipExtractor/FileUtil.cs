@@ -63,7 +63,7 @@ public static class FileUtil
             uint pnProcInfo = 0,
                 lpdwRebootReasons = RmRebootReasonNone;
 
-            string[] resources = { path }; // Just checking on one resource.
+            string[] resources = [path]; // Just checking on one resource.
 
             res = RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
 
@@ -73,8 +73,8 @@ public static class FileUtil
             }
 
             //Note: there's a race condition here -- the first call to RmGetList() returns
-            //      the total number of process. However, when we call RmGetList() again to get
-            //      the actual processes this number may have increased.
+            //      the total number of processes. However, when we call RmGetList() again to get
+            //      the actual processes, this number may have increased.
             res = RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
 
             if (res == ERROR_MORE_DATA)
@@ -90,8 +90,7 @@ public static class FileUtil
                 {
                     processes = new List<Process>((int)pnProcInfo);
 
-                    // Enumerate all of the results and add them to the 
-                    // list to be returned
+                    // Loop through all the results and add them to the list to be returned
                     for (var i = 0; i < pnProcInfo; i++)
                         try
                         {

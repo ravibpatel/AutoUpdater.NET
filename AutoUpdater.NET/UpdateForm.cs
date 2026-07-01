@@ -47,52 +47,70 @@ internal sealed partial class UpdateForm : Form
 
     private async void InitializeBrowserControl()
     {
-        if (string.IsNullOrEmpty(_args.ChangelogURL))
+        try
         {
-            int reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
-            labelReleaseNotes.Hide();
-            webBrowser.Hide();
-            webView2.Hide();
-            Height -= reduceHeight;
-        }
-        else
-        {
-            var webView2RuntimeFound = false;
-            try
+            if (string.IsNullOrEmpty(_args.ChangelogURL))
             {
-                string availableBrowserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString(null);
-                var requiredMinBrowserVersion = "86.0.616.0";
-                if (!string.IsNullOrEmpty(availableBrowserVersion)
-                    && CoreWebView2Environment.CompareBrowserVersions(availableBrowserVersion,
-                        requiredMinBrowserVersion) >= 0)
-                {
-                    webView2RuntimeFound = true;
-                }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-
-            if (webView2RuntimeFound)
-            {
+                int reduceHeight = labelReleaseNotes.Height + webBrowser.Height;
+                labelReleaseNotes.Hide();
                 webBrowser.Hide();
-                webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
-                await webView2.EnsureCoreWebView2Async(
-                    await CoreWebView2Environment.CreateAsync(null, Path.GetTempPath()));
+                webView2.Hide();
+                Height -= reduceHeight;
             }
             else
             {
-                UseLatestIE();
-                if (null != AutoUpdater.BasicAuthChangeLog)
+                var webView2RuntimeFound = false;
+                try
                 {
-                    webBrowser.Navigate(_args.ChangelogURL, "", null,
-                        $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    string availableBrowserVersion = CoreWebView2Environment.GetAvailableBrowserVersionString(null);
+                    var requiredMinBrowserVersion = "86.0.616.0";
+                    if (!string.IsNullOrEmpty(availableBrowserVersion)
+                        && CoreWebView2Environment.CompareBrowserVersions(availableBrowserVersion,
+                            requiredMinBrowserVersion) >= 0)
+                    {
+                        webView2RuntimeFound = true;
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                if (webView2RuntimeFound)
+                {
+                    webBrowser.Hide();
+                    webView2.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
+                    // https://github.com/MicrosoftEdge/WebView2Feedback/issues/3327
+                    var options = new CoreWebView2EnvironmentOptions();
+                    if (Uri.TryCreate(_args.ChangelogURL, UriKind.Absolute, out var uri))
+                    {
+                        options.AdditionalBrowserArguments = $"--auth-server-allowlist={uri.Host}";
+                    }
+
+                    await webView2.EnsureCoreWebView2Async(
+                        await CoreWebView2Environment.CreateAsync(null, Path.GetTempPath(), options)
+                    );
                 }
                 else
                 {
-                    webBrowser.Navigate(_args.ChangelogURL);
+                    UseLatestIE();
+                    if (null != AutoUpdater.BasicAuthChangeLog)
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL, "", null,
+                            $"Authorization: {AutoUpdater.BasicAuthChangeLog}");
+                    }
+                    else
+                    {
+                        webBrowser.Navigate(_args.ChangelogURL);
+                    }
                 }
+            }
+        }
+        catch (Exception e)
+        {
+            if (AutoUpdater.ReportErrors)
+            {
+                MessageBox.Show(this, e.Message, e.GetType().ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

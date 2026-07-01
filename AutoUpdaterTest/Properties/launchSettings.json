@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutoUpdaterTest": {
+      "commandName": "Project",
+      "commandLineArgs": "--id 123 --path \"C:\\Program Files\\app\""
+    }
+  }
+}

@@ -31,6 +31,7 @@ public partial class FormMain : Form
         string currentExe = null;
         string updatedExe = null;
         var clearAppDirectory = false;
+        var relaunchUnelevated = false;
         string commandLineArgs = null;
 
         _logBuilder.AppendLine(DateTime.Now.ToString("F"));
@@ -57,6 +58,9 @@ public partial class FormMain : Form
                     break;
                 case "--clear":
                     clearAppDirectory = true;
+                    break;
+                case "--relaunch-unelevated":
+                    relaunchUnelevated = true;
                     break;
                 case "--args":
                     commandLineArgs = args[index + 1];
@@ -102,12 +106,10 @@ public partial class FormMain : Form
 
             _logBuilder.AppendLine("BackgroundWorker started successfully.");
 
-            Invoke(new Action(() => { ControlBox = false; }));
+            Invoke(() => { ControlBox = false; });
 
-            // Ensures that the last character on the extraction path
-            // is the directory separator char.
-            // Without this, a malicious zip file could try to traverse outside of the expected
-            // extraction path.
+            // Ensures that the last character on the extraction path is the directory separator char.
+            // Without this, a malicious zip file could try to traverse outside the expected extraction path.
             if (!extractionPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
             {
                 extractionPath += Path.DirectorySeparatorChar;
@@ -231,14 +233,14 @@ public partial class FormMain : Form
                             {
                                 var dialogResult = DialogResult.None;
 
-                                Invoke(new Action(() =>
+                                Invoke(() =>
                                 {
                                     dialogResult = MessageBox.Show(this,
                                         string.Format(Resources.FileStillInUseMessage,
                                             lockingProcess.ProcessName, filePath),
                                         Resources.FileStillInUseCaption,
                                         MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
-                                }));
+                                });
 
                                 if (dialogResult == DialogResult.Cancel)
                                 {
@@ -293,13 +295,12 @@ public partial class FormMain : Form
                     string executablePath = string.IsNullOrWhiteSpace(updatedExe)
                         ? currentExe
                         : Path.Combine(extractionPath, updatedExe);
-                    var processStartInfo = new ProcessStartInfo(executablePath);
-                    if (!string.IsNullOrEmpty(commandLineArgs))
-                    {
-                        processStartInfo.Arguments = commandLineArgs;
-                    }
 
-                    Process.Start(processStartInfo);
+                    // If the original application was launched unelevated, the updated executable should
+                    // be launched unelevated too. AutoUpdater.NET passes --relaunch-unelevated when it
+                    // elevated ZipExtractor from a non-elevated process, so that the updated application
+                    // does not inherit ZipExtractor's elevated token.
+                    ProcessLauncher.Start(executablePath, commandLineArgs, relaunchUnelevated);
 
                     _logBuilder.AppendLine("Successfully launched the updated application.");
                 }

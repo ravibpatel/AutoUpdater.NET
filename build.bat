@@ -19,6 +19,9 @@ dotnet publish --configuration Release --framework net7.0-windows "AutoUpdater.N
 :: .NET 8.0
 dotnet publish --configuration Release --framework net8.0-windows "AutoUpdater.NET\AutoUpdater.NET.csproj" --output "AutoUpdater.NET\build\lib\net8.0-windows7.0"
 
+:: .NET 10.0
+dotnet publish --configuration Release --framework net10.0-windows "AutoUpdater.NET\AutoUpdater.NET.csproj" --output "AutoUpdater.NET\build\lib\net10.0-windows7.0"
+
 :: Remove unnecessary files
 Powershell.exe -ExecutionPolicy Bypass -NoLogo -NoProfile -Command "Remove-Item -path AutoUpdater.NET\build\lib\* -include runtimes,Microsoft.Web.WebView2*,AutoUpdater.NET.deps.json -Recurse"
 

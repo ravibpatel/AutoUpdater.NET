@@ -7,14 +7,14 @@ using System.Text;
 namespace AutoUpdaterDotNET;
 
 /// <summary>
-///     Provides a mechanism for storing AutoUpdater state between sessions on a Json formatted file.
+///     Provides a mechanism for storing AutoUpdater state between sessions on a JSON formatted file.
 /// </summary>
 public class JsonFilePersistenceProvider : IPersistenceProvider
 {
     /// <summary>
     ///     Initializes a new instance of the JsonFilePersistenceProvider class.
     /// </summary>
-    /// <remarks>The path for the Json formatted file must be specified using the FileName property.</remarks>
+    /// <remarks>The path for the JSON-formatted file must be specified using the FileName property.</remarks>
     public JsonFilePersistenceProvider(string jsonPath)
     {
         FileName = jsonPath;
@@ -22,7 +22,7 @@ public class JsonFilePersistenceProvider : IPersistenceProvider
     }
 
     /// <summary>
-    ///     Path for the Json formatted file.
+    ///     Path for the JSON formatted file.
     /// </summary>
     private string FileName { get; }
 
@@ -57,7 +57,7 @@ public class JsonFilePersistenceProvider : IPersistenceProvider
     }
 
     /// <summary>
-    ///     Stores applied modifications into the Json formatted file specified in the FileName property.
+    ///     Stores applied modifications into the JSON formatted file specified in the FileName property.
     /// </summary>
     private void Save()
     {
@@ -79,7 +79,7 @@ public class JsonFilePersistenceProvider : IPersistenceProvider
     }
 
     /// <summary>
-    ///     Reads a Json formatted file and returns an initialized instance of the class PersistedValues.
+    ///     Reads a JSON formatted file and returns an initialized instance of the class PersistedValues.
     /// </summary>
     /// <remarks>The function creates a new instance, initialized with default parameters, in case the file does not exist.</remarks>
     private void ReadFile()
@@ -99,7 +99,7 @@ public class JsonFilePersistenceProvider : IPersistenceProvider
 }
 
 /// <summary>
-///     Provides way to serialize and deserialize AutoUpdater persisted values.
+///     Provides a way to serialize and deserialize AutoUpdater persisted values.
 /// </summary>
 [DataContract]
 public class PersistedValues

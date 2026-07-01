@@ -22,7 +22,7 @@ using WinFormsMethodInvoker = System.Windows.Forms.MethodInvoker;
 namespace AutoUpdaterDotNET;
 
 /// <summary>
-///     Enum representing the remind later time span.
+///     Enum representing remind later time span.
 /// </summary>
 public enum RemindLaterFormat
 {
@@ -43,7 +43,7 @@ public enum RemindLaterFormat
 }
 
 /// <summary>
-///     Enum representing the effect of Mandatory flag.
+///     Enum representing the effect of the Mandatory flag.
 /// </summary>
 public enum Mode
 {
@@ -53,24 +53,24 @@ public enum Mode
     [XmlEnum("0")] Normal,
 
     /// <summary>
-    ///     In this mode, it won't show close button in addition to Normal mode behaviour.
+    ///     In this mode, it won't show the close button in addition to Normal mode behavior.
     /// </summary>
     [XmlEnum("1")] Forced,
 
     /// <summary>
-    ///     In this mode, it will start downloading and applying update without showing standard update dialog in addition to
-    ///     Forced mode behaviour.
+    ///     In this mode, it will start downloading and applying update without showing the standard update dialog in addition to
+    ///     Forced mode behavior.
     /// </summary>
     [XmlEnum("2")] ForcedDownload
 }
 
 /// <summary>
-///     Main class that lets you auto update applications by setting some static fields and executing its Start method.
+///     Main class that lets you auto-update applications by setting some static fields and executing its Start method.
 /// </summary>
 public static class AutoUpdater
 {
     /// <summary>
-    ///     A delegate type to handle how to exit the application after update is downloaded.
+    ///     A delegate type to handle how to exit the application after an update is downloaded.
     /// </summary>
     public delegate void ApplicationExitEventHandler();
 
@@ -78,15 +78,15 @@ public static class AutoUpdater
     ///     A delegate type for hooking up update notifications.
     /// </summary>
     /// <param name="args">
-    ///     An object containing all the parameters received from AppCast XML file. If there will be an error
-    ///     while looking for the XML file then this object will be null.
+    ///     An object containing all the parameters received from AppCast XML file. If there is an error
+    ///     while looking for the XML file, then this object will be null.
     /// </param>
     public delegate void CheckForUpdateEventHandler(UpdateInfoEventArgs args);
 
     /// <summary>
     ///     A delegate type for hooking up parsing logic.
     /// </summary>
-    /// <param name="args">An object containing the AppCast file received from server.</param>
+    /// <param name="args">An object containing the AppCast file received from the server.</param>
     public delegate void ParseUpdateInfoHandler(ParseUpdateInfoEventArgs args);
 
     private static bool _isWinFormsApplication;
@@ -100,13 +100,13 @@ public static class AutoUpdater
     internal static bool Running;
 
     /// <summary>
-    ///     URL of the xml file that contains information about latest version of the application.
+    ///     URL of the XML file that contains information about the latest version of the application.
     /// </summary>
     public static string AppCastURL;
 
     /// <summary>
-    ///     Set the Application Title shown in Update dialog. Although AutoUpdater.NET will get it automatically, you can set
-    ///     this property if you like to give custom Title.
+    ///     Set the Application Title shown in the Update dialog. Although AutoUpdater.NET will get it automatically, you can set
+    ///     this property if you like to give a custom Title.
     /// </summary>
     public static string AppTitle;
 
@@ -126,12 +126,12 @@ public static class AutoUpdater
     public static IAuthentication BasicAuthXML;
 
     /// <summary>
-    ///     Set this to true if you want to clear application directory before extracting update.
+    ///     Set this to true if you want to clear the application directory before extracting the update.
     /// </summary>
     public static bool ClearAppDirectory = false;
 
     /// <summary>
-    ///     Set it to folder path where you want to download the update file. If not provided then it defaults to Temp folder.
+    ///     Set it to a folder path where you want to download the update file. If not provided, then it defaults to the Temp folder.
     /// </summary>
     public static string DownloadPath;
 
@@ -152,12 +152,12 @@ public static class AutoUpdater
     public static string HttpUserAgent;
 
     /// <summary>
-    ///     Set this to change the icon shown on updater dialog.
+    ///     Set this to change the icon shown on the updater dialog.
     /// </summary>
     public static Bitmap Icon;
 
     /// <summary>
-    ///     If you are using a zip file as an update file then you can set this value to path where your app is installed. This
+    ///     If you are using a zip file as an update file, then you can set this value to a path where your app is installed. This
     ///     is only necessary when your installation directory differs from your executable path.
     /// </summary>
     public static string InstallationPath;
@@ -168,7 +168,7 @@ public static class AutoUpdater
     public static Version InstalledVersion;
 
     /// <summary>
-    ///     If this is true users see dialog where they can set remind later interval otherwise it will take the interval from
+    ///     If this is true users see dialog where they can set remind later value; otherwise it will take the interval from
     ///     RemindLaterAt and RemindLaterTimeSpan fields.
     /// </summary>
     public static bool LetUserSelectRemindLater = true;
@@ -180,13 +180,13 @@ public static class AutoUpdater
     public static bool Mandatory;
 
     /// <summary>
-    ///     Opens the download URL in default browser if true. Very useful if you have portable application.
+    ///     Opens the download URL in the default browser if true. Very useful if you have a portable application.
     /// </summary>
     public static bool OpenDownloadPage;
 
     /// <summary>
     ///     Set this to an instance implementing the IPersistenceProvider interface for using a data storage method different
-    ///     from the default Windows Registry based one.
+    ///     from the default Windows registry-based one.
     /// </summary>
     public static IPersistenceProvider PersistenceProvider;
 
@@ -196,12 +196,12 @@ public static class AutoUpdater
     public static IWebProxy Proxy;
 
     /// <summary>
-    ///     Remind Later interval after user should be reminded of update.
+    ///     Remind Later interval after the user should be reminded of the update.
     /// </summary>
     public static int RemindLaterAt = 2;
 
     /// <summary>
-    ///     Set if RemindLaterAt interval should be in Minutes, Hours or Days.
+    ///     Set if RemindLaterAt interval should be in Minutes, Hours, or Days.
     /// </summary>
     public static RemindLaterFormat RemindLaterTimeSpan = RemindLaterFormat.Days;
 
@@ -216,17 +216,17 @@ public static class AutoUpdater
     public static bool RunUpdateAsAdmin = true;
 
     /// <summary>
-    ///     If this is true users can see the Remind Later button.
+    ///     If this is true, users can see the Remind Later button.
     /// </summary>
     public static bool ShowRemindLaterButton = true;
 
     /// <summary>
-    ///     If this is true users can see the skip button.
+    ///     If this is true, users can see the skip button.
     /// </summary>
     public static bool ShowSkipButton = true;
 
     /// <summary>
-    ///     Set this to true if you want to run update check synchronously.
+    ///     Set this to true if you want to run the update check synchronously.
     /// </summary>
     public static bool Synchronous = false;
 
@@ -241,7 +241,7 @@ public static class AutoUpdater
     public static Size? UpdateFormSize = null;
 
     /// <summary>
-    ///     Set this to any of the available modes to change behaviour of the Mandatory flag.
+    ///     Set this to any of the available modes to change the behavior of the Mandatory flag.
     /// </summary>
     public static Mode UpdateMode;
 
@@ -263,7 +263,7 @@ public static class AutoUpdater
     /// <summary>
     ///     Set the owner for all dialogs.
     /// </summary>
-    /// <param name="obj">WPF Window or Windows Form object to be used as owner for all dialogs.</param>
+    /// <param name="obj">WPF Window or Windows Form object to be used as the owner for all dialogs.</param>
     public static void SetOwner(object obj)
     {
         _owner = obj switch
@@ -275,7 +275,7 @@ public static class AutoUpdater
     }
 
     /// <summary>
-    ///     Start checking for new version of application and display a dialog to the user if update is available.
+    ///     Start checking for a new version of the application and display a dialog to the user if an update is available.
     /// </summary>
     /// <param name="myAssembly">Assembly to use for version checking.</param>
     public static void Start(Assembly myAssembly = null)
@@ -284,9 +284,9 @@ public static class AutoUpdater
     }
 
     /// <summary>
-    ///     Start checking for new version of application via FTP and display a dialog to the user if update is available.
+    ///     Start checking for a new version of the application via FTP and display a dialog to the user if an update is available.
     /// </summary>
-    /// <param name="appCast">FTP URL of the xml file that contains information about latest version of the application.</param>
+    /// <param name="appCast">FTP URL of the XML file that contains information about the latest version of the application.</param>
     /// <param name="ftpCredentials">Credentials required to connect to FTP server.</param>
     /// <param name="myAssembly">Assembly to use for version checking.</param>
     public static void Start(string appCast, NetworkCredential ftpCredentials, Assembly myAssembly = null)
@@ -296,9 +296,9 @@ public static class AutoUpdater
     }
 
     /// <summary>
-    ///     Start checking for new version of application and display a dialog to the user if update is available.
+    ///     Start checking for a new version of the application and display a dialog to the user if an update is available.
     /// </summary>
-    /// <param name="appCast">URL of the xml file that contains information about latest version of the application.</param>
+    /// <param name="appCast">URL of the XML file that contains information about the latest version of the application.</param>
     /// <param name="myAssembly">Assembly to use for version checking.</param>
     public static void Start(string appCast, Assembly myAssembly = null)
     {
@@ -459,7 +459,7 @@ public static class AutoUpdater
         else
         {
             // Read the persisted state from the persistence provider.
-            // This method makes the persistence handling independent from the storage method.
+            // This method makes the persistence handling independent of the storage method.
             Version skippedVersion = PersistenceProvider.GetSkippedVersion();
             if (skippedVersion != null)
             {
@@ -471,7 +471,7 @@ public static class AutoUpdater
 
                 if (currentVersion > skippedVersion)
                 {
-                    // Update the persisted state. Its no longer makes sense to have this flag set as we are working on a newer application version.
+                    // Update the persisted state. It no longer makes sense to have this flag set as we are working on a newer application version.
                     PersistenceProvider.SetSkippedVersion(null);
                 }
             }
@@ -583,7 +583,7 @@ public static class AutoUpdater
     }
 
     /// <summary>
-    ///     Detects and exits all instances of running assembly, including current.
+    ///     Detects and exits all instances of a running assembly, including current.
     /// </summary>
     internal static void Exit()
     {
@@ -694,7 +694,7 @@ public static class AutoUpdater
     }
 
     /// <summary>
-    ///     Opens the Download window that download the update and execute the installer when download completes.
+    ///     Opens the Download window that downloads the update and execute the installer when download completes.
     /// </summary>
     public static bool DownloadUpdate(UpdateInfoEventArgs args)
     {
@@ -713,7 +713,7 @@ public static class AutoUpdater
     }
 
     /// <summary>
-    ///     Shows standard update dialog.
+    ///     Shows a standard update dialog.
     /// </summary>
     public static void ShowUpdateForm(UpdateInfoEventArgs args)
     {

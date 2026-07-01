@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Windows.Forms;
 using AutoUpdaterDotNET.Properties;
 
@@ -214,6 +215,15 @@ internal partial class DownloadUpdateDialog : Form
                     arguments.Add("--clear");
                 }
 
+                // When the running application is not elevated but ZipExtractor will be elevated
+                // (because RunUpdateAsAdmin is enabled), ask ZipExtractor to relaunch the updated
+                // application as the normal user so it does not inherit ZipExtractor's elevated
+                // token.
+                if (AutoUpdater.RunUpdateAsAdmin && !IsRunningElevated())
+                {
+                    arguments.Add("--relaunch-unelevated");
+                }
+
                 string[] args = Environment.GetCommandLineArgs();
                 if (args.Length > 1)
                 {
@@ -271,9 +281,23 @@ internal partial class DownloadUpdateDialog : Form
         }
     }
 
+    private static bool IsRunningElevated()
+    {
+        try
+        {
+            using var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     private static string BytesToString(long byteCount)
     {
-        string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+        string[] suf = ["B", "KB", "MB", "GB", "TB", "PB", "EB"];
         if (byteCount == 0)
         {
             return "0" + suf[0];

@@ -19,6 +19,7 @@ install:
   - dotnet publish --configuration Release --framework net6.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net6.0-windows7.0"
   - dotnet publish --configuration Release --framework net7.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net7.0-windows7.0"
   - dotnet publish --configuration Release --framework net8.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net8.0-windows7.0"
+  - dotnet publish --configuration Release --framework net10.0-windows "c:\projects\AutoUpdater.NET\AutoUpdater.NET\AutoUpdater.NET.csproj" --output "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\net10.0-windows7.0"
   - cmd: 7z a AutoUpdater.NET-%my_version%.zip %APPVEYOR_BUILD_FOLDER%\AutoUpdater.NET\build\lib\*
   - ps: Remove-Item -path c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\lib\* -include runtimes,Microsoft.Web.WebView2*,AutoUpdater.NET.deps.json -Recurse
   - nuget pack "c:\projects\AutoUpdater.NET\AutoUpdater.NET\build\Autoupdater.NET.Official.nuspec" -Verbosity detailed
@@ -42,7 +43,7 @@ deploy:
 
   - provider: NuGet
     api_key:
-      secure: nkE/u7bLXRlBGJEKORohjPizTbDTdypw5jeTfJyzNd4scE6W9c6wFfT8f4UXdNKx
+      secure: IE3ZwzyJwgGPJ+fjZcF9WEaO4yYKRUgwjiUIFlvg3fwRVQk690zA33UoliqoTLQG
     skip_symbols: false
     artifact: Autoupdater.NET.Official.%my_version%.nupkg
     on:

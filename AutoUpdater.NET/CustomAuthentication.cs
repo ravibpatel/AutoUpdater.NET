@@ -3,7 +3,7 @@
 namespace AutoUpdaterDotNET;
 
 /// <summary>
-///     Provides Custom Authentication header for web request.
+///     Provides a Custom Authentication header for web request.
 /// </summary>
 public class CustomAuthentication : IAuthentication
 {

@@ -3,12 +3,12 @@
 namespace AutoUpdaterDotNET;
 
 /// <summary>
-///     An object of this class contains the AppCast file received from server.
+///     An object of this class contains the AppCast file received from the server.
 /// </summary>
 public class ParseUpdateInfoEventArgs : EventArgs
 {
     /// <summary>
-    ///     An object containing the AppCast file received from server.
+    ///     An object containing the AppCast file received from the server.
     /// </summary>
     /// <param name="remoteData">A string containing remote data received from the AppCast file.</param>
     public ParseUpdateInfoEventArgs(string remoteData)

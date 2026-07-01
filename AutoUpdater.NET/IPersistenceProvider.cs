@@ -10,7 +10,7 @@ public interface IPersistenceProvider
     /// <summary>
     ///     Reads the flag indicating whether a specific version should be skipped or not.
     /// </summary>
-    /// <returns>Returns a version to skip. If skip value is false or not present then it will return null.</returns>
+    /// <returns>Returns a version to skip. If the skip value is false or not present, then it will return null.</returns>
     Version GetSkippedVersion();
 
     /// <summary>
@@ -19,7 +19,7 @@ public interface IPersistenceProvider
     /// </summary>
     /// <returns>
     ///     Returns a DateTime value at which the user must be given again the possibility to upgrade the application. If
-    ///     remind later value is not present then it will return null.
+    ///     remind later value is not present, then it will return null.
     /// </returns>
     DateTime? GetRemindLater();
 

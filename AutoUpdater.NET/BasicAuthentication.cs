@@ -5,7 +5,7 @@ using System.Text;
 namespace AutoUpdaterDotNET;
 
 /// <summary>
-///     Provides Basic Authentication header for web request.
+///     Provides a Basic Authentication header for web request.
 /// </summary>
 public class BasicAuthentication : IAuthentication
 {

@@ -24,13 +24,13 @@ public class UpdateInfoEventArgs : EventArgs
     public bool IsUpdateAvailable { get; set; }
 
     /// <summary>
-    ///     If there is an error while checking for update then this property won't be null.
+    ///     If there is an error while checking for update, then this property won't be null.
     /// </summary>
     [XmlIgnore]
     public Exception Error { get; set; }
 
     /// <summary>
-    ///     Download URL of the update file.
+    ///     The download URL of the update file.
     /// </summary>
     [XmlElement("url")]
     public string DownloadURL
@@ -50,13 +50,13 @@ public class UpdateInfoEventArgs : EventArgs
     }
 
     /// <summary>
-    ///     Returns newest version of the application available to download.
+    ///     Returns the newest version of the application available to download.
     /// </summary>
     [XmlElement("version")]
     public string CurrentVersion { get; set; }
 
     /// <summary>
-    ///     Returns version of the application currently installed on the user's PC.
+    ///     Returns the version of the application currently installed on the user's PC.
     /// </summary>
     public Version InstalledVersion { get; set; }
 
@@ -67,7 +67,7 @@ public class UpdateInfoEventArgs : EventArgs
     public Mandatory Mandatory { get; set; }
 
     /// <summary>
-    ///     Executable path of the updated application relative to installation directory.
+    ///     Executable path of the updated application relative to the installation directory.
     /// </summary>
     [XmlElement("executable")]
     public string ExecutablePath { get; set; }
@@ -112,8 +112,8 @@ public class Mandatory
     public bool Value { get; set; }
 
     /// <summary>
-    ///     If this is set and 'Value' property is set to true then it will trigger the mandatory update only when current
-    ///     installed version is less than value of this property.
+    ///     If this is set and 'Value' property is set to true then it will trigger the mandatory update only when the current
+    ///     installed version is less than the value of this property.
     /// </summary>
     [XmlAttribute("minVersion")]
     public string MinimumVersion { get; set; }

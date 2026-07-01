@@ -35,7 +35,7 @@ internal static class PasteArguments
         //   - Backslash is a normal character except followed by a quote.
         //   - 2N backslashes followed by a quote ==> N literal backslashes followed by unescaped quote
         //   - 2N+1 backslashes followed by a quote ==> N literal backslashes followed by a literal quote
-        //   - Parsing stops at first whitespace outside of quoted region.
+        //   - Parsing stops at first whitespace outside the quoted region.
         //   - (post 2008 rule): A closing quote followed by another quote ==> literal quote, and parsing remains in quoting mode.
         if (argument.Length != 0 && ContainsNoWhitespaceOrQuotes(argument))
         {
@@ -62,19 +62,19 @@ internal static class PasteArguments
 
                         if (idx == argument.Length)
                         {
-                            // We'll emit an end quote after this so must double the number of backslashes.
+                            // We'll emit an end quote after this, so must double the number of backslashes.
                             stringBuilder.Append(Backslash, numBackSlash * 2);
                         }
                         else if (argument[idx] == Quote)
                         {
-                            // Backslashes will be followed by a quote. Must double the number of backslashes.
+                            // A quote will follow backslashes. Must double the number of backslashes.
                             stringBuilder.Append(Backslash, numBackSlash * 2 + 1);
                             stringBuilder.Append(Quote);
                             idx++;
                         }
                         else
                         {
-                            // Backslash will not be followed by a quote, so emit as normal characters.
+                            // A quote will not follow backslash, so emit as normal characters.
                             stringBuilder.Append(Backslash, numBackSlash);
                         }
 
