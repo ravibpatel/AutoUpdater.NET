@@ -38,7 +38,7 @@
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(96, 44);
+            this.progressBar.Location = new System.Drawing.Point(96, 51);
             this.progressBar.Margin = new System.Windows.Forms.Padding(5);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(514, 35);
@@ -61,7 +61,7 @@
             // 
             this.textBoxInformation.BackColor = System.Drawing.SystemColors.Control;
             this.textBoxInformation.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxInformation.Location = new System.Drawing.Point(96, 20);
+            this.textBoxInformation.Location = new System.Drawing.Point(96, 14);
             this.textBoxInformation.Name = "textBoxInformation";
             this.textBoxInformation.ReadOnly = true;
             this.textBoxInformation.Size = new System.Drawing.Size(514, 16);
