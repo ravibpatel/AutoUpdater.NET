@@ -217,8 +217,7 @@ internal partial class DownloadUpdateDialog : Form
 
                 // When the running application is not elevated but ZipExtractor will be elevated
                 // (because RunUpdateAsAdmin is enabled), ask ZipExtractor to relaunch the updated
-                // application as the normal user so it does not inherit ZipExtractor's elevated
-                // token.
+                // application unelevated so it does not inherit ZipExtractor's elevated token.
                 if (AutoUpdater.RunUpdateAsAdmin && !IsRunningElevated())
                 {
                     arguments.Add("--relaunch-unelevated");

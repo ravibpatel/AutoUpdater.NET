@@ -19,7 +19,7 @@ public class UpdateInfoEventArgs : EventArgs
     }
 
     /// <summary>
-    ///     If new update is available then returns true otherwise false.
+    ///     If a new update is available, then returns true otherwise false.
     /// </summary>
     public bool IsUpdateAvailable { get; set; }
 
@@ -112,7 +112,7 @@ public class Mandatory
     public bool Value { get; set; }
 
     /// <summary>
-    ///     If this is set and 'Value' property is set to true then it will trigger the mandatory update only when the current
+    ///     If this is set and the 'Value' property is set to true, then it will trigger the mandatory update only when the current
     ///     installed version is less than the value of this property.
     /// </summary>
     [XmlAttribute("minVersion")]

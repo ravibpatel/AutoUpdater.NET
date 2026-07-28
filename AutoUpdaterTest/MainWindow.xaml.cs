@@ -17,11 +17,11 @@ public partial class MainWindow
         var assembly = Assembly.GetEntryAssembly();
         LabelVersion.Content = $"Current Version: {assembly?.GetName().Version}";
 
-        using var identity = WindowsIdentity.GetCurrent();
-        var isAdmin = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
-        LabelRunningAs.Content = $"Running as: {(isAdmin ? "Administrator" : "User")}";
+        using WindowsIdentity identity = WindowsIdentity.GetCurrent();
+        bool isElevated = new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+        LabelRunningAs.Content = $"Running: {(isElevated ? "Elevated" : "Unelevated")}";
 
-        // Uncomment the following lines to change current language by changing current thread culture as shown below.
+        // Uncomment the following lines to change the current language by changing the current thread culture as shown below.
         // Thread.CurrentThread.CurrentCulture =
         //     Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en");
 
@@ -60,27 +60,27 @@ public partial class MainWindow
         // Uncomment following line to run update process without admin privileges.
         AutoUpdater.RunUpdateAsAdmin = true;
 
-        // Uncomment the following line if you want to open download page instead of downloading the update file when user clicks on download button.
+        // Uncomment the following line if you want to open the download page instead of downloading the update file when the user clicks on the download button.
         // AutoUpdater.OpenDownloadPage = true;
 
-        // Uncomment the following lines if you don't want user to select remind later time in AutoUpdater notification window.
+        // Uncomment the following lines if you don't want the user to select remind later time in the AutoUpdater notification window.
         // AutoUpdater.LetUserSelectRemindLater = false;
         // AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Days;
         // AutoUpdater.RemindLaterAt = 2;
 
-        // Uncomment the following line if you don't want to show Skip button.
+        // Uncomment the following line if you don't want to show the Skip button.
         // AutoUpdater.ShowSkipButton = false;
 
-        // Uncomment the following line if you don't want to show Remind Later button.
+        // Uncomment the following line if you don't want to show the Remind Later button.
         // AutoUpdater.ShowRemindLaterButton = false;
 
-        // Uncomment the following line to show custom application title in AutoUpdater notification window.
+        // Uncomment the following line to show the custom application title in the AutoUpdater notification window.
         // AutoUpdater.AppTitle = "My Custom Application Title";
 
         // Uncomment the following line if you want to show errors.
         // AutoUpdater.ReportErrors = true;
 
-        // Uncomment the following lines if you want to handle how your application will exit when application finishes downloading the update.
+        // Uncomment the following lines if you want to handle how your application will exit when the application finishes downloading the update.
         // AutoUpdater.ApplicationExitEvent += () =>
         // {
         //     Title = @"Closing application...";
@@ -173,7 +173,7 @@ public partial class MainWindow
         // Uncomment the following line if you your XML file can only be accessed through FTP.
         // AutoUpdater.Start("ftp://rbsoft.org/updates/AutoUpdaterTest.xml", new NetworkCredential("FtpUserName", "FtpPassword"));
 
-        // Uncomment the following lines if you want to persist Remind Later and Skip values in a json file instead of registry.
+        // Uncomment the following lines if you want to persist Remind Later and Skip values in a json file instead of a registry.
         // string jsonPath = Path.Combine(Environment.CurrentDirectory, "settings.json");
         // AutoUpdater.PersistenceProvider = new JsonFilePersistenceProvider(jsonPath);
 
@@ -190,13 +190,13 @@ public partial class MainWindow
         // Uncomment the following line if you want to assign an installed version manually and don't want to rely on the library to determine the installed version from assembly.
         // AutoUpdater.InstalledVersion = new Version("2.0.0.1");
 
-        // Uncomment the following line if you want to clear application directory before update zip is extracted. This only works when you use a zip file as an update file.
+        // Uncomment the following line if you want to clear the application directory before the update zip is extracted. This only works when you use a zip file as an update file.
         // AutoUpdater.ClearAppDirectory = true;
 
         // Uncomment the following line if you want to set the User Agent for the web requests.
         AutoUpdater.HttpUserAgent = "AutoUpdater.NET";
 
-        // Uncomment the following line if you want to execute different executable after the update. This only works when you use a zip file as an update file.
+        // Uncomment the following line if you want to execute a different executable after the update. This only works when you use a zip file as an update file.
         // AutoUpdater.ExecutablePath = "bin/AutoUpdaterTest.exe";
 
         // Uncomment following line to set this window as owner of the all dialogs initiated by AutoUpdater.

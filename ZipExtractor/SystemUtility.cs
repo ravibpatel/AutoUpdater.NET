@@ -6,14 +6,14 @@ using System.Runtime.InteropServices;
 namespace ZipExtractor;
 
 /// <summary>
-/// Utility for accessing window IShell* interfaces in order to use them to launch a process unelevated
+/// Utility for accessing the window IShell* interfaces to use them to launch a process unelevated
 /// </summary>
-internal class SystemUtility
+internal static class SystemUtility
 {
     /// <summary>
     /// We are elevated and should launch the process unelevated. We can't create the
     /// process directly without it becoming elevated. So to work around this, we have
-    /// explorer do the process creation (explorer is typically running unelevated).
+    /// the explorer do the process creation (explorer is typically running unelevated).
     /// </summary>
     internal static void ExecuteProcessUnelevated(string process, string args, string currentDirectory = "")
     {
@@ -21,17 +21,16 @@ internal class SystemUtility
 
         // Get the desktop window
         object loc = CSIDL_Desktop;
-        object unused = new object();
-        int hwnd;
-        var serviceProvider = (IServiceProvider)shellWindows.FindWindowSW(ref loc, ref unused, SWC_DESKTOP, out hwnd, SWFO_NEEDDISPATCH);
+        var unused = new object();
+        var serviceProvider = (IServiceProvider)shellWindows.FindWindowSW(ref loc, ref unused, SWC_DESKTOP, out int _, SWFO_NEEDDISPATCH);
 
         // Get the shell browser
-        var serviceGuid = SID_STopLevelBrowser;
-        var interfaceGuid = typeof(IShellBrowser).GUID;
+        Guid serviceGuid = SID_STopLevelBrowser;
+        Guid interfaceGuid = typeof(IShellBrowser).GUID;
         var shellBrowser = (IShellBrowser)serviceProvider.QueryService(ref serviceGuid, ref interfaceGuid);
 
         // Get the shell dispatch
-        var dispatch = typeof(IDispatch).GUID;
+        Guid dispatch = typeof(IDispatch).GUID;
         var folderView = (IShellFolderViewDual)shellBrowser.QueryActiveShellView().GetItemObject(SVGIO_BACKGROUND, ref dispatch);
         var shellDispatch = (IShellDispatch2)folderView.Application;
 
@@ -47,11 +46,11 @@ internal class SystemUtility
     private const int SWFO_NEEDDISPATCH = 1;
     private const int SW_SHOWNORMAL = 1;
     private const int SVGIO_BACKGROUND = 0;
-    private readonly static Guid SID_STopLevelBrowser = new Guid("4C96BE40-915C-11CF-99D3-00AA004AE837");
+    private static readonly Guid SID_STopLevelBrowser = new Guid("4C96BE40-915C-11CF-99D3-00AA004AE837");
 
     [ComImport]
     [Guid("9BA05972-F6A8-11CF-A442-00A0C90A8F39")]
-    [ClassInterfaceAttribute(ClassInterfaceType.None)]
+    [ClassInterface(ClassInterfaceType.None)]
     private class CShellWindows
     {
     }

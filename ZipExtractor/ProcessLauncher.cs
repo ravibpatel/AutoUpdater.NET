@@ -6,7 +6,7 @@ namespace ZipExtractor;
 
 /// <summary>
 ///     Helper used to launch the updated application. When ZipExtractor is running elevated
-///     (because <c>AutoUpdater.RunUpdateAsAdmin</c> was enabled) but the application that started the
+///     (because <c>AutoUpdater.RunUpdateAsAdmin</c> was enabled), but the application that started the
 ///     update was running as a normal user, a plain <see cref="Process.Start(ProcessStartInfo)" />
 ///     would make the updated application inherit the elevated token. To preserve the integrity level
 ///     of the application that originally started the update, AutoUpdater.NET asks ZipExtractor to
@@ -20,8 +20,11 @@ internal static class ProcessLauncher
         {
             try
             {
-                SystemUtility.ExecuteProcessUnelevated(executablePath, arguments ?? string.Empty,
-                    Path.GetDirectoryName(executablePath) ?? string.Empty);
+                SystemUtility.ExecuteProcessUnelevated(
+                    executablePath,
+                    arguments ?? string.Empty,
+                    Path.GetDirectoryName(executablePath) ?? string.Empty
+                );
                 return;
             }
             catch (Exception)
