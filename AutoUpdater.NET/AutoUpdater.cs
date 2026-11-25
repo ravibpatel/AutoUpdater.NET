@@ -137,7 +137,7 @@ public static class AutoUpdater
 
     /// <summary>
     ///     If you are using a zip file as an update file, then you can set this value to a new executable path relative to the
-    ///     installation directory.
+    ///     installation directory. Absolute paths and paths outside the installation directory are not launched.
     /// </summary>
     public static string ExecutablePath;
 

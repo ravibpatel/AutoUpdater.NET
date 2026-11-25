@@ -108,8 +108,10 @@ public partial class FormMain : Form
 
             Invoke(() => { ControlBox = false; });
 
-            // Ensures that the last character on the extraction path is the directory separator char.
-            // Without this, a malicious zip file could try to traverse outside the expected extraction path.
+            // Canonicalises the extraction path and ensures it ends with the directory separator char, so
+            // GetDestinationPath can check that paths stay inside it. Without the trailing separator, a path
+            // resolving to "C:\App.Evil\x" would pass a containment check against "C:\App".
+            extractionPath = Path.GetFullPath(extractionPath);
             if (!extractionPath.EndsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
             {
                 extractionPath += Path.DirectorySeparatorChar;
@@ -121,6 +123,16 @@ public partial class FormMain : Form
 
             try
             {
+                // Resolve every destination before touching the disk, so an archive with an entry that
+                // escapes the extraction path is rejected without clearing or partially updating the app.
+                var destinationPaths = new string[entries.Count];
+                for (var index = 0; index < entries.Count; index++)
+                {
+                    string entryName = entries[index].FullName;
+                    destinationPaths[index] = GetDestinationPath(extractionPath, entryName) ?? throw new InvalidDataException(
+                        $"The zip entry \"{entryName}\" would be extracted outside of \"{extractionPath}\", so the update was aborted.");
+                }
+
                 var progress = 0;
 
                 if (clearAppDirectory)
@@ -162,10 +174,9 @@ public partial class FormMain : Form
                     var notCopied = true;
                     while (notCopied)
                     {
-                        var filePath = string.Empty;
+                        string filePath = destinationPaths[index];
                         try
                         {
-                            filePath = Path.Combine(extractionPath, entry.FullName);
                             if (!entry.IsDirectory())
                             {
                                 string parentDirectory = Path.GetDirectoryName(filePath);
@@ -292,9 +303,12 @@ public partial class FormMain : Form
                 textBoxInformation.Text = @"Finished";
                 try
                 {
+                    // The updated executable can come from the update XML, so like the zip entries, it must be
+                    // relative to the extraction path and stay inside it.
                     string executablePath = string.IsNullOrWhiteSpace(updatedExe)
                         ? currentExe
-                        : Path.Combine(extractionPath, updatedExe);
+                        : GetDestinationPath(extractionPath, updatedExe) ?? throw new ArgumentException(
+                            $"The executable \"{updatedExe}\" must be a relative path inside \"{extractionPath}\", so it wasn't launched.");
 
                     // If the original application was launched unelevated, the updated executable should
                     // be launched unelevated too. AutoUpdater.NET passes --relaunch-unelevated when it
@@ -328,6 +342,25 @@ public partial class FormMain : Form
         };
 
         _backgroundWorker.RunWorkerAsync();
+    }
+
+    /// <summary>
+    ///     Returns the full path of a path relative to the extraction path, or null if it is rooted or resolves
+    ///     outside of the extraction path, e.g. "../../x", "C:\x", "C:x", "\x" or "\\server\share\x".
+    /// </summary>
+    /// <param name="extractionPath">Full extraction path, ending with the directory separator char.</param>
+    /// <param name="relativePath">Zip entry name or executable path, which may come from the update server.</param>
+    private static string GetDestinationPath(string extractionPath, string relativePath)
+    {
+        if (Path.IsPathRooted(relativePath))
+        {
+            return null;
+        }
+
+        // Same check as ZipFile.ExtractToDirectory in .NET. Ordinal rather than OrdinalIgnoreCase, as Windows
+        // folders can be case-sensitive, where "..\APP\x" leads to a sibling of "app" rather than inside it.
+        string fullPath = Path.GetFullPath(Path.Combine(extractionPath, relativePath));
+        return fullPath.StartsWith(extractionPath, StringComparison.Ordinal) ? fullPath : null;
     }
 
     private void FormMain_FormClosing(object sender, FormClosingEventArgs e)

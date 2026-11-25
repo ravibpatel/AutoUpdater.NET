@@ -67,7 +67,8 @@ public class UpdateInfoEventArgs : EventArgs
     public Mandatory Mandatory { get; set; }
 
     /// <summary>
-    ///     Executable path of the updated application relative to the installation directory.
+    ///     Executable path of the updated application relative to the installation directory. Absolute paths and paths
+    ///     outside the installation directory are not launched.
     /// </summary>
     [XmlElement("executable")]
     public string ExecutablePath { get; set; }

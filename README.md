@@ -79,9 +79,10 @@ There are two things you need to provide in an XML file, as you can see above.
    <mandatory minVersion="1.2.0.0">true</mandatory>
    ````
 
-* executable (Optional): You can provide the path of the executable if it was changed in the update. It should be
-  relative to the installation directory of the application. For example, if the new executable is located inside the
-  bin folder of the installation directory, then you should provide it as shown below.
+* executable (Optional): You can provide the path of the executable if it was changed in the update. It must be
+  relative to the installation directory of the application and stay inside it, absolute paths and paths that lead
+  outside of it are not launched. For example, if the new executable is located inside the bin folder of the
+  installation directory, then you should provide it as shown below.
 
 ````xml
 <executable>bin\AutoUpdaterTest.exe</executable>
@@ -311,7 +312,8 @@ AutoUpdater.InstallationPath = Application.StartupPath;
 
 If you are using a zip file as an update file, then you can set "ExecutablePath" equal to a new executable path relative
 to the installation directory. This is only necessary if your new executable path differs from the current executable
-path. The "executable" value defined in XML takes precedence over this value.
+path. The "executable" value defined in XML takes precedence over this value. Absolute paths and paths that lead outside
+of the installation directory are not launched.
 
 ````csharp
 AutoUpdater.ExecutablePath = "bin\\AutoUpdater.exe";
